@@ -1,0 +1,24 @@
+{
+	"name": "@coss-svelte/monorepo",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"packageManager": "pnpm@11.5.2",
+	"engines": {
+		"node": ">=22.0.0",
+		"pnpm": ">=11.0.0"
+	},
+	"scripts": {
+		"format": "prettier --check .",
+		"format:write": "prettier --write .",
+		"lint": "pnpm -r --if-present lint",
+		"check": "pnpm -r --if-present check",
+		"test": "pnpm -r --if-present test",
+		"fetch:upstream": "node scripts/fetch-upstream.mjs",
+		"scope:build": "node scripts/build-component-scope.mjs"
+	},
+	"devDependencies": {
+		"prettier": "3.8.4",
+		"typescript": "6.0.3"
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"name": "coss-svelte-cli",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"bin": {
+		"coss-svelte": "./dist/index.js"
+	}
+}
