@@ -2,6 +2,8 @@
 
 This is the recommended order once implementation begins.
 
+Read [Scope Resolution Spec](./scope-resolution-spec.md) before starting implementation. It resolves the current open questions around API naming, styling, forms, registry boundaries, high-risk components, particles, and verification gates.
+
 ## Phase 0: Contracts
 
 - Define token names, CSS variable contract, radius/density scale, and typography.
