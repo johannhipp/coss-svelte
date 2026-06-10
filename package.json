@@ -9,16 +9,19 @@
 		"pnpm": ">=11.0.0"
 	},
 	"scripts": {
-		"format": "prettier --check .",
-		"format:write": "prettier --write .",
-		"lint": "pnpm -r --if-present lint",
+		"format": "biome format .",
+		"format:write": "biome format --write .",
+		"lint": "biome lint .",
+		"lint:fix": "biome lint --write .",
+		"biome:check": "biome check .",
+		"biome:ci": "biome ci .",
 		"check": "pnpm -r --if-present check",
 		"test": "pnpm -r --if-present test",
 		"fetch:upstream": "node scripts/fetch-upstream.mjs",
 		"scope:build": "node scripts/build-component-scope.mjs"
 	},
 	"devDependencies": {
-		"prettier": "3.8.4",
+		"@biomejs/biome": "2.4.16",
 		"typescript": "6.0.3"
 	}
 }

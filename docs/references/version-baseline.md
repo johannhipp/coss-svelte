@@ -19,6 +19,7 @@ Captured from npm on 2026-06-10.
 | `tw-animate-css`               |  `1.4.0` | Tailwind animation utilities           |
 | `svelte-check`                 |  `4.6.0` | Svelte type checking                   |
 | `typescript`                   |  `6.0.3` | TypeScript compiler                    |
+| `@biomejs/biome`               | `2.4.16` | Formatting and linting                 |
 | `pnpm`                         | `11.5.2` | Workspace package manager              |
 
 ## Policy

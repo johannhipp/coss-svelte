@@ -98,7 +98,7 @@ const manifest = {
 
 fs.writeFileSync(
 	path.join(cacheRoot, "manifest.json"),
-	JSON.stringify(manifest, null, "\t") + "\n"
+	`${JSON.stringify(manifest, null, "\t")}\n`
 );
 
 console.log(`Upstream references cached in ${path.relative(process.cwd(), cacheRoot)}`);

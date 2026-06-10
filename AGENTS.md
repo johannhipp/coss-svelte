@@ -19,12 +19,14 @@ This repository is intended to become a publishable Svelte component library. Ke
 - Keep raw upstream clones and downloaded source snapshots out of git.
 - Update `docs/references/version-baseline.md` whenever core dependency versions change.
 - Update `docs/scope/component-implementation-outline.md` when a component strategy changes.
+- Use Biome for formatting and linting. Do not add ESLint or Prettier unless an ADR explains a gap Biome cannot cover.
 
 ## Verification Expectations
 
 Before claiming implementation work is complete, run the narrowest relevant checks:
 
 - `pnpm install --frozen-lockfile`
+- `pnpm biome:ci`
 - `pnpm check`
 - component-specific tests once test infrastructure exists
 - docs app visual verification once `apps/www` has routes
