@@ -4,6 +4,8 @@ Generated: 2026-06-09
 
 This folder is a structured inventory of the COSS UI component library based on the installed `coss` skill, the installed `coss-particles` skill, and the live docs map at [coss.com/ui/llms.txt](https://coss.com/ui/llms.txt).
 
+Treat this folder as source evidence. Implementation decisions live in [../../implementation](../../implementation/README.md).
+
 ## Scope Summary
 
 - Components covered: 54
@@ -31,3 +33,5 @@ This folder is a structured inventory of the COSS UI component library based on 
 ## Reading Guide
 
 Use the component index to find a component quickly. Use the category files when you need scope, "use this versus that" guidance, canonical exports, common pitfalls, and all matching particles for a component. Use the source audit when you need to understand what came from local skills versus the live docs map.
+
+For implementation status, use [v0.1 Scope Decisions](../../implementation/v0.1-scope-decisions.md) and [Unimplemented Components And Parity Gaps](../../implementation/unimplemented-components.md).

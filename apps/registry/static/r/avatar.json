@@ -1,0 +1,42 @@
+{
+	"name": "Avatar",
+	"title": "Avatar",
+	"description": "A visual representation of a user or entity.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Avatar.svelte",
+			"target": "components/Avatar.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AvatarFallback.svelte",
+			"target": "components/AvatarFallback.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AvatarImage.svelte",
+			"target": "components/AvatarImage.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "avatar"
+	},
+	"categories": ["Content & Display"],
+	"docs": "https://coss.com/ui/docs/components/avatar.md"
+}

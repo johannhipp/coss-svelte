@@ -1,0 +1,77 @@
+{
+	"name": "Sheet",
+	"title": "Sheet",
+	"description": "A flyout that opens from the side of the screen, based on the dialog component.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Sheet.svelte",
+			"target": "components/Sheet.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SheetClose.svelte",
+			"target": "components/SheetClose.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SheetContent.svelte",
+			"target": "components/SheetContent.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SheetDescription.svelte",
+			"target": "components/SheetDescription.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SheetFooter.svelte",
+			"target": "components/SheetFooter.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SheetHeader.svelte",
+			"target": "components/SheetHeader.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SheetPanel.svelte",
+			"target": "components/SheetPanel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SheetPopup.svelte",
+			"target": "components/SheetPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SheetTitle.svelte",
+			"target": "components/SheetTitle.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SheetTrigger.svelte",
+			"target": "components/SheetTrigger.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "compound",
+		"particlePriority": "mvp",
+		"slug": "sheet"
+	},
+	"categories": ["Overlays & Popups"],
+	"docs": "https://coss.com/ui/docs/components/sheet.md"
+}

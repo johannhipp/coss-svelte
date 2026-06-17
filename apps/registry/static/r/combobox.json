@@ -1,0 +1,92 @@
+{
+	"name": "Combobox",
+	"title": "Combobox",
+	"description": "An input combined with a list of predefined items to select.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Combobox.svelte",
+			"target": "components/Combobox.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxClear.svelte",
+			"target": "components/ComboboxClear.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxCollection.svelte",
+			"target": "components/ComboboxCollection.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxEmpty.svelte",
+			"target": "components/ComboboxEmpty.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxGroup.svelte",
+			"target": "components/ComboboxGroup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxGroupLabel.svelte",
+			"target": "components/ComboboxGroupLabel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxInput.svelte",
+			"target": "components/ComboboxInput.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxItem.svelte",
+			"target": "components/ComboboxItem.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxList.svelte",
+			"target": "components/ComboboxList.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxPopup.svelte",
+			"target": "components/ComboboxPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxSeparator.svelte",
+			"target": "components/ComboboxSeparator.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxTrigger.svelte",
+			"target": "components/ComboboxTrigger.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ComboboxValue.svelte",
+			"target": "components/ComboboxValue.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "combobox"
+	},
+	"categories": ["Selection & Input"],
+	"docs": "https://coss.com/ui/docs/components/combobox.md"
+}

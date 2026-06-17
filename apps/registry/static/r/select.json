@@ -1,0 +1,77 @@
+{
+	"name": "Select",
+	"title": "Select",
+	"description": "A common form component for choosing a predefined value in a dropdown menu.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Select.svelte",
+			"target": "components/Select.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SelectGroup.svelte",
+			"target": "components/SelectGroup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SelectGroupLabel.svelte",
+			"target": "components/SelectGroupLabel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SelectItem.svelte",
+			"target": "components/SelectItem.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SelectPopup.svelte",
+			"target": "components/SelectPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SelectScrollDownButton.svelte",
+			"target": "components/SelectScrollDownButton.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SelectScrollUpButton.svelte",
+			"target": "components/SelectScrollUpButton.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SelectTrigger.svelte",
+			"target": "components/SelectTrigger.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SelectValue.svelte",
+			"target": "components/SelectValue.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/SelectViewport.svelte",
+			"target": "components/SelectViewport.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "select"
+	},
+	"categories": ["Selection & Input"],
+	"docs": "https://coss.com/ui/docs/components/select.md"
+}

@@ -16,8 +16,13 @@
 		"biome:check": "biome check .",
 		"biome:ci": "biome ci .",
 		"check": "pnpm -r --if-present check",
-		"test": "pnpm -r --if-present test",
+		"test": "node scripts/validate-cn-classes.mjs && node --test tests/*.test.mjs && pnpm -r --if-present test",
+		"pack:dry-run": "pnpm --filter coss-svelte exec npm pack --dry-run",
+		"release:check": "pnpm biome:ci && pnpm check && pnpm test && pnpm pack:dry-run",
 		"fetch:upstream": "node scripts/fetch-upstream.mjs",
+		"parity:evidence": "node scripts/capture-visual-parity-evidence.mjs",
+		"parity:interactive": "node scripts/capture-interactive-visual-parity-evidence.mjs",
+		"registry:build": "node scripts/build-registry.mjs",
 		"scope:build": "node scripts/build-component-scope.mjs"
 	},
 	"devDependencies": {

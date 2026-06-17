@@ -1,0 +1,32 @@
+{
+	"name": "Breadcrumb",
+	"title": "Breadcrumb",
+	"description": "Displays the path to the current resource using a hierarchy of links.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Breadcrumb.svelte",
+			"target": "components/Breadcrumb.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "native",
+		"particlePriority": "mvp",
+		"slug": "breadcrumb"
+	},
+	"categories": ["Layout & Navigation"],
+	"docs": "https://coss.com/ui/docs/components/breadcrumb.md"
+}

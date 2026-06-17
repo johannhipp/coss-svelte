@@ -1,0 +1,32 @@
+{
+	"name": "Toast",
+	"title": "Toast",
+	"description": "A temporary notification message that appears and disappears automatically.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Toast.svelte",
+			"target": "components/Toast.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "experimental",
+		"foundation": "custom",
+		"particlePriority": "later",
+		"slug": "toast"
+	},
+	"categories": ["Feedback & Status"],
+	"docs": "https://coss.com/ui/docs/components/toast.md"
+}

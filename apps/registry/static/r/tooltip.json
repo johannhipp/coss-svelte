@@ -1,0 +1,47 @@
+{
+	"name": "Tooltip",
+	"title": "Tooltip",
+	"description": "A small overlay that provides contextual information on hover or focus.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Tooltip.svelte",
+			"target": "components/Tooltip.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TooltipPopup.svelte",
+			"target": "components/TooltipPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TooltipProvider.svelte",
+			"target": "components/TooltipProvider.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TooltipTrigger.svelte",
+			"target": "components/TooltipTrigger.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "tooltip"
+	},
+	"categories": ["Overlays & Popups"],
+	"docs": "https://coss.com/ui/docs/components/tooltip.md"
+}

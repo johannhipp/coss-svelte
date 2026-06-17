@@ -1,0 +1,32 @@
+{
+	"name": "Textarea",
+	"title": "Textarea",
+	"description": "A multi-line text input for longer content.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Textarea.svelte",
+			"target": "components/Textarea.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "native",
+		"particlePriority": "mvp",
+		"slug": "textarea"
+	},
+	"categories": ["Selection & Input"],
+	"docs": "https://coss.com/ui/docs/components/textarea.md"
+}

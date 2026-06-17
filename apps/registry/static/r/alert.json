@@ -1,0 +1,47 @@
+{
+	"name": "Alert",
+	"title": "Alert",
+	"description": "A callout for displaying important information.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Alert.svelte",
+			"target": "components/Alert.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AlertAction.svelte",
+			"target": "components/AlertAction.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AlertDescription.svelte",
+			"target": "components/AlertDescription.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AlertTitle.svelte",
+			"target": "components/AlertTitle.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "native",
+		"particlePriority": "mvp",
+		"slug": "alert"
+	},
+	"categories": ["Feedback & Status"],
+	"docs": "https://coss.com/ui/docs/components/alert.md"
+}

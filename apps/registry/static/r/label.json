@@ -1,0 +1,32 @@
+{
+	"name": "Label",
+	"title": "Label",
+	"description": "Renders an accessible label associated with controls.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Label.svelte",
+			"target": "components/Label.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "label"
+	},
+	"categories": ["Forms & Validation"],
+	"docs": "https://coss.com/ui/docs/components/label.md"
+}

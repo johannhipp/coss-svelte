@@ -1,0 +1,26 @@
+{
+	"name": "NumberField",
+	"title": "Number Field",
+	"description": "A specialized input for numeric values with increment/decrement controls.",
+	"type": "registry:ui",
+	"files": [],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "deferred",
+		"foundation": "custom",
+		"particlePriority": "unsupported",
+		"slug": "number-field"
+	},
+	"categories": ["Selection & Input"],
+	"docs": "https://coss.com/ui/docs/components/number-field.md"
+}

@@ -1,0 +1,37 @@
+{
+	"name": "OTPField",
+	"title": "OTP Field",
+	"description": "A segmented input for one-time passwords and verification codes.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/OTPField.svelte",
+			"target": "components/OTPField.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/OTPFieldCell.svelte",
+			"target": "components/OTPFieldCell.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "otpfield"
+	},
+	"categories": ["Selection & Input"],
+	"docs": "https://coss.com/ui/docs/components/otp-field.md"
+}

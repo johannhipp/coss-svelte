@@ -1,0 +1,102 @@
+{
+	"name": "Command",
+	"title": "Command",
+	"description": "A command palette component built with Dialog and Autocomplete for searching and executing commands.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Command.svelte",
+			"target": "components/Command.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandCollection.svelte",
+			"target": "components/CommandCollection.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandDialog.svelte",
+			"target": "components/CommandDialog.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandDialogPopup.svelte",
+			"target": "components/CommandDialogPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandDialogTrigger.svelte",
+			"target": "components/CommandDialogTrigger.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandEmpty.svelte",
+			"target": "components/CommandEmpty.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandFooter.svelte",
+			"target": "components/CommandFooter.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandGroup.svelte",
+			"target": "components/CommandGroup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandGroupLabel.svelte",
+			"target": "components/CommandGroupLabel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandInput.svelte",
+			"target": "components/CommandInput.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandItem.svelte",
+			"target": "components/CommandItem.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandList.svelte",
+			"target": "components/CommandList.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandPanel.svelte",
+			"target": "components/CommandPanel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandSeparator.svelte",
+			"target": "components/CommandSeparator.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CommandShortcut.svelte",
+			"target": "components/CommandShortcut.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "compound",
+		"particlePriority": "mvp",
+		"slug": "command"
+	},
+	"categories": ["Overlays & Popups"],
+	"docs": "https://coss.com/ui/docs/components/command.md"
+}

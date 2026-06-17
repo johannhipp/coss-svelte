@@ -1,0 +1,57 @@
+{
+	"name": "Card",
+	"title": "Card",
+	"description": "A content container for grouping related information.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Card.svelte",
+			"target": "components/Card.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CardDescription.svelte",
+			"target": "components/CardDescription.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CardFooter.svelte",
+			"target": "components/CardFooter.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CardHeader.svelte",
+			"target": "components/CardHeader.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CardPanel.svelte",
+			"target": "components/CardPanel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/CardTitle.svelte",
+			"target": "components/CardTitle.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "native",
+		"particlePriority": "mvp",
+		"slug": "card"
+	},
+	"categories": ["Content & Display"],
+	"docs": "https://coss.com/ui/docs/components/card.md"
+}

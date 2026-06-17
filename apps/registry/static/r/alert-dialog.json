@@ -1,0 +1,62 @@
+{
+	"name": "AlertDialog",
+	"title": "Alert Dialog",
+	"description": "A modal dialog that interrupts the user workflow for critical confirmations.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/AlertDialog.svelte",
+			"target": "components/AlertDialog.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AlertDialogAction.svelte",
+			"target": "components/AlertDialogAction.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AlertDialogCancel.svelte",
+			"target": "components/AlertDialogCancel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AlertDialogDescription.svelte",
+			"target": "components/AlertDialogDescription.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AlertDialogPopup.svelte",
+			"target": "components/AlertDialogPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AlertDialogTitle.svelte",
+			"target": "components/AlertDialogTitle.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AlertDialogTrigger.svelte",
+			"target": "components/AlertDialogTrigger.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "alert-dialog"
+	},
+	"categories": ["Overlays & Popups"],
+	"docs": "https://coss.com/ui/docs/components/alert-dialog.md"
+}

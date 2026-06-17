@@ -1,0 +1,54 @@
+<script>
+import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
+import { cn } from "../utils.js";
+
+let {
+	open = $bindable(false),
+	trigger = "Open alert dialog",
+	title = "",
+	description = "",
+	class: className = "",
+	children: rootChildren,
+	...rest
+} = $props();
+</script>
+
+<AlertDialogPrimitive.Root bind:open {...rest}>
+	{#if title || description}
+		<AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" class="cn-alert-dialog-trigger">
+			{trigger}
+		</AlertDialogPrimitive.Trigger>
+		<AlertDialogPrimitive.Portal>
+			<AlertDialogPrimitive.Overlay data-slot="alert-dialog-overlay" class="cn-dialog-overlay" />
+			<AlertDialogPrimitive.Content
+				data-slot="alert-dialog-popup"
+				class={cn("cn-dialog cn-alert-dialog", className)}
+			>
+				{#if title}
+					<AlertDialogPrimitive.Title data-slot="alert-dialog-title" class="cn-dialog-title">
+						{title}
+					</AlertDialogPrimitive.Title>
+				{/if}
+				{#if description}
+					<AlertDialogPrimitive.Description
+						data-slot="alert-dialog-description"
+						class="cn-dialog-description"
+					>
+						{description}
+					</AlertDialogPrimitive.Description>
+				{/if}
+				{@render rootChildren?.()}
+				<div class="cn-alert-dialog-actions">
+					<AlertDialogPrimitive.Cancel data-slot="alert-dialog-cancel" class="cn-alert-dialog-cancel">
+						Cancel
+					</AlertDialogPrimitive.Cancel>
+					<AlertDialogPrimitive.Action data-slot="alert-dialog-action" class="cn-alert-dialog-action">
+						Confirm
+					</AlertDialogPrimitive.Action>
+				</div>
+			</AlertDialogPrimitive.Content>
+		</AlertDialogPrimitive.Portal>
+	{:else}
+		{@render rootChildren?.()}
+	{/if}
+</AlertDialogPrimitive.Root>

@@ -1,0 +1,57 @@
+{
+	"name": "Dialog",
+	"title": "Dialog",
+	"description": "A modal overlay for displaying content that requires user interaction.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Dialog.svelte",
+			"target": "components/Dialog.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DialogClose.svelte",
+			"target": "components/DialogClose.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DialogDescription.svelte",
+			"target": "components/DialogDescription.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DialogPopup.svelte",
+			"target": "components/DialogPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DialogTitle.svelte",
+			"target": "components/DialogTitle.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DialogTrigger.svelte",
+			"target": "components/DialogTrigger.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "dialog"
+	},
+	"categories": ["Overlays & Popups"],
+	"docs": "https://coss.com/ui/docs/components/dialog.md"
+}

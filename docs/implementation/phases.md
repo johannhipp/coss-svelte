@@ -1,15 +1,26 @@
 # Implementation Phases
 
-This is the recommended order once implementation begins.
+This file sequences the v0.1 implementation work.
 
-Read [Scope Resolution Spec](./scope-resolution-spec.md) before starting implementation. It resolves the current open questions around API naming, styling, forms, registry boundaries, high-risk components, particles, and verification gates.
+Read [v0.1 Scope Decisions](./v0.1-scope-decisions.md) before changing scope. Read [Decision Records](./decision-records.md) before changing API, styling, forms, registry, particle, or verification decisions. Deferred parity work lives in [Post-v0.1 Parity Backlog](./post-v0.1-parity-backlog.md).
+
+## Phase Status
+
+| Phase | Status | Notes |
+| --- | --- | --- |
+| Phase 0: Contracts | Implemented for the current pass. | API, styling pipeline, metadata, and Biome-only tooling are represented in package files and docs. |
+| Phase 1: Low-Risk Presentational Components | Implemented for the current pass. | Native/presentational components exist and are covered by the demo app. |
+| Phase 2: Direct Bits UI Wrappers | Implemented for the current pass. | Direct primitive wrappers exist for the stable Bits-backed set. |
+| Phase 3: Compound Components | Mostly implemented for the current pass. | Stable compound components exist; known parity gaps are tracked separately. |
+| Phase 4: High-Risk Design Spikes | Partial / experimental. | Drawer, Sidebar, and Toast remain experimental; Number Field is deferred. |
+| Phase 5: Registry, Particles, and Docs | Partial. | Registry output exists; full particle parity and install CLI are post-v0.1. |
 
 ## Phase 0: Contracts
 
 - Define token names, CSS variable contract, radius/density scale, and typography.
-- Decide whether to use shadcn-svelte's `cn-*` placeholder-class build strategy.
+- Use the `cn-*` placeholder-class build strategy from [ADR-002](./decision-records.md#adr-002-styling-tokens-and-build-pipeline).
 - Define component metadata schema for registry items, particles, dependencies, and docs.
-- Define Svelte export conventions and naming aliases.
+- Define Svelte export conventions and naming aliases from [ADR-001](./decision-records.md#adr-001-public-api-and-naming).
 
 ## Phase 1: Low-Risk Presentational Components
 
@@ -76,21 +87,22 @@ Implement components that compose multiple primitives or add meaningful state la
 - Input Group
 - Menu
 - Sheet
-- Sidebar
+- Sidebar, only after app-shell layout behavior is resolved
 
-## Phase 4: Custom High-Risk Components
+## Phase 4: High-Risk Design Spikes
 
-Implement components without a clean direct Bits UI equivalent:
+Run design and verification spikes for components without a clean direct Bits UI equivalent:
 
-- Drawer
-- Number Field
-- Toast
+- Drawer, reduced Dialog-backed version can ship as experimental if tested
+- Number Field, deferred from stable v0.1 until the accessibility contract is written
+- Toast, basic global manager can ship as experimental if tested
 
-These require deeper accessibility and interaction testing before being marked stable.
+These require deeper accessibility and interaction testing before they can be marked stable. Track skipped behavior in [Unimplemented Components And Parity Gaps](./unimplemented-components.md).
 
 ## Phase 5: Registry, Particles, and Docs
 
 - Generate registry JSON from component metadata.
-- Port COSS particles as Svelte examples.
+- Port 1 to 3 MVP COSS particles per stable component.
 - Build `apps/www` component docs from the registry and markdown metadata.
+- Track full particle parity in [Post-v0.1 Parity Backlog](./post-v0.1-parity-backlog.md).
 - Add visual regression tests only after examples are stable.

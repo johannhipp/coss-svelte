@@ -1,0 +1,32 @@
+{
+	"name": "Separator",
+	"title": "Separator",
+	"description": "A visual divider for separating content sections.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Separator.svelte",
+			"target": "components/Separator.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "separator"
+	},
+	"categories": ["Content & Display"],
+	"docs": "https://coss.com/ui/docs/components/separator.md"
+}

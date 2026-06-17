@@ -1,0 +1,67 @@
+{
+	"name": "Table",
+	"title": "Table",
+	"description": "A structured data display component with rows and columns.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Table.svelte",
+			"target": "components/Table.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TableBody.svelte",
+			"target": "components/TableBody.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TableCaption.svelte",
+			"target": "components/TableCaption.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TableCell.svelte",
+			"target": "components/TableCell.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TableFooter.svelte",
+			"target": "components/TableFooter.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TableHead.svelte",
+			"target": "components/TableHead.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TableHeader.svelte",
+			"target": "components/TableHeader.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TableRow.svelte",
+			"target": "components/TableRow.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "native",
+		"particlePriority": "mvp",
+		"slug": "table"
+	},
+	"categories": ["Content & Display"],
+	"docs": "https://coss.com/ui/docs/components/table.md"
+}

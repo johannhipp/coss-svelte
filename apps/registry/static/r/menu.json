@@ -1,0 +1,97 @@
+{
+	"name": "Menu",
+	"title": "Menu",
+	"description": "A list of actions or options revealed on demand.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Menu.svelte",
+			"target": "components/Menu.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuCheckboxItem.svelte",
+			"target": "components/MenuCheckboxItem.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuGroup.svelte",
+			"target": "components/MenuGroup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuGroupLabel.svelte",
+			"target": "components/MenuGroupLabel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuItem.svelte",
+			"target": "components/MenuItem.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuPopup.svelte",
+			"target": "components/MenuPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuRadioGroup.svelte",
+			"target": "components/MenuRadioGroup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuRadioItem.svelte",
+			"target": "components/MenuRadioItem.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuSeparator.svelte",
+			"target": "components/MenuSeparator.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuShortcut.svelte",
+			"target": "components/MenuShortcut.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuSub.svelte",
+			"target": "components/MenuSub.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuSubPopup.svelte",
+			"target": "components/MenuSubPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuSubTrigger.svelte",
+			"target": "components/MenuSubTrigger.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MenuTrigger.svelte",
+			"target": "components/MenuTrigger.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "compound",
+		"particlePriority": "mvp",
+		"slug": "menu"
+	},
+	"categories": ["Overlays & Popups"],
+	"docs": "https://coss.com/ui/docs/components/menu.md"
+}

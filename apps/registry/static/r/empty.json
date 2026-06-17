@@ -1,0 +1,57 @@
+{
+	"name": "Empty",
+	"title": "Empty",
+	"description": "A container for displaying empty state information.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Empty.svelte",
+			"target": "components/Empty.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/EmptyContent.svelte",
+			"target": "components/EmptyContent.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/EmptyDescription.svelte",
+			"target": "components/EmptyDescription.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/EmptyHeader.svelte",
+			"target": "components/EmptyHeader.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/EmptyMedia.svelte",
+			"target": "components/EmptyMedia.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/EmptyTitle.svelte",
+			"target": "components/EmptyTitle.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "native",
+		"particlePriority": "mvp",
+		"slug": "empty"
+	},
+	"categories": ["Content & Display"],
+	"docs": "https://coss.com/ui/docs/components/empty.md"
+}

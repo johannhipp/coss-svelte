@@ -1,0 +1,32 @@
+{
+	"name": "Checkbox",
+	"title": "Checkbox",
+	"description": "A binary toggle input for selecting one or multiple options.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Checkbox.svelte",
+			"target": "components/Checkbox.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "checkbox"
+	},
+	"categories": ["Toggle & Choice"],
+	"docs": "https://coss.com/ui/docs/components/checkbox.md"
+}

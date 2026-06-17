@@ -1,0 +1,32 @@
+{
+	"name": "Group",
+	"title": "Group",
+	"description": "A container component for grouping related content with consistent styling.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Group.svelte",
+			"target": "components/Group.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "native",
+		"particlePriority": "mvp",
+		"slug": "group"
+	},
+	"categories": ["Content & Display"],
+	"docs": "https://coss.com/ui/docs/components/group.md"
+}

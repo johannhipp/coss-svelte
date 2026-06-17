@@ -1,8 +1,12 @@
 # apps/registry
 
-Generated registry artifacts will live here once components exist.
+Generated registry artifacts live here.
 
-Planned responsibilities:
+- Build command: `pnpm registry:build`
+- Output directory: `apps/registry/static/r`
+- Index file: `apps/registry/static/r/index.json`
+
+Responsibilities:
 
 - produce shadcn-compatible registry JSON
 - publish component metadata and dependency graphs

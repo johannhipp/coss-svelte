@@ -1,15 +1,45 @@
 {
 	"name": "coss-svelte",
 	"version": "0.0.0",
+	"description": "Svelte 5 copy-and-own component primitives inspired by COSS UI.",
 	"private": false,
+	"license": "MIT",
 	"type": "module",
 	"svelte": "./src/index.js",
 	"types": "./src/index.d.ts",
+	"files": [
+		"src",
+		"README.md",
+		"LICENSE"
+	],
 	"exports": {
 		".": {
 			"svelte": "./src/index.js",
-			"types": "./src/index.d.ts"
-		}
+			"types": "./src/index.d.ts",
+			"default": "./src/index.js"
+		},
+		"./metadata": "./src/metadata.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/johannhipp/coss-svelte.git",
+		"directory": "packages/coss-svelte"
+	},
+	"bugs": {
+		"url": "https://github.com/johannhipp/coss-svelte/issues"
+	},
+	"homepage": "https://github.com/johannhipp/coss-svelte#readme",
+	"keywords": [
+		"svelte",
+		"sveltekit",
+		"components",
+		"ui",
+		"design-system",
+		"bits-ui",
+		"tailwindcss"
+	],
+	"publishConfig": {
+		"access": "public"
 	},
 	"peerDependencies": {
 		"bits-ui": "^2.18.1",

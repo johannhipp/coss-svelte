@@ -1,0 +1,82 @@
+{
+	"name": "Autocomplete",
+	"title": "Autocomplete",
+	"description": "An input that suggests options as you type.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Autocomplete.svelte",
+			"target": "components/Autocomplete.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AutocompleteCollection.svelte",
+			"target": "components/AutocompleteCollection.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AutocompleteEmpty.svelte",
+			"target": "components/AutocompleteEmpty.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AutocompleteGroup.svelte",
+			"target": "components/AutocompleteGroup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AutocompleteGroupLabel.svelte",
+			"target": "components/AutocompleteGroupLabel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AutocompleteInput.svelte",
+			"target": "components/AutocompleteInput.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AutocompleteItem.svelte",
+			"target": "components/AutocompleteItem.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AutocompleteList.svelte",
+			"target": "components/AutocompleteList.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AutocompletePopup.svelte",
+			"target": "components/AutocompletePopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AutocompleteSeparator.svelte",
+			"target": "components/AutocompleteSeparator.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AutocompleteStatus.svelte",
+			"target": "components/AutocompleteStatus.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "compound",
+		"particlePriority": "mvp",
+		"slug": "autocomplete"
+	},
+	"categories": ["Selection & Input"],
+	"docs": "https://coss.com/ui/docs/components/autocomplete.md"
+}

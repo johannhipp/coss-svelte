@@ -1,0 +1,57 @@
+{
+	"name": "Frame",
+	"title": "Frame",
+	"description": "A container component for displaying content in a frame.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Frame.svelte",
+			"target": "components/Frame.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/FrameDescription.svelte",
+			"target": "components/FrameDescription.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/FrameFooter.svelte",
+			"target": "components/FrameFooter.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/FrameHeader.svelte",
+			"target": "components/FrameHeader.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/FramePanel.svelte",
+			"target": "components/FramePanel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/FrameTitle.svelte",
+			"target": "components/FrameTitle.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "native",
+		"particlePriority": "mvp",
+		"slug": "frame"
+	},
+	"categories": ["Content & Display"],
+	"docs": "https://coss.com/ui/docs/components/frame.md"
+}

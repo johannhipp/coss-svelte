@@ -1,6 +1,8 @@
 # Component Implementation Outline
 
-This document expands the feature scope into implementation intent for each component. It is not component code.
+This generated document expands the COSS feature scope into implementation intent for each component. It is not component code and it is not the current status tracker.
+
+For the current stable, experimental, and deferred scope, use [v0.1 Scope Decisions](../implementation/v0.1-scope-decisions.md). For implementation-time gaps, use [Unimplemented Components And Parity Gaps](../implementation/unimplemented-components.md).
 
 The implementation strategy is to preserve COSS's visual language and copy-and-own ergonomics, while replacing the React/Base UI primitive layer with Svelte-native Bits UI or native Svelte markup.
 

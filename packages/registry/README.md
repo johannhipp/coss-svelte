@@ -1,5 +1,7 @@
 # packages/registry
 
-Registry schema, item metadata, and build utilities will live here.
+Registry schema, item metadata, and build utilities.
 
-This package should define source-of-truth metadata for components, examples, particles, dependencies, and generated install targets.
+This package defines source-of-truth registry metadata for components, examples, dependencies, and generated install targets.
+
+The public entry is `src/index.js`; generated registry JSON is written by `pnpm registry:build` into `apps/registry/static/r`.

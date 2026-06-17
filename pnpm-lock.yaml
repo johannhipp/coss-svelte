@@ -19,6 +19,18 @@ importers:
 
   apps/www:
     dependencies:
+      '@coss-svelte/theme':
+        specifier: workspace:*
+        version: link:../../packages/theme
+      '@fontsource-variable/geist-mono':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource-variable/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@internationalized/date':
+        specifier: 3.12.2
+        version: 3.12.2
       '@lucide/svelte':
         specifier: 1.17.0
         version: 1.17.0(svelte@5.56.3)
@@ -40,6 +52,9 @@ importers:
       clsx:
         specifier: 2.1.1
         version: 2.1.1
+      coss-svelte:
+        specifier: workspace:*
+        version: link:../../packages/coss-svelte
       svelte:
         specifier: 5.56.3
         version: 5.56.3
@@ -86,7 +101,11 @@ importers:
         specifier: 3.2.2
         version: 3.2.2(tailwind-merge@3.6.0)(tailwindcss@4.3.0)
 
-  packages/registry: {}
+  packages/registry:
+    dependencies:
+      coss-svelte:
+        specifier: workspace:*
+        version: link:../coss-svelte
 
   packages/theme: {}
 
@@ -166,6 +185,12 @@ packages:
 
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
+
+  '@fontsource-variable/geist-mono@5.2.8':
+    resolution: {integrity: sha512-KI5bj+hkkRiHttYHmccotUZ80ZuZyai+RwI1d7UId0clkx/jXxlo8qYK8j54WzmpBjtMoEMPyllV7faDcj+6RA==}
+
+  '@fontsource-variable/inter@5.2.8':
+    resolution: {integrity: sha512-kOfP2D+ykbcX/P3IFnokOhVRNoTozo5/JxhAIVYLpea/UBmCQ/YWPBfWIDuBImXX/15KH+eKh4xpEUyS2sQQGQ==}
 
   '@internationalized/date@3.12.2':
     resolution: {integrity: sha512-FY1Y+H64NDs+HAF6omlnWxm3mEpfgaCSWtL5l551ZZfImA+kGjPFgrnJrGjH6lfmLL0g8Z/mBu1R3kufeCp6Jw==}
@@ -868,6 +893,10 @@ snapshots:
       '@floating-ui/utils': 0.2.11
 
   '@floating-ui/utils@0.2.11': {}
+
+  '@fontsource-variable/geist-mono@5.2.8': {}
+
+  '@fontsource-variable/inter@5.2.8': {}
 
   '@internationalized/date@3.12.2':
     dependencies:

@@ -1,0 +1,52 @@
+{
+	"name": "Field",
+	"title": "Field",
+	"description": "A wrapper component for form inputs with labels and validation.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Field.svelte",
+			"target": "components/Field.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/FieldDescription.svelte",
+			"target": "components/FieldDescription.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/FieldError.svelte",
+			"target": "components/FieldError.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/FieldLabel.svelte",
+			"target": "components/FieldLabel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/FieldValidity.svelte",
+			"target": "components/FieldValidity.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "compound",
+		"particlePriority": "mvp",
+		"slug": "field"
+	},
+	"categories": ["Forms & Validation"],
+	"docs": "https://coss.com/ui/docs/components/field.md"
+}

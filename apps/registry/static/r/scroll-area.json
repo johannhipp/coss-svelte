@@ -1,0 +1,52 @@
+{
+	"name": "ScrollArea",
+	"title": "Scroll Area",
+	"description": "A container with custom scrollbars for overflow content.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/ScrollArea.svelte",
+			"target": "components/ScrollArea.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ScrollAreaCorner.svelte",
+			"target": "components/ScrollAreaCorner.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ScrollAreaScrollbar.svelte",
+			"target": "components/ScrollAreaScrollbar.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ScrollAreaThumb.svelte",
+			"target": "components/ScrollAreaThumb.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ScrollAreaViewport.svelte",
+			"target": "components/ScrollAreaViewport.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "scroll-area"
+	},
+	"categories": ["Layout & Navigation"],
+	"docs": "https://coss.com/ui/docs/components/scroll-area.md"
+}

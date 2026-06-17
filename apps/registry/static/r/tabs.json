@@ -1,0 +1,47 @@
+{
+	"name": "Tabs",
+	"title": "Tabs",
+	"description": "A navigation component for switching between different views or content panels.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Tabs.svelte",
+			"target": "components/Tabs.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TabsContent.svelte",
+			"target": "components/TabsContent.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TabsList.svelte",
+			"target": "components/TabsList.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TabsTrigger.svelte",
+			"target": "components/TabsTrigger.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "bits",
+		"particlePriority": "mvp",
+		"slug": "tabs"
+	},
+	"categories": ["Layout & Navigation"],
+	"docs": "https://coss.com/ui/docs/components/tabs.md"
+}

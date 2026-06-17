@@ -1,0 +1,82 @@
+{
+	"name": "Drawer",
+	"title": "Drawer",
+	"description": "A panel that slides in from the edge of the screen with swipe gestures, snap points, and nested drawer support.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Drawer.svelte",
+			"target": "components/Drawer.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DrawerClose.svelte",
+			"target": "components/DrawerClose.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DrawerContent.svelte",
+			"target": "components/DrawerContent.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DrawerCreateHandle.svelte",
+			"target": "components/DrawerCreateHandle.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DrawerDescription.svelte",
+			"target": "components/DrawerDescription.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DrawerFooter.svelte",
+			"target": "components/DrawerFooter.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DrawerHeader.svelte",
+			"target": "components/DrawerHeader.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DrawerPanel.svelte",
+			"target": "components/DrawerPanel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DrawerPopup.svelte",
+			"target": "components/DrawerPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DrawerTitle.svelte",
+			"target": "components/DrawerTitle.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DrawerTrigger.svelte",
+			"target": "components/DrawerTrigger.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": ["bits-ui"],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "experimental",
+		"foundation": "custom",
+		"particlePriority": "later",
+		"slug": "drawer"
+	},
+	"categories": ["Overlays & Popups"],
+	"docs": "https://coss.com/ui/docs/components/drawer.md"
+}

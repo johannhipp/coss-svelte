@@ -1,0 +1,37 @@
+{
+	"name": "Fieldset",
+	"title": "Fieldset",
+	"description": "A group of related form fields with a common label.",
+	"type": "registry:ui",
+	"files": [
+		{
+			"path": "packages/coss-svelte/src/components/Fieldset.svelte",
+			"target": "components/Fieldset.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/FieldsetLegend.svelte",
+			"target": "components/FieldsetLegend.svelte",
+			"type": "registry:ui"
+		}
+	],
+	"dependencies": [],
+	"devDependencies": [],
+	"registryDependencies": [],
+	"cssVars": {
+		"--cn-background": "#f7f7f4",
+		"--cn-foreground": "#171717",
+		"--cn-surface": "#ffffff",
+		"--cn-border": "#deded6",
+		"--cn-primary": "#111111",
+		"--cn-radius": "0.5rem"
+	},
+	"meta": {
+		"status": "stable",
+		"foundation": "native",
+		"particlePriority": "mvp",
+		"slug": "fieldset"
+	},
+	"categories": ["Forms & Validation"],
+	"docs": "https://coss.com/ui/docs/components/fieldset.md"
+}

@@ -1,0 +1,14 @@
+<script>
+import { Select as SelectPrimitive } from "bits-ui";
+import { cn } from "../utils.js";
+
+let { class: className = "", children, ...rest } = $props();
+</script>
+
+<SelectPrimitive.Group
+	data-slot="select-group"
+	class={cn("cn-select-group", className)}
+	{...rest}
+>
+	{@render children?.()}
+</SelectPrimitive.Group>

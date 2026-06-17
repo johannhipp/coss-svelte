@@ -2,5 +2,8 @@
 	"name": "@coss-svelte/theme",
 	"version": "0.0.0",
 	"private": true,
-	"type": "module"
+	"type": "module",
+	"exports": {
+		"./style-coss.css": "./src/style-coss.css"
+	}
 }

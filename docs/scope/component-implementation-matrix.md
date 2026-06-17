@@ -1,6 +1,8 @@
 # Component Implementation Matrix
 
-Generated from the COSS scope inventory. This table is the first implementation planning surface for coss-svelte.
+Generated from the COSS scope inventory. This table is a planning surface, not the current implementation status.
+
+For the current stable, experimental, and deferred scope, use [v0.1 Scope Decisions](../implementation/v0.1-scope-decisions.md). For implementation-time gaps, use [Unimplemented Components And Parity Gaps](../implementation/unimplemented-components.md).
 
 | Component                         | Category            | Foundation                                 | Tier               | First implementation pass                                                                                                                                            |
 | --------------------------------- | ------------------- | ------------------------------------------ | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
