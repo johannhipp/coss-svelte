@@ -8,26 +8,7 @@ This audit records the component-by-component visual comparison pass for the Sve
 - COSS registry source: <https://github.com/cosscom/coss/tree/main/apps/ui/registry/default/ui>
 - Upstream commit inspected locally: `68bf668d2da94e0921c3e67f252b0d36531382f8`
 - Theme source inspected locally: `packages/ui/src/styles/globals.css`
-- All-component source map: [Visual Parity Evidence Manifest](./visual-parity/manifest.md)
-- Accordion focused follow-up: [2026-06-13 accordion follow-up](./visual-parity/passes/2026-06-13-accordion-followup/manifest.md)
-- Button focused follow-up: [2026-06-13 button follow-up](./visual-parity/passes/2026-06-13-button-followup/manifest.md)
-- First screenshot-backed pass: [2026-06-11 controls pass](./visual-parity/passes/2026-06-11-controls/manifest.md)
-- Display controls screenshot pass: [2026-06-11 display controls pass](./visual-parity/passes/2026-06-11-display-controls/manifest.md)
-- Display controls follow-up pass: [2026-06-11 display controls follow-up](./visual-parity/passes/2026-06-11-display-controls-followup/manifest.md)
-- Display controls timeout retry: [2026-06-11 display timeout retry](./visual-parity/passes/2026-06-11-display-timeout-retry/manifest.md)
-- Form controls screenshot pass: [2026-06-13 form controls pass](./visual-parity/passes/2026-06-13-form-controls/manifest.md)
-- Form controls follow-up pass: [2026-06-13 form controls follow-up](./visual-parity/passes/2026-06-13-form-controls-followup/manifest.md)
-- Form sections follow-up pass: [2026-06-13 form sections follow-up](./visual-parity/passes/2026-06-13-form-sections-followup/manifest.md)
-- Input Group final follow-up: [2026-06-13 input group final](./visual-parity/passes/2026-06-13-input-group-final/manifest.md)
-- Overlay and disclosure screenshot pass: [2026-06-13 overlays pass](./visual-parity/passes/2026-06-13-overlays/manifest.md)
-- Popover focused follow-up: [2026-06-13 popover follow-up](./visual-parity/passes/2026-06-13-overlays-popover-followup/manifest.md)
-- Selection and data controls screenshot pass: [2026-06-13 selection/data pass](./visual-parity/passes/2026-06-13-selection-data/manifest.md)
-- Layout and action controls screenshot pass: [2026-06-13 layout/actions pass](./visual-parity/passes/2026-06-13-layout-actions/manifest.md)
-- Sidebar registry follow-up pass: [2026-06-13 sidebar registry follow-up](./visual-parity/passes/2026-06-13-sidebar-registry-followup/manifest.md)
-- Calendar focused follow-up: [2026-06-13 calendar follow-up](./visual-parity/passes/2026-06-13-calendar-followup/manifest.md)
-- Date Picker trigger follow-up: [2026-06-13 date picker trigger follow-up](./visual-parity/passes/2026-06-13-date-picker-trigger-followup/manifest.md)
-- Date Picker open-state follow-up: [2026-06-13 date picker open follow-up](./visual-parity/passes/2026-06-13-date-picker-open-followup/manifest.md)
-- Interactive open-state screenshot pass: [2026-06-13 interactive open states](./visual-parity/passes/2026-06-13-interactive-open-states/manifest.md)
+- Screenshot and manifest artifacts are generated locally and intentionally not tracked in git. Regenerate them into `.cache/visual-parity` with `pnpm parity:evidence` or `pnpm parity:interactive`.
 
 ## Key Finding
 
@@ -53,10 +34,7 @@ Coverage note: all 53 currently scoped components, excluding the deferred `Numbe
 
 This pass captured local and live COSS screenshots at `1440x1200` for Button, Checkbox, Dialog, Input, Select, and Tabs.
 
-Evidence:
-
-- Manifest: [visual-parity/passes/2026-06-11-controls/manifest.md](./visual-parity/passes/2026-06-11-controls/manifest.md)
-- Screenshots: [visual-parity/passes/2026-06-11-controls/screenshots](./visual-parity/passes/2026-06-11-controls/screenshots)
+Evidence: generated locally with `pnpm parity:evidence -- --slugs button,checkbox,dialog,input,select,tabs`.
 
 Findings:
 
@@ -75,11 +53,7 @@ All-component source mapping also found one unresolved upstream asymmetry in thi
 
 This pass captured local and live COSS screenshots at `1440x1200` for Accordion, Alert, Avatar, Badge, Breadcrumb, Separator, Skeleton, Spinner, and Switch. Card, Kbd, and Progress initially captured local screenshots but their live COSS captures timed out at the default `30s` cap.
 
-Evidence:
-
-- Manifest: [visual-parity/passes/2026-06-11-display-controls/manifest.md](./visual-parity/passes/2026-06-11-display-controls/manifest.md)
-- Follow-up after local preview fixes: [visual-parity/passes/2026-06-11-display-controls-followup/manifest.md](./visual-parity/passes/2026-06-11-display-controls-followup/manifest.md)
-- Longer-timeout retry for Card, Kbd, and Progress: [visual-parity/passes/2026-06-11-display-timeout-retry/manifest.md](./visual-parity/passes/2026-06-11-display-timeout-retry/manifest.md)
+Evidence: generated locally with `pnpm parity:evidence` display-control slug batches, including a longer timeout for Card, Kbd, and Progress.
 
 Findings:
 
@@ -102,12 +76,7 @@ Findings:
 
 This pass captured local and live COSS screenshots at `1440x1200` for Checkbox Group, Field, Fieldset, Form, Input Group, Label, Radio Group, and Textarea. Follow-up passes recaptured the components whose previews or slot structure changed.
 
-Evidence:
-
-- Manifest: [visual-parity/passes/2026-06-13-form-controls/manifest.md](./visual-parity/passes/2026-06-13-form-controls/manifest.md)
-- Follow-up for Checkbox Group, Input Group, Radio Group, and Textarea: [visual-parity/passes/2026-06-13-form-controls-followup/manifest.md](./visual-parity/passes/2026-06-13-form-controls-followup/manifest.md)
-- Follow-up for Field, Fieldset, and Form: [visual-parity/passes/2026-06-13-form-sections-followup/manifest.md](./visual-parity/passes/2026-06-13-form-sections-followup/manifest.md)
-- Final Input Group width/addon order check: [visual-parity/passes/2026-06-13-input-group-final/manifest.md](./visual-parity/passes/2026-06-13-input-group-final/manifest.md)
+Evidence: generated locally with `pnpm parity:evidence` form-control slug batches.
 
 Findings:
 
@@ -126,10 +95,7 @@ Findings:
 
 This pass captured local and live COSS screenshots at `1440x1200` for Alert Dialog, Collapsible, Dialog, Drawer, Menu, Popover, Preview Card, Sheet, and Tooltip. The local preview source was also aligned with the upstream first particle for each component where the current Svelte APIs make that possible.
 
-Evidence:
-
-- Manifest: [visual-parity/passes/2026-06-13-overlays/manifest.md](./visual-parity/passes/2026-06-13-overlays/manifest.md)
-- Focused Popover follow-up: [visual-parity/passes/2026-06-13-overlays-popover-followup/manifest.md](./visual-parity/passes/2026-06-13-overlays-popover-followup/manifest.md)
+Evidence: generated locally with `pnpm parity:evidence` overlay and Popover follow-up slug batches.
 
 Important limitation: this static pass captures page-load states. For overlay primitives, it proves trigger-state parity and source/example parity; open popup parity is covered separately by the interactive open-state pass below.
 
@@ -151,10 +117,7 @@ Findings:
 
 This pass clicked or hovered the local and live COSS examples for the 13 components whose important visual state is hidden until interaction: Alert Dialog, Autocomplete, Combobox, Command, Date Picker, Dialog, Drawer, Menu, Popover, Preview Card, Select, Sheet, and Tooltip. It captured paired screenshots for each local route and COSS route using the current local docs app at `http://127.0.0.1:5175`.
 
-Evidence:
-
-- Manifest: [visual-parity/passes/2026-06-13-interactive-open-states/manifest.md](./visual-parity/passes/2026-06-13-interactive-open-states/manifest.md)
-- Screenshots: [visual-parity/passes/2026-06-13-interactive-open-states/screenshots](./visual-parity/passes/2026-06-13-interactive-open-states/screenshots)
+Evidence: generated locally with `pnpm parity:interactive`.
 
 Important limitations: this pass proves that local and COSS examples can be opened and visually compared in their interactive states. It does not prove pixel-perfect equivalence, keyboard flows, nested submenu collision behavior, swipe/drag behavior, or delayed tooltip timing. `Date Picker` is marked captured with a composition-source note because COSS does not ship a standalone `date-picker.tsx`; its source-of-truth example is `p-date-picker-1.tsx` plus the required Calendar, Popover, and Button primitives.
 
@@ -180,10 +143,7 @@ Findings:
 
 This pass captured local and live COSS screenshots at `1440x1200` for Autocomplete, Calendar, Combobox, Command, Date Picker, Meter, OTP Field, Pagination, Scroll Area, and Slider. The local preview source was aligned to the upstream first particle for each component where the current Svelte/Bits APIs make that practical.
 
-Evidence:
-
-- Manifest: [visual-parity/passes/2026-06-13-selection-data/manifest.md](./visual-parity/passes/2026-06-13-selection-data/manifest.md)
-- Screenshots: [visual-parity/passes/2026-06-13-selection-data/screenshots](./visual-parity/passes/2026-06-13-selection-data/screenshots)
+Evidence: generated locally with `pnpm parity:evidence` selection and data-control slug batches.
 
 Important limitation: this static pass captures trigger/input states for Autocomplete, Combobox, Command, and Date Picker. Popup and dialog-open evidence is covered separately by the interactive pass above. Date Picker is source-mapped via the upstream `p-date-picker-*` particles because COSS documents it as a composition pattern rather than a standalone UI primitive.
 
@@ -206,11 +166,7 @@ Findings:
 
 This pass captured local and live COSS screenshots at `1440x1200` for Empty, Frame, Group, Sidebar, Table, Toast, Toggle, Toggle Group, and Toolbar. The local preview source was aligned to the upstream first particle for each component where the current Svelte/Bits APIs make that practical.
 
-Evidence:
-
-- Manifest: [visual-parity/passes/2026-06-13-layout-actions/manifest.md](./visual-parity/passes/2026-06-13-layout-actions/manifest.md)
-- Screenshots: [visual-parity/passes/2026-06-13-layout-actions/screenshots](./visual-parity/passes/2026-06-13-layout-actions/screenshots)
-- Sidebar follow-up manifest: [visual-parity/passes/2026-06-13-sidebar-registry-followup/manifest.md](./visual-parity/passes/2026-06-13-sidebar-registry-followup/manifest.md)
+Evidence: generated locally with `pnpm parity:evidence` layout/action slug batches, plus a Sidebar registry follow-up batch.
 
 Important limitations: Sidebar remains source-incomplete because COSS has `registry/default/ui/sidebar.tsx` and a live `/ui/r/sidebar.json` registry item, but the live markdown docs endpoint `/ui/docs/components/sidebar.md` returns `404` and no first-particle file exists in the upstream cache. The follow-up pass compares against that registry-only state: local now renders a COSS-shaped static app-shell example, while the live COSS component route still captures the not-found page. Toast static screenshots prove the trigger/default page state only; COSS toast-manager behavior still needs a later interactive/runtime pass.
 

@@ -9,10 +9,7 @@ import { componentDocs } from "../apps/www/src/lib/docs/navigation.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const upstreamRoot = join(root, ".cache/upstream/coss");
-const defaultOutDir = join(
-	root,
-	"docs/implementation/visual-parity/passes/interactive-open-states"
-);
+const defaultOutDir = join(root, ".cache/visual-parity/passes/interactive-open-states");
 const defaultLocalBaseUrl = "http://127.0.0.1:5175";
 const defaultCossBaseUrl = "https://coss.com/ui";
 const defaultChromePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
