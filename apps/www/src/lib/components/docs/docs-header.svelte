@@ -1,5 +1,5 @@
 <script lang="ts">
-import { GitBranch, Menu, Moon, Sun } from "@lucide/svelte";
+import { GitBranch, Moon, Sun } from "@lucide/svelte";
 import { onMount } from "svelte";
 import DocsSearch from "$lib/components/docs/docs-search.svelte";
 
@@ -70,15 +70,20 @@ onMount(() => {
 			aria-label="Open menu"
 			onclick={onMenu}
 		>
-			<Menu size={21} strokeWidth={2.25} />
+			<span
+				class="docs-menu-toggle-icon flex h-3.5 w-[1.05rem] flex-col justify-center gap-1.5"
+				aria-hidden="true"
+			>
+				<span class="h-0.5 w-full rounded-full bg-current"></span>
+				<span class="h-0.5 w-full rounded-full bg-current"></span>
+			</span>
 		</button>
 		<a
-			class="-mt-0.5 flex min-w-0 shrink-0 items-baseline gap-1.5 font-heading font-semibold text-2xl text-foreground no-underline sm:text-[1.625rem]"
+			class="-mt-0.5 flex min-w-0 shrink-0 items-center font-heading font-semibold text-2xl text-foreground no-underline sm:text-[1.625rem]"
 			href="/docs/introduction"
 			aria-label="coss-svelte home"
 		>
 			<span class="truncate">coss-svelte</span>
-			<span class="font-semibold text-muted-foreground/70">ui</span>
 		</a>
 
 		<div class="ms-auto flex items-center gap-2 md:flex-1 md:justify-end">

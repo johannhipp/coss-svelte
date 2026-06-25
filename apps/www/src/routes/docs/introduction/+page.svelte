@@ -2,8 +2,9 @@
 import ContentPage from "$lib/components/docs/content-page.svelte";
 
 const toc = [
-	{ href: "#what-this-site-covers", title: "What this site covers" },
-	{ href: "#design-target", title: "Design target" },
+	{ href: "#how-it-works", title: "How It Works" },
+	{ href: "#built-on-bits-ui", title: "Built on Bits UI" },
+	{ href: "#primitives-and-particles", title: "Primitives and Particles" },
 ];
 </script>
 
@@ -11,30 +12,64 @@ const toc = [
 	<title>Introduction - coss-svelte</title>
 	<meta
 		name="description"
-		content="A SvelteKit-native implementation map for the COSS component surface."
+		content="A SvelteKit-native component library inspired by the COSS component language."
 	/>
 </svelte:head>
 
 <ContentPage
 	title="Introduction"
-	description="coss-svelte mirrors the clean COSS component language in a SvelteKit-native package."
+	description="A Svelte-native component library inspired by coss ui. Built for SvelteKit apps, local previews, and components you can understand and own."
 	{toc}
 >
-	<section id="what-this-site-covers" class="grid scroll-mt-20 gap-4">
-		<h2 class="font-semibold text-2xl">What this site covers</h2>
-		<p class="text-muted-foreground leading-7">
-			The docs are scoped to local coss-svelte components. Sidebar links open local SvelteKit
-			routes, and every component page renders a local preview instead of sending you back to the
-			COSS React docs.
-		</p>
-	</section>
+	<div class="docs-intro-flow">
+		<div class="docs-intro-note">
+			<p class="font-medium text-foreground">Early Access</p>
+			<p>
+				coss-svelte is still an early Svelte port. The stable components are ready to inspect,
+				while Drawer, Sidebar, and Toast remain experimental and Number Field is deferred.
+			</p>
+		</div>
 
-	<section id="design-target" class="grid scroll-mt-20 gap-4">
-		<h2 class="font-semibold text-2xl">Design target</h2>
-		<p class="text-muted-foreground leading-7">
-			The information architecture follows Bits UI: one route per component, generated sidebar
-			navigation, and focused previews. The visual shell follows COSS: compact header, framed page
-			surface, neutral preview cards, and a right-side table of contents on wide screens.
-		</p>
-	</section>
+		<section id="how-it-works" class="grid scroll-mt-20 gap-4">
+			<h2 class="font-semibold text-2xl">How It Works</h2>
+			<p class="text-muted-foreground leading-7">
+				The local coss-svelte docs are scoped to Svelte components in this repo. Sidebar links
+				open local SvelteKit routes, and every component page renders a local preview instead of
+				sending you back to the COSS React docs.
+			</p>
+			<p class="text-muted-foreground leading-7">
+				The point is still to copy, paste, and own the implementation details: examples stay
+				readable, source files stay close to the docs, and the registry output remains small
+				enough to adapt inside real applications.
+			</p>
+		</section>
+
+		<section id="built-on-bits-ui" class="grid scroll-mt-20 gap-4">
+			<h2 class="font-semibold text-2xl">Built on Bits UI, Designed for Svelte</h2>
+			<p class="text-muted-foreground leading-7">
+				COSS uses Base UI for its React primitives. coss-svelte maps that component language onto
+				Bits UI and Svelte-native components, keeping the accessible behavior, keyboard patterns,
+				and focus management close to the underlying Svelte ecosystem.
+			</p>
+			<p class="text-muted-foreground leading-7">
+				The visual shell follows COSS: compact navigation, neutral surfaces, focused previews, and
+				a right-side table of contents on wider screens. The wording here stays local to what this
+				repository actually ships today.
+			</p>
+		</section>
+
+		<section id="primitives-and-particles" class="grid scroll-mt-20 gap-4">
+			<h2 class="font-semibold text-2xl">Primitives and Particles</h2>
+			<p class="text-muted-foreground leading-7">
+				Primitives are the foundation: buttons, fields, overlays, menus, and other accessible
+				building blocks. They expose Svelte component parts that are intended to be composed,
+				styled, and inspected directly.
+			</p>
+			<p class="text-muted-foreground leading-7">
+				Particles are local examples assembled from those primitives. Use the Particles page to
+				review each component in context, then open the component docs when you want source,
+				metadata, and implementation notes.
+			</p>
+		</section>
+	</div>
 </ContentPage>

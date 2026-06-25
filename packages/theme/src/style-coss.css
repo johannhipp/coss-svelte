@@ -201,6 +201,64 @@
 	background-clip: padding-box;
 }
 
+.docs-sidebar-scroll {
+	scrollbar-width: none;
+}
+
+.docs-sidebar-scroll::-webkit-scrollbar {
+	display: none;
+}
+
+.docs-intro-flow {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.docs-intro-flow > * {
+	animation: docs-intro-enter 420ms var(--ease-out) both;
+}
+
+.docs-intro-flow > *:nth-child(2) {
+	animation-delay: 60ms;
+}
+
+.docs-intro-flow > *:nth-child(3) {
+	animation-delay: 120ms;
+}
+
+.docs-intro-flow > *:nth-child(4) {
+	animation-delay: 180ms;
+}
+
+.docs-intro-note {
+	display: grid;
+	gap: 0.35rem;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-xl);
+	background: color-mix(in srgb, var(--muted) 58%, transparent);
+	padding: 1rem;
+	color: var(--muted-foreground);
+	font-size: 0.875rem;
+	line-height: 1.55;
+}
+
+.docs-intro-note p {
+	margin: 0;
+}
+
+@keyframes docs-intro-enter {
+	from {
+		opacity: 0;
+		transform: translateY(0.375rem);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
 body {
 	margin: 0;
 	background: var(--cn-background);
@@ -935,6 +993,13 @@ textarea {
 	transform-origin: center;
 }
 
+.cn-alert-dialog {
+	gap: 0;
+	width: min(36rem, calc(100vw - 2rem));
+	padding: 0;
+	overflow: hidden;
+}
+
 .cn-dialog[data-state="closed"],
 .cn-alert-dialog[data-state="closed"] {
 	opacity: 0;
@@ -988,11 +1053,25 @@ textarea {
 	gap: 0.5rem;
 }
 
+.cn-alert-dialog-header {
+	padding: 1.5rem 1.5rem 1.25rem;
+}
+
 .cn-alert-dialog-footer,
 .cn-dialog-footer {
 	display: flex;
 	flex-direction: column-reverse;
 	gap: 0.5rem;
+}
+
+.cn-alert-dialog-footer {
+	align-items: center;
+	justify-content: flex-end;
+	flex-direction: row;
+	flex-wrap: wrap;
+	border-top: 1px solid var(--cn-border);
+	background: color-mix(in srgb, var(--muted) 64%, var(--background));
+	padding: 0.875rem 1.5rem;
 }
 
 .cn-dialog-panel {
@@ -1076,12 +1155,23 @@ textarea {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.5rem;
+	justify-content: flex-end;
 }
 
 .cn-alert-dialog-action {
 	background: var(--cn-danger);
 	border-color: var(--cn-danger);
 	color: white;
+}
+
+.cn-alert-dialog-footer .cn-alert-dialog-cancel {
+	border-color: transparent;
+	background: transparent;
+	box-shadow: none;
+}
+
+.cn-alert-dialog-footer .cn-alert-dialog-cancel:hover {
+	background: color-mix(in srgb, var(--muted) 80%, transparent);
 }
 
 .cn-sheet {
@@ -1972,6 +2062,10 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.docs-intro-flow > * {
+		animation: none;
+	}
+
 	.cn-spinner,
 	.cn-skeleton {
 		animation: none;
@@ -3048,7 +3142,7 @@ textarea {
 	margin-top: 0.125rem;
 	color: var(--foreground);
 	opacity: 0.8;
-	transition: transform 200ms ease-in-out;
+	transition: transform 120ms var(--ease-out);
 }
 
 .cn-accordion-trigger[data-state="open"] .cn-accordion-indicator,
@@ -3086,8 +3180,9 @@ textarea {
 	overflow: hidden;
 	padding: 0;
 	transition:
-		grid-template-rows 180ms ease,
-		padding-bottom 180ms ease;
+		grid-template-rows 120ms var(--ease-out),
+		padding-bottom 120ms var(--ease-out);
+	will-change: grid-template-rows;
 }
 
 .cn-accordion-content[data-state="open"],
@@ -3096,6 +3191,7 @@ textarea {
 	padding-bottom: 1rem;
 }
 
+.cn-accordion-content-inner,
 .cn-accordion-content > * {
 	min-height: 0;
 }

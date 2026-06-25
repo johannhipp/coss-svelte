@@ -24,21 +24,23 @@ let {
 				data-slot="alert-dialog-popup"
 				class={cn("cn-dialog cn-alert-dialog", className)}
 			>
-				{#if title}
-					<AlertDialogPrimitive.Title data-slot="alert-dialog-title" class="cn-dialog-title">
-						{title}
-					</AlertDialogPrimitive.Title>
-				{/if}
-				{#if description}
-					<AlertDialogPrimitive.Description
-						data-slot="alert-dialog-description"
-						class="cn-dialog-description"
-					>
-						{description}
-					</AlertDialogPrimitive.Description>
-				{/if}
-				{@render rootChildren?.()}
-				<div class="cn-alert-dialog-actions">
+				<div class="cn-alert-dialog-header">
+					{#if title}
+						<AlertDialogPrimitive.Title data-slot="alert-dialog-title" class="cn-dialog-title">
+							{title}
+						</AlertDialogPrimitive.Title>
+					{/if}
+					{#if description}
+						<AlertDialogPrimitive.Description
+							data-slot="alert-dialog-description"
+							class="cn-dialog-description"
+						>
+							{description}
+						</AlertDialogPrimitive.Description>
+					{/if}
+					{@render rootChildren?.()}
+				</div>
+				<div class="cn-alert-dialog-footer cn-alert-dialog-actions">
 					<AlertDialogPrimitive.Cancel data-slot="alert-dialog-cancel" class="cn-alert-dialog-cancel">
 						Cancel
 					</AlertDialogPrimitive.Cancel>

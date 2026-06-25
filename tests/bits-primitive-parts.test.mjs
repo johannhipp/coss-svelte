@@ -332,6 +332,55 @@ test("accordion trigger includes the COSS chevron affordance", async () => {
 	assert.match(themeSource, /\.cn-accordion-indicator/, "theme styles the accordion indicator");
 });
 
+test("accordion content stays mounted for responsive height animation", async () => {
+	const [rootSource, contentSource, themeSource] = await Promise.all([
+		readFile("packages/coss-svelte/src/components/Accordion.svelte", "utf8"),
+		readFile("packages/coss-svelte/src/components/AccordionContent.svelte", "utf8"),
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+	]);
+
+	assert.match(
+		contentSource,
+		/forceMount\s*=\s*true/,
+		"AccordionContent should stay mounted by default so CSS has closed/open states to animate"
+	);
+	assert.match(
+		contentSource,
+		/<AccordionPrimitive\.Content[^>]*\{forceMount\}/s,
+		"AccordionContent should forward the forceMount prop to Bits UI"
+	);
+
+	for (const source of [rootSource, contentSource]) {
+		assert.match(
+			source,
+			/cn-accordion-content-inner/,
+			"Accordion content should wrap slotted content in a collapsible inner row"
+		);
+	}
+
+	assert.match(
+		themeSource,
+		/\.cn-accordion-content-inner/,
+		"theme should style the accordion content inner wrapper"
+	);
+	assert.match(
+		themeSource,
+		/grid-template-rows 120ms var\(--ease-out\)/,
+		"accordion panel animation should be fast and use the shared ease-out curve"
+	);
+	const accordionContentRule = themeSource.match(/\.cn-accordion-content\s*{[^}]*}/s)?.[0] ?? "";
+	assert.doesNotMatch(
+		accordionContentRule,
+		/grid-template-rows 180ms ease/,
+		"accordion should not use the slower default grid transition"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-accordion-indicator\s*{[^}]*transition:\s*transform 120ms var\(--ease-out\)/s,
+		"accordion chevron should match the faster panel timing"
+	);
+});
+
 test("select trigger includes the COSS icon affordance", async () => {
 	const [rootSource, triggerSource, themeSource] = await Promise.all([
 		readFile("packages/coss-svelte/src/components/Select.svelte", "utf8"),
