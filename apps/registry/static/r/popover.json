@@ -15,8 +15,18 @@
 			"type": "registry:ui"
 		},
 		{
+			"path": "packages/coss-svelte/src/components/PopoverDescription.svelte",
+			"target": "components/PopoverDescription.svelte",
+			"type": "registry:ui"
+		},
+		{
 			"path": "packages/coss-svelte/src/components/PopoverPopup.svelte",
 			"target": "components/PopoverPopup.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/PopoverTitle.svelte",
+			"target": "components/PopoverTitle.svelte",
 			"type": "registry:ui"
 		},
 		{

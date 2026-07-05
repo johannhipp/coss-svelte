@@ -10,6 +10,31 @@
 			"type": "registry:ui"
 		},
 		{
+			"path": "packages/coss-svelte/src/components/PaginationContent.svelte",
+			"target": "components/PaginationContent.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/PaginationEllipsis.svelte",
+			"target": "components/PaginationEllipsis.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/PaginationItem.svelte",
+			"target": "components/PaginationItem.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/PaginationLink.svelte",
+			"target": "components/PaginationLink.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/PaginationNext.svelte",
+			"target": "components/PaginationNext.svelte",
+			"type": "registry:ui"
+		},
+		{
 			"path": "packages/coss-svelte/src/components/PaginationNextButton.svelte",
 			"target": "components/PaginationNextButton.svelte",
 			"type": "registry:ui"
@@ -17,6 +42,11 @@
 		{
 			"path": "packages/coss-svelte/src/components/PaginationPage.svelte",
 			"target": "components/PaginationPage.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/PaginationPrevious.svelte",
+			"target": "components/PaginationPrevious.svelte",
 			"type": "registry:ui"
 		},
 		{

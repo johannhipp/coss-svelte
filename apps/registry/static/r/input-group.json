@@ -8,6 +8,26 @@
 			"path": "packages/coss-svelte/src/components/InputGroup.svelte",
 			"target": "components/InputGroup.svelte",
 			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/InputGroupAddon.svelte",
+			"target": "components/InputGroupAddon.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/InputGroupInput.svelte",
+			"target": "components/InputGroupInput.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/InputGroupText.svelte",
+			"target": "components/InputGroupText.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/InputGroupTextarea.svelte",
+			"target": "components/InputGroupTextarea.svelte",
+			"type": "registry:ui"
 		}
 	],
 	"dependencies": [],

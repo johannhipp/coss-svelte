@@ -1,5 +1,6 @@
 import { spawnSync } from "node:child_process";
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -73,8 +74,57 @@ export async function buildRegistry({
 	};
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
-	const result = await buildRegistry();
+async function readJsonFiles(dir) {
+	return (await readdir(dir)).filter((file) => file.endsWith(".json")).sort();
+}
 
-	console.log(`Built ${result.itemCount} registry items in ${result.relativeOutDir}.`);
+export async function checkRegistry() {
+	const tempDir = await mkdtemp(join(tmpdir(), "coss-svelte-registry-check-"));
+
+	try {
+		await buildRegistry({ outDir: tempDir, format: true });
+
+		const expectedFiles = await readJsonFiles(tempDir);
+		const currentFiles = await readJsonFiles(defaultOutDir);
+		const mismatches = [];
+
+		if (expectedFiles.join("\n") !== currentFiles.join("\n")) {
+			mismatches.push("file list differs");
+		}
+
+		for (const file of expectedFiles.filter((file) => currentFiles.includes(file))) {
+			const expected = await readFile(join(tempDir, file), "utf8");
+			const current = await readFile(join(defaultOutDir, file), "utf8");
+
+			if (expected !== current) {
+				mismatches.push(file);
+			}
+		}
+
+		return {
+			current: mismatches.length === 0,
+			mismatches,
+		};
+	} finally {
+		await rm(tempDir, { force: true, recursive: true });
+	}
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+	if (process.argv.includes("--check")) {
+		const result = await checkRegistry();
+
+		if (result.current) {
+			console.log("Registry is up to date");
+		} else {
+			console.error(
+				`apps/registry/static/r is out of date: ${result.mismatches.join(", ")}. Run pnpm registry:build.`
+			);
+			process.exitCode = 1;
+		}
+	} else {
+		const result = await buildRegistry();
+
+		console.log(`Built ${result.itemCount} registry items in ${result.relativeOutDir}.`);
+	}
 }

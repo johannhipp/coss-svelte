@@ -8,6 +8,26 @@
 			"path": "packages/coss-svelte/src/components/Meter.svelte",
 			"target": "components/Meter.svelte",
 			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MeterIndicator.svelte",
+			"target": "components/MeterIndicator.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MeterLabel.svelte",
+			"target": "components/MeterLabel.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MeterTrack.svelte",
+			"target": "components/MeterTrack.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/MeterValue.svelte",
+			"target": "components/MeterValue.svelte",
+			"type": "registry:ui"
 		}
 	],
 	"dependencies": ["bits-ui"],

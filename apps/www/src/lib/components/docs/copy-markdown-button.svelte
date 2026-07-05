@@ -1,6 +1,7 @@
 <script lang="ts">
 import { Check, Copy } from "@lucide/svelte";
 import { Button } from "coss-svelte";
+import { onDestroy } from "svelte";
 
 let { label = "Copy Markdown", markdown = "" }: { label?: string; markdown?: string } = $props();
 
@@ -23,6 +24,10 @@ async function copyMarkdown() {
 		copied = false;
 	}
 }
+
+onDestroy(() => {
+	clearTimeout(timeoutId);
+});
 </script>
 
 <Button

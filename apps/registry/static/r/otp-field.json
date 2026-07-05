@@ -13,6 +13,11 @@
 			"path": "packages/coss-svelte/src/components/OTPFieldCell.svelte",
 			"target": "components/OTPFieldCell.svelte",
 			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/OTPFieldInput.svelte",
+			"target": "components/OTPFieldInput.svelte",
+			"type": "registry:ui"
 		}
 	],
 	"dependencies": ["bits-ui"],
@@ -30,7 +35,7 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "otpfield"
+		"slug": "otp-field"
 	},
 	"categories": ["Selection & Input"],
 	"docs": "https://coss.com/ui/docs/components/otp-field.md"

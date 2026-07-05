@@ -1,5 +1,6 @@
 <script lang="ts">
 import { Check, Copy, SquareTerminal } from "@lucide/svelte";
+import { onDestroy } from "svelte";
 
 let { code, language = "svelte" }: { code: string; language?: string } = $props();
 
@@ -67,6 +68,10 @@ async function copyCode() {
 		copied = false;
 	}
 }
+
+onDestroy(() => {
+	clearTimeout(timeoutId);
+});
 </script>
 
 <figure class="docs-code-block">

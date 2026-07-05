@@ -26,7 +26,7 @@ Use this file during implementation. Use [Post-v0.1 Parity Backlog](./post-v0.1-
 | Autocomplete | Stable partial | Combobox-backed root, input, popup, list, group, item, separator, empty, status, collection parts, and documented `showTrigger` input affordance. | True free-text autocomplete semantics, `useAutocompleteFilter`, async loading/error state helpers, result limiting, `showClear` input affordance, and object result stringification policy. |
 | Combobox | Stable partial | Bits UI root, input, trigger, popup, list, group, item, separator, and structural clear/value/empty/collection parts. | Automatic `ComboboxClear` state reset, render-prop collection semantics, `useComboboxFilter`, async/loading examples, object value serialization policy, and empty state tied to filtered results. |
 | Command | Stable partial | Bits UI command root, dialog shell, trigger, popup, input, empty, list, group, collection, item, panel, separator, footer, and shortcut parts. | Global keyboard shortcut wiring, action execution conventions, grouped async command examples, destructive-action confirmation patterns, and full dialog focus restoration tests. |
-| Menu | Stable partial | Bits UI root, trigger, popup, item, checkbox item, radio group/item, group, group label, separator, submenu, submenu trigger/popup, and shortcut helper. | Drawer menu responsive variants, hover-open tuning, link rendering conventions, switch-style checkbox item variant, and menu-to-dialog cross-flow examples. |
+| Menu | Stable partial | Bits UI root, trigger, popup, item, checkbox item, radio group/item, group, group label, separator, submenu, submenu trigger/popup, and shortcut helper. | Drawer menu responsive variants, hover-open tuning, COSS `MenuLinkItem` parity if Bits UI adds a matching DropdownMenu link primitive, switch-style checkbox item variant, and menu-to-dialog cross-flow examples. |
 | Sheet | Stable partial | Dialog-backed root, trigger, popup, title, description, header, content, panel, footer, close, and side placement classes. | Inset variants, responsive sheet/drawer switching examples, side-specific animation tokens, and focus restoration browser coverage. |
 
 ## Experimental Implementations
@@ -39,6 +39,7 @@ Use this file during implementation. Use [Post-v0.1 Parity Backlog](./post-v0.1-
 
 ## Cross-Cutting Deferred Work
 
+- `ContextMenu` parity. COSS added a standalone `@coss/context-menu` registry component after this repo's v0.1 scope was generated. Bits UI has a ContextMenu primitive, but implementing this cleanly requires the full component family: trigger, popup, link item, checkbox/radio items, groups, labels, separator, shortcut, submenu parts, docs preview, registry metadata, and interaction tests.
 - Standalone `CheckboxIndicator` part. Bits UI Checkbox exposes checked and indeterminate state through the root children snippet instead of a separate indicator primitive, so the current Svelte wrapper renders its indicator internally. Adding a standalone indicator without a real context API would be brittle.
 - Full COSS particle parity.
 - Registry install/update CLI.

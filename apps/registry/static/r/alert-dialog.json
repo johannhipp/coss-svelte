@@ -25,6 +25,16 @@
 			"type": "registry:ui"
 		},
 		{
+			"path": "packages/coss-svelte/src/components/AlertDialogFooter.svelte",
+			"target": "components/AlertDialogFooter.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/AlertDialogHeader.svelte",
+			"target": "components/AlertDialogHeader.svelte",
+			"type": "registry:ui"
+		},
+		{
 			"path": "packages/coss-svelte/src/components/AlertDialogPopup.svelte",
 			"target": "components/AlertDialogPopup.svelte",
 			"type": "registry:ui"
