@@ -28,6 +28,11 @@
 			"path": "packages/coss-svelte/src/components/ToolbarLink.svelte",
 			"target": "components/ToolbarLink.svelte",
 			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ToolbarSeparator.svelte",
+			"target": "components/ToolbarSeparator.svelte",
+			"type": "registry:ui"
 		}
 	],
 	"dependencies": ["bits-ui"],

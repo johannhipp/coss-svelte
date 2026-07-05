@@ -448,9 +448,9 @@
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "otpfield"
+				"slug": "otp-field"
 			},
-			"path": "otpfield.json"
+			"path": "otp-field.json"
 		},
 		{
 			"name": "Pagination",

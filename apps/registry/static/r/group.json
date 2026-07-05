@@ -8,6 +8,11 @@
 			"path": "packages/coss-svelte/src/components/Group.svelte",
 			"target": "components/Group.svelte",
 			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/GroupSeparator.svelte",
+			"target": "components/GroupSeparator.svelte",
+			"type": "registry:ui"
 		}
 	],
 	"dependencies": [],

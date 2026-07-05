@@ -20,6 +20,21 @@
 			"type": "registry:ui"
 		},
 		{
+			"path": "packages/coss-svelte/src/components/DialogFooter.svelte",
+			"target": "components/DialogFooter.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DialogHeader.svelte",
+			"target": "components/DialogHeader.svelte",
+			"type": "registry:ui"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/DialogPanel.svelte",
+			"target": "components/DialogPanel.svelte",
+			"type": "registry:ui"
+		},
+		{
 			"path": "packages/coss-svelte/src/components/DialogPopup.svelte",
 			"target": "components/DialogPopup.svelte",
 			"type": "registry:ui"

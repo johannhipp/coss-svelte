@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { mkdtemp, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -27,4 +28,14 @@ test("registry build writes an index and component item files", async () => {
 		assert.equal(built.meta.status, item.meta.status);
 		assert.deepEqual(built.files, item.files);
 	}
+});
+
+test("registry build check mode reports the checked-in registry is current", () => {
+	const result = spawnSync(process.execPath, ["scripts/build-registry.mjs", "--check"], {
+		encoding: "utf8",
+	});
+
+	assert.equal(result.status, 0, result.stderr || result.stdout);
+	assert.match(result.stdout, /Registry is up to date/);
+	assert.doesNotMatch(result.stdout, /Built \d+ registry items/);
 });
