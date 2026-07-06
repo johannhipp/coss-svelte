@@ -105,18 +105,18 @@ Expected result: both commands pass.
 
 ## Task 6: Prepare the `johannhipp/skills` Workspace
 
-- [ ] Locate an existing local `johannhipp/skills` checkout or clone it into a temporary working directory.
-- [ ] Inspect its skill layout, validation scripts, and metadata conventions before creating files.
-- [ ] Create branch `johann/coss-svelte-skill`.
-- [ ] Do not change unrelated skills.
+- [x] Locate an existing local `johannhipp/skills` checkout or clone it into a temporary working directory.
+- [x] Inspect its skill layout, validation scripts, and metadata conventions before creating files.
+- [x] Create branch `johann/coss-svelte-skill`.
+- [x] Do not change unrelated skills.
 
 ## Task 7: Create the `coss-svelte` Skill
 
-- [ ] Create `coss-svelte/SKILL.md` using COSS UI's skill structure as the model.
-- [ ] Frontmatter:
+- [x] Create `coss-svelte/SKILL.md` using COSS UI's skill structure as the model.
+- [x] Frontmatter:
   - `name: coss-svelte`
   - description triggers on Svelte, SvelteKit, Bits UI, `coss-svelte`, COSS-style components, migration from React COSS/shadcn/Radix assumptions, forms, overlays, selection controls, and styling.
-- [ ] Body sections:
+- [x] Body sections:
   - what the skill is for
   - source of truth
   - out of scope
@@ -128,7 +128,7 @@ Expected result: both commands pass.
   - installation reference
   - high-risk primitives
   - output checklist
-- [ ] Replace all COSS React assumptions with Svelte-specific guidance:
+- [x] Replace all COSS React assumptions with Svelte-specific guidance:
   - Svelte 5 snippets and component syntax
   - Bits UI foundations
   - `coss-svelte` package imports
@@ -137,11 +137,11 @@ Expected result: both commands pass.
 
 ## Task 8: Create Skill References
 
-- [ ] Generate or hand-author `references/component-registry.md` from `componentMetadata`.
-- [ ] Create `references/cli.md` with current local install and development commands.
-- [ ] Create rules references for styling, composition, forms, and migration.
-- [ ] Create primitive references for stable, experimental, and deferred components.
-- [ ] Each primitive reference includes:
+- [x] Generate or hand-author `references/component-registry.md` from `componentMetadata`.
+- [x] Create `references/cli.md` with current local install and development commands.
+- [x] Create rules references for styling, composition, forms, and migration.
+- [x] Create primitive references for stable, experimental, and deferred components.
+- [x] Each primitive reference includes:
   - purpose
   - status
   - import names
@@ -150,24 +150,24 @@ Expected result: both commands pass.
   - composition rules
   - common pitfalls
   - relevant docs URL from `coss-svelte`
-- [ ] Mark `Drawer`, `Sidebar`, and `Toast` as experimental and `NumberField` as deferred.
+- [x] Mark `Drawer`, `Sidebar`, and `Toast` as experimental and `NumberField` as deferred.
 
 ## Task 9: Validate and Open the Skills PR
 
-- [ ] Run the skills repo validation command if one exists.
-- [ ] Manually inspect `SKILL.md` and references for React-specific leakage.
-- [ ] Commit only the new `coss-svelte` skill files.
-- [ ] Push branch `johann/coss-svelte-skill`.
-- [ ] Open a PR against `johannhipp/skills`.
-- [ ] Capture the PR URL for the `coss-svelte` docs update if the docs page should link directly to it before merge.
+- [x] Run the skills repo validation command if one exists. No built-in validator exists; a structural Node validation checked the generated package.
+- [x] Manually inspect `SKILL.md` and references for React-specific leakage.
+- [x] Commit only the new `coss-svelte` skill files.
+- [x] Push branch `johann/coss-svelte-skill`.
+- [x] Open a PR against `johannhipp/skills`.
+- [x] Capture the PR URL for the `coss-svelte` docs update if the docs page should link directly to it before merge. PR: https://github.com/johannhipp/skills/pull/1. Docs use the stable repo-level install command.
 
 ## Task 10: Final Cross-Repo Verification
 
-- [ ] Confirm `coss-svelte` docs point to the correct `johannhipp/skills` install path.
-- [ ] Confirm `/llms.txt` points to raw `.md` routes that resolve locally.
-- [ ] Confirm Copy Markdown output matches the raw Markdown route for at least one component page.
-- [ ] Confirm tests pass in `coss-svelte`.
-- [ ] Confirm the skills PR contains only the intended skill package.
+- [x] Confirm `coss-svelte` docs point to the correct `johannhipp/skills` install path.
+- [x] Confirm `/llms.txt` points to raw `.md` routes that resolve locally.
+- [x] Confirm Copy Markdown output matches the raw Markdown route for at least one component page.
+- [x] Confirm tests pass in `coss-svelte`.
+- [x] Confirm the skills PR contains only the intended skill package.
 
 ## Execution Notes
 

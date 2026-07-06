@@ -23,7 +23,7 @@ const installationCommand = "pnpm add coss-svelte bits-ui";
 const themeImportCode = `<script>
 	import "@coss-svelte/theme/style-coss.css";
 </script>`;
-const skillsInstallCommand = "npx skills add johannhipp/skills/coss-svelte";
+const skillsInstallCommand = "npx skills@latest add johannhipp/skills";
 
 const contentPages = {
 	"getting-started": {
@@ -95,7 +95,7 @@ ${skillsInstallCommand}
 				title: "Install",
 			},
 			{
-				body: "The skill covers component discovery, Svelte/Bits UI composition, Tailwind 4 styling, form patterns, migration traps from React COSS or shadcn/Radix, and the current stable/experimental/deferred component statuses.",
+				body: "Choose the coss-svelte skill during install. It covers component discovery, Svelte/Bits UI composition, Tailwind 4 styling, form patterns, migration traps from React COSS or shadcn/Radix, and the current stable/experimental/deferred component statuses.",
 				title: "What It Covers",
 			},
 			{

@@ -106,7 +106,7 @@ test("human docs advertise the agent workflow", async () => {
 	assert.match(llmsPage, /Component Routes/, "LLMs page should list raw component routes");
 	assert.match(
 		skillsPage,
-		/npx skills add johannhipp\/skills\/coss-svelte/,
+		/npx skills@latest add johannhipp\/skills/,
 		"skills page should show install command"
 	);
 });

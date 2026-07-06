@@ -3,7 +3,7 @@ import CodeBlock from "$lib/components/docs/code-block.svelte";
 import ContentPage from "$lib/components/docs/content-page.svelte";
 import { createSkillsMarkdown } from "$lib/docs/markdown.js";
 
-const installCommand = "npx skills add johannhipp/skills/coss-svelte";
+const installCommand = "npx skills@latest add johannhipp/skills";
 const markdown = createSkillsMarkdown();
 const toc = [
 	{ href: "#install", title: "Install" },
@@ -30,9 +30,9 @@ const toc = [
 	<section id="coverage" class="grid scroll-mt-20 gap-4">
 		<h2 class="font-semibold text-2xl">What It Covers</h2>
 		<p class="text-muted-foreground leading-7">
-			The skill covers component discovery, Svelte and Bits UI composition, Tailwind CSS 4
-			styling, form patterns, migration traps from React COSS or shadcn/Radix, and current
-			stable, experimental, and deferred component statuses.
+			Choose the coss-svelte skill during install. It covers component discovery, Svelte and
+			Bits UI composition, Tailwind CSS 4 styling, form patterns, migration traps from React
+			COSS or shadcn/Radix, and current stable, experimental, and deferred component statuses.
 		</p>
 	</section>
 
