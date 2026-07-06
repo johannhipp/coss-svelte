@@ -35,6 +35,12 @@ const resourceDocs = [
 		slug: "llms",
 		title: "LLMs",
 	},
+	{
+		description: "Install coss-svelte knowledge into AI coding agents.",
+		href: "/docs/skills",
+		slug: "skills",
+		title: "Skills",
+	},
 ];
 
 const primaryDocs = [

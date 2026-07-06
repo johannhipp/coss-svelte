@@ -1,13 +1,18 @@
 <script>
 import CopyMarkdownButton from "$lib/components/docs/copy-markdown-button.svelte";
 import DocsToc from "$lib/components/docs/docs-toc.svelte";
+import { createContentMarkdown } from "$lib/docs/markdown.js";
 
-let { children, description, eyebrow = "Docs", title, toc = [] } = $props();
+let {
+	children,
+	description,
+	eyebrow = "Docs",
+	markdown: markdownOverride = null,
+	title,
+	toc = [],
+} = $props();
 
-let markdown = $derived(`# ${title}
-
-${description}
-`);
+let markdown = $derived(markdownOverride ?? createContentMarkdown({ description, title }));
 </script>
 
 <div class="flex min-w-0 items-stretch">
