@@ -4,6 +4,7 @@ import CodeBlock from "$lib/components/docs/code-block.svelte";
 import ComponentPreviewTabs from "$lib/components/docs/component-preview-tabs.svelte";
 import CopyMarkdownButton from "$lib/components/docs/copy-markdown-button.svelte";
 import DocsToc from "$lib/components/docs/docs-toc.svelte";
+import { createComponentMarkdown } from "$lib/docs/markdown.js";
 
 type ComponentPage = {
 	category: string;
@@ -264,22 +265,7 @@ function createUsageCode(component: ComponentPage) {
 
 let usageCode = $derived(createUsageCode(page));
 let importCode = $derived(`import { ${page.imports.join(", ")} } from "coss-svelte";`);
-let markdown = $derived(`# ${page.title}
-
-${page.description}
-
-## Installation
-
-\`\`\`bash
-pnpm add coss-svelte bits-ui
-\`\`\`
-
-## Usage
-
-\`\`\`ts
-${importCode}
-\`\`\`
-`);
+let markdown = $derived(createComponentMarkdown(page));
 </script>
 
 <div class="flex min-w-0 items-stretch">

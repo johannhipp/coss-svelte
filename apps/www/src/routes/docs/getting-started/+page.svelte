@@ -1,14 +1,17 @@
 <script>
 import CodeBlock from "$lib/components/docs/code-block.svelte";
 import ContentPage from "$lib/components/docs/content-page.svelte";
+import { getContentMarkdown } from "$lib/docs/markdown.js";
 
 const themeImportCode = `<script>
 	import "@coss-svelte/theme/style-coss.css";
 </${"script"}>`;
+const markdown = getContentMarkdown("getting-started");
 
 const toc = [
 	{ href: "#install", title: "Install" },
 	{ href: "#theme", title: "Theme" },
+	{ href: "#working-with-llms", title: "Working with LLMs" },
 ];
 </script>
 
@@ -19,6 +22,7 @@ const toc = [
 <ContentPage
 	title="Getting Started"
 	description="Install coss-svelte, Bits UI, and the shared theme in a SvelteKit app."
+	{markdown}
 	{toc}
 >
 	<section id="install" class="grid scroll-mt-20 gap-4">
@@ -33,5 +37,17 @@ const toc = [
 			system as the docs previews.
 		</p>
 		<CodeBlock language="svelte" code={themeImportCode} />
+	</section>
+
+	<section id="working-with-llms" class="grid scroll-mt-20 gap-4">
+		<h2 class="font-semibold text-2xl">Working with LLMs</h2>
+		<p class="text-muted-foreground leading-7">
+			coss-svelte exposes a local docs map at <a href="/llms.txt">/llms.txt</a>, raw Markdown
+			routes for component pages, and Copy Markdown actions for page-level context.
+		</p>
+		<p class="text-muted-foreground leading-7">
+			Use the <a href="/docs/skills">coss-svelte skill</a> when an agent needs implementation
+			rules for Svelte, Bits UI, Tailwind CSS 4, and the current component status boundaries.
+		</p>
 	</section>
 </ContentPage>
