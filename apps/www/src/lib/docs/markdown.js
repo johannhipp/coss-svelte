@@ -1,9 +1,13 @@
 import { componentDocs, resourcePages } from "./navigation.js";
+import { previewUsageExamples } from "./preview-examples.js";
 
 /**
  * @typedef {{ body: string; title: string }} MarkdownSection
  * @typedef {{ description: string; sections?: MarkdownSection[]; title: string }} MarkdownPage
+ * @typedef {{ default?: string; description: string; name: string; type: string }} ApiProp
+ * @typedef {{ description: string; name: string; props?: ApiProp[] }} ApiElement
  * @typedef {{
+ *   apiReference?: ApiElement[];
  *   category: string;
  *   description: string;
  *   firstImplementationPass?: string;
@@ -136,11 +140,51 @@ ${code}
 }
 
 /**
+ * @param {string} value
+ */
+function escapeTableCell(value = "") {
+	return String(value).replace(/\|/g, "\\|").replace(/\n/g, " ");
+}
+
+/**
+ * @param {ApiElement[]} reference
+ */
+function createApiReferenceMarkdown(reference = []) {
+	return reference
+		.map((element) => {
+			const props = element.props ?? [];
+			const hasDefault = props.some((prop) => prop.default !== undefined);
+			const table = props.length
+				? [
+						hasDefault
+							? "| Prop | Type | Default | Description |"
+							: "| Prop | Type | Description |",
+						hasDefault ? "| --- | --- | --- | --- |" : "| --- | --- | --- |",
+						...props.map((prop) =>
+							hasDefault
+								? `| \`${escapeTableCell(prop.name)}\` | \`${escapeTableCell(prop.type)}\` | ${
+										prop.default !== undefined ? `\`${escapeTableCell(prop.default)}\`` : "-"
+									} | ${escapeTableCell(prop.description)} |`
+								: `| \`${escapeTableCell(prop.name)}\` | \`${escapeTableCell(prop.type)}\` | ${escapeTableCell(prop.description)} |`
+						),
+					].join("\n")
+				: "";
+
+			return `### ${element.name}
+
+${element.description}${table ? `\n\n${table}` : ""}`;
+		})
+		.join("\n\n");
+}
+
+/**
  * @param {ComponentDoc} component
  */
 export function createComponentMarkdown(component) {
 	const parts = [component.name, ...(component.parts ?? [])];
-	const importCode = `import { ${component.imports.join(", ")} } from "coss-svelte";`;
+	const usageCode =
+		previewUsageExamples[component.slug] ??
+		`import { ${component.imports.join(", ")} } from "coss-svelte";`;
 	const statusNote =
 		component.status === "stable"
 			? "Stable for the current coss-svelte surface."
@@ -156,7 +200,7 @@ ${codeBlock("bash", installationCommand)}
 
 ## Usage
 
-${codeBlock("ts", importCode)}
+${codeBlock("svelte", usageCode)}
 
 ## Anatomy
 
@@ -164,10 +208,16 @@ ${parts.map((part) => `- \`${part}\``).join("\n")}
 
 ## API Reference
 
-- Status: ${component.statusLabel}
-- Foundation: ${component.foundation}
-- Category: ${component.category}
-- Particles: ${component.particles}
+${createApiReferenceMarkdown(component.apiReference)}
+
+## Implementation Details
+
+| Field | Value |
+| --- | --- |
+| Status | ${component.statusLabel} |
+| Foundation | ${component.foundation} |
+| Category | ${component.category} |
+| Particles | ${component.particles} |
 
 ## Status
 

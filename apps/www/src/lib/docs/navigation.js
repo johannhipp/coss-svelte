@@ -6,6 +6,7 @@ import {
 	experimentalComponents,
 	stableComponents,
 } from "coss-svelte/metadata";
+import { getComponentApiReference } from "./api-reference.js";
 
 const statusLabels = {
 	deferred: "Deferred",
@@ -67,6 +68,7 @@ export const componentDocs = componentNames
 
 		return {
 			...metadata,
+			apiReference: getComponentApiReference(name),
 			href: `/docs/components/${metadata.slug}`,
 			imports: [name, ...parts],
 			navBadge:
@@ -138,6 +140,7 @@ export function getPageToc(page) {
 		{ href: "#usage", title: "Usage" },
 		{ href: "#anatomy", title: "Anatomy" },
 		{ href: "#api-reference", title: "API Reference" },
+		{ href: "#implementation-details", title: "Implementation Details" },
 	];
 
 	if (page.status !== "stable") {
