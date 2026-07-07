@@ -1551,7 +1551,7 @@ textarea {
 .cn-select-item {
 	border-radius: var(--radius-md);
 	padding: 0.45rem 0.5rem;
-	font-size: 0.875rem;
+	font-size: 1rem;
 	cursor: pointer;
 }
 
@@ -1603,6 +1603,10 @@ textarea {
 		min-height: 1.875rem;
 		font-size: 0.875rem;
 		line-height: 1.875rem;
+	}
+
+	.cn-select-item {
+		font-size: 0.875rem;
 	}
 
 	.cn-textarea {
@@ -2604,6 +2608,10 @@ textarea {
 	width: 100%;
 }
 
+.cn-autocomplete-input-group {
+	max-width: 32rem;
+}
+
 .cn-autocomplete-input,
 .cn-combobox-input,
 .cn-command-input {
@@ -2619,6 +2627,10 @@ textarea {
 	line-height: 2.125rem;
 	outline: none;
 	box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+}
+
+.cn-autocomplete-input {
+	max-width: 32rem;
 }
 
 .cn-autocomplete-input-group .cn-autocomplete-input,
@@ -2684,6 +2696,15 @@ textarea {
 	padding: 0.25rem;
 }
 
+.cn-autocomplete-popup {
+	width: var(--bits-combobox-anchor-width);
+	min-width: var(--bits-combobox-anchor-width);
+}
+
+.cn-autocomplete-popup:has(.cn-autocomplete-item) > .cn-autocomplete-empty {
+	display: none;
+}
+
 .cn-command-list,
 .cn-autocomplete-list,
 .cn-autocomplete-collection,
@@ -2722,6 +2743,19 @@ textarea {
 	line-height: 1.35;
 	text-align: left;
 	cursor: pointer;
+}
+
+.cn-menu-item,
+.cn-menu-sub-trigger {
+	font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
+	.cn-command-item,
+	.cn-autocomplete-item,
+	.cn-combobox-item {
+		font-size: 0.875rem;
+	}
 }
 
 .cn-menu-item[data-disabled],
@@ -2911,7 +2945,7 @@ textarea {
 	border-radius: 0.55rem;
 	padding: 0.75rem 1rem;
 	color: var(--foreground);
-	font-size: 1.75rem;
+	font-size: 1.875rem;
 	font-weight: 450;
 	line-height: 1.15;
 }
@@ -3013,7 +3047,7 @@ textarea {
 
 	.docs-search-item.cn-command-item {
 		min-height: 3.25rem;
-		font-size: 1.25rem;
+		font-size: 1.4rem;
 	}
 
 	.docs-search-footer.cn-command-footer {
