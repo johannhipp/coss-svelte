@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
+import { pathToFileURL } from "node:url";
 
 test("theme defines intentional motion tokens and button press feedback", async () => {
 	const theme = await readFile("packages/theme/src/style-coss.css", "utf8");
@@ -58,10 +59,43 @@ test("docs previews use component-specific snippets and adaptive preview shells"
 
 	assert.match(docPage, /previewUsageExamples/);
 	assert.match(docPage, /page\.slug/);
+	assert.doesNotMatch(docPage, /createFallbackUsageCode/);
 	assert.doesNotMatch(docPage, /<\$\{component\.name\}\s*\/>/);
 	assert.match(previewTabs, /component-preview-shell/);
 	assert.match(previewTabs, /data-preview-slug=\{slug\}/);
 	assert.match(previewTabs, /min-h-\[min\(420px,70svh\)\]/);
+});
+
+test("every component docs page has a preview-matching usage snippet", async () => {
+	const [{ componentDocs }, { previewUsageExamples }] = await Promise.all([
+		import(pathToFileURL("apps/www/src/lib/docs/navigation.js").href),
+		import(pathToFileURL("apps/www/src/lib/docs/preview-examples.js").href),
+	]);
+	const markdown = await readFile("apps/www/src/lib/docs/markdown.js", "utf8");
+
+	for (const component of componentDocs) {
+		const snippet = previewUsageExamples[component.slug];
+
+		assert.equal(typeof snippet, "string", `${component.slug} has a preview usage snippet`);
+		assert.ok(snippet.trim().length > 0, `${component.slug} snippet is not empty`);
+	}
+
+	assert.match(
+		previewUsageExamples.autocomplete,
+		/<Autocomplete options=\{fruitOptions\}>/,
+		"autocomplete snippet should match the fruit-option preview"
+	);
+	assert.match(
+		previewUsageExamples.autocomplete,
+		/\{#each fruitOptions as option\}/,
+		"autocomplete snippet should render the same repeated options as the preview"
+	);
+	assert.doesNotMatch(
+		previewUsageExamples.autocomplete,
+		/<AutocompleteCollection>Autocomplete<\/AutocompleteCollection>/,
+		"autocomplete snippet should not fall back to an empty collection example"
+	);
+	assert.match(markdown, /previewUsageExamples\[component\.slug\]/);
 });
 
 test("particles page gives component previews first-viewport priority", async () => {

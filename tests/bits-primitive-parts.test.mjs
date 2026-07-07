@@ -288,6 +288,56 @@ test("autocomplete input supports documented trigger affordance", async () => {
 	);
 });
 
+test("autocomplete popup follows input width and empty state only shows without items", async () => {
+	const themeSource = await readFile("packages/theme/src/style-coss.css", "utf8");
+
+	assert.match(
+		themeSource,
+		/\.cn-autocomplete-input\s*\{[^}]*max-width:\s*32rem;/s,
+		"autocomplete input should not stretch across wide preview surfaces"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-autocomplete-popup\s*\{[^}]*width:\s*var\(--bits-combobox-anchor-width\);[^}]*min-width:\s*var\(--bits-combobox-anchor-width\);/s,
+		"autocomplete popup should match the combobox anchor width"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-autocomplete-popup:has\(\.cn-autocomplete-item\)\s*>\s*\.cn-autocomplete-empty\s*\{[^}]*display:\s*none;/s,
+		"autocomplete empty state should be hidden when items are rendered"
+	);
+});
+
+test("dropdown item text matches corresponding control text size", async () => {
+	const themeSource = await readFile("packages/theme/src/style-coss.css", "utf8");
+
+	assert.match(
+		themeSource,
+		/\.cn-select-item\s*\{[^}]*font-size:\s*1rem;/s,
+		"select items should match mobile select trigger text"
+	);
+	assert.match(
+		themeSource,
+		/@media \(min-width:\s*640px\)\s*\{[\s\S]*?\.cn-select-item\s*\{[^}]*font-size:\s*0\.875rem;/,
+		"select items should match desktop select trigger text"
+	);
+	assert.match(
+		themeSource,
+		/@media \(min-width:\s*640px\)\s*\{[\s\S]*?\.cn-command-item,\s*\.cn-autocomplete-item,\s*\.cn-combobox-item\s*\{[^}]*font-size:\s*0\.875rem;/,
+		"command, autocomplete, and combobox items should match desktop input text"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-menu-item,\s*\.cn-menu-sub-trigger\s*\{[^}]*font-size:\s*0\.875rem;/s,
+		"menu items should match menu trigger text"
+	);
+	assert.match(
+		themeSource,
+		/\.docs-search-item\.cn-command-item\s*\{[^}]*font-size:\s*1\.875rem;/s,
+		"large docs command items should match the large command input"
+	);
+});
+
 test("combobox input includes the COSS trigger affordance by default", async () => {
 	const source = await readFile("packages/coss-svelte/src/components/ComboboxInput.svelte", "utf8");
 	const previewRenderer = await readFile(
