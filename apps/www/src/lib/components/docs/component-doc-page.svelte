@@ -1,12 +1,24 @@
 <script lang="ts">
 import { Badge } from "coss-svelte";
 import CodeBlock from "$lib/components/docs/code-block.svelte";
+import ComponentApiReference from "$lib/components/docs/component-api-reference.svelte";
 import ComponentPreviewTabs from "$lib/components/docs/component-preview-tabs.svelte";
 import CopyMarkdownButton from "$lib/components/docs/copy-markdown-button.svelte";
 import DocsToc from "$lib/components/docs/docs-toc.svelte";
 import { createComponentMarkdown } from "$lib/docs/markdown.js";
+import { previewUsageExamples } from "$lib/docs/preview-examples.js";
 
 type ComponentPage = {
+	apiReference: {
+		description: string;
+		name: string;
+		props?: {
+			default?: string;
+			description: string;
+			name: string;
+			type: string;
+		}[];
+	}[];
 	category: string;
 	description: string;
 	firstImplementationPass?: string;
@@ -27,210 +39,6 @@ type TocItem = {
 	title: string;
 };
 
-const scriptOpen = `<${"script"} lang="ts">`;
-const scriptClose = `</${"script"}>`;
-
-const previewUsageExamples: Record<string, string> = {
-	"alert-dialog": `${scriptOpen}
-	import {
-		AlertDialog,
-		AlertDialogAction,
-		AlertDialogCancel,
-		AlertDialogDescription,
-		AlertDialogFooter,
-		AlertDialogHeader,
-		AlertDialogPopup,
-		AlertDialogTitle,
-		AlertDialogTrigger,
-	} from "coss-svelte";
-${scriptClose}
-
-<AlertDialog>
-	<AlertDialogTrigger>Delete project</AlertDialogTrigger>
-	<AlertDialogPopup>
-		<AlertDialogHeader>
-			<AlertDialogTitle>Delete project?</AlertDialogTitle>
-			<AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
-		</AlertDialogHeader>
-		<AlertDialogFooter>
-			<AlertDialogCancel>Cancel</AlertDialogCancel>
-			<AlertDialogAction>Delete</AlertDialogAction>
-		</AlertDialogFooter>
-	</AlertDialogPopup>
-</AlertDialog>`,
-	button: `${scriptOpen}
-	import { Button } from "coss-svelte";
-${scriptClose}
-
-<Button>Save changes</Button>
-<Button variant="outline">Cancel</Button>`,
-	card: `${scriptOpen}
-	import { Button, Card, CardDescription, CardFooter, CardHeader, CardPanel, CardTitle } from "coss-svelte";
-${scriptClose}
-
-<Card>
-	<CardHeader>
-		<CardTitle>Workspace</CardTitle>
-		<CardDescription>Configure billing and access.</CardDescription>
-	</CardHeader>
-	<CardPanel>3 members are active this week.</CardPanel>
-	<CardFooter>
-		<Button size="sm">Open settings</Button>
-	</CardFooter>
-</Card>`,
-	command: `${scriptOpen}
-	import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "coss-svelte";
-${scriptClose}
-
-<Command>
-	<CommandInput placeholder="Search commands..." />
-	<CommandList>
-		<CommandGroup label="Actions">
-			<CommandItem>Invite member</CommandItem>
-			<CommandItem>Create project</CommandItem>
-		</CommandGroup>
-	</CommandList>
-</Command>`,
-	dialog: `${scriptOpen}
-	import {
-		Button,
-		Dialog,
-		DialogClose,
-		DialogDescription,
-		DialogFooter,
-		DialogHeader,
-		DialogPopup,
-		DialogTitle,
-		DialogTrigger,
-	} from "coss-svelte";
-${scriptClose}
-
-<Dialog>
-	<DialogTrigger>Edit profile</DialogTrigger>
-	<DialogPopup>
-		<DialogHeader>
-			<DialogTitle>Edit profile</DialogTitle>
-			<DialogDescription>Update the public details for this workspace.</DialogDescription>
-		</DialogHeader>
-		<DialogFooter>
-			<DialogClose>Cancel</DialogClose>
-			<Button type="submit">Save</Button>
-		</DialogFooter>
-	</DialogPopup>
-</Dialog>`,
-	drawer: `${scriptOpen}
-	import { Button, Drawer, DrawerContent, DrawerFooter, DrawerPopup, DrawerTitle, DrawerTrigger } from "coss-svelte";
-${scriptClose}
-
-<Drawer>
-	<DrawerTrigger>Open drawer</DrawerTrigger>
-	<DrawerPopup>
-		<DrawerTitle>Review changes</DrawerTitle>
-		<DrawerContent>Confirm the settings before publishing.</DrawerContent>
-		<DrawerFooter>
-			<Button>Publish</Button>
-		</DrawerFooter>
-	</DrawerPopup>
-</Drawer>`,
-	form: `${scriptOpen}
-	import { Button, Field, FieldError, FieldLabel, Form, Input } from "coss-svelte";
-${scriptClose}
-
-<Form>
-	<Field>
-		<FieldLabel>Email</FieldLabel>
-		<Input type="email" placeholder="team@example.com" />
-		<FieldError>Use a work email address.</FieldError>
-	</Field>
-	<Button type="submit">Submit</Button>
-</Form>`,
-	input: `${scriptOpen}
-	import { Input } from "coss-svelte";
-${scriptClose}
-
-<Input aria-label="Project name" placeholder="Project name" />`,
-	menu: `${scriptOpen}
-	import { Menu, MenuItem, MenuPopup, MenuSeparator, MenuShortcut, MenuTrigger } from "coss-svelte";
-${scriptClose}
-
-<Menu>
-	<MenuTrigger>Open menu</MenuTrigger>
-	<MenuPopup>
-		<MenuItem>Rename <MenuShortcut>R</MenuShortcut></MenuItem>
-		<MenuItem>Duplicate</MenuItem>
-		<MenuSeparator />
-		<MenuItem variant="destructive">Delete</MenuItem>
-	</MenuPopup>
-</Menu>`,
-	popover: `${scriptOpen}
-	import { Button, Input, Popover, PopoverDescription, PopoverPopup, PopoverTitle, PopoverTrigger } from "coss-svelte";
-${scriptClose}
-
-<Popover>
-	<PopoverTrigger>Invite member</PopoverTrigger>
-	<PopoverPopup>
-		<PopoverTitle>Send invite</PopoverTitle>
-		<PopoverDescription>Add an email address to invite a teammate.</PopoverDescription>
-		<Input aria-label="Email" placeholder="name@example.com" />
-		<Button size="sm" type="submit">Send</Button>
-	</PopoverPopup>
-</Popover>`,
-	select: `${scriptOpen}
-	import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue, SelectViewport } from "coss-svelte";
-${scriptClose}
-
-<Select value="editor">
-	<SelectTrigger>
-		<SelectValue placeholder="Select role" />
-	</SelectTrigger>
-	<SelectPopup>
-		<SelectViewport>
-			<SelectItem value="viewer">Viewer</SelectItem>
-			<SelectItem value="editor">Editor</SelectItem>
-			<SelectItem value="admin">Admin</SelectItem>
-		</SelectViewport>
-	</SelectPopup>
-</Select>`,
-	sheet: `${scriptOpen}
-	import { Button, Sheet, SheetContent, SheetFooter, SheetPopup, SheetTitle, SheetTrigger } from "coss-svelte";
-${scriptClose}
-
-<Sheet side="right">
-	<SheetTrigger>Open settings</SheetTrigger>
-	<SheetPopup>
-		<SheetTitle>Workspace settings</SheetTitle>
-		<SheetContent>Review access, billing, and notification preferences.</SheetContent>
-		<SheetFooter>
-			<Button>Save changes</Button>
-		</SheetFooter>
-	</SheetPopup>
-</Sheet>`,
-	tabs: `${scriptOpen}
-	import { Tabs, TabsContent, TabsList, TabsTrigger } from "coss-svelte";
-${scriptClose}
-
-<Tabs value="overview">
-	<TabsList>
-		<TabsTrigger value="overview">Overview</TabsTrigger>
-		<TabsTrigger value="activity">Activity</TabsTrigger>
-	</TabsList>
-	<TabsContent value="overview">Pipeline health and ownership.</TabsContent>
-	<TabsContent value="activity">Recent changes from the team.</TabsContent>
-</Tabs>`,
-	tooltip: `${scriptOpen}
-	import { Button, Tooltip, TooltipPopup, TooltipProvider, TooltipTrigger } from "coss-svelte";
-${scriptClose}
-
-<TooltipProvider>
-	<Tooltip>
-		<TooltipTrigger>
-			<Button variant="outline">Export</Button>
-		</TooltipTrigger>
-		<TooltipPopup>Download a CSV report</TooltipPopup>
-	</Tooltip>
-</TooltipProvider>`,
-};
-
 let {
 	next = null,
 	page,
@@ -243,24 +51,8 @@ let {
 	toc?: TocItem[];
 } = $props();
 
-function createFallbackUsageCode(component: ComponentPage) {
-	const imports = component.imports.join(", ");
-	const primaryPart = component.parts[0];
-	const body = primaryPart
-		? `<${component.name}>
-	<${primaryPart}>${component.title}</${primaryPart}>
-</${component.name}>`
-		: `<${component.name}>${component.title}</${component.name}>`;
-
-	return `${scriptOpen}
-	import { ${imports} } from "coss-svelte";
-${scriptClose}
-
-${body}`;
-}
-
 function createUsageCode(component: ComponentPage) {
-	return previewUsageExamples[component.slug] ?? createFallbackUsageCode(component);
+	return previewUsageExamples[component.slug] ?? "";
 }
 
 let usageCode = $derived(createUsageCode(page));
@@ -272,7 +64,7 @@ let markdown = $derived(createComponentMarkdown(page));
 	<article class="relative min-w-0 flex-1 py-5 lg:mt-8 lg:mr-4 lg:mb-8 lg:py-0">
 		<div class="rounded-xl border border-border bg-card shadow-[0_8px_30px_rgb(0_0_0_/_0.035)]">
 			<div class="px-4 py-6 sm:px-6 lg:p-8">
-				<div class="mx-auto w-full max-w-3xl">
+				<div class="mx-auto w-full max-w-5xl">
 					<header class="mb-8 flex flex-col gap-2">
 						<div class="flex flex-col gap-2">
 							<div class="flex flex-wrap items-center gap-2">
@@ -334,24 +126,29 @@ let markdown = $derived(createComponentMarkdown(page));
 
 					<section id="api-reference" class="scroll-mt-20 border-border border-t py-8">
 						<h2 class="mb-3 font-semibold text-2xl">API Reference</h2>
-						<div class="grid gap-3 sm:grid-cols-2">
-							<div class="rounded-lg border border-border bg-muted/30 p-4">
-								<h3 class="mb-1 font-medium">Status</h3>
-								<p class="text-muted-foreground text-sm">{page.statusLabel}</p>
+						<ComponentApiReference reference={page.apiReference} />
+					</section>
+
+					<section id="implementation-details" class="scroll-mt-20 border-border border-t py-8">
+						<h2 class="mb-3 font-semibold text-2xl">Implementation Details</h2>
+						<dl class="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+							<div>
+								<dt class="font-medium text-foreground">Status</dt>
+								<dd class="text-muted-foreground">{page.statusLabel}</dd>
 							</div>
-							<div class="rounded-lg border border-border bg-muted/30 p-4">
-								<h3 class="mb-1 font-medium">Foundation</h3>
-								<p class="text-muted-foreground text-sm">{page.foundation}</p>
+							<div>
+								<dt class="font-medium text-foreground">Foundation</dt>
+								<dd class="text-muted-foreground">{page.foundation}</dd>
 							</div>
-							<div class="rounded-lg border border-border bg-muted/30 p-4">
-								<h3 class="mb-1 font-medium">Category</h3>
-								<p class="text-muted-foreground text-sm">{page.category}</p>
+							<div>
+								<dt class="font-medium text-foreground">Category</dt>
+								<dd class="text-muted-foreground">{page.category}</dd>
 							</div>
-							<div class="rounded-lg border border-border bg-muted/30 p-4">
-								<h3 class="mb-1 font-medium">Particles</h3>
-								<p class="text-muted-foreground text-sm">{page.particles}</p>
+							<div>
+								<dt class="font-medium text-foreground">Particles</dt>
+								<dd class="text-muted-foreground">{page.particles}</dd>
 							</div>
-						</div>
+						</dl>
 					</section>
 
 					{#if page.status !== "stable"}

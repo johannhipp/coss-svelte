@@ -61,8 +61,28 @@ test("component Markdown includes agent-critical implementation sections", async
 		/import \{ Button \} from "coss-svelte"/,
 		"usage import should be present"
 	);
-	assert.match(markdown, /Foundation: native/, "foundation should be present");
-	assert.match(markdown, /Status: Stable/, "status should be present");
+	assert.match(markdown, /\| Foundation \| native \|/, "foundation should be present");
+	assert.match(markdown, /\| Status \| Stable \|/, "status should be present");
+});
+
+test("component Markdown includes COSS-style API element reference", async () => {
+	const [{ createComponentMarkdown }, { getComponentDoc }] = await Promise.all([
+		import(pathToFileURL(markdownPath).href),
+		import(pathToFileURL(navigationPath).href),
+	]);
+	const autocomplete = getComponentDoc("autocomplete");
+	const markdown = createComponentMarkdown(autocomplete);
+
+	assert.match(markdown, /### Autocomplete/, "root element should be documented");
+	assert.match(markdown, /### AutocompleteInput/, "part element should be documented");
+	assert.match(markdown, /\| Prop \| Type \|/, "prop table should be present");
+	assert.match(markdown, /`options`/, "autocomplete options prop should be documented");
+	assert.match(markdown, /`showTrigger`/, "autocomplete input trigger prop should be documented");
+	assert.match(
+		markdown,
+		/## Implementation Details/,
+		"implementation details should be separate from API reference"
+	);
 });
 
 test("resource navigation exposes LLMs and Skills pages", async () => {
