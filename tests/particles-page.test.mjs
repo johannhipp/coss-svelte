@@ -22,6 +22,7 @@ test("local particles route renders a component-catalog view", async () => {
 	const routeFiles = [
 		"apps/www/src/routes/particles/+page.js",
 		"apps/www/src/routes/particles/+page.svelte",
+		"apps/www/src/lib/components/docs/docs-mobile-menu.svelte",
 		"apps/www/src/lib/components/docs/particles-browser.svelte",
 	];
 
@@ -29,7 +30,7 @@ test("local particles route renders a component-catalog view", async () => {
 		assert.equal(existsSync(routeFile), true, `${routeFile} exists`);
 	}
 
-	const [loadSource, pageSource, browserSource] = await Promise.all(
+	const [loadSource, pageSource, mobileMenuSource, browserSource] = await Promise.all(
 		routeFiles.map((routeFile) => readFile(routeFile, "utf8"))
 	);
 
@@ -42,8 +43,19 @@ test("local particles route renders a component-catalog view", async () => {
 	assert.match(pageSource, /Browse Particles/, "particles route should use the COSS page title");
 	assert.match(
 		pageSource,
-		/ready-to-use particles/,
-		"particles route should explain the local catalog"
+		/Filter by component/,
+		"particles route should describe component-based filtering"
+	);
+	assert.match(pageSource, /DocsMobileMenu/, "particles page should render the mobile menu");
+	assert.match(
+		pageSource,
+		/onMenu=\{\(\) => \(mobileNavOpen = true\)\}/,
+		"particles header should open the mobile menu"
+	);
+	assert.match(
+		mobileMenuSource,
+		/open = \$bindable\(false\)/,
+		"mobile menu should expose bindable open state"
 	);
 	assert.match(
 		browserSource,
@@ -57,18 +69,66 @@ test("local particles route renders a component-catalog view", async () => {
 	);
 	assert.match(
 		browserSource,
+		/hasActiveFilters/,
+		"particles browser should wait for a query or component filter before rendering particles"
+	);
+	assert.match(
+		browserSource,
+		/:\s*\[\]/,
+		"particles browser should use an empty result set before filtering"
+	);
+	assert.match(
+		browserSource,
+		/else if hasActiveFilters/,
+		"particles browser should hide the no-results state until a filter is active"
+	);
+	assert.match(
+		browserSource,
 		/page\.url\.searchParams\.get\(["']tags["']\)/,
-		"particles browser should read selected filters from the tags query parameter"
+		"particles browser should read selected components from the tags query parameter"
 	);
 	assert.match(
 		browserSource,
 		/nextUrl\.searchParams\.set\(["']tags["']/,
-		"particles browser should write selected filters to the tags query parameter"
+		"particles browser should write selected components to the tags query parameter"
 	);
 	assert.match(
 		browserSource,
 		/keepFocus:\s*true/,
 		"particles filter updates should keep focus like an in-page control"
+	);
+	assert.match(
+		browserSource,
+		/each particles as particle/,
+		"particle filters should be sourced from supported particles"
+	);
+	assert.match(browserSource, /particle\.title/, "particle filters should display component names");
+	assert.doesNotMatch(
+		loadSource + pageSource + browserSource,
+		/categoryOrder|selectedCategories|categories=\{data\.categories\}/,
+		"particle filters should not use custom category groupings"
+	);
+	assert.match(browserSource, /Tag/, "selected particle filters should show tag icons");
+	assert.doesNotMatch(
+		browserSource,
+		/Search selected particles/,
+		"particle search should not show a selected-particles suggestion"
+	);
+	assert.match(
+		browserSource,
+		/Copy Registry URL/,
+		"particle cards should expose an icon-only registry URL copy action"
+	);
+	assert.match(browserSource, /View code/, "particle cards should link to view code");
+	assert.match(
+		browserSource,
+		/bg-muted\/35/,
+		"particle cards should use a consistent muted footer bar"
+	);
+	assert.match(
+		loadSource,
+		/registryUrl:\s*`https:\/\/coss\.com\/ui\/r\/\$\{name\}\.json`/,
+		"each particle should derive a unique registry URL from its name"
 	);
 	assert.doesNotMatch(
 		pageSource + browserSource,

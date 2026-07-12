@@ -1,5 +1,4 @@
 <script lang="ts">
-import { Badge } from "coss-svelte";
 import CodeBlock from "$lib/components/docs/code-block.svelte";
 import ComponentApiReference from "$lib/components/docs/component-api-reference.svelte";
 import ComponentPreviewTabs from "$lib/components/docs/component-preview-tabs.svelte";
@@ -73,11 +72,6 @@ let markdown = $derived(createComponentMarkdown(page));
 								>
 									{page.title}
 								</h1>
-								{#if page.status !== "stable"}
-									<Badge variant={page.status === "experimental" ? "accent" : "secondary"}>
-										{page.statusLabel}
-									</Badge>
-								{/if}
 							</div>
 							<p class="text-muted-foreground text-lg leading-7 sm:text-lg">{page.description}</p>
 						</div>
