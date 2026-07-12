@@ -29,7 +29,6 @@ type SearchItem = {
 	index: number;
 	isComponent: boolean;
 	keywords: string[];
-	statusLabel?: string;
 	title: string;
 	value: string;
 };
@@ -44,9 +43,7 @@ type SearchPage = {
 	description?: string;
 	group: string;
 	href: string;
-	navBadge?: string;
 	slug?: string;
-	statusLabel?: string;
 	title: string;
 };
 
@@ -99,9 +96,8 @@ function getSearchGroupPriority(title: string) {
 
 function createSearchItem(page: SearchPage, index: number): SearchItem {
 	const description = page.description ?? "";
-	const statusLabel = page.navBadge;
 	const href = page.href ?? (page.slug ? `/docs/components/${page.slug}` : "/docs/introduction");
-	const value = `${page.group} ${page.title} ${description} ${statusLabel ?? ""} ${href}`;
+	const value = `${page.group} ${page.title} ${description} ${href}`;
 
 	return {
 		description,
@@ -109,8 +105,7 @@ function createSearchItem(page: SearchPage, index: number): SearchItem {
 		href,
 		index,
 		isComponent: page.group === "Components",
-		keywords: [page.title, description, page.group, statusLabel ?? "", href].filter(Boolean),
-		statusLabel,
+		keywords: [page.title, description, page.group, href].filter(Boolean),
 		title: page.title,
 		value,
 	};
@@ -136,7 +131,7 @@ function getSearchScore(item: SearchItem, query: string) {
 	const terms = query.split(/\s+/).filter(Boolean);
 	const title = item.title.toLowerCase();
 	const href = item.href.toLowerCase();
-	const haystack = [item.title, item.description, item.group, item.statusLabel, item.href]
+	const haystack = [item.title, item.description, item.group, item.href]
 		.filter(Boolean)
 		.join(" ")
 		.toLowerCase();
@@ -241,7 +236,7 @@ $effect(() => {
 	<CommandDialogPopup class="docs-search-dialog">
 		<Command label="Search documentation" shouldFilter={false} class="docs-search-command">
 			<div class="docs-search-input-row">
-				<Search size={30} strokeWidth={1.9} class="docs-search-leading-icon" />
+				<Search size={20} strokeWidth={2} class="docs-search-leading-icon" />
 				<CommandInput
 					id="docs-search-input"
 					bind:value={searchValue}
@@ -269,18 +264,15 @@ $effect(() => {
 											onclick={(event: MouseEvent) => handleItemClick(event, item.href)}
 											onSelect={() => selectItem(item.href)}
 										>
-											<span class="docs-search-icon">
-												{#if item.isComponent}
-													<Atom size={28} strokeWidth={1.9} />
-												{:else}
-													<BookOpen size={28} strokeWidth={1.9} />
-												{/if}
-											</span>
-											<span class="truncate">{item.title}</span>
-											{#if item.statusLabel}
-												<CommandShortcut class="docs-search-status">{item.statusLabel}</CommandShortcut>
-											{/if}
-										</CommandItem>
+													<span class="docs-search-icon">
+														{#if item.isComponent}
+															<Atom size={20} strokeWidth={1.9} />
+														{:else}
+															<BookOpen size={20} strokeWidth={1.9} />
+														{/if}
+													</span>
+													<span class="truncate">{item.title}</span>
+												</CommandItem>
 									{/each}
 								</CommandCollection>
 							</CommandGroup>

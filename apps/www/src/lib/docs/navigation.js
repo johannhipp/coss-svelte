@@ -71,12 +71,6 @@ export const componentDocs = componentNames
 			apiReference: getComponentApiReference(name),
 			href: `/docs/components/${metadata.slug}`,
 			imports: [name, ...parts],
-			navBadge:
-				metadata.status === "experimental"
-					? "New"
-					: metadata.status === "deferred"
-						? "Soon"
-						: undefined,
 			parts,
 			statusLabel: statusLabels[metadata.status],
 		};

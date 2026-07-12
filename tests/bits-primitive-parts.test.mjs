@@ -333,8 +333,8 @@ test("dropdown item text matches corresponding control text size", async () => {
 	);
 	assert.match(
 		themeSource,
-		/\.docs-search-item\.cn-command-item\s*\{[^}]*font-size:\s*1\.875rem;/s,
-		"large docs command items should match the large command input"
+		/\.docs-search-item\.cn-command-item\s*\{[^}]*font-size:\s*0\.875rem;/s,
+		"docs command items should use compact command-palette text"
 	);
 });
 

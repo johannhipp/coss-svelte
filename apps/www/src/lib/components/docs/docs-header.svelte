@@ -65,7 +65,7 @@ onMount(() => {
 >
 	<div class="mx-auto flex h-14 w-full max-w-[1440px] items-center justify-between gap-2 px-4 sm:px-10">
 		<button
-			class="-ms-1.5 inline-flex size-8 shrink-0 items-center justify-center rounded-md text-foreground hover:bg-muted md:hidden"
+			class="-ms-1.5 inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md text-foreground hover:bg-muted md:hidden"
 			type="button"
 			aria-label="Open menu"
 			onclick={onMenu}
@@ -112,7 +112,7 @@ onMount(() => {
 				<GitBranch size={15} strokeWidth={2.25} />
 			</a>
 			<button
-				class="inline-flex h-8 w-8 items-center justify-center rounded-md text-foreground hover:bg-muted"
+				class="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-foreground hover:bg-muted"
 				type="button"
 				aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"}
 				aria-pressed={darkMode}

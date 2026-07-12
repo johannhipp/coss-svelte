@@ -48,8 +48,8 @@ ${themeImportCode}
 				title: "Theme",
 			},
 			{
-				body: "Use `/llms.txt` for the docs map, `.md` docs routes for raw Markdown, Copy Markdown for page-level context, and the `coss-svelte` skill for implementation rules.",
-				title: "Working with LLMs",
+				body: "Use the [coss-svelte skill](/docs/skills) when an agent needs implementation rules for Svelte, Bits UI, Tailwind CSS 4, and the current component status boundaries.\n\ncoss-svelte exposes a local docs map at [`/llms.txt`](/llms.txt), raw Markdown routes for component pages, and Copy Markdown actions for page-level context.",
+				title: "Getting your agents to use coss-svelte",
 			},
 		],
 		title: "Getting Started",

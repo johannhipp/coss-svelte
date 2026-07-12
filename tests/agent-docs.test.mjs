@@ -121,8 +121,17 @@ test("human docs advertise the agent workflow", async () => {
 		readFile(skillsPagePath, "utf8"),
 	]);
 
-	assert.match(gettingStarted, /Working with LLMs/, "getting started should mention LLMs");
-	assert.match(gettingStarted, /\/llms\.txt/, "getting started should link to llms.txt");
+	assert.match(
+		gettingStarted,
+		/Getting your agents to use coss-svelte/,
+		"getting started should explain how agents use coss-svelte"
+	);
+	assert.match(gettingStarted, /href="\/docs\/skills"/, "getting started should link to the skill");
+	assert.match(gettingStarted, /href="\/llms\.txt"/, "getting started should link to llms.txt");
+	assert.ok(
+		gettingStarted.indexOf('href="/docs/skills"') < gettingStarted.indexOf('href="/llms.txt"'),
+		"getting started should lead with the skill link"
+	);
 	assert.match(llmsPage, /Component Routes/, "LLMs page should list raw component routes");
 	assert.match(
 		skillsPage,
