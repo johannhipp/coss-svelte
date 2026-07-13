@@ -21,6 +21,12 @@ This repository is intended to become a publishable Svelte component library. Ke
 - Update `docs/scope/component-implementation-outline.md` when a component strategy changes.
 - Use Biome for formatting and linting. Do not add ESLint or Prettier unless an ADR explains a gap Biome cannot cover.
 
+## Commit Standards
+
+- Follow the [repository commit standards](docs/commit-standards.md), based on Conventional Commits 1.0.0.
+- All contributors, including coding agents, must use Conventional Commit messages when creating commits.
+- Agents must read `docs/commit-standards.md` before committing and keep unrelated changes in separate commits.
+
 ## Verification Expectations
 
 Before claiming implementation work is complete, run the narrowest relevant checks:
