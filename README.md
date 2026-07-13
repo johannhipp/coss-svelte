@@ -46,6 +46,12 @@ pnpm release:check
 
 `pnpm release:check` validates formatting, Svelte and TypeScript diagnostics, tests, and npm pack contents. It does not publish to npm.
 
+## Commit Standards
+
+This repository uses [Conventional Commits 1.0.0](docs/commit-standards.md). Human contributors and
+coding agents must read and follow the commit guide before creating commits, including the required
+type prefix and breaking-change notation.
+
 ## Release Boundary
 
 Publishing is intentionally manual. Follow `docs/release.md` when preparing a public GitHub release or future npm release.
