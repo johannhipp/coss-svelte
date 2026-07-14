@@ -33,10 +33,7 @@ test("floating and overlay surfaces animate with origin-aware transform and opac
 		/\.cn-select-popup[\s\S]*transition:[\s\S]*opacity\s+160ms\s+var\(--ease-out\)/
 	);
 	assert.match(theme, /\.cn-sheet-right\[data-state="open"\][\s\S]*transform:\s*translateX\(0\)/);
-	assert.match(
-		theme,
-		/\.cn-drawer\[data-state="open"\][\s\S]*transform:\s*translateX\(-50%\)\s+translateY\(0\)/
-	);
+	assert.match(theme, /\.cn-drawer\[data-state="open"\][\s\S]*transform:\s*translateY\(0\)/);
 	assert.match(theme, /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*\.cn-popover-content/);
 	assert.doesNotMatch(theme, /scale\(0\)/);
 });
@@ -101,6 +98,29 @@ test("dialog uses a framed surface and separated muted action footer", async () 
 	);
 	assert.match(theme, /\.cn-dialog-footer\s*{[\s\S]*padding:\s*1rem\s+1\.5rem/);
 	assert.match(theme, /\.cn-dialog-footer \.cn-dialog-close\s*{[\s\S]*border-color:\s*transparent/);
+});
+
+test("drawer uses a full-width framed surface with a draggable close handle", async () => {
+	const [theme, handle, drawer] = await Promise.all([
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+		readFile("packages/coss-svelte/src/components/DrawerCreateHandle.svelte", "utf8"),
+		readFile("packages/coss-svelte/src/components/Drawer.svelte", "utf8"),
+	]);
+
+	assert.match(
+		theme,
+		/\.cn-drawer\s*{[\s\S]*left:\s*0;[\s\S]*right:\s*0;[\s\S]*bottom:\s*0;[\s\S]*width:\s*100%;[\s\S]*overflow:\s*hidden/
+	);
+	assert.match(theme, /\.cn-drawer::before\s*{[\s\S]*box-shadow:\s*0\s+1px\s+0\s+color-mix/);
+	assert.match(theme, /\.cn-drawer\[data-dragging\]\s*{[\s\S]*transition:\s*none[\s\S]*transform:/);
+	assert.match(theme, /\.cn-drawer-handle\s*{[\s\S]*cursor:\s*grab[\s\S]*touch-action:\s*none/);
+	assert.match(theme, /\.cn-drawer-handle:hover::before\s*{[\s\S]*background:/);
+	assert.match(handle, /DialogPrimitive\.Close/);
+	assert.match(handle, /onpointerdown=\{handlePointerDown\}/);
+	assert.match(handle, /onpointermove=\{handlePointerMove\}/);
+	assert.match(handle, /onpointerup=\{handlePointerUp\}/);
+	assert.match(handle, /distance\s*>=\s*72/);
+	assert.match(drawer, /<DrawerCreateHandle\s*\/>/);
 });
 
 test("docs previews use component-specific snippets and adaptive preview shells", async () => {

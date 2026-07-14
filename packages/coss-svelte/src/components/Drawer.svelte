@@ -1,6 +1,7 @@
 <script>
 import { Dialog as DialogPrimitive } from "bits-ui";
 import { cn } from "../utils.js";
+import DrawerCreateHandle from "./DrawerCreateHandle.svelte";
 
 let {
 	open = $bindable(false),
@@ -21,7 +22,7 @@ let {
 		<DialogPrimitive.Portal>
 			<DialogPrimitive.Overlay data-slot="drawer-overlay" class="cn-dialog-overlay" />
 			<DialogPrimitive.Content data-slot="drawer-popup" class={cn("cn-drawer", className)}>
-				<span data-slot="drawer-create-handle" class="cn-drawer-handle" aria-hidden="true"></span>
+				<DrawerCreateHandle />
 				<header data-slot="drawer-header" class="cn-drawer-header">
 					<DialogPrimitive.Title data-slot="drawer-title" class="cn-drawer-title">
 						{title}
