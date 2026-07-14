@@ -123,6 +123,24 @@ test("drawer uses a full-width framed surface with a draggable close handle", as
 	assert.match(drawer, /<DrawerCreateHandle\s*\/>/);
 });
 
+test("form preview validates email and exposes the invalid input state", async () => {
+	const [renderer, examples, input, theme] = await Promise.all([
+		readFile("apps/www/src/lib/components/docs/component-preview-renderer.svelte", "utf8"),
+		readFile("apps/www/src/lib/docs/preview-examples.js", "utf8"),
+		readFile("packages/coss-svelte/src/components/Input.svelte", "utf8"),
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+	]);
+
+	assert.match(renderer, /formEmailInvalid\s*=\s*\$derived/);
+	assert.match(renderer, /novalidate\s+onsubmit=\{handleEmailSubmit\}/);
+	assert.match(renderer, /FieldError id="form-email-error">Please enter a valid email\.</);
+	assert.match(renderer, /aria-invalid=\{formEmailInvalid \? "true" : undefined\}/);
+	assert.match(examples, /FieldError id="form-email-error">Please enter a valid email\.</);
+	assert.match(input, /value\s*=\s*\$bindable\(\)/);
+	assert.match(input, /bind:value/);
+	assert.match(theme, /\.cn-input\[aria-invalid="true"\][\s\S]*border-color:/);
+});
+
 test("docs previews use component-specific snippets and adaptive preview shells", async () => {
 	const [docPage, previewTabs] = await Promise.all([
 		readFile("apps/www/src/lib/components/docs/component-doc-page.svelte", "utf8"),

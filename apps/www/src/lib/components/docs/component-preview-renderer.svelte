@@ -292,9 +292,20 @@ let projectName = $state("");
 let projectFramework = $state("next");
 let projectSubmitted = $state(false);
 
+let formEmail = $state("");
+let formEmailSubmitted = $state(false);
+let formEmailInvalid = $derived(
+	formEmailSubmitted && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formEmail)
+);
+
 function handleProjectSubmit(event: SubmitEvent) {
 	event.preventDefault();
 	projectSubmitted = true;
+}
+
+function handleEmailSubmit(event: SubmitEvent) {
+	event.preventDefault();
+	formEmailSubmitted = true;
 }
 
 const fruitOptions = [
@@ -649,12 +660,24 @@ const toolbarFonts = [
 			</Field>
 		</Fieldset>
 	{:else if slug === "form"}
-		<Form class="w-full max-w-64">
-			<Field>
+		<Form class="w-full max-w-64" novalidate onsubmit={handleEmailSubmit}>
+			<Field data-invalid={formEmailInvalid ? "true" : undefined}>
 				<FieldLabel for="form-email">Email</FieldLabel>
-				<Input id="form-email" name="email" placeholder="you@example.com" type="email" />
+				<Input
+					id="form-email"
+					bind:value={formEmail}
+					name="email"
+					placeholder="you@example.com"
+					type="email"
+					required
+					aria-invalid={formEmailInvalid ? "true" : undefined}
+					aria-describedby={formEmailInvalid ? "form-email-error" : undefined}
+				/>
+				{#if formEmailInvalid}
+					<FieldError id="form-email-error">Please enter a valid email.</FieldError>
+				{/if}
 			</Field>
-			<Button type="button" class="w-full">Submit</Button>
+			<Button type="submit" class="w-full">Submit</Button>
 		</Form>
 	{:else if slug === "frame"}
 		<Frame class="w-full max-w-sm">

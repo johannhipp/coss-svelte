@@ -1687,6 +1687,22 @@ textarea {
 	box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 24%, transparent);
 }
 
+.cn-input[aria-invalid="true"],
+.cn-textarea[aria-invalid="true"],
+.cn-select[aria-invalid="true"],
+.cn-select-trigger[aria-invalid="true"] {
+	border-color: color-mix(in srgb, var(--destructive) 36%, transparent);
+	box-shadow: none;
+}
+
+.cn-input[aria-invalid="true"]:focus,
+.cn-textarea[aria-invalid="true"]:focus,
+.cn-select[aria-invalid="true"]:focus,
+.cn-select-trigger[aria-invalid="true"]:focus-visible {
+	border-color: var(--destructive-foreground);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 16%, transparent);
+}
+
 @media (min-width: 640px) {
 	.cn-input,
 	.cn-select,

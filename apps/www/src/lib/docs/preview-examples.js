@@ -535,15 +535,39 @@ ${scriptClose}
 	</Field>
 </Fieldset>`,
 	form: `${scriptOpen}
-	import { Button, Field, FieldLabel, Form, Input } from "coss-svelte";
+	import { Button, Field, FieldError, FieldLabel, Form, Input } from "coss-svelte";
+
+	let formEmail = $state("");
+	let formEmailSubmitted = $state(false);
+	let formEmailInvalid = $derived(
+		formEmailSubmitted && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(formEmail),
+	);
+
+	function handleEmailSubmit(event) {
+		event.preventDefault();
+		formEmailSubmitted = true;
+	}
 ${scriptClose}
 
-<Form class="w-full max-w-64">
-	<Field>
+
+<Form class="w-full max-w-64" novalidate onsubmit={handleEmailSubmit}>
+	<Field data-invalid={formEmailInvalid ? "true" : undefined}>
 		<FieldLabel for="form-email">Email</FieldLabel>
-		<Input id="form-email" name="email" placeholder="you@example.com" type="email" />
+		<Input
+			id="form-email"
+			bind:value={formEmail}
+			name="email"
+			placeholder="you@example.com"
+			type="email"
+			required
+			aria-invalid={formEmailInvalid ? "true" : undefined}
+			aria-describedby={formEmailInvalid ? "form-email-error" : undefined}
+		/>
+		{#if formEmailInvalid}
+			<FieldError id="form-email-error">Please enter a valid email.</FieldError>
+		{/if}
 	</Field>
-	<Button type="button" class="w-full">Submit</Button>
+	<Button type="submit" class="w-full">Submit</Button>
 </Form>`,
 	frame: `${scriptOpen}
 	import { Frame, FrameDescription, FrameFooter, FrameHeader, FramePanel, FrameTitle } from "coss-svelte";
