@@ -407,9 +407,11 @@ ${scriptClose}
 </CommandDialog>`,
 	"date-picker": `${scriptOpen}
 	import { DatePicker } from "coss-svelte";
+
+	let selectedDate = $state();
 ${scriptClose}
 
-<DatePicker label="Pick a date" class="cn-date-picker-demo" />`,
+<DatePicker bind:value={selectedDate} label="Pick a date" class="cn-date-picker-demo" />`,
 	dialog: `${scriptOpen}
 	import {
 		Button,

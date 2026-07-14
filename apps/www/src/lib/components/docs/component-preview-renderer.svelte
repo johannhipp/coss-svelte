@@ -273,6 +273,7 @@ type SliderSnippet = {
 
 let { slug }: { slug: string } = $props();
 let calendarPreviewDate = $state(today(getLocalTimeZone()));
+let datePickerPreviewValue = $state();
 let commandDialogOpen = $state(false);
 
 const basicOptions = [
@@ -575,7 +576,11 @@ const toolbarFonts = [
 			</CommandDialogPopup>
 		</CommandDialog>
 	{:else if slug === "date-picker"}
-		<DatePicker label="Pick a date" class="cn-date-picker-demo" />
+		<DatePicker
+			bind:value={datePickerPreviewValue}
+			label="Pick a date"
+			class="cn-date-picker-demo"
+		/>
 	{:else if slug === "dialog"}
 		<Dialog>
 			<DialogTrigger>Open Dialog</DialogTrigger>

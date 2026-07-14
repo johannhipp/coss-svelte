@@ -70,6 +70,25 @@ test("command dialog keeps COSS-style top and bottom bands", async () => {
 	);
 });
 
+test("date picker trigger formats the selected date and reuses calendar states", async () => {
+	const [datePicker, renderer, examples, theme] = await Promise.all([
+		readFile("packages/coss-svelte/src/components/DatePicker.svelte", "utf8"),
+		readFile("apps/www/src/lib/components/docs/component-preview-renderer.svelte", "utf8"),
+		readFile("apps/www/src/lib/docs/preview-examples.js", "utf8"),
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+	]);
+
+	assert.match(datePicker, /dateFormatter/);
+	assert.match(datePicker, /dateLabel\s*=\s*\$derived\(formatDateValue\(value\)\s*\|\|\s*label\)/);
+	assert.match(datePicker, /<span class="cn-date-picker-label">\{dateLabel\}<\/span>/);
+	assert.match(renderer, /datePickerPreviewValue\s*=\s*\$state\(\)/);
+	assert.match(renderer, /<DatePicker[\s\S]*bind:value=\{datePickerPreviewValue\}/);
+	assert.match(examples, /let selectedDate = \$state\(\)/);
+	assert.match(examples, /<DatePicker bind:value=\{selectedDate\}/);
+	assert.match(theme, /\.cn-calendar-day\[data-outside-month\]/);
+	assert.match(theme, /\.cn-calendar-cell\[data-today\]::after/);
+});
+
 test("docs previews use component-specific snippets and adaptive preview shells", async () => {
 	const [docPage, previewTabs] = await Promise.all([
 		readFile("apps/www/src/lib/components/docs/component-doc-page.svelte", "utf8"),
