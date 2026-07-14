@@ -341,6 +341,8 @@ test("dropdown item text matches corresponding control text size", async () => {
 
 test("combobox input includes the COSS trigger affordance by default", async () => {
 	const source = await readFile("packages/coss-svelte/src/components/ComboboxInput.svelte", "utf8");
+	const rootSource = await readFile("packages/coss-svelte/src/components/Combobox.svelte", "utf8");
+	const themeSource = await readFile("packages/theme/src/style-coss.css", "utf8");
 	const previewRenderer = await readFile(
 		"apps/www/src/lib/components/docs/component-preview-renderer.svelte",
 		"utf8"
@@ -352,9 +354,25 @@ test("combobox input includes the COSS trigger affordance by default", async () 
 		/ComboboxPrimitive\.Trigger/,
 		"ComboboxInput uses Bits UI trigger for the trigger affordance"
 	);
+	assert.match(source, /data-slot="combobox-icon"/, "ComboboxInput renders the chevrons icon slot");
+	assert.match(
+		rootSource,
+		/target\.matches\('\[data-slot="combobox-input"\]'\)/,
+		"Combobox opens when its input is clicked"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-combobox-popup\s*\{[^}]*width:\s*var\(--bits-combobox-anchor-width\);[^}]*min-width:\s*var\(--bits-combobox-anchor-width\);/s,
+		"Combobox popup should match the input width"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-combobox-popup:has\(\.cn-combobox-item\)\s*>\s*\.cn-combobox-empty\s*\{[^}]*display:\s*none;/s,
+		"Combobox empty state should be hidden when items are rendered"
+	);
 	assert.match(
 		previewRenderer,
-		/<ComboboxInput[^>]+placeholder="Select a item…"/,
+		/<ComboboxInput[^>]+placeholder="Select an item\.\.\."/,
 		"docs preview mirrors the COSS combobox particle input"
 	);
 });

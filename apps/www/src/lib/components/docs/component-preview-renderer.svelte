@@ -507,7 +507,7 @@ const toolbarFonts = [
 		</Collapsible>
 	{:else if slug === "combobox"}
 		<Combobox options={fruitOptions}>
-			<ComboboxInput aria-label="Select a item" placeholder="Select a item…" />
+			<ComboboxInput aria-label="Select an item" placeholder="Select an item..." />
 			<ComboboxPopup>
 				<ComboboxEmpty>No items found.</ComboboxEmpty>
 				<ComboboxList>

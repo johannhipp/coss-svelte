@@ -669,8 +669,7 @@ textarea {
 .cn-frame,
 .cn-group,
 .cn-autocomplete,
-.cn-command,
-.cn-combobox {
+.cn-command {
 	border: 1px solid var(--cn-border);
 	border-radius: var(--radius-xl);
 	background: var(--cn-surface);
@@ -684,7 +683,6 @@ textarea {
 .cn-group,
 .cn-autocomplete,
 .cn-command,
-.cn-combobox,
 .cn-preview-card {
 	padding: 0;
 }
@@ -2614,10 +2612,8 @@ textarea {
 	background: var(--border);
 }
 
-.cn-combobox-control {
-	display: flex;
-	gap: 0.35rem;
-	align-items: center;
+.cn-combobox {
+	width: min(100%, 32rem);
 }
 
 .cn-kbd-group {
@@ -2637,12 +2633,17 @@ textarea {
 
 .cn-autocomplete-input-group,
 .cn-combobox-input-group {
+	position: relative;
 	display: flex;
 	align-items: stretch;
 	width: 100%;
 }
 
 .cn-autocomplete-input-group {
+	max-width: 32rem;
+}
+
+.cn-combobox-input-group {
 	max-width: 32rem;
 }
 
@@ -2665,6 +2666,41 @@ textarea {
 
 .cn-autocomplete-input {
 	max-width: 32rem;
+}
+
+.cn-combobox-input-control {
+	position: relative;
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	align-items: center;
+	border: 1px solid var(--input);
+	border-radius: var(--radius-lg);
+	background: var(--background);
+	color: var(--foreground);
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+	transition:
+		border-color 140ms ease,
+		box-shadow 140ms ease;
+}
+
+.cn-combobox-input-control:focus-within {
+	border-color: var(--ring);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 24%, transparent);
+}
+
+.cn-combobox-input-control .cn-combobox-input {
+	min-width: 0;
+	border: 0;
+	border-radius: inherit;
+	background: transparent;
+	box-shadow: none;
+	padding-inline-end: 2.5rem;
+}
+
+.cn-combobox-input-control .cn-combobox-input:focus {
+	border-color: transparent;
+	box-shadow: none;
 }
 
 .cn-autocomplete-input-group .cn-autocomplete-input,
@@ -2701,12 +2737,59 @@ textarea {
 	box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
 }
 
+.cn-combobox-input-trigger {
+	position: absolute;
+	inset-inline-end: 0.125rem;
+	top: 50%;
+	display: inline-flex;
+	width: 1.75rem;
+	height: 1.75rem;
+	min-height: 1.75rem;
+	align-items: center;
+	justify-content: center;
+	transform: translateY(-50%);
+	border: 1px solid transparent;
+	border-radius: var(--radius-md);
+	background: transparent;
+	color: var(--muted-foreground);
+	padding: 0;
+	cursor: pointer;
+	box-shadow: none;
+	transition:
+		background-color 140ms ease,
+		color 140ms ease;
+}
+
+.cn-combobox-input-trigger:hover {
+	background: var(--accent);
+	color: var(--accent-foreground);
+}
+
+.cn-combobox-input-trigger:focus-visible {
+	border-color: var(--ring);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 24%, transparent);
+	outline: none;
+}
+
+.cn-combobox-icon {
+	display: inline-flex;
+	width: 1rem;
+	height: 1rem;
+	align-items: center;
+	justify-content: center;
+}
+
+.cn-combobox-icon svg {
+	display: block;
+	width: 1rem;
+	height: 1rem;
+}
+
 @media (min-width: 640px) {
 	.cn-autocomplete-input,
 	.cn-combobox-input,
 	.cn-command-input,
 	.cn-autocomplete-trigger,
-	.cn-combobox-input-trigger,
 	.cn-combobox-trigger {
 		height: 1.875rem;
 		min-height: 1.875rem;
@@ -2738,7 +2821,18 @@ textarea {
 	cursor: pointer;
 }
 
+.cn-combobox-popup {
+	width: var(--bits-combobox-anchor-width);
+	min-width: var(--bits-combobox-anchor-width);
+	overflow: hidden;
+	overscroll-behavior: contain;
+}
+
 .cn-autocomplete-popup:has(.cn-autocomplete-item) > .cn-autocomplete-empty {
+	display: none;
+}
+
+.cn-combobox-popup:has(.cn-combobox-item) > .cn-combobox-empty {
 	display: none;
 }
 
@@ -2762,6 +2856,12 @@ textarea {
 	overflow-y: auto;
 	overscroll-behavior: contain;
 	cursor: pointer;
+}
+
+.cn-combobox-list {
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
 }
 
 .cn-command-list {

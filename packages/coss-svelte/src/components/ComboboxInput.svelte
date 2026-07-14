@@ -14,19 +14,36 @@ let triggerRest = $derived.by(() => {
 
 {#if showTrigger}
 	<span data-slot="combobox-input-group" class="cn-combobox-input-group">
-		<ComboboxPrimitive.Input
-			data-slot="combobox-input"
-			class={cn("cn-combobox-input", className)}
-			{...rest}
-		/>
-		<ComboboxPrimitive.Trigger
-			data-slot="combobox-trigger"
-			class={cn("cn-combobox-input-trigger", triggerClass)}
-			aria-label={triggerLabel}
-			{...triggerRest}
-		>
-			<span aria-hidden="true">v</span>
-		</ComboboxPrimitive.Trigger>
+		<span data-slot="combobox-input-control" class="cn-combobox-input-control">
+			<ComboboxPrimitive.Input
+				data-slot="combobox-input"
+				class={cn("cn-combobox-input", className)}
+				{...rest}
+			/>
+			<ComboboxPrimitive.Trigger
+				data-slot="combobox-trigger"
+				class={cn("cn-combobox-input-trigger", triggerClass)}
+				aria-label={triggerLabel}
+				{...triggerRest}
+			>
+				<span data-slot="combobox-icon" class="cn-combobox-icon" aria-hidden="true">
+					<svg
+						aria-hidden="true"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="m7 15 5 5 5-5" />
+						<path d="m7 9 5-5 5 5" />
+					</svg>
+				</span>
+			</ComboboxPrimitive.Trigger>
+		</span>
 	</span>
 {:else}
 	<ComboboxPrimitive.Input
