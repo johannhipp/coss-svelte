@@ -26,6 +26,7 @@ This repository is intended to become a publishable Svelte component library. Ke
 - Follow the [repository commit standards](docs/commit-standards.md), based on Conventional Commits 1.0.0.
 - All contributors, including coding agents, must use Conventional Commit messages when creating commits.
 - Agents must read `docs/commit-standards.md` before committing and keep unrelated changes in separate commits.
+- Use the repository commit template at `.gitmessage.txt` when composing commit messages (`git config commit.template .gitmessage.txt`).
 
 ## Verification Expectations
 

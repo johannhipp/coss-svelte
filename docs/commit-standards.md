@@ -57,3 +57,15 @@ feat!: rename the public registry command
 
 Agents must read this guide before committing, choose the most specific applicable type, and avoid
 combining unrelated changes in one commit.
+
+## Commit template
+
+The repository includes a reusable [commit template](../.gitmessage.txt). Configure it once per
+local checkout:
+
+```sh
+git config commit.template .gitmessage.txt
+```
+
+The template provides prompts for the Conventional Commit subject, rationale, changes, and
+verification. Remove unused sections before committing.
