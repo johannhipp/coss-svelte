@@ -115,6 +115,7 @@ const nativeHelperParts = {
 
 const defaultPreviewDirectPrimitiveParts = {
 	...directPrimitiveParts,
+	Avatar: ["AvatarFallback"],
 	Autocomplete: ["AutocompleteInput", "AutocompleteItem", "AutocompleteList", "AutocompletePopup"],
 	Combobox: ["ComboboxInput", "ComboboxItem", "ComboboxList", "ComboboxPopup"],
 	OTPField: [],

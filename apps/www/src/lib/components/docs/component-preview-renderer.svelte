@@ -1,5 +1,5 @@
 <script lang="ts">
-import { CalendarDate } from "@internationalized/date";
+import { getLocalTimeZone, today } from "@internationalized/date";
 import {
 	AlignCenter,
 	AlignLeft,
@@ -58,7 +58,6 @@ import {
 	AutocompletePopup,
 	Avatar,
 	AvatarFallback,
-	AvatarImage,
 	Badge,
 	Breadcrumb,
 	Button,
@@ -272,7 +271,7 @@ type SliderSnippet = {
 };
 
 let { slug }: { slug: string } = $props();
-let calendarPreviewDate = $state(new CalendarDate(2026, 6, 12));
+let calendarPreviewDate = $state(today(getLocalTimeZone()));
 let commandDialogOpen = $state(false);
 
 const basicOptions = [
@@ -292,6 +291,13 @@ const fruitOptions = [
 	{ label: "Kiwi", value: "kiwi" },
 	{ label: "Peach", value: "peach" },
 	{ label: "Pear", value: "pear" },
+];
+
+const breadcrumbItems = [
+	{ label: "Home", href: "/docs/introduction" },
+	{ ellipsis: true },
+	{ label: "Components", href: "/docs/components/badge" },
+	{ label: "Breadcrumb" },
 ];
 
 const commandGroups = [
@@ -393,14 +399,13 @@ const toolbarFonts = [
 			</AutocompletePopup>
 		</Autocomplete>
 	{:else if slug === "avatar"}
-		<Avatar>
-			<AvatarImage alt="COSS" src="https://github.com/cosscom.png" />
-			<AvatarFallback>CS</AvatarFallback>
+		<Avatar aria-label="coss-svelte">
+			<AvatarFallback>coss</AvatarFallback>
 		</Avatar>
 	{:else if slug === "badge"}
 		<Badge>Badge</Badge>
 	{:else if slug === "breadcrumb"}
-		<Breadcrumb items={["Home", "Library", "Components"]} />
+		<Breadcrumb items={breadcrumbItems} />
 	{:else if slug === "button"}
 		<Button>Button</Button>
 	{:else if slug === "calendar"}
@@ -797,11 +802,11 @@ const toolbarFonts = [
 		</Popover>
 	{:else if slug === "preview-card"}
 		<PreviewCard>
-			<PreviewCardTrigger href="/docs/components/preview-card">coss.com/ui</PreviewCardTrigger>
+			<PreviewCardTrigger href="/docs/components/preview-card">coss-svelte</PreviewCardTrigger>
 			<PreviewCardPopup>
 				<div class="cn-preview-card-demo">
 					<div class="cn-preview-card-main">
-						<h4>coss.com/ui</h4>
+						<h4>coss-svelte</h4>
 						<p>Beautifully designed components that you can copy and paste into your apps.</p>
 					</div>
 					<div class="cn-preview-card-meta">

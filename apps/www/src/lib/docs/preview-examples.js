@@ -120,12 +120,11 @@ ${scriptClose}
 	</AutocompletePopup>
 </Autocomplete>`,
 	avatar: `${scriptOpen}
-	import { Avatar, AvatarFallback, AvatarImage } from "coss-svelte";
+	import { Avatar, AvatarFallback } from "coss-svelte";
 ${scriptClose}
 
-<Avatar>
-	<AvatarImage alt="COSS" src="https://github.com/cosscom.png" />
-	<AvatarFallback>CS</AvatarFallback>
+<Avatar aria-label="coss-svelte">
+	<AvatarFallback>coss</AvatarFallback>
 </Avatar>`,
 	badge: `${scriptOpen}
 	import { Badge } from "coss-svelte";
@@ -134,19 +133,26 @@ ${scriptClose}
 <Badge>Badge</Badge>`,
 	breadcrumb: `${scriptOpen}
 	import { Breadcrumb } from "coss-svelte";
+
+	const breadcrumbItems = [
+		{ label: "Home", href: "/docs/introduction" },
+		{ ellipsis: true },
+		{ label: "Components", href: "/docs/components/badge" },
+		{ label: "Breadcrumb" },
+	];
 ${scriptClose}
 
-<Breadcrumb items={["Home", "Library", "Components"]} />`,
+<Breadcrumb items={breadcrumbItems} />`,
 	button: `${scriptOpen}
 	import { Button } from "coss-svelte";
 ${scriptClose}
 
 <Button>Button</Button>`,
 	calendar: `${scriptOpen}
-	import { CalendarDate } from "@internationalized/date";
+	import { getLocalTimeZone, today } from "@internationalized/date";
 	import { Calendar } from "coss-svelte";
 
-	let calendarPreviewDate = $state(new CalendarDate(2026, 6, 12));
+	let calendarPreviewDate = $state(today(getLocalTimeZone()));
 ${scriptClose}
 
 <Calendar bind:value={calendarPreviewDate} />`,
@@ -708,11 +714,11 @@ ${scriptClose}
 ${scriptClose}
 
 <PreviewCard>
-	<PreviewCardTrigger href="/docs/components/preview-card">coss.com/ui</PreviewCardTrigger>
+	<PreviewCardTrigger href="/docs/components/preview-card">coss-svelte</PreviewCardTrigger>
 	<PreviewCardPopup>
 		<div class="cn-preview-card-demo">
 			<div class="cn-preview-card-main">
-				<h4>coss.com/ui</h4>
+				<h4>coss-svelte</h4>
 				<p>Beautifully designed components that you can copy and paste into your apps.</p>
 			</div>
 			<div class="cn-preview-card-meta">

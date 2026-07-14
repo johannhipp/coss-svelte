@@ -1,6 +1,8 @@
 <script>
 import { Combobox as ComboboxPrimitive } from "bits-ui";
 import { cn } from "../utils.js";
+import AutocompleteList from "./AutocompleteList.svelte";
+import AutocompletePopup from "./AutocompletePopup.svelte";
 
 let {
 	type = "single",
@@ -32,23 +34,21 @@ let items = $derived(
 				class="cn-autocomplete-input"
 				{placeholder}
 			/>
-			<ComboboxPrimitive.Portal>
-				<ComboboxPrimitive.Content data-slot="autocomplete-popup" class="cn-autocomplete-popup">
-					<ComboboxPrimitive.Viewport data-slot="autocomplete-list" class="cn-autocomplete-list">
-						{#each items as item}
-							<ComboboxPrimitive.Item
-								data-slot="autocomplete-item"
-								class="cn-autocomplete-item"
-								value={item.value}
-								label={item.label}
-								disabled={item.disabled}
-							>
-								{item.label}
-							</ComboboxPrimitive.Item>
-						{/each}
-					</ComboboxPrimitive.Viewport>
-				</ComboboxPrimitive.Content>
-			</ComboboxPrimitive.Portal>
+			<AutocompletePopup>
+				<AutocompleteList>
+					{#each items as item}
+						<ComboboxPrimitive.Item
+							data-slot="autocomplete-item"
+							class="cn-autocomplete-item"
+							value={item.value}
+							label={item.label}
+							disabled={item.disabled}
+						>
+							{item.label}
+						</ComboboxPrimitive.Item>
+					{/each}
+				</AutocompleteList>
+			</AutocompletePopup>
 		</div>
 	{/if}
 </ComboboxPrimitive.Root>
