@@ -141,6 +141,32 @@ test("form preview validates email and exposes the invalid input state", async (
 	assert.match(theme, /\.cn-input\[aria-invalid="true"\][\s\S]*border-color:/);
 });
 
+test("group previews use one connected control surface and destructive menu items", async () => {
+	const [group, menuItem, renderer, examples, theme] = await Promise.all([
+		readFile("packages/coss-svelte/src/components/Group.svelte", "utf8"),
+		readFile("packages/coss-svelte/src/components/MenuItem.svelte", "utf8"),
+		readFile("apps/www/src/lib/components/docs/component-preview-renderer.svelte", "utf8"),
+		readFile("apps/www/src/lib/docs/preview-examples.js", "utf8"),
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+	]);
+
+	assert.match(group, /role="group"/);
+	assert.match(menuItem, /data-variant=\{variant\}/);
+	assert.match(renderer, /<Group aria-label="File actions">[\s\S]*<GroupSeparator \/>/);
+	assert.match(renderer, /<MenuItem variant="destructive">[\s\S]*Delete/);
+	assert.match(examples, /<MenuItem variant="destructive"><Trash/);
+	assert.match(theme, /\.cn-group\s*{[\s\S]*align-items:\s*stretch[\s\S]*gap:\s*0/);
+	assert.match(
+		theme,
+		/\.cn-group > \[data-slot\]:not\(\[data-slot="separator"\]\):has\(~ \[data-slot\]\)/
+	);
+	assert.match(theme, /\.cn-group-separator\s*{[\s\S]*min-height:\s*100%[\s\S]*margin:\s*0/);
+	assert.match(
+		theme,
+		/\.cn-menu-item\[data-variant="destructive"\]\s*{[\s\S]*color:\s*var\(--destructive-foreground\)/
+	);
+});
+
 test("docs previews use component-specific snippets and adaptive preview shells", async () => {
 	const [docPage, previewTabs] = await Promise.all([
 		readFile("apps/www/src/lib/components/docs/component-doc-page.svelte", "utf8"),

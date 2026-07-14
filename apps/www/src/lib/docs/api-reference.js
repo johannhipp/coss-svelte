@@ -61,6 +61,7 @@ const customPropsByElement = {
 	InputGroupAddon: ["align"],
 	InputGroupInput: ["type"],
 	Menu: ["open", "items", "label"],
+	MenuItem: ["variant"],
 	MenuSub: ["open"],
 	Meter: ["value", "min", "max", "label", "style"],
 	OTPField: ["value", "length"],

@@ -722,12 +722,44 @@ textarea {
 
 .cn-group {
 	display: flex;
+	align-items: stretch;
 	width: fit-content;
 	border: 0;
 	border-radius: 0;
 	background: transparent;
 	box-shadow: none;
+	gap: 0;
 	padding: 0;
+}
+
+.cn-group > [data-slot]:not([data-slot="group"]):not([data-slot="separator"]) {
+	position: relative;
+	border-radius: 0;
+}
+
+.cn-group > [data-slot]:first-child:not([data-slot="separator"]),
+.cn-group > [data-slot="group"]:first-child > [data-slot]:first-child:not([data-slot="separator"]) {
+	border-start-start-radius: var(--radius-lg);
+	border-end-start-radius: var(--radius-lg);
+}
+
+.cn-group > [data-slot]:last-child:not([data-slot="separator"]),
+.cn-group > [data-slot="group"]:last-child > [data-slot]:last-child:not([data-slot="separator"]) {
+	border-start-end-radius: var(--radius-lg);
+	border-end-end-radius: var(--radius-lg);
+}
+
+.cn-group > [data-slot]:not([data-slot="separator"]):has(~ [data-slot]) {
+	border-inline-end: 0;
+}
+
+.cn-group > [data-slot] ~ [data-slot]:not([data-slot="separator"]) {
+	border-inline-start: 0;
+}
+
+.cn-group > [data-slot]:not([data-slot="separator"]):hover,
+.cn-group > [data-slot]:not([data-slot="separator"]):focus-visible {
+	z-index: 1;
 }
 
 .cn-card-header,
@@ -826,7 +858,14 @@ textarea {
 	box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
 }
 
-.cn-group-separator,
+.cn-group-separator {
+	align-self: stretch;
+	width: 1px;
+	min-height: 100%;
+	margin: 0;
+	background: var(--input);
+}
+
 .cn-toolbar-separator {
 	align-self: stretch;
 	width: 1px;
@@ -3029,7 +3068,7 @@ textarea {
 }
 
 .cn-menu-item[data-variant="destructive"] {
-	color: var(--destructive);
+	color: var(--destructive-foreground);
 }
 
 .cn-menu-checkbox-item[data-variant="switch"] {
@@ -3048,6 +3087,11 @@ textarea {
 .cn-menu-sub-trigger:hover {
 	background: var(--accent);
 	color: var(--accent-foreground);
+}
+
+.cn-menu-item[data-variant="destructive"][data-highlighted],
+.cn-menu-item[data-variant="destructive"]:hover {
+	color: var(--destructive-foreground);
 }
 
 .cn-autocomplete-item[data-state="checked"],

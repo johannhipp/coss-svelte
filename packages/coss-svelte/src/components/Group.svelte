@@ -10,6 +10,7 @@ let { class: className = "", children, ...rest } = $props();
 	dataSlot="group"
 	class={cn("cn-group", className)}
 	{...rest}
+	role="group"
 >
 	{@render children?.()}
 </Block>
