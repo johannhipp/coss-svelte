@@ -17,6 +17,7 @@ import {
 	Ellipsis,
 	Files,
 	Film,
+	Info,
 	Italic,
 	Pause,
 	Percent,
@@ -280,6 +281,21 @@ const basicOptions = [
 	{ label: "Astro", value: "astro" },
 ];
 
+const projectFrameworkOptions = [
+	{ label: "Next.js", value: "next" },
+	{ label: "SvelteKit", value: "sveltekit" },
+	{ label: "Astro", value: "astro" },
+];
+
+let projectName = $state("");
+let projectFramework = $state("next");
+let projectSubmitted = $state(false);
+
+function handleProjectSubmit(event: SubmitEvent) {
+	event.preventDefault();
+	projectSubmitted = true;
+}
+
 const fruitOptions = [
 	{ label: "Apple", value: "apple" },
 	{ label: "Banana", value: "banana" },
@@ -411,18 +427,53 @@ const toolbarFonts = [
 	{:else if slug === "calendar"}
 		<Calendar bind:value={calendarPreviewDate} />
 	{:else if slug === "card"}
-		<Card class="w-full max-w-sm">
-			<CardHeader>
-				<CardTitle>Card</CardTitle>
-				<CardDescription>A compact content surface.</CardDescription>
-			</CardHeader>
-			<CardPanel>
-				<p>Panel content keeps body text separate from actions.</p>
-			</CardPanel>
-			<CardFooter>
-				<Button size="sm" variant="secondary">Continue</Button>
-			</CardFooter>
-		</Card>
+		<form class="w-full max-w-sm" onsubmit={handleProjectSubmit}>
+			<Card class="w-full">
+				<CardHeader>
+					<CardTitle>Create project</CardTitle>
+					<CardDescription>Deploy your new project in one-click.</CardDescription>
+				</CardHeader>
+				<CardPanel class="gap-4">
+					<Field>
+						<FieldLabel for="card-project-name">Name</FieldLabel>
+						<Input
+							id="card-project-name"
+							bind:value={projectName}
+							name="name"
+							placeholder="Name of your project"
+							required
+							type="text"
+						/>
+					</Field>
+					<Field>
+						<FieldLabel for="card-project-framework">Framework</FieldLabel>
+						<Select
+							bind:value={projectFramework}
+							name="framework"
+							options={projectFrameworkOptions}
+						>
+							<SelectTrigger id="card-project-framework" aria-label="Framework">
+								<SelectValue placeholder="Choose a framework" />
+							</SelectTrigger>
+							<SelectPopup>
+								<SelectViewport>
+									{#each projectFrameworkOptions as option}
+										<SelectItem value={option.value} label={option.label}>{option.label}</SelectItem>
+									{/each}
+								</SelectViewport>
+							</SelectPopup>
+						</Select>
+					</Field>
+				</CardPanel>
+				<CardFooter class="flex-col items-stretch gap-4">
+					<Button class="w-full" type="submit">Deploy</Button>
+					<p class="m-0 flex items-center gap-2 text-muted-foreground text-sm">
+						<Info aria-hidden="true" class="size-4 shrink-0" />
+						{projectSubmitted ? "Project is ready to deploy." : "This will take a few seconds to complete."}
+					</p>
+				</CardFooter>
+			</Card>
+		</form>
 	{:else if slug === "checkbox"}
 		<Checkbox label="Accept terms and conditions" />
 	{:else if slug === "checkbox-group"}
