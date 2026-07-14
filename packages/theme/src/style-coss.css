@@ -2106,6 +2106,13 @@ textarea {
 	.cn-select-popup {
 		transition-duration: 1ms;
 	}
+
+	.cn-accordion-content,
+	.cn-collapsible-content,
+	.cn-accordion-indicator,
+	.cn-collapsible-trigger svg {
+		transition-duration: 1ms;
+	}
 }
 
 .cn-kbd {
@@ -3300,8 +3307,9 @@ textarea {
 	overflow: hidden;
 	padding-top: 0;
 	transition:
-		grid-template-rows 180ms ease,
-		padding-top 180ms ease;
+		grid-template-rows 200ms var(--ease-out),
+		padding-top 200ms var(--ease-out);
+	will-change: grid-template-rows;
 }
 
 .cn-collapsible-content[data-state="open"],
@@ -3310,7 +3318,7 @@ textarea {
 	padding-top: 0.5rem;
 }
 
-.cn-collapsible-content > * {
+.cn-collapsible-content-inner {
 	min-height: 0;
 }
 

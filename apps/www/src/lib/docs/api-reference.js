@@ -44,6 +44,7 @@ const customPropsByElement = {
 	Checkbox: ["id", "checked", "indeterminate", "label"],
 	CheckboxGroup: ["label"],
 	Collapsible: ["open", "title"],
+	CollapsibleContent: ["forceMount"],
 	Combobox: ["type", "value", "open", "options", "placeholder"],
 	ComboboxInput: ["showTrigger", "triggerProps"],
 	Command: ["value", "items", "placeholder", "label"],
@@ -149,7 +150,7 @@ const propMetadata = {
 	},
 	forceMount: {
 		type: "boolean",
-		description: "Keeps the content mounted when the accordion item is closed.",
+		description: "Keeps content mounted while closed so transitions can complete.",
 	},
 	href: {
 		type: "string",

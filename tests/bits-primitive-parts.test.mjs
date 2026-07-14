@@ -432,6 +432,54 @@ test("accordion content stays mounted for responsive height animation", async ()
 	);
 });
 
+test("collapsible content stays mounted for reversible panel animation", async () => {
+	const [rootSource, contentSource, themeSource] = await Promise.all([
+		readFile("packages/coss-svelte/src/components/Collapsible.svelte", "utf8"),
+		readFile("packages/coss-svelte/src/components/CollapsibleContent.svelte", "utf8"),
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+	]);
+
+	assert.match(
+		contentSource,
+		/forceMount\s*=\s*true/,
+		"CollapsibleContent should stay mounted by default so closing can animate"
+	);
+	assert.match(
+		contentSource,
+		/<CollapsiblePrimitive\.Content[^>]*\{forceMount\}/s,
+		"CollapsibleContent should forward forceMount to Bits UI"
+	);
+
+	for (const source of [rootSource, contentSource]) {
+		assert.match(
+			source,
+			/cn-collapsible-content-inner/,
+			"Collapsible content should wrap slotted content in an animatable inner row"
+		);
+	}
+
+	assert.match(
+		themeSource,
+		/\.cn-collapsible-content\s*\{[^}]*grid-template-rows 200ms var\(--ease-out\)/s,
+		"collapsible panel animation should use the shared 200ms ease-out curve"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-collapsible-content\[data-state="open"\]/,
+		"collapsible content should expose an open layout state"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-collapsible-content\[data-state="open"\][\s\S]*?grid-template-rows: 1fr/,
+		"collapsible content should expand to its intrinsic height"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-collapsible-content,\n\t\.cn-accordion-indicator,\n\t\.cn-collapsible-trigger svg/s,
+		"reduced-motion styles should cover collapsible panel and trigger motion"
+	);
+});
+
 test("select trigger includes the COSS icon affordance", async () => {
 	const [rootSource, triggerSource, themeSource] = await Promise.all([
 		readFile("packages/coss-svelte/src/components/Select.svelte", "utf8"),
