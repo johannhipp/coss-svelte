@@ -89,6 +89,20 @@ test("date picker trigger formats the selected date and reuses calendar states",
 	assert.match(theme, /\.cn-calendar-cell\[data-today\]::after/);
 });
 
+test("dialog uses a framed surface and separated muted action footer", async () => {
+	const theme = await readFile("packages/theme/src/style-coss.css", "utf8");
+
+	assert.match(theme, /\.cn-dialog\s*{[\s\S]*padding:\s*0;[\s\S]*overflow:\s*hidden/);
+	assert.match(theme, /\.cn-dialog::before\s*{[\s\S]*box-shadow:\s*0\s+1px\s+0\s+color-mix/);
+	assert.match(theme, /\.cn-dialog-header\s*{[\s\S]*padding:\s*1\.5rem\s+1\.5rem\s+0\.75rem/);
+	assert.match(
+		theme,
+		/\.cn-dialog-footer\s*{[\s\S]*border-top:\s*1px\s+solid\s+var\(--cn-border\)[\s\S]*background:\s*color-mix\(in\s+srgb,\s*var\(--muted\)\s+72%/
+	);
+	assert.match(theme, /\.cn-dialog-footer\s*{[\s\S]*padding:\s*1rem\s+1\.5rem/);
+	assert.match(theme, /\.cn-dialog-footer \.cn-dialog-close\s*{[\s\S]*border-color:\s*transparent/);
+});
+
 test("docs previews use component-specific snippets and adaptive preview shells", async () => {
 	const [docPage, previewTabs] = await Promise.all([
 		readFile("apps/www/src/lib/components/docs/component-doc-page.svelte", "utf8"),

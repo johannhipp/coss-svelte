@@ -991,6 +991,22 @@ textarea {
 	transform-origin: center;
 }
 
+.cn-dialog {
+	gap: 0;
+	padding: 0;
+	overflow: hidden;
+	isolation: isolate;
+}
+
+.cn-dialog::before {
+	position: absolute;
+	inset: 0;
+	border-radius: calc(var(--radius-xl) - 1px);
+	box-shadow: 0 1px 0 color-mix(in srgb, var(--foreground) 4%, transparent);
+	content: "";
+	pointer-events: none;
+}
+
 .cn-alert-dialog {
 	gap: 0;
 	width: min(36rem, calc(100vw - 2rem));
@@ -1036,6 +1052,10 @@ textarea {
 	gap: 0.5rem;
 }
 
+.cn-dialog-header {
+	padding: 1.5rem 1.5rem 0.75rem;
+}
+
 .cn-alert-dialog-header {
 	padding: 1.5rem 1.5rem 1.25rem;
 }
@@ -1045,6 +1065,15 @@ textarea {
 	display: flex;
 	flex-direction: column-reverse;
 	gap: 0.5rem;
+}
+
+.cn-dialog-footer {
+	align-items: center;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+	border-top: 1px solid var(--cn-border);
+	background: color-mix(in srgb, var(--muted) 72%, transparent);
+	padding: 1rem 1.5rem;
 }
 
 .cn-alert-dialog-footer {
@@ -1060,6 +1089,7 @@ textarea {
 .cn-dialog-panel {
 	display: grid;
 	gap: 1rem;
+	padding: 0.25rem 1.5rem;
 }
 
 @media (min-width: 640px) {
@@ -1103,6 +1133,16 @@ textarea {
 		color 140ms var(--ease-out),
 		box-shadow 140ms var(--ease-out),
 		transform 140ms var(--ease-out);
+}
+
+.cn-dialog-footer .cn-dialog-close {
+	border-color: transparent;
+	background: transparent;
+	box-shadow: none;
+}
+
+.cn-dialog-footer .cn-dialog-close:hover {
+	background: color-mix(in srgb, var(--muted) 80%, transparent);
 }
 
 .cn-dialog-trigger:active,
