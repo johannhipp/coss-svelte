@@ -50,7 +50,14 @@ pnpm release:check
 
 This repository uses [Conventional Commits 1.0.0](docs/commit-standards.md). Human contributors and
 coding agents must read and follow the commit guide before creating commits, including the required
-type prefix and breaking-change notation.
+type prefix and breaking-change notation. Use the repository commit template at `.gitmessage.txt`:
+
+```sh
+git config commit.template .gitmessage.txt
+```
+
+The template is a starting point; remove unused sections and keep unrelated changes in separate
+commits.
 
 ## Release Boundary
 

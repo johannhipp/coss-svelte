@@ -665,7 +665,7 @@
 		{
 			"name": "Tabs",
 			"title": "Tabs",
-			"description": "A navigation component for switching between different views or content panels.",
+			"description": "A component for toggling between related panels on the same page.",
 			"type": "registry:ui",
 			"categories": ["Layout & Navigation"],
 			"docs": "https://coss.com/ui/docs/components/tabs.md",

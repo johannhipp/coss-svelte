@@ -1,7 +1,7 @@
 {
 	"name": "Tabs",
 	"title": "Tabs",
-	"description": "A navigation component for switching between different views or content panels.",
+	"description": "A component for toggling between related panels on the same page.",
 	"type": "registry:ui",
 	"files": [
 		{

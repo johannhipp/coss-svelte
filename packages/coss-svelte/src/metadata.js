@@ -1200,7 +1200,7 @@ export const componentMetadata = Object.freeze({
 	},
 	Tabs: {
 		category: "Layout & Navigation",
-		description: "A navigation component for switching between different views or content panels.",
+		description: "A component for toggling between related panels on the same page.",
 		docsUrl: "https://coss.com/ui/docs/components/tabs.md",
 		hasLocalPrimitiveRef: true,
 		name: "Tabs",

@@ -1,0 +1,12 @@
+# <type>(<scope>): imperative description
+#
+# Explain why this change is needed and summarize the important impact.
+#
+# Changes:
+# -
+#
+# Verification:
+# -
+#
+# Use a Conventional Commit type such as feat, fix, docs, refactor, test,
+# build, ci, or chore. Remove unused sections before committing.
