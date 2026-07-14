@@ -236,7 +236,6 @@ $effect(() => {
 	<CommandDialogPopup class="docs-search-dialog">
 		<Command label="Search documentation" shouldFilter={false} class="docs-search-command">
 			<div class="docs-search-input-row">
-				<Search size={20} strokeWidth={2} class="docs-search-leading-icon" />
 				<CommandInput
 					id="docs-search-input"
 					bind:value={searchValue}

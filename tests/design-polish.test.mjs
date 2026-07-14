@@ -51,6 +51,25 @@ test("keyboard command dialog is explicitly instant", async () => {
 	);
 });
 
+test("command dialog keeps COSS-style top and bottom bands", async () => {
+	const theme = await readFile("packages/theme/src/style-coss.css", "utf8");
+
+	assert.match(theme, /\.cn-command-dialog-popup[\s\S]*width:\s*min\(36rem/);
+	assert.match(theme, /\.cn-command-dialog-popup[\s\S]*max-height:\s*min\(26\.25rem/);
+	assert.match(
+		theme,
+		/\.cn-command-dialog-popup(?::not\(\.docs-search-dialog\))?::before[\s\S]*background:\s*color-mix/
+	);
+	assert.match(
+		theme,
+		/\.cn-command-dialog-popup(?::not\(\.docs-search-dialog\))?\s*>\s*\.cn-command\s*>\s*\.cn-command-input-group[\s\S]*margin:\s*0\.375rem\s+0\.625rem/
+	);
+	assert.match(
+		theme,
+		/\.cn-command-dialog-popup(?::not\(\.docs-search-dialog\))?\s*>\s*\.cn-command\s*>\s*\.cn-command-footer[\s\S]*padding:\s*0\.75rem\s+1\.25rem/
+	);
+});
+
 test("docs previews use component-specific snippets and adaptive preview shells", async () => {
 	const [docPage, previewTabs] = await Promise.all([
 		readFile("apps/www/src/lib/components/docs/component-doc-page.svelte", "utf8"),
