@@ -33,10 +33,7 @@ test("floating and overlay surfaces animate with origin-aware transform and opac
 		/\.cn-select-popup[\s\S]*transition:[\s\S]*opacity\s+160ms\s+var\(--ease-out\)/
 	);
 	assert.match(theme, /\.cn-sheet-right\[data-state="open"\][\s\S]*transform:\s*translateX\(0\)/);
-	assert.match(
-		theme,
-		/\.cn-drawer\[data-state="open"\][\s\S]*transform:\s*translateX\(-50%\)\s+translateY\(0\)/
-	);
+	assert.match(theme, /\.cn-drawer\[data-state="open"\][\s\S]*transform:\s*translateY\(0\)/);
 	assert.match(theme, /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*\.cn-popover-content/);
 	assert.doesNotMatch(theme, /scale\(0\)/);
 });
@@ -48,6 +45,157 @@ test("keyboard command dialog is explicitly instant", async () => {
 	assert.match(
 		theme,
 		/\.cn-dialog-overlay\[data-slot="command-dialog-overlay"\][\s\S]*transition:\s*none/
+	);
+});
+
+test("command dialog keeps COSS-style top and bottom bands", async () => {
+	const theme = await readFile("packages/theme/src/style-coss.css", "utf8");
+
+	assert.match(theme, /\.cn-command-dialog-popup[\s\S]*width:\s*min\(36rem/);
+	assert.match(theme, /\.cn-command-dialog-popup[\s\S]*max-height:\s*min\(26\.25rem/);
+	assert.match(
+		theme,
+		/\.cn-command-dialog-popup(?::not\(\.docs-search-dialog\))?::before[\s\S]*background:\s*color-mix/
+	);
+	assert.match(
+		theme,
+		/\.cn-command-dialog-popup(?::not\(\.docs-search-dialog\))?\s*>\s*\.cn-command\s*>\s*\.cn-command-input-group[\s\S]*margin:\s*0\.375rem\s+0\.625rem/
+	);
+	assert.match(
+		theme,
+		/\.cn-command-dialog-popup(?::not\(\.docs-search-dialog\))?\s*>\s*\.cn-command\s*>\s*\.cn-command-footer[\s\S]*padding:\s*0\.75rem\s+1\.25rem/
+	);
+});
+
+test("date picker trigger formats the selected date and reuses calendar states", async () => {
+	const [datePicker, renderer, examples, theme] = await Promise.all([
+		readFile("packages/coss-svelte/src/components/DatePicker.svelte", "utf8"),
+		readFile("apps/www/src/lib/components/docs/component-preview-renderer.svelte", "utf8"),
+		readFile("apps/www/src/lib/docs/preview-examples.js", "utf8"),
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+	]);
+
+	assert.match(datePicker, /dateFormatter/);
+	assert.match(datePicker, /dateLabel\s*=\s*\$derived\(formatDateValue\(value\)\s*\|\|\s*label\)/);
+	assert.match(datePicker, /<span class="cn-date-picker-label">\{dateLabel\}<\/span>/);
+	assert.match(renderer, /datePickerPreviewValue\s*=\s*\$state\(\)/);
+	assert.match(renderer, /<DatePicker[\s\S]*bind:value=\{datePickerPreviewValue\}/);
+	assert.match(examples, /let selectedDate = \$state\(\)/);
+	assert.match(examples, /<DatePicker bind:value=\{selectedDate\}/);
+	assert.match(theme, /\.cn-calendar-day\[data-outside-month\]/);
+	assert.match(theme, /\.cn-calendar-cell\[data-today\]::after/);
+});
+
+test("dialog uses a framed surface and separated muted action footer", async () => {
+	const theme = await readFile("packages/theme/src/style-coss.css", "utf8");
+
+	assert.match(theme, /\.cn-dialog\s*{[\s\S]*padding:\s*0;[\s\S]*overflow:\s*hidden/);
+	assert.match(theme, /\.cn-dialog::before\s*{[\s\S]*box-shadow:\s*0\s+1px\s+0\s+color-mix/);
+	assert.match(theme, /\.cn-dialog-header\s*{[\s\S]*padding:\s*1\.5rem\s+1\.5rem\s+0\.75rem/);
+	assert.match(
+		theme,
+		/\.cn-dialog-footer\s*{[\s\S]*border-top:\s*1px\s+solid\s+var\(--cn-border\)[\s\S]*background:\s*color-mix\(in\s+srgb,\s*var\(--muted\)\s+72%/
+	);
+	assert.match(theme, /\.cn-dialog-footer\s*{[\s\S]*padding:\s*1rem\s+1\.5rem/);
+	assert.match(theme, /\.cn-dialog-footer \.cn-dialog-close\s*{[\s\S]*border-color:\s*transparent/);
+});
+
+test("drawer uses a full-width framed surface with a draggable close handle", async () => {
+	const [theme, handle, drawer] = await Promise.all([
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+		readFile("packages/coss-svelte/src/components/DrawerCreateHandle.svelte", "utf8"),
+		readFile("packages/coss-svelte/src/components/Drawer.svelte", "utf8"),
+	]);
+
+	assert.match(
+		theme,
+		/\.cn-drawer\s*{[\s\S]*left:\s*0;[\s\S]*right:\s*0;[\s\S]*bottom:\s*0;[\s\S]*width:\s*100%;[\s\S]*overflow:\s*hidden/
+	);
+	assert.match(theme, /\.cn-drawer::before\s*{[\s\S]*box-shadow:\s*0\s+1px\s+0\s+color-mix/);
+	assert.match(theme, /\.cn-drawer\[data-dragging\]\s*{[\s\S]*transition:\s*none[\s\S]*transform:/);
+	assert.match(theme, /\.cn-drawer-handle\s*{[\s\S]*cursor:\s*grab[\s\S]*touch-action:\s*none/);
+	assert.match(theme, /\.cn-drawer-handle:hover::before\s*{[\s\S]*background:/);
+	assert.match(handle, /DialogPrimitive\.Close/);
+	assert.match(handle, /onpointerdown=\{handlePointerDown\}/);
+	assert.match(handle, /onpointermove=\{handlePointerMove\}/);
+	assert.match(handle, /onpointerup=\{handlePointerUp\}/);
+	assert.match(handle, /distance\s*>=\s*72/);
+	assert.match(drawer, /<DrawerCreateHandle\s*\/>/);
+});
+
+test("form preview validates email and exposes the invalid input state", async () => {
+	const [renderer, examples, input, theme] = await Promise.all([
+		readFile("apps/www/src/lib/components/docs/component-preview-renderer.svelte", "utf8"),
+		readFile("apps/www/src/lib/docs/preview-examples.js", "utf8"),
+		readFile("packages/coss-svelte/src/components/Input.svelte", "utf8"),
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+	]);
+
+	assert.match(renderer, /formEmailInvalid\s*=\s*\$derived/);
+	assert.match(renderer, /novalidate\s+onsubmit=\{handleEmailSubmit\}/);
+	assert.match(renderer, /FieldError id="form-email-error">Please enter a valid email\.</);
+	assert.match(renderer, /aria-invalid=\{formEmailInvalid \? "true" : undefined\}/);
+	assert.match(examples, /FieldError id="form-email-error">Please enter a valid email\.</);
+	assert.match(input, /value\s*=\s*\$bindable\(\)/);
+	assert.match(input, /bind:value/);
+	assert.match(theme, /\.cn-input\[aria-invalid="true"\][\s\S]*border-color:/);
+});
+
+test("group previews use one connected control surface and destructive menu items", async () => {
+	const [group, menuItem, renderer, examples, theme] = await Promise.all([
+		readFile("packages/coss-svelte/src/components/Group.svelte", "utf8"),
+		readFile("packages/coss-svelte/src/components/MenuItem.svelte", "utf8"),
+		readFile("apps/www/src/lib/components/docs/component-preview-renderer.svelte", "utf8"),
+		readFile("apps/www/src/lib/docs/preview-examples.js", "utf8"),
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+	]);
+
+	assert.match(group, /role="group"/);
+	assert.match(menuItem, /data-variant=\{variant\}/);
+	assert.match(renderer, /<Group aria-label="File actions">[\s\S]*<GroupSeparator \/>/);
+	assert.match(renderer, /<MenuItem variant="destructive">[\s\S]*Delete/);
+	assert.match(examples, /<MenuItem variant="destructive"><Trash/);
+	assert.match(theme, /\.cn-group\s*{[\s\S]*align-items:\s*stretch[\s\S]*gap:\s*0/);
+	assert.match(
+		theme,
+		/\.cn-group > \[data-slot\]:not\(\[data-slot="separator"\]\):has\(~ \[data-slot\]\)/
+	);
+	assert.match(theme, /\.cn-group-separator\s*{[\s\S]*min-height:\s*100%[\s\S]*margin:\s*0/);
+	assert.match(
+		theme,
+		/\.cn-menu-item\[data-variant="destructive"\]\s*{[\s\S]*color:\s*var\(--destructive-foreground\)/
+	);
+});
+
+test("docs header mirrors hover and active state treatment across primary links", async () => {
+	const header = await readFile("apps/www/src/lib/components/docs/docs-header.svelte", "utf8");
+
+	assert.match(header, /import \{ page \} from "\$app\/state"/);
+	assert.match(header, /page\.url\.pathname\.startsWith\("\/docs"\)/);
+	assert.match(header, /page\.url\.pathname\.startsWith\("\/particles"\)/);
+	assert.match(
+		header,
+		/class="rounded-md px-3 py-1\.5 font-medium text-foreground no-underline hover:bg-muted"/g
+	);
+	assert.match(header, /class:bg-muted=\{docsActive\}/);
+	assert.match(header, /class:bg-muted=\{particlesActive\}/);
+	assert.match(header, /aria-current=\{docsActive \? "page" : undefined\}/);
+	assert.match(header, /aria-current=\{particlesActive \? "page" : undefined\}/);
+});
+
+test("particle filter popup aligns with the outer search bar", async () => {
+	const particlesBrowser = await readFile(
+		"apps/www/src/lib/components/docs/particles-browser.svelte",
+		"utf8"
+	);
+
+	assert.match(
+		particlesBrowser,
+		/class="absolute top-full -right-\[0\.8125rem\] z-20 mt-2 w-\[min\(42rem,calc\(100vw-2rem\)\)\]/
+	);
+	assert.doesNotMatch(
+		particlesBrowser,
+		/class="absolute top-full right-0 z-20 w-\[min\(42rem,calc\(100vw-2rem\)\)\]/
 	);
 });
 

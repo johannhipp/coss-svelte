@@ -120,12 +120,11 @@ ${scriptClose}
 	</AutocompletePopup>
 </Autocomplete>`,
 	avatar: `${scriptOpen}
-	import { Avatar, AvatarFallback, AvatarImage } from "coss-svelte";
+	import { Avatar, AvatarFallback } from "coss-svelte";
 ${scriptClose}
 
-<Avatar>
-	<AvatarImage alt="COSS" src="https://github.com/cosscom.png" />
-	<AvatarFallback>CS</AvatarFallback>
+<Avatar aria-label="coss-svelte">
+	<AvatarFallback>coss</AvatarFallback>
 </Avatar>`,
 	badge: `${scriptOpen}
 	import { Badge } from "coss-svelte";
@@ -134,38 +133,109 @@ ${scriptClose}
 <Badge>Badge</Badge>`,
 	breadcrumb: `${scriptOpen}
 	import { Breadcrumb } from "coss-svelte";
+
+	const breadcrumbItems = [
+		{ label: "Home", href: "/docs/introduction" },
+		{ ellipsis: true },
+		{ label: "Components", href: "/docs/components/badge" },
+		{ label: "Breadcrumb" },
+	];
 ${scriptClose}
 
-<Breadcrumb items={["Home", "Library", "Components"]} />`,
+<Breadcrumb items={breadcrumbItems} />`,
 	button: `${scriptOpen}
 	import { Button } from "coss-svelte";
 ${scriptClose}
 
 <Button>Button</Button>`,
 	calendar: `${scriptOpen}
-	import { CalendarDate } from "@internationalized/date";
+	import { getLocalTimeZone, today } from "@internationalized/date";
 	import { Calendar } from "coss-svelte";
 
-	let calendarPreviewDate = $state(new CalendarDate(2026, 6, 12));
+	let calendarPreviewDate = $state(today(getLocalTimeZone()));
 ${scriptClose}
 
 <Calendar bind:value={calendarPreviewDate} />`,
 	card: `${scriptOpen}
-	import { Button, Card, CardDescription, CardFooter, CardHeader, CardPanel, CardTitle } from "coss-svelte";
+	import { Info } from "lucide-svelte";
+	import {
+		Button,
+		Card,
+		CardDescription,
+		CardFooter,
+		CardHeader,
+		CardPanel,
+		CardTitle,
+		Field,
+		FieldLabel,
+		Input,
+		Select,
+		SelectItem,
+		SelectPopup,
+		SelectTrigger,
+		SelectValue,
+		SelectViewport,
+	} from "coss-svelte";
+
+	const projectFrameworkOptions = [
+		{ label: "Next.js", value: "next" },
+		{ label: "SvelteKit", value: "sveltekit" },
+		{ label: "Astro", value: "astro" },
+	];
+
+	let projectName = $state("");
+	let projectFramework = $state("next");
+	let projectSubmitted = $state(false);
+
+	function handleProjectSubmit(event: SubmitEvent) {
+		event.preventDefault();
+		projectSubmitted = true;
+	}
 ${scriptClose}
 
-<Card class="w-full max-w-sm">
-	<CardHeader>
-		<CardTitle>Card</CardTitle>
-		<CardDescription>A compact content surface.</CardDescription>
-	</CardHeader>
-	<CardPanel>
-		<p>Panel content keeps body text separate from actions.</p>
-	</CardPanel>
-	<CardFooter>
-		<Button size="sm" variant="secondary">Continue</Button>
-	</CardFooter>
-</Card>`,
+<form class="w-full max-w-sm" onsubmit={handleProjectSubmit}>
+	<Card class="w-full">
+		<CardHeader>
+			<CardTitle>Create project</CardTitle>
+			<CardDescription>Deploy your new project in one-click.</CardDescription>
+		</CardHeader>
+		<CardPanel class="gap-4">
+			<Field>
+				<FieldLabel for="card-project-name">Name</FieldLabel>
+				<Input
+					id="card-project-name"
+					bind:value={projectName}
+					name="name"
+					placeholder="Name of your project"
+					required
+					type="text"
+				/>
+			</Field>
+			<Field>
+				<FieldLabel for="card-project-framework">Framework</FieldLabel>
+				<Select bind:value={projectFramework} name="framework" options={projectFrameworkOptions}>
+					<SelectTrigger id="card-project-framework" aria-label="Framework">
+						<SelectValue placeholder="Choose a framework" />
+					</SelectTrigger>
+					<SelectPopup>
+						<SelectViewport>
+							{#each projectFrameworkOptions as option}
+								<SelectItem value={option.value} label={option.label}>{option.label}</SelectItem>
+							{/each}
+						</SelectViewport>
+					</SelectPopup>
+				</Select>
+			</Field>
+		</CardPanel>
+		<CardFooter class="flex-col items-stretch gap-4">
+			<Button class="w-full" type="submit">Deploy</Button>
+			<p class="m-0 flex items-center gap-2 text-muted-foreground text-sm">
+				<Info aria-hidden="true" class="size-4 shrink-0" />
+				{projectSubmitted ? "Project is ready to deploy." : "This will take a few seconds to complete."}
+			</p>
+		</CardFooter>
+	</Card>
+</form>`,
 	checkbox: `${scriptOpen}
 	import { Checkbox } from "coss-svelte";
 ${scriptClose}
@@ -222,7 +292,7 @@ ${indent(fruitOptions)}
 ${scriptClose}
 
 <Combobox options={fruitOptions}>
-	<ComboboxInput aria-label="Select a item" placeholder="Select a item…" />
+	<ComboboxInput aria-label="Select an item" placeholder="Select an item..." />
 	<ComboboxPopup>
 		<ComboboxEmpty>No items found.</ComboboxEmpty>
 		<ComboboxList>
@@ -337,9 +407,11 @@ ${scriptClose}
 </CommandDialog>`,
 	"date-picker": `${scriptOpen}
 	import { DatePicker } from "coss-svelte";
+
+	let selectedDate = $state();
 ${scriptClose}
 
-<DatePicker label="Pick a date" class="cn-date-picker-demo" />`,
+<DatePicker bind:value={selectedDate} label="Pick a date" class="cn-date-picker-demo" />`,
 	dialog: `${scriptOpen}
 	import {
 		Button,
@@ -463,15 +535,39 @@ ${scriptClose}
 	</Field>
 </Fieldset>`,
 	form: `${scriptOpen}
-	import { Button, Field, FieldLabel, Form, Input } from "coss-svelte";
+	import { Button, Field, FieldError, FieldLabel, Form, Input } from "coss-svelte";
+
+	let formEmail = $state("");
+	let formEmailSubmitted = $state(false);
+	let formEmailInvalid = $derived(
+		formEmailSubmitted && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(formEmail),
+	);
+
+	function handleEmailSubmit(event) {
+		event.preventDefault();
+		formEmailSubmitted = true;
+	}
 ${scriptClose}
 
-<Form class="w-full max-w-64">
-	<Field>
+
+<Form class="w-full max-w-64" novalidate onsubmit={handleEmailSubmit}>
+	<Field data-invalid={formEmailInvalid ? "true" : undefined}>
 		<FieldLabel for="form-email">Email</FieldLabel>
-		<Input id="form-email" name="email" placeholder="you@example.com" type="email" />
+		<Input
+			id="form-email"
+			bind:value={formEmail}
+			name="email"
+			placeholder="you@example.com"
+			type="email"
+			required
+			aria-invalid={formEmailInvalid ? "true" : undefined}
+			aria-describedby={formEmailInvalid ? "form-email-error" : undefined}
+		/>
+		{#if formEmailInvalid}
+			<FieldError id="form-email-error">Please enter a valid email.</FieldError>
+		{/if}
 	</Field>
-	<Button type="button" class="w-full">Submit</Button>
+	<Button type="submit" class="w-full">Submit</Button>
 </Form>`,
 	frame: `${scriptOpen}
 	import { Frame, FrameDescription, FrameFooter, FrameHeader, FramePanel, FrameTitle } from "coss-svelte";
@@ -708,11 +804,11 @@ ${scriptClose}
 ${scriptClose}
 
 <PreviewCard>
-	<PreviewCardTrigger href="/docs/components/preview-card">coss.com/ui</PreviewCardTrigger>
+	<PreviewCardTrigger href="/docs/components/preview-card">coss-svelte</PreviewCardTrigger>
 	<PreviewCardPopup>
 		<div class="cn-preview-card-demo">
 			<div class="cn-preview-card-main">
-				<h4>coss.com/ui</h4>
+				<h4>coss-svelte</h4>
 				<p>Beautifully designed components that you can copy and paste into your apps.</p>
 			</div>
 			<div class="cn-preview-card-meta">

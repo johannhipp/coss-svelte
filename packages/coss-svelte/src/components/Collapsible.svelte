@@ -15,8 +15,14 @@ let { open = $bindable(false), title = "", class: className = "", children, ...r
 		<CollapsiblePrimitive.Trigger data-slot="collapsible-trigger" class="cn-collapsible-trigger">
 			{title}
 		</CollapsiblePrimitive.Trigger>
-		<CollapsiblePrimitive.Content data-slot="collapsible-content" class="cn-collapsible-content">
-			{@render children?.()}
+		<CollapsiblePrimitive.Content
+			data-slot="collapsible-content"
+			class="cn-collapsible-content"
+			forceMount
+		>
+			<div class="cn-collapsible-content-inner">
+				{@render children?.()}
+			</div>
 		</CollapsiblePrimitive.Content>
 	{:else}
 		{@render children?.()}

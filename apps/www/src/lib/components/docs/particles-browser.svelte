@@ -144,7 +144,7 @@ onDestroy(() => {
 						>
 							<Tag class="size-4" strokeWidth={2.25} />
 						</summary>
-						<div class="absolute top-full right-0 z-20 mt-2 w-[min(42rem,calc(100vw-2rem))] rounded-xl border border-border bg-card p-3 shadow-lg">
+						<div class="absolute top-full -right-[0.8125rem] z-20 mt-2 w-[min(42rem,calc(100vw-2rem))] rounded-xl border border-border bg-card p-3 shadow-lg">
 							<div class="flex items-center justify-between gap-3 px-1 pb-2">
 								<p class="font-medium text-muted-foreground text-sm">Filter particles</p>
 								{#if selectedParticleSlugs.length || query}

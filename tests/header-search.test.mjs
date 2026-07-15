@@ -71,6 +71,8 @@ test("command input exposes bindable value for custom search UIs", async () => {
 
 	assert.match(source, /value\s*=\s*\$bindable\(["']["']\)/, "CommandInput value is bindable");
 	assert.match(source, /bind:value/, "CommandInput forwards value to the Bits input");
+	assert.match(source, /data-slot="command-input-group"/, "CommandInput exposes an input group");
+	assert.match(source, /data-slot="command-icon"/, "CommandInput includes a search affordance");
 });
 
 test("docs search index covers overview, components, resources, and particles", async () => {

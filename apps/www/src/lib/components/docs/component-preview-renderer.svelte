@@ -1,5 +1,5 @@
 <script lang="ts">
-import { CalendarDate } from "@internationalized/date";
+import { getLocalTimeZone, today } from "@internationalized/date";
 import {
 	AlignCenter,
 	AlignLeft,
@@ -17,6 +17,7 @@ import {
 	Ellipsis,
 	Files,
 	Film,
+	Info,
 	Italic,
 	Pause,
 	Percent,
@@ -58,7 +59,6 @@ import {
 	AutocompletePopup,
 	Avatar,
 	AvatarFallback,
-	AvatarImage,
 	Badge,
 	Breadcrumb,
 	Button,
@@ -272,7 +272,8 @@ type SliderSnippet = {
 };
 
 let { slug }: { slug: string } = $props();
-let calendarPreviewDate = $state(new CalendarDate(2026, 6, 12));
+let calendarPreviewDate = $state(today(getLocalTimeZone()));
+let datePickerPreviewValue = $state();
 let commandDialogOpen = $state(false);
 
 const basicOptions = [
@@ -280,6 +281,32 @@ const basicOptions = [
 	{ label: "SvelteKit", value: "sveltekit" },
 	{ label: "Astro", value: "astro" },
 ];
+
+const projectFrameworkOptions = [
+	{ label: "Next.js", value: "next" },
+	{ label: "SvelteKit", value: "sveltekit" },
+	{ label: "Astro", value: "astro" },
+];
+
+let projectName = $state("");
+let projectFramework = $state("next");
+let projectSubmitted = $state(false);
+
+let formEmail = $state("");
+let formEmailSubmitted = $state(false);
+let formEmailInvalid = $derived(
+	formEmailSubmitted && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formEmail)
+);
+
+function handleProjectSubmit(event: SubmitEvent) {
+	event.preventDefault();
+	projectSubmitted = true;
+}
+
+function handleEmailSubmit(event: SubmitEvent) {
+	event.preventDefault();
+	formEmailSubmitted = true;
+}
 
 const fruitOptions = [
 	{ label: "Apple", value: "apple" },
@@ -292,6 +319,13 @@ const fruitOptions = [
 	{ label: "Kiwi", value: "kiwi" },
 	{ label: "Peach", value: "peach" },
 	{ label: "Pear", value: "pear" },
+];
+
+const breadcrumbItems = [
+	{ label: "Home", href: "/docs/introduction" },
+	{ ellipsis: true },
+	{ label: "Components", href: "/docs/components/badge" },
+	{ label: "Breadcrumb" },
 ];
 
 const commandGroups = [
@@ -393,31 +427,65 @@ const toolbarFonts = [
 			</AutocompletePopup>
 		</Autocomplete>
 	{:else if slug === "avatar"}
-		<Avatar>
-			<AvatarImage alt="COSS" src="https://github.com/cosscom.png" />
-			<AvatarFallback>CS</AvatarFallback>
+		<Avatar aria-label="coss-svelte">
+			<AvatarFallback>coss</AvatarFallback>
 		</Avatar>
 	{:else if slug === "badge"}
 		<Badge>Badge</Badge>
 	{:else if slug === "breadcrumb"}
-		<Breadcrumb items={["Home", "Library", "Components"]} />
+		<Breadcrumb items={breadcrumbItems} />
 	{:else if slug === "button"}
 		<Button>Button</Button>
 	{:else if slug === "calendar"}
 		<Calendar bind:value={calendarPreviewDate} />
 	{:else if slug === "card"}
-		<Card class="w-full max-w-sm">
-			<CardHeader>
-				<CardTitle>Card</CardTitle>
-				<CardDescription>A compact content surface.</CardDescription>
-			</CardHeader>
-			<CardPanel>
-				<p>Panel content keeps body text separate from actions.</p>
-			</CardPanel>
-			<CardFooter>
-				<Button size="sm" variant="secondary">Continue</Button>
-			</CardFooter>
-		</Card>
+		<form class="w-full max-w-sm" onsubmit={handleProjectSubmit}>
+			<Card class="w-full">
+				<CardHeader>
+					<CardTitle>Create project</CardTitle>
+					<CardDescription>Deploy your new project in one-click.</CardDescription>
+				</CardHeader>
+				<CardPanel class="gap-4">
+					<Field>
+						<FieldLabel for="card-project-name">Name</FieldLabel>
+						<Input
+							id="card-project-name"
+							bind:value={projectName}
+							name="name"
+							placeholder="Name of your project"
+							required
+							type="text"
+						/>
+					</Field>
+					<Field>
+						<FieldLabel for="card-project-framework">Framework</FieldLabel>
+						<Select
+							bind:value={projectFramework}
+							name="framework"
+							options={projectFrameworkOptions}
+						>
+							<SelectTrigger id="card-project-framework" aria-label="Framework">
+								<SelectValue placeholder="Choose a framework" />
+							</SelectTrigger>
+							<SelectPopup>
+								<SelectViewport>
+									{#each projectFrameworkOptions as option}
+										<SelectItem value={option.value} label={option.label}>{option.label}</SelectItem>
+									{/each}
+								</SelectViewport>
+							</SelectPopup>
+						</Select>
+					</Field>
+				</CardPanel>
+				<CardFooter class="flex-col items-stretch gap-4">
+					<Button class="w-full" type="submit">Deploy</Button>
+					<p class="m-0 flex items-center gap-2 text-muted-foreground text-sm">
+						<Info aria-hidden="true" class="size-4 shrink-0" />
+						{projectSubmitted ? "Project is ready to deploy." : "This will take a few seconds to complete."}
+					</p>
+				</CardFooter>
+			</Card>
+		</form>
 	{:else if slug === "checkbox"}
 		<Checkbox label="Accept terms and conditions" />
 	{:else if slug === "checkbox-group"}
@@ -451,7 +519,7 @@ const toolbarFonts = [
 		</Collapsible>
 	{:else if slug === "combobox"}
 		<Combobox options={fruitOptions}>
-			<ComboboxInput aria-label="Select a item" placeholder="Select a item…" />
+			<ComboboxInput aria-label="Select an item" placeholder="Select an item..." />
 			<ComboboxPopup>
 				<ComboboxEmpty>No items found.</ComboboxEmpty>
 				<ComboboxList>
@@ -519,7 +587,11 @@ const toolbarFonts = [
 			</CommandDialogPopup>
 		</CommandDialog>
 	{:else if slug === "date-picker"}
-		<DatePicker label="Pick a date" class="cn-date-picker-demo" />
+		<DatePicker
+			bind:value={datePickerPreviewValue}
+			label="Pick a date"
+			class="cn-date-picker-demo"
+		/>
 	{:else if slug === "dialog"}
 		<Dialog>
 			<DialogTrigger>Open Dialog</DialogTrigger>
@@ -588,12 +660,24 @@ const toolbarFonts = [
 			</Field>
 		</Fieldset>
 	{:else if slug === "form"}
-		<Form class="w-full max-w-64">
-			<Field>
+		<Form class="w-full max-w-64" novalidate onsubmit={handleEmailSubmit}>
+			<Field data-invalid={formEmailInvalid ? "true" : undefined}>
 				<FieldLabel for="form-email">Email</FieldLabel>
-				<Input id="form-email" name="email" placeholder="you@example.com" type="email" />
+				<Input
+					id="form-email"
+					bind:value={formEmail}
+					name="email"
+					placeholder="you@example.com"
+					type="email"
+					required
+					aria-invalid={formEmailInvalid ? "true" : undefined}
+					aria-describedby={formEmailInvalid ? "form-email-error" : undefined}
+				/>
+				{#if formEmailInvalid}
+					<FieldError id="form-email-error">Please enter a valid email.</FieldError>
+				{/if}
 			</Field>
-			<Button type="button" class="w-full">Submit</Button>
+			<Button type="submit" class="w-full">Submit</Button>
 		</Form>
 	{:else if slug === "frame"}
 		<Frame class="w-full max-w-sm">
@@ -797,11 +881,11 @@ const toolbarFonts = [
 		</Popover>
 	{:else if slug === "preview-card"}
 		<PreviewCard>
-			<PreviewCardTrigger href="/docs/components/preview-card">coss.com/ui</PreviewCardTrigger>
+			<PreviewCardTrigger href="/docs/components/preview-card">coss-svelte</PreviewCardTrigger>
 			<PreviewCardPopup>
 				<div class="cn-preview-card-demo">
 					<div class="cn-preview-card-main">
-						<h4>coss.com/ui</h4>
+						<h4>coss-svelte</h4>
 						<p>Beautifully designed components that you can copy and paste into your apps.</p>
 					</div>
 					<div class="cn-preview-card-meta">

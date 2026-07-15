@@ -115,6 +115,7 @@ const nativeHelperParts = {
 
 const defaultPreviewDirectPrimitiveParts = {
 	...directPrimitiveParts,
+	Avatar: ["AvatarFallback"],
 	Autocomplete: ["AutocompleteInput", "AutocompleteItem", "AutocompleteList", "AutocompletePopup"],
 	Combobox: ["ComboboxInput", "ComboboxItem", "ComboboxList", "ComboboxPopup"],
 	OTPField: [],
@@ -340,6 +341,8 @@ test("dropdown item text matches corresponding control text size", async () => {
 
 test("combobox input includes the COSS trigger affordance by default", async () => {
 	const source = await readFile("packages/coss-svelte/src/components/ComboboxInput.svelte", "utf8");
+	const rootSource = await readFile("packages/coss-svelte/src/components/Combobox.svelte", "utf8");
+	const themeSource = await readFile("packages/theme/src/style-coss.css", "utf8");
 	const previewRenderer = await readFile(
 		"apps/www/src/lib/components/docs/component-preview-renderer.svelte",
 		"utf8"
@@ -351,9 +354,25 @@ test("combobox input includes the COSS trigger affordance by default", async () 
 		/ComboboxPrimitive\.Trigger/,
 		"ComboboxInput uses Bits UI trigger for the trigger affordance"
 	);
+	assert.match(source, /data-slot="combobox-icon"/, "ComboboxInput renders the chevrons icon slot");
+	assert.match(
+		rootSource,
+		/target\.matches\('\[data-slot="combobox-input"\]'\)/,
+		"Combobox opens when its input is clicked"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-combobox-popup\s*\{[^}]*width:\s*var\(--bits-combobox-anchor-width\);[^}]*min-width:\s*var\(--bits-combobox-anchor-width\);/s,
+		"Combobox popup should match the input width"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-combobox-popup:has\(\.cn-combobox-item\)\s*>\s*\.cn-combobox-empty\s*\{[^}]*display:\s*none;/s,
+		"Combobox empty state should be hidden when items are rendered"
+	);
 	assert.match(
 		previewRenderer,
-		/<ComboboxInput[^>]+placeholder="Select a item…"/,
+		/<ComboboxInput[^>]+placeholder="Select an item\.\.\."/,
 		"docs preview mirrors the COSS combobox particle input"
 	);
 });
@@ -428,6 +447,54 @@ test("accordion content stays mounted for responsive height animation", async ()
 		themeSource,
 		/\.cn-accordion-indicator\s*{[^}]*transition:\s*transform 120ms var\(--ease-out\)/s,
 		"accordion chevron should match the faster panel timing"
+	);
+});
+
+test("collapsible content stays mounted for reversible panel animation", async () => {
+	const [rootSource, contentSource, themeSource] = await Promise.all([
+		readFile("packages/coss-svelte/src/components/Collapsible.svelte", "utf8"),
+		readFile("packages/coss-svelte/src/components/CollapsibleContent.svelte", "utf8"),
+		readFile("packages/theme/src/style-coss.css", "utf8"),
+	]);
+
+	assert.match(
+		contentSource,
+		/forceMount\s*=\s*true/,
+		"CollapsibleContent should stay mounted by default so closing can animate"
+	);
+	assert.match(
+		contentSource,
+		/<CollapsiblePrimitive\.Content[^>]*\{forceMount\}/s,
+		"CollapsibleContent should forward forceMount to Bits UI"
+	);
+
+	for (const source of [rootSource, contentSource]) {
+		assert.match(
+			source,
+			/cn-collapsible-content-inner/,
+			"Collapsible content should wrap slotted content in an animatable inner row"
+		);
+	}
+
+	assert.match(
+		themeSource,
+		/\.cn-collapsible-content\s*\{[^}]*grid-template-rows 200ms var\(--ease-out\)/s,
+		"collapsible panel animation should use the shared 200ms ease-out curve"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-collapsible-content\[data-state="open"\]/,
+		"collapsible content should expose an open layout state"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-collapsible-content\[data-state="open"\][\s\S]*?grid-template-rows: 1fr/,
+		"collapsible content should expand to its intrinsic height"
+	);
+	assert.match(
+		themeSource,
+		/\.cn-collapsible-content,\n\t\.cn-accordion-indicator,\n\t\.cn-collapsible-trigger svg/s,
+		"reduced-motion styles should cover collapsible panel and trigger motion"
 	);
 });
 

@@ -85,7 +85,7 @@ let markdown = $derived(createComponentMarkdown(page));
 					<section id="installation" class="scroll-mt-20 border-border border-t py-8">
 						<h2 class="mb-3 font-semibold text-2xl">Installation</h2>
 						<p class="mb-4 text-muted-foreground leading-7">
-							Install the local package, Bits UI peer primitives, and the shared COSS theme.
+							Install the local package, Bits UI peer primitives, and the shared coss-svelte theme.
 						</p>
 						<CodeBlock language="bash" code="pnpm add coss-svelte bits-ui" />
 					</section>

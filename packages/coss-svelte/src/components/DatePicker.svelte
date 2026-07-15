@@ -10,6 +10,24 @@ let {
 	children: rootChildren,
 	...rest
 } = $props();
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+	day: "numeric",
+	month: "long",
+	timeZone: "UTC",
+	year: "numeric",
+});
+
+function formatDateValue(dateValue) {
+	if (!dateValue || typeof dateValue !== "object") return "";
+
+	const { day, month, year } = dateValue;
+	if (![day, month, year].every(Number.isInteger)) return "";
+
+	return dateFormatter.format(new Date(Date.UTC(year, month - 1, day, 12)));
+}
+
+let dateLabel = $derived(formatDateValue(value) || label);
 </script>
 
 <DatePickerPrimitive.Root bind:value bind:open {...rest}>
@@ -18,7 +36,7 @@ let {
 	{:else}
 		<DatePickerPrimitive.Trigger data-slot="date-picker" class={cn("cn-date-picker", className)}>
 			<span class="cn-date-picker-icon" aria-hidden="true"></span>
-			<span class="cn-date-picker-label">{label}</span>
+			<span class="cn-date-picker-label">{dateLabel}</span>
 		</DatePickerPrimitive.Trigger>
 		<DatePickerPrimitive.Portal>
 			<DatePickerPrimitive.Content data-slot="date-picker-popup" class="cn-date-picker-popup">
