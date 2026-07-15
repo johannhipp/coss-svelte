@@ -131,6 +131,6 @@ test("ci validates the repo without publishing to npm", async () => {
 	);
 	assert.equal(
 		rootPackage.scripts["release:check"],
-		"pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm pack:dry-run"
+		"pnpm package:prepare && pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm pack:dry-run"
 	);
 });

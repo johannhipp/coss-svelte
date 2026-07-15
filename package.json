@@ -18,7 +18,7 @@
 		"check": "pnpm -r --if-present check",
 		"test": "node scripts/validate-cn-classes.mjs && node --test tests/*.test.mjs && pnpm -r --if-present test",
 		"pack:dry-run": "pnpm --filter coss-svelte exec npm pack --dry-run",
-		"release:check": "pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm pack:dry-run",
+		"release:check": "pnpm package:prepare && pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm pack:dry-run",
 		"fetch:upstream": "node scripts/fetch-upstream.mjs",
 		"parity:evidence": "node scripts/capture-visual-parity-evidence.mjs",
 		"parity:interactive": "node scripts/capture-interactive-visual-parity-evidence.mjs",

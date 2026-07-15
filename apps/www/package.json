@@ -30,6 +30,7 @@
 		"vite": "8.0.16"
 	},
 	"devDependencies": {
+		"@types/node": "22.15.30",
 		"svelte-check": "4.6.0",
 		"typescript": "6.0.3"
 	}
