@@ -1,6 +1,7 @@
 <script lang="ts">
 import { GitBranch, Moon, Sun } from "@lucide/svelte";
 import { onMount } from "svelte";
+import { page } from "$app/state";
 import DocsSearch from "$lib/components/docs/docs-search.svelte";
 
 const themeStorageKey = "coss-svelte-theme";
@@ -10,6 +11,9 @@ let { onMenu }: { onMenu?: () => void } = $props();
 let darkMode = $state(
 	typeof document !== "undefined" ? document.documentElement.classList.contains("dark") : false
 );
+
+let docsActive = $derived(page.url.pathname.startsWith("/docs"));
+let particlesActive = $derived(page.url.pathname.startsWith("/particles"));
 
 function getStoredTheme() {
 	try {
@@ -89,14 +93,20 @@ onMount(() => {
 		<div class="ms-auto flex items-center gap-2 md:flex-1 md:justify-end">
 			<nav class="hidden items-center gap-1 text-sm lg:flex" aria-label="Primary navigation">
 				<a
-					class="rounded-md bg-muted px-3 py-1.5 font-medium text-foreground no-underline shadow-sm"
+					class="rounded-md px-3 py-1.5 font-medium text-foreground no-underline hover:bg-muted"
+					class:bg-muted={docsActive}
+					class:shadow-sm={docsActive}
 					href="/docs/introduction"
+					aria-current={docsActive ? "page" : undefined}
 				>
 					Docs
 				</a>
 				<a
-					class="rounded-md px-3 py-1.5 font-medium text-foreground/85 no-underline hover:bg-muted"
+					class="rounded-md px-3 py-1.5 font-medium text-foreground no-underline hover:bg-muted"
+					class:bg-muted={particlesActive}
+					class:shadow-sm={particlesActive}
 					href="/particles"
+					aria-current={particlesActive ? "page" : undefined}
 				>
 					Particles
 				</a>

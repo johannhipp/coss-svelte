@@ -167,6 +167,38 @@ test("group previews use one connected control surface and destructive menu item
 	);
 });
 
+test("docs header mirrors hover and active state treatment across primary links", async () => {
+	const header = await readFile("apps/www/src/lib/components/docs/docs-header.svelte", "utf8");
+
+	assert.match(header, /import \{ page \} from "\$app\/state"/);
+	assert.match(header, /page\.url\.pathname\.startsWith\("\/docs"\)/);
+	assert.match(header, /page\.url\.pathname\.startsWith\("\/particles"\)/);
+	assert.match(
+		header,
+		/class="rounded-md px-3 py-1\.5 font-medium text-foreground no-underline hover:bg-muted"/g
+	);
+	assert.match(header, /class:bg-muted=\{docsActive\}/);
+	assert.match(header, /class:bg-muted=\{particlesActive\}/);
+	assert.match(header, /aria-current=\{docsActive \? "page" : undefined\}/);
+	assert.match(header, /aria-current=\{particlesActive \? "page" : undefined\}/);
+});
+
+test("particle filter popup aligns with the outer search bar", async () => {
+	const particlesBrowser = await readFile(
+		"apps/www/src/lib/components/docs/particles-browser.svelte",
+		"utf8"
+	);
+
+	assert.match(
+		particlesBrowser,
+		/class="absolute top-full -right-\[0\.8125rem\] z-20 mt-2 w-\[min\(42rem,calc\(100vw-2rem\)\)\]/
+	);
+	assert.doesNotMatch(
+		particlesBrowser,
+		/class="absolute top-full right-0 z-20 w-\[min\(42rem,calc\(100vw-2rem\)\)\]/
+	);
+});
+
 test("docs previews use component-specific snippets and adaptive preview shells", async () => {
 	const [docPage, previewTabs] = await Promise.all([
 		readFile("apps/www/src/lib/components/docs/component-doc-page.svelte", "utf8"),
