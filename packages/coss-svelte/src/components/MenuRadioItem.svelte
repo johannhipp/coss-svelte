@@ -1,13 +1,16 @@
-<script>
+<script lang="ts">
 import { DropdownMenu as MenuPrimitive } from "bits-ui";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children: itemChildren, ...rest } = $props();
+type Props = ComponentProps<typeof MenuPrimitive.RadioItem>;
+let { value, class: className = "", children: itemChildren, ...rest }: Props = $props();
 </script>
 
 <MenuPrimitive.RadioItem
 	data-slot="menu-radio-item"
 	class={cn("cn-menu-item cn-menu-radio-item", className)}
+	{value}
 	{...rest}
 >
 	{#snippet children({ checked })}

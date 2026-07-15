@@ -1,7 +1,17 @@
-<script>
+<script lang="ts">
 import { Dialog as DialogPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
 import DrawerCreateHandle from "./DrawerCreateHandle.svelte";
+
+type Props = Omit<ComponentProps<typeof DialogPrimitive.Root>, "children" | "child"> & {
+	open?: boolean;
+	trigger?: string;
+	title?: string;
+	description?: string;
+	class?: string;
+	children?: Snippet;
+};
 
 let {
 	open = $bindable(false),
@@ -11,7 +21,7 @@ let {
 	class: className = "",
 	children: rootChildren,
 	...rest
-} = $props();
+}: Props = $props();
 </script>
 
 <DialogPrimitive.Root bind:open {...rest}>

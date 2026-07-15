@@ -7,10 +7,17 @@
 		{
 			"path": "packages/coss-svelte/src/components/Separator.svelte",
 			"target": "components/Separator.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Separator as SeparatorPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof SeparatorPrimitive.Root>;\nlet { orientation = \"horizontal\", class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<SeparatorPrimitive.Root\n\tdata-slot=\"separator\"\n\tclass={cn(\"cn-separator\", `cn-separator-${orientation}`, className)}\n\t{orientation}\n\t{...rest}\n>\n\t{@render children?.()}\n</SeparatorPrimitive.Root>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		}
 	],
-	"dependencies": ["bits-ui"],
+	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

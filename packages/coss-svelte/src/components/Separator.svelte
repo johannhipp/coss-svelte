@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
 import { Separator as SeparatorPrimitive } from "bits-ui";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { orientation = "horizontal", class: className = "", children, ...rest } = $props();
+type Props = ComponentProps<typeof SeparatorPrimitive.Root>;
+let { orientation = "horizontal", class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <SeparatorPrimitive.Root

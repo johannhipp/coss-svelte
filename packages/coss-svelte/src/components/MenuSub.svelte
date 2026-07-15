@@ -1,8 +1,16 @@
-<script>
+<script lang="ts">
 import { DropdownMenu as MenuPrimitive } from "bits-ui";
+import type { NativeProps } from "../internal/props.js";
 import { cn } from "../utils.js";
 
-let { open = $bindable(false), class: className = "", children, ...rest } = $props();
+let {
+	open = $bindable(false),
+	class: className = "",
+	children,
+	...rest
+}: NativeProps & {
+	open?: boolean;
+} = $props();
 </script>
 
 <MenuPrimitive.Sub bind:open {...rest}>

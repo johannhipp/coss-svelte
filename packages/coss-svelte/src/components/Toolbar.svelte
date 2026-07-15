@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
 import { Toolbar as ToolbarPrimitive } from "bits-ui";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { orientation = "horizontal", class: className = "", children, ...rest } = $props();
+type Props = ComponentProps<typeof ToolbarPrimitive.Root>;
+let { orientation = "horizontal", class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <ToolbarPrimitive.Root

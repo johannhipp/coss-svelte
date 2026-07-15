@@ -1,6 +1,17 @@
-<script>
+<script lang="ts">
 import { PinInput as PinInputPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
+
+type Props = Omit<
+	ComponentProps<typeof PinInputPrimitive.Root>,
+	"children" | "child" | "maxlength"
+> & {
+	value?: string;
+	length?: number;
+	class?: string;
+	children?: Snippet<[unknown]>;
+};
 
 let {
 	value = $bindable(""),
@@ -8,7 +19,7 @@ let {
 	class: className = "",
 	children: rootChildren,
 	...rest
-} = $props();
+}: Props = $props();
 </script>
 
 <PinInputPrimitive.Root

@@ -1,6 +1,19 @@
-<script>
+<script lang="ts">
 import { Pagination as PaginationPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
+
+type Props = Omit<
+	ComponentProps<typeof PaginationPrimitive.Root>,
+	"children" | "child" | "count"
+> & {
+	page?: number;
+	pages?: number;
+	count?: number;
+	perPage?: number;
+	class?: string;
+	children?: Snippet<[unknown]>;
+};
 
 let {
 	page = $bindable(2),
@@ -10,7 +23,7 @@ let {
 	class: className = "",
 	children: rootChildren,
 	...rest
-} = $props();
+}: Props = $props();
 </script>
 
 <PaginationPrimitive.Root

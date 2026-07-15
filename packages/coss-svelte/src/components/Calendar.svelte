@@ -1,27 +1,36 @@
-<script>
+<script lang="ts">
 import { Calendar as CalendarPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
+import type { PrimitiveAttributes } from "../internal/props.js";
 import { cn } from "../utils.js";
+
+type RootProps = ComponentProps<typeof CalendarPrimitive.Root>;
+type SingleRootProps = Extract<RootProps, { type: "single" }>;
+type MultipleRootProps = Extract<RootProps, { type: "multiple" }>;
+type CalendarValue = NonNullable<SingleRootProps["value"]>;
+type CalendarChildProps = Parameters<NonNullable<SingleRootProps["children"]>>[0];
+type Props = PrimitiveAttributes & {
+	type?: "single" | "multiple";
+	value?: CalendarValue | CalendarValue[];
+	class?: string;
+	children?: Snippet<[CalendarChildProps]>;
+	onValueChange?: (value: CalendarValue | CalendarValue[] | undefined) => void;
+};
 
 let {
 	type = "single",
 	value = $bindable(),
 	class: className = "",
 	children: rootChildren,
+	onValueChange,
 	...rest
-} = $props();
+}: Props = $props();
 </script>
 
-<CalendarPrimitive.Root
-	data-slot="calendar"
-	class={cn("cn-calendar", className)}
-	{type}
-	bind:value
-	{...rest}
->
-	{#snippet children({ months, weekdays })}
-		{#if rootChildren}
-			{@render rootChildren({ months, weekdays })}
-		{:else}
+{#snippet content({ months, weekdays }: CalendarChildProps)}
+	{#if rootChildren}
+		{@render rootChildren({ months, weekdays })}
+	{:else}
 			<CalendarPrimitive.Header data-slot="calendar-header" class="cn-calendar-header">
 				<CalendarPrimitive.PrevButton
 					data-slot="calendar-prev-button"
@@ -68,6 +77,35 @@ let {
 					</CalendarPrimitive.GridBody>
 				</CalendarPrimitive.Grid>
 			{/each}
-		{/if}
-	{/snippet}
-</CalendarPrimitive.Root>
+	{/if}
+{/snippet}
+
+{#if type === "multiple"}
+	<CalendarPrimitive.Root
+		data-slot="calendar"
+		class={cn("cn-calendar", className)}
+		type="multiple"
+		value={Array.isArray(value) ? value : []}
+		onValueChange={(next) => {
+			value = next;
+			onValueChange?.(next);
+		}}
+		{...rest}
+	>
+		{#snippet children(props)}{@render content(props)}{/snippet}
+	</CalendarPrimitive.Root>
+{:else}
+	<CalendarPrimitive.Root
+		data-slot="calendar"
+		class={cn("cn-calendar", className)}
+		type="single"
+		value={Array.isArray(value) ? value[0] : value}
+		onValueChange={(next) => {
+			value = next;
+			onValueChange?.(next);
+		}}
+		{...rest}
+	>
+		{#snippet children(props)}{@render content(props)}{/snippet}
+	</CalendarPrimitive.Root>
+{/if}

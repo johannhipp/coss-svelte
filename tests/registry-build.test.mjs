@@ -26,7 +26,13 @@ test("registry build writes an index and component item files", async () => {
 
 		assert.equal(built.name, item.name);
 		assert.equal(built.meta.status, item.meta.status);
-		assert.deepEqual(built.files, item.files);
+		for (const source of item.files) {
+			assert.ok(
+				built.files.some((file) => file.path === source.path && file.target === source.target),
+				`${item.name} retains its declared root and parts`
+			);
+		}
+		assert.ok(built.files.every((file) => typeof file.content === "string"));
 	}
 });
 

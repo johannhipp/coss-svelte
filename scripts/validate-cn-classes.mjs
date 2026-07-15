@@ -27,7 +27,7 @@ function extractTokens(source) {
 
 async function extractSourceClasses(root) {
 	const sourceRoot = join(root, "packages/coss-svelte/src");
-	const files = await collectFiles(sourceRoot, new Set([".svelte", ".js"]));
+	const files = await collectFiles(sourceRoot, new Set([".svelte", ".js", ".ts"]));
 	const classes = new Set();
 	const byFile = {};
 
@@ -49,7 +49,7 @@ async function extractSourceClasses(root) {
 }
 
 async function extractThemeClasses(root) {
-	const themePath = join(root, "packages/theme/src/style-coss.css");
+	const themePath = join(root, "packages/theme/src/components.css");
 	const tokens = extractTokens(await readFile(themePath, "utf8"));
 
 	return { path: relative(root, themePath), classes: tokens };

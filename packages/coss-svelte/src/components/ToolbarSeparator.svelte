@@ -1,7 +1,10 @@
-<script>
+<script lang="ts">
+import type { NativeProps } from "../internal/props.js";
 import { cn } from "../utils.js";
 
-let { orientation = "vertical", class: className = "", ...rest } = $props();
+type Props = NativeProps & { orientation?: "horizontal" | "vertical" };
+
+let { orientation = "vertical", class: className = "", ...rest }: Props = $props();
 </script>
 
 <span

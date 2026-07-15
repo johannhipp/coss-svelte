@@ -1,7 +1,10 @@
-<script>
+<script lang="ts">
+import type { HTMLButtonAttributes } from "svelte/elements";
+import { getSidebarContext } from "../internal/sidebar-context.svelte.js";
 import { cn } from "../utils.js";
 
-let { type = "button", class: className = "", children, ...rest } = $props();
+let { type = "button", class: className = "", children, ...rest }: HTMLButtonAttributes = $props();
+const sidebar = getSidebarContext();
 </script>
 
 <button
@@ -9,6 +12,8 @@ let { type = "button", class: className = "", children, ...rest } = $props();
 	data-sidebar="trigger"
 	class={cn("cn-sidebar-trigger", className)}
 	aria-label="Toggle Sidebar"
+	aria-expanded={sidebar?.open}
+	onclick={() => sidebar?.toggle()}
 	{type}
 	{...rest}
 >

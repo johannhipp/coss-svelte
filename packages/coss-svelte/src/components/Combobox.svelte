@@ -1,6 +1,20 @@
-<script>
+<script lang="ts">
 import { Combobox as ComboboxPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
+import { type NormalizedOption, normalizeOptions, type Option } from "../internal/props.js";
 import { cn } from "../utils.js";
+
+type RootProps = ComponentProps<typeof ComboboxPrimitive.Root>;
+type Props = Omit<RootProps, "children" | "items" | "type" | "value" | "open" | "onValueChange"> & {
+	type?: "single" | "multiple";
+	value?: string | string[];
+	open?: boolean;
+	onValueChange?: (value: string | string[]) => void;
+	options?: Option[];
+	placeholder?: string;
+	class?: string;
+	children?: Snippet;
+};
 
 let {
 	type = "single",
@@ -10,42 +24,20 @@ let {
 	placeholder = "Choose",
 	class: className = "",
 	children: rootChildren,
+	onValueChange,
 	...rest
-} = $props();
+}: Props = $props();
 
-let items = $derived(
-	options.map((option) => ({
-		value: option.value ?? option,
-		label: option.label ?? option,
-		disabled: option.disabled ?? false,
-	}))
-);
-
-function handleRootClick(event) {
-	const target = event.target;
-	if (target instanceof Element && target.matches('[data-slot="combobox-input"]')) {
-		open = true;
-	}
-	if (typeof rest.onclick === "function") {
-		rest.onclick(event);
-	}
-}
+let items: NormalizedOption[] = $derived(normalizeOptions(options));
 </script>
 
-<ComboboxPrimitive.Root
-	data-slot="combobox"
-	{type}
-	bind:value
-	bind:open
-	{items}
-	{...rest}
->
+{#snippet content()}
 	{#if rootChildren}
-		<div class={cn("cn-combobox", className)} onclick={handleRootClick}>
+		<div class={cn("cn-combobox", className)}>
 			{@render rootChildren()}
 		</div>
 	{:else}
-		<div data-slot="combobox" class={cn("cn-combobox", className)} onclick={handleRootClick}>
+		<div data-slot="combobox" class={cn("cn-combobox", className)}>
 			<span data-slot="combobox-input-group" class="cn-combobox-input-group">
 				<span data-slot="combobox-input-control" class="cn-combobox-input-control">
 					<ComboboxPrimitive.Input
@@ -95,4 +87,34 @@ function handleRootClick(event) {
 			</ComboboxPrimitive.Portal>
 		</div>
 	{/if}
-</ComboboxPrimitive.Root>
+{/snippet}
+
+{#if type === "multiple"}
+	<ComboboxPrimitive.Root
+		type="multiple"
+		value={Array.isArray(value) ? value : []}
+		bind:open
+		{items}
+		onValueChange={(next) => {
+			value = next;
+			onValueChange?.(next);
+		}}
+		{...rest}
+	>
+		{@render content()}
+	</ComboboxPrimitive.Root>
+{:else}
+	<ComboboxPrimitive.Root
+		type="single"
+		value={typeof value === "string" ? value : ""}
+		bind:open
+		{items}
+		onValueChange={(next) => {
+			value = next;
+			onValueChange?.(next);
+		}}
+		{...rest}
+	>
+		{@render content()}
+	</ComboboxPrimitive.Root>
+{/if}

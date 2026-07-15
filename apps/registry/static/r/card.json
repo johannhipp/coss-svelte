@@ -7,35 +7,59 @@
 		{
 			"path": "packages/coss-svelte/src/components/Card.svelte",
 			"target": "components/Card.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"div\"\n\tdataSlot=\"card\"\n\tclass={cn(\"cn-card\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/Block.svelte",
+			"target": "internal/Block.svelte",
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\nimport type { NativeProps } from \"./props.js\";\n\ntype Props = NativeProps & { as?: string; dataSlot?: string; children?: Snippet };\n\nlet { as = \"div\", dataSlot = \"\", class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<svelte:element this={as} data-slot={dataSlot || undefined} class={cn(className)} {...rest}>\n\t{@render children?.()}\n</svelte:element>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/props.js",
+			"target": "internal/props.js",
+			"type": "registry:ui",
+			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CardDescription.svelte",
 			"target": "components/CardDescription.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"p\"\n\tdataSlot=\"card-description\"\n\tclass={cn(\"cn-card-description\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CardFooter.svelte",
 			"target": "components/CardFooter.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"footer\"\n\tdataSlot=\"card-footer\"\n\tclass={cn(\"cn-card-footer\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CardHeader.svelte",
 			"target": "components/CardHeader.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"header\"\n\tdataSlot=\"card-header\"\n\tclass={cn(\"cn-card-header\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CardPanel.svelte",
 			"target": "components/CardPanel.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"div\"\n\tdataSlot=\"card-panel\"\n\tclass={cn(\"cn-card-panel\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CardTitle.svelte",
 			"target": "components/CardTitle.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"h3\"\n\tdataSlot=\"card-title\"\n\tclass={cn(\"cn-card-title\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		}
 	],
-	"dependencies": [],
+	"dependencies": ["clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

@@ -4,7 +4,6 @@ import ContentPage from "$lib/components/docs/content-page.svelte";
 import { getContentMarkdown } from "$lib/docs/markdown.js";
 
 const themeImportCode = `<script>
-	import "@coss-svelte/theme/style-coss.css";
 </${"script"}>`;
 const markdown = getContentMarkdown("getting-started");
 

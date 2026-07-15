@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
 	componentMetadata,
 	componentParts,
@@ -63,8 +62,9 @@ const componentNames = [...stableComponents, ...experimentalComponents, ...defer
 
 export const componentDocs = componentNames
 	.map((name) => {
-		const metadata = componentMetadata[name];
-		const parts = componentParts[name] ?? [];
+		const componentName = /** @type {keyof typeof componentMetadata} */ (name);
+		const metadata = componentMetadata[componentName];
+		const parts = componentParts[componentName] ?? [];
 
 		return {
 			...metadata,
@@ -72,7 +72,7 @@ export const componentDocs = componentNames
 			href: `/docs/components/${metadata.slug}`,
 			imports: [name, ...parts],
 			parts,
-			statusLabel: statusLabels[metadata.status],
+			statusLabel: statusLabels[/** @type {keyof typeof statusLabels} */ (metadata.status)],
 		};
 	})
 	.sort((a, b) => a.title.localeCompare(b.title));
@@ -110,10 +110,12 @@ export const searchGroups = searchGroupOrder
 	}))
 	.filter((group) => group.items.length > 0);
 
+/** @param {string} slug */
 export function getComponentDoc(slug) {
 	return componentDocs.find((component) => component.slug === slug);
 }
 
+/** @param {string} slug */
 export function getAdjacentComponentDocs(slug) {
 	const index = componentDocs.findIndex((component) => component.slug === slug);
 
@@ -123,6 +125,7 @@ export function getAdjacentComponentDocs(slug) {
 	};
 }
 
+/** @param {typeof componentDocs[number] | undefined} page */
 export function getPageToc(page) {
 	if (!page) {
 		return [];

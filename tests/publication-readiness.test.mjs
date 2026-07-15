@@ -25,7 +25,7 @@ test("publishable package exposes npm metadata and a constrained file list", asy
 	});
 	assert.equal(packageJson.homepage, "https://github.com/johannhipp/coss-svelte#readme");
 	assert.deepEqual(packageJson.publishConfig, { access: "public" });
-	assert.deepEqual(packageJson.files, ["src", "README.md", "LICENSE"]);
+	assert.deepEqual(packageJson.files, ["dist", "README.md", "LICENSE"]);
 	assert.ok(packageJson.keywords.includes("svelte"), "keywords include svelte");
 	assert.ok(packageJson.keywords.includes("components"), "keywords include components");
 
@@ -69,6 +69,17 @@ test("public-facing docs do not describe implemented packages as empty scaffolds
 		assert.doesNotMatch(content, /No tokens have been implemented yet/i, `${file} is stale`);
 		assert.doesNotMatch(content, /will live here/i, `${file} is stale`);
 	}
+});
+
+test("docs app has an explicit production server target", async () => {
+	const config = await readFile("apps/www/svelte.config.js", "utf8");
+	const packageJson = await readJson("apps/www/package.json");
+	const workspace = await readFile("pnpm-workspace.yaml", "utf8");
+
+	assert.match(config, /adapter-node/);
+	assert.doesNotMatch(config, /adapter-auto/);
+	assert.equal(packageJson.scripts.start, "node build");
+	assert.match(workspace, /sharp:\s*true/);
 });
 
 test("generated visual evidence is not tracked in the repository", async () => {
@@ -120,6 +131,6 @@ test("ci validates the repo without publishing to npm", async () => {
 	);
 	assert.equal(
 		rootPackage.scripts["release:check"],
-		"pnpm biome:ci && pnpm check && pnpm test && pnpm pack:dry-run"
+		"pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm pack:dry-run"
 	);
 });

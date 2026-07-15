@@ -1,5 +1,7 @@
-<script>
+<script lang="ts">
 import { Progress as ProgressPrimitive } from "bits-ui";
+import type { NativeProps } from "../internal/props.js";
+import { clampPercentage } from "../internal/props.js";
 import { cn } from "../utils.js";
 
 let {
@@ -10,11 +12,14 @@ let {
 	label = "",
 	children,
 	...rest
+}: NativeProps & {
+	value?: number | null;
+	min?: number;
+	max?: number;
+	label?: string;
 } = $props();
 
-let percentage = $derived(
-	value === null ? 100 : Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100))
-);
+let percentage = $derived(clampPercentage(value, min, max));
 </script>
 
 <ProgressPrimitive.Root

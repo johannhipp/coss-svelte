@@ -1,0 +1,24 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "coss-svelte registry index",
+	"type": "object",
+	"required": ["$schema", "name", "items"],
+	"properties": {
+		"$schema": { "type": "string" },
+		"name": { "type": "string" },
+		"items": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["name", "title", "description", "type", "path"],
+				"properties": {
+					"name": { "type": "string" },
+					"title": { "type": "string" },
+					"description": { "type": "string" },
+					"type": { "const": "registry:ui" },
+					"path": { "type": "string", "pattern": "^[a-z0-9-]+\\.json$" }
+				}
+			}
+		}
+	}
+}

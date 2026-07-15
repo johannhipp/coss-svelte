@@ -7,30 +7,59 @@
 		{
 			"path": "packages/coss-svelte/src/components/InputGroup.svelte",
 			"target": "components/InputGroup.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"div\"\n\tdataSlot=\"input-group\"\n\tclass={cn(\"cn-input-group\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/Block.svelte",
+			"target": "internal/Block.svelte",
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\nimport type { NativeProps } from \"./props.js\";\n\ntype Props = NativeProps & { as?: string; dataSlot?: string; children?: Snippet };\n\nlet { as = \"div\", dataSlot = \"\", class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<svelte:element this={as} data-slot={dataSlot || undefined} class={cn(className)} {...rest}>\n\t{@render children?.()}\n</svelte:element>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/props.js",
+			"target": "internal/props.js",
+			"type": "registry:ui",
+			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/InputGroupAddon.svelte",
 			"target": "components/InputGroupAddon.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\ntype Props = NativeProps & {\n\talign?: \"inline-start\" | \"inline-end\" | \"block-start\" | \"block-end\" | \"center\";\n\tchildren?: Snippet;\n};\n\nlet { align = \"inline-start\", class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<Block\n\tas=\"div\"\n\tdataSlot=\"input-group-addon\"\n\tdata-align={align}\n\tclass={cn(\"cn-input-group-addon\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/InputGroupInput.svelte",
 			"target": "components/InputGroupInput.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { HTMLInputAttributes } from \"svelte/elements\";\nimport { getFieldContext } from \"../internal/field-context.svelte.js\";\nimport { cn } from \"../utils.js\";\n\nlet {\n\ttype = \"text\",\n\tid,\n\trequired,\n\tdisabled,\n\t\"aria-describedby\": ariaDescribedBy,\n\t\"aria-invalid\": ariaInvalid,\n\tclass: className = \"\",\n\t...rest\n}: HTMLInputAttributes = $props();\nconst field = getFieldContext();\nlet controlId = $derived(id ?? field?.controlId);\nlet describedBy = $derived(\n\t[ariaDescribedBy, field?.describedBy].filter(Boolean).join(\" \") || undefined\n);\nlet isInvalid = $derived(ariaInvalid ?? (field?.invalid ? \"true\" : undefined));\n</script>\n\n<input data-slot=\"input-group-input\" id={controlId} class={cn(\"cn-input-group-input\", className)} {type} required={required ?? field?.required} disabled={disabled ?? field?.disabled} aria-describedby={describedBy} aria-invalid={isInvalid} data-invalid={field?.invalid ? \"true\" : undefined} {...rest} />\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/field-context.svelte.js",
+			"target": "internal/field-context.svelte.js",
+			"type": "registry:ui",
+			"content": "import { getContext, setContext } from \"svelte\";\n\nconst fieldContextKey = Symbol(\"coss-svelte-field\");\n\nexport type FieldContext = {\n\tbaseId: string;\n\tcontrolId: string;\n\tlabelId: string;\n\tdescriptionId: string;\n\terrorId: string;\n\tvalidityId: string;\n\trequired: boolean;\n\tdisabled: boolean;\n\tinvalid: boolean;\n\tdescribedBy: string;\n\tregisterDescription: (id?: string) => () => void;\n\tregisterError: (id?: string) => () => void;\n};\n\nexport function createFieldContext(\n\tbaseId: string,\n\tdefaults: {\n\t\trequired: () => boolean;\n\t\tdisabled: () => boolean;\n\t\tinvalid: () => boolean;\n\t\tdescription?: () => boolean;\n\t\terror?: () => boolean;\n\t}\n): FieldContext {\n\tlet descriptions = $state<string[]>(defaults.description?.() ? [`${baseId}-description`] : []);\n\tlet errors = $state<string[]>(defaults.error?.() ? [`${baseId}-error`] : []);\n\tconst register = (items: string[], id: string | undefined) => {\n\t\tif (id && !items.includes(id)) items.push(id);\n\t\treturn () => {\n\t\t\tconst index = id ? items.indexOf(id) : -1;\n\t\t\tif (index >= 0) items.splice(index, 1);\n\t\t};\n\t};\n\n\treturn {\n\t\tbaseId,\n\t\tcontrolId: `${baseId}-control`,\n\t\tlabelId: `${baseId}-label`,\n\t\tdescriptionId: `${baseId}-description`,\n\t\terrorId: `${baseId}-error`,\n\t\tvalidityId: `${baseId}-validity`,\n\t\tget required() {\n\t\t\treturn defaults.required();\n\t\t},\n\t\tget disabled() {\n\t\t\treturn defaults.disabled();\n\t\t},\n\t\tget invalid() {\n\t\t\treturn defaults.invalid();\n\t\t},\n\t\tget describedBy() {\n\t\t\treturn [...descriptions, ...errors].join(\" \");\n\t\t},\n\t\tregisterDescription: (id = `${baseId}-description`) => register(descriptions, id),\n\t\tregisterError: (id = `${baseId}-error`) => register(errors, id),\n\t};\n}\n\nexport function setFieldContext(context: FieldContext): void {\n\tsetContext(fieldContextKey, context);\n}\n\nexport function getFieldContext(): FieldContext | undefined {\n\treturn getContext<FieldContext | undefined>(fieldContextKey);\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/InputGroupText.svelte",
 			"target": "components/InputGroupText.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block as=\"span\" dataSlot=\"input-group-text\" class={cn(\"cn-input-group-text\", className)} {...rest}>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/InputGroupTextarea.svelte",
 			"target": "components/InputGroupTextarea.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { HTMLTextareaAttributes } from \"svelte/elements\";\nimport { getFieldContext } from \"../internal/field-context.svelte.js\";\nimport { cn } from \"../utils.js\";\n\nlet {\n\tid,\n\trequired,\n\tdisabled,\n\t\"aria-describedby\": ariaDescribedBy,\n\t\"aria-invalid\": ariaInvalid,\n\tclass: className = \"\",\n\t...rest\n}: HTMLTextareaAttributes = $props();\nconst field = getFieldContext();\nlet controlId = $derived(id ?? field?.controlId);\nlet describedBy = $derived(\n\t[ariaDescribedBy, field?.describedBy].filter(Boolean).join(\" \") || undefined\n);\nlet isInvalid = $derived(ariaInvalid ?? (field?.invalid ? \"true\" : undefined));\n</script>\n\n<textarea data-slot=\"input-group-textarea\" id={controlId} class={cn(\"cn-input-group-textarea\", className)} required={required ?? field?.required} disabled={disabled ?? field?.disabled} aria-describedby={describedBy} aria-invalid={isInvalid} data-invalid={field?.invalid ? \"true\" : undefined} {...rest}></textarea>\n"
 		}
 	],
-	"dependencies": [],
+	"dependencies": ["clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

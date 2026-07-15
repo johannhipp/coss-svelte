@@ -1,8 +1,14 @@
-<script>
+<script lang="ts">
 import { Command as CommandPrimitive } from "bits-ui";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { value = $bindable(""), class: className = "", ...rest } = $props();
+type Props = Omit<ComponentProps<typeof CommandPrimitive.Input>, "children" | "child"> & {
+	value?: string;
+	class?: string;
+};
+
+let { value = $bindable(""), class: className = "", ...rest }: Props = $props();
 </script>
 
 <span data-slot="command-input-group" class="cn-command-input-group">

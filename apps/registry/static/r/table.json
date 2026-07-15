@@ -7,45 +7,71 @@
 		{
 			"path": "packages/coss-svelte/src/components/Table.svelte",
 			"target": "components/Table.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<div data-slot=\"table-wrap\" class=\"cn-table-wrap\">\n\t<table data-slot=\"table\" class={cn(\"cn-table\", className)} {...rest}>\n\t\t{@render children?.()}\n\t</table>\n</div>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/props.js",
+			"target": "internal/props.js",
+			"type": "registry:ui",
+			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/TableBody.svelte",
 			"target": "components/TableBody.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"tbody\"\n\tdataSlot=\"table-body\"\n\tclass={cn(\"cn-table-body\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/Block.svelte",
+			"target": "internal/Block.svelte",
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\nimport type { NativeProps } from \"./props.js\";\n\ntype Props = NativeProps & { as?: string; dataSlot?: string; children?: Snippet };\n\nlet { as = \"div\", dataSlot = \"\", class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<svelte:element this={as} data-slot={dataSlot || undefined} class={cn(className)} {...rest}>\n\t{@render children?.()}\n</svelte:element>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/TableCaption.svelte",
 			"target": "components/TableCaption.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"caption\"\n\tdataSlot=\"table-caption\"\n\tclass={cn(\"cn-table-caption\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/TableCell.svelte",
 			"target": "components/TableCell.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"td\"\n\tdataSlot=\"table-cell\"\n\tclass={cn(\"cn-table-cell\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/TableFooter.svelte",
 			"target": "components/TableFooter.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"tfoot\"\n\tdataSlot=\"table-footer\"\n\tclass={cn(\"cn-table-footer\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/TableHead.svelte",
 			"target": "components/TableHead.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { cn } from \"../utils.js\";\n\ntype Scope = \"row\" | \"rowgroup\" | \"col\" | \"colgroup\";\nlet {\n\tscope = \"col\",\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: { scope?: Scope; class?: string; children?: import(\"svelte\").Snippet } = $props();\n</script>\n\n<th data-slot=\"table-head\" class={cn(\"cn-table-head\", className)} {scope} {...rest}>\n\t{@render children?.()}\n</th>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/TableHeader.svelte",
 			"target": "components/TableHeader.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"thead\"\n\tdataSlot=\"table-header\"\n\tclass={cn(\"cn-table-header\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/TableRow.svelte",
 			"target": "components/TableRow.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"tr\"\n\tdataSlot=\"table-row\"\n\tclass={cn(\"cn-table-row\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		}
 	],
-	"dependencies": [],
+	"dependencies": ["clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

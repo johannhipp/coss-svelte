@@ -1,21 +1,26 @@
-// @ts-nocheck
 import { componentDocs } from "$lib/docs/navigation.js";
 
-function createParticle(component) {
-	const name = `p-${component.slug}-1`;
+/** @typedef {import("$lib/docs/types.js").LocalExample} LocalExample */
 
+/** @param {typeof componentDocs[number]} component */
+function createLocalExample(component) {
+	const name = `${component.slug}-example`;
+
+	/** @type {LocalExample} */
 	return {
 		description: component.description,
 		href: component.href,
 		name,
-		registryUrl: `https://coss.com/ui/r/${name}.json`,
+		registryUrl: `/r/${component.slug}.json`,
 		slug: component.slug,
 		title: component.title,
 	};
 }
 
 export function load() {
-	const particles = componentDocs.map(createParticle);
+	const particles = componentDocs
+		.filter((component) => component.status !== "deferred")
+		.map(createLocalExample);
 
 	return {
 		particleCount: particles.length,

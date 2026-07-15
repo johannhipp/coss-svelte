@@ -5,20 +5,31 @@
 	"private": false,
 	"license": "MIT",
 	"type": "module",
-	"svelte": "./src/index.js",
-	"types": "./src/index.d.ts",
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"files": [
-		"src",
+		"dist",
 		"README.md",
 		"LICENSE"
 	],
+	"scripts": {
+		"check": "svelte-check --workspace . --tsconfig ./tsconfig.json --fail-on-warnings",
+		"test": "vitest run",
+		"test:ssr": "vitest run --config vite.ssr.config.ts",
+		"package": "svelte-package -i src -o dist",
+		"package:watch": "svelte-package -i src -o dist --watch",
+		"prepack": "pnpm package"
+	},
 	"exports": {
 		".": {
-			"svelte": "./src/index.js",
-			"types": "./src/index.d.ts",
-			"default": "./src/index.js"
+			"svelte": "./dist/index.js",
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
 		},
-		"./metadata": "./src/metadata.js"
+		"./metadata": {
+			"types": "./dist/metadata.d.ts",
+			"default": "./dist/metadata.js"
+		}
 	},
 	"repository": {
 		"type": "git",
@@ -47,7 +58,18 @@
 	},
 	"dependencies": {
 		"clsx": "2.1.1",
-		"tailwind-merge": "3.6.0",
-		"tailwind-variants": "3.2.2"
+		"tailwind-merge": "3.6.0"
+	},
+	"devDependencies": {
+		"@sveltejs/package": "2.5.8",
+		"@sveltejs/vite-plugin-svelte": "7.1.2",
+		"@testing-library/jest-dom": "6.9.1",
+		"@testing-library/svelte": "5.4.2",
+		"bits-ui": "2.18.1",
+		"jsdom": "29.1.1",
+		"svelte": "5.56.3",
+		"svelte-check": "4.6.0",
+		"typescript": "6.0.3",
+		"vitest": "4.1.10"
 	}
 }

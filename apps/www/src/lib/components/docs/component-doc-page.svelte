@@ -5,38 +5,7 @@ import ComponentPreviewTabs from "$lib/components/docs/component-preview-tabs.sv
 import CopyMarkdownButton from "$lib/components/docs/copy-markdown-button.svelte";
 import DocsToc from "$lib/components/docs/docs-toc.svelte";
 import { createComponentMarkdown } from "$lib/docs/markdown.js";
-import { previewUsageExamples } from "$lib/docs/preview-examples.js";
-
-type ComponentPage = {
-	apiReference: {
-		description: string;
-		name: string;
-		props?: {
-			default?: string;
-			description: string;
-			name: string;
-			type: string;
-		}[];
-	}[];
-	category: string;
-	description: string;
-	firstImplementationPass?: string;
-	foundation: string;
-	href: string;
-	imports: string[];
-	name: string;
-	particles: number;
-	parts: string[];
-	slug: string;
-	status: string;
-	statusLabel: string;
-	title: string;
-};
-
-type TocItem = {
-	href: string;
-	title: string;
-};
+import type { ComponentDoc, TocItem } from "$lib/docs/types.js";
 
 let {
 	next = null,
@@ -44,19 +13,15 @@ let {
 	previous = null,
 	toc = [],
 }: {
-	next?: ComponentPage | null;
-	page: ComponentPage;
-	previous?: ComponentPage | null;
+	next?: ComponentDoc | null;
+	page: ComponentDoc;
+	previous?: ComponentDoc | null;
 	toc?: TocItem[];
 } = $props();
 
-function createUsageCode(component: ComponentPage) {
-	return previewUsageExamples[component.slug] ?? "";
-}
-
-let usageCode = $derived(createUsageCode(page));
+let usageCode = $derived(page.exampleSource ?? "");
 let importCode = $derived(`import { ${page.imports.join(", ")} } from "coss-svelte";`);
-let markdown = $derived(createComponentMarkdown(page));
+let markdown = $derived(createComponentMarkdown(page, usageCode));
 </script>
 
 <div class="flex min-w-0 items-stretch">

@@ -1,7 +1,15 @@
-<script>
+<script lang="ts">
+import type { HTMLButtonAttributes } from "svelte/elements";
 import { cn } from "../utils.js";
 
-let { type = "button", showOnHover = false, class: className = "", children, ...rest } = $props();
+type Props = HTMLButtonAttributes & { showOnHover?: boolean };
+let {
+	type = "button",
+	showOnHover = false,
+	class: className = "",
+	children,
+	...rest
+}: Props = $props();
 </script>
 
 <button

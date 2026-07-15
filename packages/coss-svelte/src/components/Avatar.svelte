@@ -1,6 +1,15 @@
-<script>
+<script lang="ts">
 import { Avatar as AvatarPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
+
+type Props = Omit<ComponentProps<typeof AvatarPrimitive.Root>, "children" | "child"> & {
+	src?: string;
+	alt?: string;
+	fallback?: string;
+	class?: string;
+	children?: Snippet;
+};
 
 let {
 	src = "",
@@ -9,7 +18,7 @@ let {
 	class: className = "",
 	children: rootChildren,
 	...rest
-} = $props();
+}: Props = $props();
 </script>
 
 <AvatarPrimitive.Root data-slot="avatar" class={cn("cn-avatar", className)} {...rest}>

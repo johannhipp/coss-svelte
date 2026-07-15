@@ -1,16 +1,5 @@
 <script lang="ts">
-type ApiProp = {
-	default?: string;
-	description: string;
-	name: string;
-	type: string;
-};
-
-type ApiElement = {
-	description: string;
-	name: string;
-	props?: ApiProp[];
-};
+import type { ApiElement } from "$lib/docs/types.js";
 
 let { reference = [] }: { reference?: ApiElement[] } = $props();
 </script>

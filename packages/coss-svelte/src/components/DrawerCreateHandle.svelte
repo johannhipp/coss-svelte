@@ -1,38 +1,42 @@
-<script>
+<script lang="ts">
 import { Dialog as DialogPrimitive } from "bits-ui";
+import type { NativeProps } from "../internal/props.js";
 import { cn } from "../utils.js";
 
-let { class: className = "", ...rest } = $props();
+let { class: className = "", ...rest }: NativeProps = $props();
 
-let dragState = null;
+type DragState = { pointerId: number; popup: HTMLElement; startY: number; distance: number } | null;
+let dragState: DragState = null;
 
-function getPopup(target) {
-	return target.closest('[data-slot="drawer-popup"]');
+function getPopup(target: EventTarget | null): HTMLElement | null {
+	return target instanceof Element
+		? target.closest<HTMLElement>('[data-slot="drawer-popup"]')
+		: null;
 }
 
-function resetDrag(popup) {
+function resetDrag(popup: HTMLElement): void {
 	if (!popup) return;
 	popup.removeAttribute("data-dragging");
 	popup.style.removeProperty("--cn-drawer-drag-offset");
 }
 
-function capturePointer(target, pointerId) {
+function capturePointer(target: EventTarget | null, pointerId: number): void {
 	try {
-		target.setPointerCapture?.(pointerId);
+		if (target instanceof Element) target.setPointerCapture?.(pointerId);
 	} catch {
 		// Synthetic pointer events used by test harnesses cannot be captured.
 	}
 }
 
-function releasePointer(target, pointerId) {
+function releasePointer(target: EventTarget | null, pointerId: number): void {
 	try {
-		target.releasePointerCapture?.(pointerId);
+		if (target instanceof Element) target.releasePointerCapture?.(pointerId);
 	} catch {
 		// Synthetic pointer events used by test harnesses cannot be released.
 	}
 }
 
-function handlePointerDown(event) {
+function handlePointerDown(event: PointerEvent): void {
 	if (event.pointerType === "mouse" && event.button !== 0) return;
 
 	const popup = getPopup(event.currentTarget);
@@ -49,14 +53,14 @@ function handlePointerDown(event) {
 	event.preventDefault();
 }
 
-function handlePointerMove(event) {
+function handlePointerMove(event: PointerEvent): void {
 	if (!dragState || event.pointerId !== dragState.pointerId) return;
 
 	dragState.distance = Math.max(0, event.clientY - dragState.startY);
 	dragState.popup.style.setProperty("--cn-drawer-drag-offset", `${dragState.distance}px`);
 }
 
-function handlePointerUp(event) {
+function handlePointerUp(event: PointerEvent): void {
 	if (!dragState || event.pointerId !== dragState.pointerId) return;
 
 	const { popup, distance } = dragState;
@@ -66,7 +70,7 @@ function handlePointerUp(event) {
 	releasePointer(event.currentTarget, event.pointerId);
 	if (shouldClose) {
 		resetDrag(popup);
-		event.currentTarget.click();
+		if (event.currentTarget instanceof HTMLElement) event.currentTarget.click();
 		event.preventDefault();
 		return;
 	}
@@ -74,7 +78,7 @@ function handlePointerUp(event) {
 	resetDrag(popup);
 }
 
-function handlePointerCancel(event) {
+function handlePointerCancel(event: PointerEvent): void {
 	if (!dragState || event.pointerId !== dragState.pointerId) return;
 
 	const { popup } = dragState;

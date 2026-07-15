@@ -1,8 +1,14 @@
-<script>
+<script lang="ts">
 import { Select as SelectPrimitive } from "bits-ui";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children: valueChildren, ...rest } = $props();
+type Props = Omit<ComponentProps<typeof SelectPrimitive.Value>, "children" | "child"> & {
+	class?: string;
+	children?: ComponentProps<typeof SelectPrimitive.Value>["children"];
+};
+
+let { class: className = "", children: valueChildren = undefined, ...rest }: Props = $props();
 </script>
 
 {#if valueChildren}

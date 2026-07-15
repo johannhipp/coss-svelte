@@ -7,35 +7,53 @@
 		{
 			"path": "packages/coss-svelte/src/components/Toolbar.svelte",
 			"target": "components/Toolbar.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Toolbar as ToolbarPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof ToolbarPrimitive.Root>;\nlet { orientation = \"horizontal\", class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<ToolbarPrimitive.Root\n\tdata-slot=\"toolbar\"\n\tclass={cn(\"cn-toolbar\", className)}\n\t{orientation}\n\t{...rest}\n>\n\t{@render children?.()}\n</ToolbarPrimitive.Root>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/ToolbarButton.svelte",
 			"target": "components/ToolbarButton.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Toolbar as ToolbarPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<ToolbarPrimitive.Button\n\tdata-slot=\"toolbar-button\"\n\tclass={cn(\"cn-toolbar-button\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</ToolbarPrimitive.Button>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/props.js",
+			"target": "internal/props.js",
+			"type": "registry:ui",
+			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/ToolbarGroup.svelte",
 			"target": "components/ToolbarGroup.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Toolbar as ToolbarPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype GroupProps = ComponentProps<typeof ToolbarPrimitive.Group>;\ntype Props = Omit<GroupProps, \"children\" | \"type\" | \"value\"> & {\n\ttype?: \"single\" | \"multiple\";\n\tvalue?: string | string[];\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet {\n\ttype = \"single\",\n\tvalue = $bindable(),\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: Props = $props();\n</script>\n\n<ToolbarPrimitive.Group\n\tdata-slot=\"toolbar-group\"\n\tclass={cn(\"cn-toolbar-group\", className)}\n\t{type}\n\tbind:value\n\t{...rest}\n>\n\t{@render children?.()}\n</ToolbarPrimitive.Group>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/ToolbarGroupItem.svelte",
 			"target": "components/ToolbarGroupItem.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Toolbar as ToolbarPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof ToolbarPrimitive.GroupItem>, \"children\" | \"child\"> & {\n\tchildren?: Snippet;\n};\nlet { value, class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<ToolbarPrimitive.GroupItem\n\tdata-slot=\"toolbar-group-item\"\n\tclass={cn(\"cn-toolbar-group-item\", className)}\n\t{value}\n\t{...rest}\n>\n\t{@render children?.()}\n</ToolbarPrimitive.GroupItem>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/ToolbarLink.svelte",
 			"target": "components/ToolbarLink.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Toolbar as ToolbarPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<ToolbarPrimitive.Link\n\tdata-slot=\"toolbar-link\"\n\tclass={cn(\"cn-toolbar-link\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</ToolbarPrimitive.Link>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/ToolbarSeparator.svelte",
 			"target": "components/ToolbarSeparator.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\ntype Props = NativeProps & { orientation?: \"horizontal\" | \"vertical\" };\n\nlet { orientation = \"vertical\", class: className = \"\", ...rest }: Props = $props();\n</script>\n\n<span\n\tdata-slot=\"toolbar-separator\"\n\tdata-orientation={orientation}\n\tclass={cn(\"cn-toolbar-separator\", className)}\n\taria-hidden=\"true\"\n\t{...rest}\n></span>\n"
 		}
 	],
-	"dependencies": ["bits-ui"],
+	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

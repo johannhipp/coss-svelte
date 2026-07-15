@@ -5,20 +5,12 @@ import { onDestroy } from "svelte";
 import { goto } from "$app/navigation";
 import { page } from "$app/state";
 import ComponentPreviewRenderer from "$lib/components/docs/component-preview-renderer.svelte";
-
-type Particle = {
-	description: string;
-	href: string;
-	name: string;
-	registryUrl: string;
-	slug: string;
-	title: string;
-};
+import type { LocalExample } from "$lib/docs/types.js";
 
 let {
 	particles,
 }: {
-	particles: Particle[];
+	particles: LocalExample[];
 } = $props();
 
 let query = $state("");
@@ -30,7 +22,7 @@ let normalizedQuery = $derived(query.trim().toLowerCase());
 let selectedParticles = $derived(
 	selectedParticleSlugs
 		.map((slug) => particles.find((particle) => particle.slug === slug))
-		.filter((particle): particle is Particle => Boolean(particle))
+		.filter((particle): particle is LocalExample => Boolean(particle))
 );
 let hasActiveFilters = $derived(normalizedQuery.length > 0 || selectedParticleSlugs.length > 0);
 let filteredParticles = $derived(
@@ -63,7 +55,7 @@ function clearFilters() {
 	updateSelectedParticleSlugs([]);
 }
 
-async function copyRegistryUrl(particle: Particle) {
+async function copyRegistryUrl(particle: LocalExample) {
 	try {
 		await navigator.clipboard.writeText(particle.registryUrl);
 		copiedParticle = particle.slug;

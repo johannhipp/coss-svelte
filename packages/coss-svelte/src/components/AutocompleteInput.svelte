@@ -1,8 +1,15 @@
-<script>
+<script lang="ts">
 import { Combobox as ComboboxPrimitive } from "bits-ui";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", showTrigger = false, triggerProps = {}, ...rest } = $props();
+type Props = Omit<ComponentProps<typeof ComboboxPrimitive.Input>, "children" | "child"> & {
+	class?: string;
+	showTrigger?: boolean;
+	triggerProps?: ComponentProps<typeof ComboboxPrimitive.Trigger>;
+};
+
+let { class: className = "", showTrigger = false, triggerProps = {}, ...rest }: Props = $props();
 
 let triggerClass = $derived(triggerProps.class ?? "");
 let triggerLabel = $derived(triggerProps["aria-label"] ?? "Toggle autocomplete suggestions");

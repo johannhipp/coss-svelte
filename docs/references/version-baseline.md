@@ -11,9 +11,12 @@ Captured from npm on 2026-06-10.
 | `tailwindcss`                  |  `4.3.0` | Styling engine                         |
 | `@tailwindcss/vite`            |  `4.3.0` | Tailwind/Vite integration              |
 | `@sveltejs/vite-plugin-svelte` |  `7.1.2` | Svelte/Vite integration                |
-| `@sveltejs/adapter-auto`       |  `7.0.1` | Initial docs app adapter               |
+| `@sveltejs/adapter-node`       |  `5.5.7` | Explicit Node deployment target for the docs app |
+| `@sveltejs/package`            |  `2.5.8` | Package declaration/build pipeline    |
+| `vitest`                       | `4.1.10` | Component runtime tests                |
+| `@testing-library/svelte`      | `5.4.2` | DOM component test harness             |
+| `jsdom`                        | `29.1.1` | Browser-like test environment          |
 | `@lucide/svelte`               | `1.17.0` | Default icon set                       |
-| `tailwind-variants`            |  `3.2.2` | Variant API                            |
 | `tailwind-merge`               |  `3.6.0` | Class merge helper                     |
 | `clsx`                         |  `2.1.1` | Conditional class helper               |
 | `tw-animate-css`               |  `1.4.0` | Tailwind animation utilities           |

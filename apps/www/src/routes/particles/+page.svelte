@@ -2,22 +2,14 @@
 import DocsHeader from "$lib/components/docs/docs-header.svelte";
 import DocsMobileMenu from "$lib/components/docs/docs-mobile-menu.svelte";
 import ParticlesBrowser from "$lib/components/docs/particles-browser.svelte";
-
-type Particle = {
-	description: string;
-	href: string;
-	name: string;
-	registryUrl: string;
-	slug: string;
-	title: string;
-};
+import type { LocalExample } from "$lib/docs/types.js";
 
 let {
 	data,
 }: {
 	data: {
 		particleCount: number;
-		particles: Particle[];
+		particles: LocalExample[];
 	};
 } = $props();
 

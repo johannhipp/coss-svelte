@@ -10,12 +10,16 @@ Use this checklist when preparing a public GitHub or npm release.
 4. Review `README.md`, `CONTRIBUTING.md`, `SECURITY.md`, and `CHANGELOG.md` for the release state.
 5. Create a release commit that updates package versions and `CHANGELOG.md`.
 
+For the docs app, build with `pnpm --filter @coss-svelte/www build` and run the
+adapter-node server with `pnpm --filter @coss-svelte/www start` (equivalent to
+`node build`).
+
 ## Before an npm Release
 
 1. Make sure the public GitHub repository and npm package metadata point at the same release commit.
 2. Run `pnpm release:check`.
 3. Inspect the package contents with `pnpm pack:dry-run` or from the package directory with `npm pack --dry-run`.
-4. Confirm the tarball contains only `src`, `README.md`, `LICENSE`, and `package.json`.
+4. Confirm the tarball contains only the generated `dist` package, `README.md`, `LICENSE`, and `package.json`.
 5. Confirm `bits-ui` and `svelte` remain peer dependencies, not bundled dependencies.
 
 ## Publish Boundary

@@ -1,6 +1,18 @@
-<script>
+<script lang="ts">
 import { Meter as MeterPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
+import { clampPercentage } from "../internal/props.js";
 import { cn } from "../utils.js";
+
+type Props = Omit<ComponentProps<typeof MeterPrimitive.Root>, "children" | "child"> & {
+	value?: number;
+	min?: number;
+	max?: number;
+	label?: string;
+	class?: string;
+	style?: string;
+	children?: Snippet;
+};
 
 let {
 	class: className = "",
@@ -11,9 +23,9 @@ let {
 	children,
 	style = "",
 	...rest
-} = $props();
+}: Props = $props();
 
-let percentage = $derived(Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100)));
+let percentage = $derived(clampPercentage(value, min, max));
 let meterStyle = $derived(`${style}; --meter-value: ${percentage}%`);
 </script>
 
