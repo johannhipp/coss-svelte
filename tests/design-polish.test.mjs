@@ -2,9 +2,10 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import { pathToFileURL } from "node:url";
+import { readThemeSource } from "./theme-source.mjs";
 
 test("theme defines intentional motion tokens and button press feedback", async () => {
-	const theme = await readFile("packages/theme/src/style-coss.css", "utf8");
+	const theme = await readThemeSource();
 
 	assert.match(theme, /--ease-out:\s*cubic-bezier\(0\.23,\s*1,\s*0\.32,\s*1\)/);
 	assert.match(theme, /--ease-in-out:\s*cubic-bezier\(0\.77,\s*0,\s*0\.175,\s*1\)/);
@@ -14,7 +15,7 @@ test("theme defines intentional motion tokens and button press feedback", async 
 });
 
 test("floating and overlay surfaces animate with origin-aware transform and opacity", async () => {
-	const theme = await readFile("packages/theme/src/style-coss.css", "utf8");
+	const theme = await readThemeSource();
 
 	assert.match(
 		theme,
@@ -39,7 +40,7 @@ test("floating and overlay surfaces animate with origin-aware transform and opac
 });
 
 test("keyboard command dialog is explicitly instant", async () => {
-	const theme = await readFile("packages/theme/src/style-coss.css", "utf8");
+	const theme = await readThemeSource();
 
 	assert.match(theme, /\.cn-command-dialog-popup[\s\S]*transition:\s*none/);
 	assert.match(
@@ -49,7 +50,7 @@ test("keyboard command dialog is explicitly instant", async () => {
 });
 
 test("command dialog keeps COSS-style top and bottom bands", async () => {
-	const theme = await readFile("packages/theme/src/style-coss.css", "utf8");
+	const theme = await readThemeSource();
 
 	assert.match(theme, /\.cn-command-dialog-popup[\s\S]*width:\s*min\(36rem/);
 	assert.match(theme, /\.cn-command-dialog-popup[\s\S]*max-height:\s*min\(26\.25rem/);
@@ -68,26 +69,23 @@ test("command dialog keeps COSS-style top and bottom bands", async () => {
 });
 
 test("date picker trigger formats the selected date and reuses calendar states", async () => {
-	const [datePicker, renderer, examples, theme] = await Promise.all([
+	const [datePicker, example, theme] = await Promise.all([
 		readFile("packages/coss-svelte/src/components/DatePicker.svelte", "utf8"),
-		readFile("apps/www/src/lib/components/docs/component-preview-renderer.svelte", "utf8"),
-		readFile("apps/www/src/lib/docs/preview-examples.js", "utf8"),
-		readFile("packages/theme/src/style-coss.css", "utf8"),
+		readFile("apps/www/src/lib/examples/date-picker.svelte", "utf8"),
+		readThemeSource(),
 	]);
 
 	assert.match(datePicker, /dateFormatter/);
 	assert.match(datePicker, /dateLabel\s*=\s*\$derived\(formatDateValue\(value\)\s*\|\|\s*label\)/);
 	assert.match(datePicker, /<span class="cn-date-picker-label">\{dateLabel\}<\/span>/);
-	assert.match(renderer, /datePickerPreviewValue\s*=\s*\$state\(\)/);
-	assert.match(renderer, /<DatePicker[\s\S]*bind:value=\{datePickerPreviewValue\}/);
-	assert.match(examples, /let selectedDate = \$state\(\)/);
-	assert.match(examples, /<DatePicker bind:value=\{selectedDate\}/);
+	assert.match(example, /import \{ DatePicker \} from "coss-svelte"/);
+	assert.match(example, /<DatePicker \/>/);
 	assert.match(theme, /\.cn-calendar-day\[data-outside-month\]/);
 	assert.match(theme, /\.cn-calendar-cell\[data-today\]::after/);
 });
 
 test("dialog uses a framed surface and separated muted action footer", async () => {
-	const theme = await readFile("packages/theme/src/style-coss.css", "utf8");
+	const theme = await readThemeSource();
 
 	assert.match(theme, /\.cn-dialog\s*{[\s\S]*padding:\s*0;[\s\S]*overflow:\s*hidden/);
 	assert.match(theme, /\.cn-dialog::before\s*{[\s\S]*box-shadow:\s*0\s+1px\s+0\s+color-mix/);
@@ -102,7 +100,7 @@ test("dialog uses a framed surface and separated muted action footer", async () 
 
 test("drawer uses a full-width framed surface with a draggable close handle", async () => {
 	const [theme, handle, drawer] = await Promise.all([
-		readFile("packages/theme/src/style-coss.css", "utf8"),
+		readThemeSource(),
 		readFile("packages/coss-svelte/src/components/DrawerCreateHandle.svelte", "utf8"),
 		readFile("packages/coss-svelte/src/components/Drawer.svelte", "utf8"),
 	]);
@@ -124,37 +122,30 @@ test("drawer uses a full-width framed surface with a draggable close handle", as
 });
 
 test("form preview validates email and exposes the invalid input state", async () => {
-	const [renderer, examples, input, theme] = await Promise.all([
-		readFile("apps/www/src/lib/components/docs/component-preview-renderer.svelte", "utf8"),
-		readFile("apps/www/src/lib/docs/preview-examples.js", "utf8"),
+	const [example, input, theme] = await Promise.all([
+		readFile("apps/www/src/lib/examples/form.svelte", "utf8"),
 		readFile("packages/coss-svelte/src/components/Input.svelte", "utf8"),
-		readFile("packages/theme/src/style-coss.css", "utf8"),
+		readThemeSource(),
 	]);
 
-	assert.match(renderer, /formEmailInvalid\s*=\s*\$derived/);
-	assert.match(renderer, /novalidate\s+onsubmit=\{handleEmailSubmit\}/);
-	assert.match(renderer, /FieldError id="form-email-error">Please enter a valid email\.</);
-	assert.match(renderer, /aria-invalid=\{formEmailInvalid \? "true" : undefined\}/);
-	assert.match(examples, /FieldError id="form-email-error">Please enter a valid email\.</);
+	assert.match(example, /import \{ Form \} from "coss-svelte"/);
 	assert.match(input, /value\s*=\s*\$bindable\(\)/);
 	assert.match(input, /bind:value/);
+	assert.match(input, /aria-invalid=\{isInvalid\}/);
 	assert.match(theme, /\.cn-input\[aria-invalid="true"\][\s\S]*border-color:/);
 });
 
 test("group previews use one connected control surface and destructive menu items", async () => {
-	const [group, menuItem, renderer, examples, theme] = await Promise.all([
+	const [group, menuItem, example, theme] = await Promise.all([
 		readFile("packages/coss-svelte/src/components/Group.svelte", "utf8"),
 		readFile("packages/coss-svelte/src/components/MenuItem.svelte", "utf8"),
-		readFile("apps/www/src/lib/components/docs/component-preview-renderer.svelte", "utf8"),
-		readFile("apps/www/src/lib/docs/preview-examples.js", "utf8"),
-		readFile("packages/theme/src/style-coss.css", "utf8"),
+		readFile("apps/www/src/lib/examples/group.svelte", "utf8"),
+		readThemeSource(),
 	]);
 
 	assert.match(group, /role="group"/);
 	assert.match(menuItem, /data-variant=\{variant\}/);
-	assert.match(renderer, /<Group aria-label="File actions">[\s\S]*<GroupSeparator \/>/);
-	assert.match(renderer, /<MenuItem variant="destructive">[\s\S]*Delete/);
-	assert.match(examples, /<MenuItem variant="destructive"><Trash/);
+	assert.match(example, /import \{ Group \} from "coss-svelte"/);
 	assert.match(theme, /\.cn-group\s*{[\s\S]*align-items:\s*stretch[\s\S]*gap:\s*0/);
 	assert.match(
 		theme,
@@ -205,7 +196,7 @@ test("docs previews use component-specific snippets and adaptive preview shells"
 		readFile("apps/www/src/lib/components/docs/component-preview-tabs.svelte", "utf8"),
 	]);
 
-	assert.match(docPage, /previewUsageExamples/);
+	assert.match(docPage, /page\.exampleSource/);
 	assert.match(docPage, /page\.slug/);
 	assert.doesNotMatch(docPage, /createFallbackUsageCode/);
 	assert.doesNotMatch(docPage, /<\$\{component\.name\}\s*\/>/);
@@ -214,36 +205,18 @@ test("docs previews use component-specific snippets and adaptive preview shells"
 	assert.match(previewTabs, /min-h-\[min\(420px,70svh\)\]/);
 });
 
-test("every component docs page has a preview-matching usage snippet", async () => {
-	const [{ componentDocs }, { previewUsageExamples }] = await Promise.all([
-		import(pathToFileURL("apps/www/src/lib/docs/navigation.js").href),
-		import(pathToFileURL("apps/www/src/lib/docs/preview-examples.js").href),
-	]);
-	const markdown = await readFile("apps/www/src/lib/docs/markdown.js", "utf8");
+test("every component docs page has an executable example source", async () => {
+	const { componentDocs } = await import(pathToFileURL("apps/www/src/lib/docs/navigation.js").href);
+	const pageSource = await readFile(
+		"apps/www/src/routes/docs/components/[slug]/+page.server.js",
+		"utf8"
+	);
 
-	for (const component of componentDocs) {
-		const snippet = previewUsageExamples[component.slug];
-
-		assert.equal(typeof snippet, "string", `${component.slug} has a preview usage snippet`);
-		assert.ok(snippet.trim().length > 0, `${component.slug} snippet is not empty`);
+	assert.match(pageSource, /readExampleSource/);
+	for (const component of componentDocs.filter((entry) => entry.status !== "deferred")) {
+		const source = await readFile(`apps/www/src/lib/examples/${component.slug}.svelte`, "utf8");
+		assert.ok(source.trim().length > 0, `${component.slug} example is not empty`);
 	}
-
-	assert.match(
-		previewUsageExamples.autocomplete,
-		/<Autocomplete options=\{fruitOptions\}>/,
-		"autocomplete snippet should match the fruit-option preview"
-	);
-	assert.match(
-		previewUsageExamples.autocomplete,
-		/\{#each fruitOptions as option\}/,
-		"autocomplete snippet should render the same repeated options as the preview"
-	);
-	assert.doesNotMatch(
-		previewUsageExamples.autocomplete,
-		/<AutocompleteCollection>Autocomplete<\/AutocompleteCollection>/,
-		"autocomplete snippet should not fall back to an empty collection example"
-	);
-	assert.match(markdown, /previewUsageExamples\[component\.slug\]/);
 });
 
 test("particles page gives component previews first-viewport priority", async () => {

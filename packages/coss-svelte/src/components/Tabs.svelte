@@ -1,6 +1,15 @@
-<script>
+<script lang="ts">
 import { Tabs as TabsPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
+
+type TabItem = string | { value?: string; label?: string; disabled?: boolean; content?: string };
+type Props = Omit<ComponentProps<typeof TabsPrimitive.Root>, "children" | "child"> & {
+	value?: string;
+	tabs?: TabItem[];
+	class?: string;
+	children?: Snippet;
+};
 
 let {
 	children,
@@ -8,33 +17,35 @@ let {
 	tabs = children ? [] : ["Overview", "Details"],
 	class: className = "",
 	...rest
-} = $props();
+}: Props = $props();
 </script>
 
 <TabsPrimitive.Root data-slot="tabs" class={cn("cn-tabs", className)} bind:value {...rest}>
 	{#if tabs.length}
 		<TabsPrimitive.List data-slot="tabs-list" class="cn-tabs-list">
 		{#each tabs as tab, index}
+			{@const tabObject = typeof tab === "object" && tab !== null ? tab : null}
 			<TabsPrimitive.Trigger
 				data-slot="tabs-trigger"
 				class="cn-tabs-trigger"
-				value={tab.value ?? `tab-${index + 1}`}
-				disabled={tab.disabled}
+				value={tabObject?.value ?? `tab-${index + 1}`}
+				disabled={tabObject?.disabled}
 			>
-				{tab.label ?? tab}
+				{tabObject?.label ?? tab}
 			</TabsPrimitive.Trigger>
 		{/each}
 	</TabsPrimitive.List>
 		{#each tabs as tab, index}
+			{@const tabObject = typeof tab === "object" && tab !== null ? tab : null}
 			<TabsPrimitive.Content
 				data-slot="tabs-content"
 				class="cn-tabs-content"
-				value={tab.value ?? `tab-${index + 1}`}
+				value={tabObject?.value ?? `tab-${index + 1}`}
 			>
 				{#if index === 0}
 					{@render children?.()}
-				{:else if tab.content}
-					{tab.content}
+				{:else if tabObject?.content}
+					{tabObject.content}
 				{/if}
 			</TabsPrimitive.Content>
 		{/each}

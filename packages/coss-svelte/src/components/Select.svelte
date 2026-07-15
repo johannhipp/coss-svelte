@@ -1,6 +1,21 @@
-<script>
+<script lang="ts">
 import { Select as SelectPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
+import { type NormalizedOption, normalizeOptions, type Option } from "../internal/props.js";
 import { cn } from "../utils.js";
+
+type RootProps = ComponentProps<typeof SelectPrimitive.Root>;
+type Props = Omit<RootProps, "children" | "items" | "type" | "value" | "open" | "onValueChange"> & {
+	type?: "single" | "multiple";
+	value?: string | string[];
+	open?: boolean;
+	onValueChange?: (value: string | string[]) => void;
+	options?: Option[];
+	placeholder?: string;
+	class?: string;
+	id?: string;
+	children?: Snippet;
+};
 
 let {
 	type = "single",
@@ -10,19 +25,14 @@ let {
 	placeholder = "Select",
 	class: className = "",
 	children: rootChildren,
+	onValueChange,
 	...rest
-} = $props();
+}: Props = $props();
 
-let items = $derived(
-	options.map((option) => ({
-		value: option.value ?? option,
-		label: option.label ?? option,
-		disabled: option.disabled ?? false,
-	}))
-);
+let items: NormalizedOption[] = $derived(normalizeOptions(options));
 </script>
 
-<SelectPrimitive.Root {type} bind:value bind:open {items} {...rest}>
+{#snippet content()}
 	{#if rootChildren}
 		{@render rootChildren()}
 	{:else}
@@ -63,4 +73,34 @@ let items = $derived(
 			</SelectPrimitive.Content>
 		</SelectPrimitive.Portal>
 	{/if}
-</SelectPrimitive.Root>
+{/snippet}
+
+{#if type === "multiple"}
+	<SelectPrimitive.Root
+		type="multiple"
+		value={Array.isArray(value) ? value : []}
+		bind:open
+		{items}
+		onValueChange={(next) => {
+			value = next;
+			onValueChange?.(next);
+		}}
+		{...rest}
+	>
+		{@render content()}
+	</SelectPrimitive.Root>
+{:else}
+	<SelectPrimitive.Root
+		type="single"
+		value={typeof value === "string" ? value : ""}
+		bind:open
+		{items}
+		onValueChange={(next) => {
+			value = next;
+			onValueChange?.(next);
+		}}
+		{...rest}
+	>
+		{@render content()}
+	</SelectPrimitive.Root>
+{/if}

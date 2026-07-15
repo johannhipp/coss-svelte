@@ -1,5 +1,19 @@
-<script>
+<script lang="ts">
+import type { Snippet } from "svelte";
+import type { NativeProps } from "../internal/props.js";
+import { getSidebarContext } from "../internal/sidebar-context.svelte.js";
 import { cn } from "../utils.js";
+
+type SidebarItem = string | { label?: string; href?: string };
+type Props = NativeProps & {
+	items?: SidebarItem[];
+	label?: string;
+	side?: "left" | "right";
+	variant?: "sidebar" | "floating" | "inset";
+	collapsible?: "offcanvas" | "icon" | "none";
+	state?: "expanded" | "collapsed";
+	children?: Snippet;
+};
 
 let {
 	items = [],
@@ -11,7 +25,10 @@ let {
 	class: className = "",
 	children,
 	...rest
-} = $props();
+}: Props = $props();
+
+const sidebar = getSidebarContext();
+let effectiveState = $derived(sidebar ? (sidebar.open ? "expanded" : "collapsed") : state);
 </script>
 
 <aside
@@ -20,7 +37,7 @@ let {
 	data-side={side}
 	data-variant={variant}
 	data-collapsible={collapsible}
-	data-state={state}
+	data-state={effectiveState}
 	class={cn("cn-sidebar", className)}
 	aria-label={label}
 	{...rest}
@@ -28,7 +45,8 @@ let {
 	{#if items.length}
 		<nav class="cn-sidebar-legacy-nav">
 			{#each items as item}
-				<a href={item.href ?? "#"}>{item.label ?? item}</a>
+				{@const itemObject = typeof item === "object" && item !== null ? item : null}
+				<a href={itemObject?.href ?? "#"}>{itemObject?.label ?? item}</a>
 			{/each}
 		</nav>
 	{/if}

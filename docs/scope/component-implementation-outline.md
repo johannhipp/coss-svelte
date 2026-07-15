@@ -1,10 +1,21 @@
 # Component Implementation Outline
 
-This generated document expands the COSS feature scope into implementation intent for each component. It is not component code and it is not the current status tracker.
-
-For the current stable, experimental, and deferred scope, use [v0.1 Scope Decisions](../implementation/v0.1-scope-decisions.md). For implementation-time gaps, use [Unimplemented Components And Parity Gaps](../implementation/unimplemented-components.md).
+This document expands the feature scope into implementation intent for each component. It is not component code.
 
 The implementation strategy is to preserve COSS's visual language and copy-and-own ergonomics, while replacing the React/Base UI primitive layer with Svelte-native Bits UI or native Svelte markup.
+
+## Composition contract
+
+Root components use one consistent composition model: custom `children` snippets
+always take precedence, and convenience props render an explicit fallback only
+when no children are supplied. This keeps the compound-part API composable while
+making small examples possible without hidden root modes. New roots must follow
+the same rule, and their fallback props must be listed in the docs API reference.
+
+The model is recorded as `compositionModel` in the package metadata so registry,
+docs, and validation tooling can refer to the same contract. Components with
+specialized payloads (for example, calendar dates or slider values) still own
+their payload normalization; the shared rule governs only root content selection.
 
 ## Dialog
 
@@ -12,7 +23,7 @@ The implementation strategy is to preserve COSS's visual language and copy-and-o
 - COSS scope: A modal overlay for displaying content that requires user interaction.
 - COSS docs: https://coss.com/ui/docs/components/dialog.md
 - Particle examples: 6
-- Svelte foundation: Dialog
+- Svelte foundation: Dialog (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -34,7 +45,7 @@ Source notes:
 - COSS scope: A modal dialog that interrupts the user workflow for critical confirmations.
 - COSS docs: https://coss.com/ui/docs/components/alert-dialog.md
 - Particle examples: 2
-- Svelte foundation: AlertDialog
+- Svelte foundation: AlertDialog (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -56,7 +67,7 @@ Source notes:
 - COSS scope: A flyout that opens from the side of the screen, based on the dialog component.
 - COSS docs: https://coss.com/ui/docs/components/sheet.md
 - Particle examples: 3
-- Svelte foundation: Dialog
+- Svelte foundation: Dialog (compound)
 - Implementation tier: compound primitive
 
 Implementation outline:
@@ -78,7 +89,7 @@ Source notes:
 - COSS scope: A panel that slides in from the edge of the screen with swipe gestures, snap points, and nested drawer support.
 - COSS docs: https://coss.com/ui/docs/components/drawer.md
 - Particle examples: 14
-- Svelte foundation: Dialog accessibility shell + custom motion
+- Svelte foundation: Dialog accessibility shell + custom motion (custom)
 - Implementation tier: custom compound
 
 Implementation outline:
@@ -100,7 +111,7 @@ Source notes:
 - COSS scope: A floating container that appears near a trigger element.
 - COSS docs: https://coss.com/ui/docs/components/popover.md
 - Particle examples: 3
-- Svelte foundation: Popover
+- Svelte foundation: Popover (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -122,7 +133,7 @@ Source notes:
 - COSS scope: A small overlay that provides contextual information on hover or focus.
 - COSS docs: https://coss.com/ui/docs/components/tooltip.md
 - Particle examples: 4
-- Svelte foundation: Tooltip
+- Svelte foundation: Tooltip (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -144,7 +155,7 @@ Source notes:
 - COSS scope: A rich preview component for displaying linked content.
 - COSS docs: https://coss.com/ui/docs/components/preview-card.md
 - Particle examples: 1
-- Svelte foundation: LinkPreview
+- Svelte foundation: LinkPreview (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -166,7 +177,7 @@ Source notes:
 - COSS scope: A list of actions or options revealed on demand.
 - COSS docs: https://coss.com/ui/docs/components/menu.md
 - Particle examples: 9
-- Svelte foundation: DropdownMenu / ContextMenu / Menu
+- Svelte foundation: DropdownMenu / ContextMenu / Menu (compound)
 - Implementation tier: compound primitive
 
 Implementation outline:
@@ -188,7 +199,7 @@ Source notes:
 - COSS scope: A command palette component built with Dialog and Autocomplete for searching and executing commands.
 - COSS docs: https://coss.com/ui/docs/components/command.md
 - Particle examples: 2
-- Svelte foundation: Command + Dialog
+- Svelte foundation: Command + Dialog (compound)
 - Implementation tier: compound primitive
 
 Implementation outline:
@@ -210,7 +221,7 @@ Source notes:
 - COSS scope: A common form component for choosing a predefined value in a dropdown menu.
 - COSS docs: https://coss.com/ui/docs/components/select.md
 - Particle examples: 23
-- Svelte foundation: Select
+- Svelte foundation: Select (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -232,7 +243,7 @@ Source notes:
 - COSS scope: An input combined with a list of predefined items to select.
 - COSS docs: https://coss.com/ui/docs/components/combobox.md
 - Particle examples: 18
-- Svelte foundation: Combobox
+- Svelte foundation: Combobox (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -254,7 +265,7 @@ Source notes:
 - COSS scope: An input that suggests options as you type.
 - COSS docs: https://coss.com/ui/docs/components/autocomplete.md
 - Particle examples: 15
-- Svelte foundation: Combobox
+- Svelte foundation: Combobox (compound)
 - Implementation tier: compound primitive
 
 Implementation outline:
@@ -276,7 +287,7 @@ Source notes:
 - COSS scope: A native input element.
 - COSS docs: https://coss.com/ui/docs/components/input.md
 - Particle examples: 19
-- Svelte foundation: native input
+- Svelte foundation: native input (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -298,7 +309,7 @@ Source notes:
 - COSS scope: A multi-line text input for longer content.
 - COSS docs: https://coss.com/ui/docs/components/textarea.md
 - Particle examples: 15
-- Svelte foundation: native textarea
+- Svelte foundation: native textarea (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -320,7 +331,7 @@ Source notes:
 - COSS scope: A flexible component for grouping inputs with addons, buttons, and other elements.
 - COSS docs: https://coss.com/ui/docs/components/input-group.md
 - Particle examples: 28
-- Svelte foundation: native markup
+- Svelte foundation: native markup (compound)
 - Implementation tier: compound primitive
 
 Implementation outline:
@@ -342,7 +353,7 @@ Source notes:
 - COSS scope: A segmented input for one-time passwords and verification codes.
 - COSS docs: https://coss.com/ui/docs/components/otp-field.md
 - Particle examples: 9
-- Svelte foundation: PinInput
+- Svelte foundation: PinInput (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -364,7 +375,7 @@ Source notes:
 - COSS scope: A specialized input for numeric values with increment/decrement controls.
 - COSS docs: https://coss.com/ui/docs/components/number-field.md
 - Particle examples: 11
-- Svelte foundation: custom spinbutton
+- Svelte foundation: custom spinbutton (custom)
 - Implementation tier: custom primitive
 
 Implementation outline:
@@ -386,7 +397,7 @@ Source notes:
 - COSS scope: A draggable control for selecting values from a continuous range.
 - COSS docs: https://coss.com/ui/docs/components/slider.md
 - Particle examples: 23
-- Svelte foundation: Slider
+- Svelte foundation: Slider (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -408,7 +419,7 @@ Source notes:
 - COSS scope: A date picker for selecting single dates, ranges, or multiple dates.
 - COSS docs: https://coss.com/ui/docs/components/calendar.md
 - Particle examples: 24
-- Svelte foundation: Calendar / RangeCalendar
+- Svelte foundation: Calendar / RangeCalendar (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -430,7 +441,7 @@ Source notes:
 - COSS scope: A date selection component, often combined with a calendar in a popover or input.
 - COSS docs: https://coss.com/ui/docs/components/date-picker.md
 - Particle examples: 9
-- Svelte foundation: DatePicker / DateRangePicker
+- Svelte foundation: DatePicker / DateRangePicker (compound)
 - Implementation tier: compound primitive
 
 Implementation outline:
@@ -452,7 +463,7 @@ Source notes:
 - COSS scope: A complete form implementation with validation and submission handling.
 - COSS docs: https://coss.com/ui/docs/components/form.md
 - Particle examples: 2
-- Svelte foundation: native form
+- Svelte foundation: native form (native)
 - Implementation tier: integration layer
 
 Implementation outline:
@@ -474,7 +485,7 @@ Source notes:
 - COSS scope: A wrapper component for form inputs with labels and validation.
 - COSS docs: https://coss.com/ui/docs/components/field.md
 - Particle examples: 18
-- Svelte foundation: Label + native semantics
+- Svelte foundation: Label + native semantics (compound)
 - Implementation tier: compound primitive
 
 Implementation outline:
@@ -496,7 +507,7 @@ Source notes:
 - COSS scope: A group of related form fields with a common label.
 - COSS docs: https://coss.com/ui/docs/components/fieldset.md
 - Particle examples: 1
-- Svelte foundation: native fieldset
+- Svelte foundation: native fieldset (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -518,7 +529,7 @@ Source notes:
 - COSS scope: Renders an accessible label associated with controls.
 - COSS docs: https://coss.com/ui/docs/components/label.md
 - Particle examples: 0
-- Svelte foundation: Label
+- Svelte foundation: Label (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -540,7 +551,7 @@ Source notes:
 - COSS scope: A binary toggle input for selecting one or multiple options.
 - COSS docs: https://coss.com/ui/docs/components/checkbox.md
 - Particle examples: 5
-- Svelte foundation: Checkbox
+- Svelte foundation: Checkbox (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -562,7 +573,7 @@ Source notes:
 - COSS scope: A collection of related checkboxes with group-level control.
 - COSS docs: https://coss.com/ui/docs/components/checkbox-group.md
 - Particle examples: 5
-- Svelte foundation: Checkbox + custom group
+- Svelte foundation: Checkbox + custom group (custom)
 - Implementation tier: compound primitive
 
 Implementation outline:
@@ -584,7 +595,7 @@ Source notes:
 - COSS scope: A set of mutually exclusive options presented as radio buttons.
 - COSS docs: https://coss.com/ui/docs/components/radio-group.md
 - Particle examples: 6
-- Svelte foundation: RadioGroup
+- Svelte foundation: RadioGroup (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -606,7 +617,7 @@ Source notes:
 - COSS scope: A toggle control for binary on/off states.
 - COSS docs: https://coss.com/ui/docs/components/switch.md
 - Particle examples: 6
-- Svelte foundation: Switch
+- Svelte foundation: Switch (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -628,7 +639,7 @@ Source notes:
 - COSS scope: A button that switches between two states.
 - COSS docs: https://coss.com/ui/docs/components/toggle.md
 - Particle examples: 8
-- Svelte foundation: Toggle
+- Svelte foundation: Toggle (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -650,7 +661,7 @@ Source notes:
 - COSS scope: A group of toggle buttons where one or multiple can be selected.
 - COSS docs: https://coss.com/ui/docs/components/toggle-group.md
 - Particle examples: 9
-- Svelte foundation: ToggleGroup
+- Svelte foundation: ToggleGroup (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -672,7 +683,7 @@ Source notes:
 - COSS scope: A navigation component for switching between different views or content panels.
 - COSS docs: https://coss.com/ui/docs/components/tabs.md
 - Particle examples: 13
-- Svelte foundation: Tabs
+- Svelte foundation: Tabs (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -694,7 +705,7 @@ Source notes:
 - COSS scope: A set of collapsible panels with headings.
 - COSS docs: https://coss.com/ui/docs/components/accordion.md
 - Particle examples: 4
-- Svelte foundation: Accordion
+- Svelte foundation: Accordion (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -716,7 +727,7 @@ Source notes:
 - COSS scope: A component that toggles visibility of content sections.
 - COSS docs: https://coss.com/ui/docs/components/collapsible.md
 - Particle examples: 1
-- Svelte foundation: Collapsible
+- Svelte foundation: Collapsible (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -738,7 +749,7 @@ Source notes:
 - COSS scope: A collapsible side panel for navigation and secondary content.
 - COSS docs: https://coss.com/ui/docs/components/sidebar.md
 - Particle examples: 0
-- Svelte foundation: Collapsible + native navigation
+- Svelte foundation: Collapsible + native navigation (compound)
 - Implementation tier: compound primitive
 
 Implementation outline:
@@ -760,7 +771,7 @@ Source notes:
 - COSS scope: Displays the path to the current resource using a hierarchy of links.
 - COSS docs: https://coss.com/ui/docs/components/breadcrumb.md
 - Particle examples: 7
-- Svelte foundation: native nav
+- Svelte foundation: native nav (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -782,7 +793,7 @@ Source notes:
 - COSS scope: A pagination with page navigation, next and previous links.
 - COSS docs: https://coss.com/ui/docs/components/pagination.md
 - Particle examples: 3
-- Svelte foundation: Pagination
+- Svelte foundation: Pagination (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -804,7 +815,7 @@ Source notes:
 - COSS scope: A container for grouping related actions or controls.
 - COSS docs: https://coss.com/ui/docs/components/toolbar.md
 - Particle examples: 1
-- Svelte foundation: Toolbar
+- Svelte foundation: Toolbar (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -826,7 +837,7 @@ Source notes:
 - COSS scope: A container with custom scrollbars for overflow content.
 - COSS docs: https://coss.com/ui/docs/components/scroll-area.md
 - Particle examples: 5
-- Svelte foundation: ScrollArea
+- Svelte foundation: ScrollArea (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -848,7 +859,7 @@ Source notes:
 - COSS scope: A content container for grouping related information.
 - COSS docs: https://coss.com/ui/docs/components/card.md
 - Particle examples: 11
-- Svelte foundation: native markup
+- Svelte foundation: native markup (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -870,7 +881,7 @@ Source notes:
 - COSS scope: A container component for displaying content in a frame.
 - COSS docs: https://coss.com/ui/docs/components/frame.md
 - Particle examples: 4
-- Svelte foundation: native markup
+- Svelte foundation: native markup (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -892,7 +903,7 @@ Source notes:
 - COSS scope: A structured data display component with rows and columns.
 - COSS docs: https://coss.com/ui/docs/components/table.md
 - Particle examples: 8
-- Svelte foundation: native table
+- Svelte foundation: native table (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -914,7 +925,7 @@ Source notes:
 - COSS scope: A visual representation of a user or entity.
 - COSS docs: https://coss.com/ui/docs/components/avatar.md
 - Particle examples: 14
-- Svelte foundation: Avatar
+- Svelte foundation: Avatar (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -936,7 +947,7 @@ Source notes:
 - COSS scope: A small status indicator or label component.
 - COSS docs: https://coss.com/ui/docs/components/badge.md
 - Particle examples: 20
-- Svelte foundation: native markup
+- Svelte foundation: native markup (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -958,7 +969,7 @@ Source notes:
 - COSS scope: A component for displaying keyboard keys and shortcuts.
 - COSS docs: https://coss.com/ui/docs/components/kbd.md
 - Particle examples: 1
-- Svelte foundation: native kbd
+- Svelte foundation: native kbd (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -980,7 +991,7 @@ Source notes:
 - COSS scope: A visual divider for separating content sections.
 - COSS docs: https://coss.com/ui/docs/components/separator.md
 - Particle examples: 1
-- Svelte foundation: Separator
+- Svelte foundation: Separator (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -1002,7 +1013,7 @@ Source notes:
 - COSS scope: A container component for grouping related content with consistent styling.
 - COSS docs: https://coss.com/ui/docs/components/group.md
 - Particle examples: 22
-- Svelte foundation: native markup
+- Svelte foundation: native markup (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -1024,7 +1035,7 @@ Source notes:
 - COSS scope: A container for displaying empty state information.
 - COSS docs: https://coss.com/ui/docs/components/empty.md
 - Particle examples: 1
-- Svelte foundation: native markup
+- Svelte foundation: native markup (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -1046,7 +1057,7 @@ Source notes:
 - COSS scope: A callout for displaying important information.
 - COSS docs: https://coss.com/ui/docs/components/alert.md
 - Particle examples: 7
-- Svelte foundation: native markup
+- Svelte foundation: native markup (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -1068,7 +1079,7 @@ Source notes:
 - COSS scope: A temporary notification message that appears and disappears automatically.
 - COSS docs: https://coss.com/ui/docs/components/toast.md
 - Particle examples: 13
-- Svelte foundation: custom store + portal
+- Svelte foundation: custom store + portal (custom)
 - Implementation tier: custom compound
 
 Implementation outline:
@@ -1090,7 +1101,7 @@ Source notes:
 - COSS scope: A visual indicator showing the completion status of a task.
 - COSS docs: https://coss.com/ui/docs/components/progress.md
 - Particle examples: 3
-- Svelte foundation: Progress
+- Svelte foundation: Progress (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -1112,7 +1123,7 @@ Source notes:
 - COSS scope: A visual representation of a value within a known range.
 - COSS docs: https://coss.com/ui/docs/components/meter.md
 - Particle examples: 4
-- Svelte foundation: Meter
+- Svelte foundation: Meter (bits)
 - Implementation tier: direct primitive
 
 Implementation outline:
@@ -1134,7 +1145,7 @@ Source notes:
 - COSS scope: An indicator that can be used to show a loading state.
 - COSS docs: https://coss.com/ui/docs/components/spinner.md
 - Particle examples: 1
-- Svelte foundation: native SVG/CSS
+- Svelte foundation: native SVG/CSS (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -1156,7 +1167,7 @@ Source notes:
 - COSS scope: A placeholder for loading content.
 - COSS docs: https://coss.com/ui/docs/components/skeleton.md
 - Particle examples: 2
-- Svelte foundation: native markup
+- Svelte foundation: native markup (native)
 - Implementation tier: presentational
 
 Implementation outline:
@@ -1178,13 +1189,13 @@ Source notes:
 - COSS scope: A button or a component that looks like a button.
 - COSS docs: https://coss.com/ui/docs/components/button.md
 - Particle examples: 40
-- Svelte foundation: native button/link
+- Svelte foundation: native button/link (native)
 - Implementation tier: presentational
 
 Implementation outline:
 
 1. Define the public Svelte exports and naming so examples read like COSS while following Svelte conventions.
-2. Define Button and buttonVariants using tailwind-variants; support native button and link rendering, icon sizes, loading state, and button-group data styling.
+2. Define Button with explicit variant and size maps; support native button and link rendering, icon sizes, loading state, and button-group data styling.
 3. Preserve COSS visual tokens through shared variants, CSS variables, and data-slot selectors instead of component-local one-off styles.
 4. Port the highest-signal COSS particle examples first, then add the full particle set after the primitive API is stable.
 5. Verify SSR/hydration, keyboard behavior, focus management, disabled/invalid states, and Field/Form composition where relevant.

@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+import type { Snippet } from "svelte";
+import type { NativeProps } from "../internal/props.js";
 import { cn } from "../utils.js";
 
 let {
@@ -8,6 +10,11 @@ let {
 	class: className = "",
 	children,
 	...rest
+}: NativeProps<HTMLAnchorElement> & {
+	href?: string;
+	isActive?: boolean;
+	size?: "sm" | "md" | "lg";
+	children?: Snippet;
 } = $props();
 </script>
 

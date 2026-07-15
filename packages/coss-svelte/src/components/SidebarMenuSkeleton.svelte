@@ -1,7 +1,10 @@
-<script>
+<script lang="ts">
+import type { NativeProps } from "../internal/props.js";
 import { cn } from "../utils.js";
 
-let { showIcon = false, class: className = "", ...rest } = $props();
+type Props = NativeProps & { showIcon?: boolean };
+
+let { showIcon = false, class: className = "", ...rest }: Props = $props();
 </script>
 
 <div

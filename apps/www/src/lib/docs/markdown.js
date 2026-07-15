@@ -1,31 +1,14 @@
 import { componentDocs, resourcePages } from "./navigation.js";
-import { previewUsageExamples } from "./preview-examples.js";
 
 /**
  * @typedef {{ body: string; title: string }} MarkdownSection
  * @typedef {{ description: string; sections?: MarkdownSection[]; title: string }} MarkdownPage
- * @typedef {{ default?: string; description: string; name: string; type: string }} ApiProp
- * @typedef {{ description: string; name: string; props?: ApiProp[] }} ApiElement
- * @typedef {{
- *   apiReference?: ApiElement[];
- *   category: string;
- *   description: string;
- *   firstImplementationPass?: string;
- *   foundation: string;
- *   imports: string[];
- *   name: string;
- *   particles: number;
- *   parts?: string[];
- *   slug: string;
- *   status: string;
- *   statusLabel: string;
- *   title: string;
- * }} ComponentDoc
+ * @typedef {import("./types.js").ApiElement} ApiElement
+ * @typedef {import("./types.js").ComponentDoc} ComponentDoc
  */
 
 const installationCommand = "pnpm add coss-svelte bits-ui";
 const themeImportCode = `<script>
-	import "@coss-svelte/theme/style-coss.css";
 </script>`;
 const skillsInstallCommand = "npx skills@latest add johannhipp/skills";
 
@@ -179,12 +162,12 @@ ${element.description}${table ? `\n\n${table}` : ""}`;
 
 /**
  * @param {ComponentDoc} component
+ * @param {string | null} [usageCode]
  */
-export function createComponentMarkdown(component) {
+export function createComponentMarkdown(component, usageCode) {
 	const parts = [component.name, ...(component.parts ?? [])];
-	const usageCode =
-		previewUsageExamples[component.slug] ??
-		`import { ${component.imports.join(", ")} } from "coss-svelte";`;
+	const resolvedUsageCode =
+		usageCode ?? `import { ${component.imports.join(", ")} } from "coss-svelte";`;
 	const statusNote =
 		component.status === "stable"
 			? "Stable for the current coss-svelte surface."
@@ -200,7 +183,7 @@ ${codeBlock("bash", installationCommand)}
 
 ## Usage
 
-${codeBlock("svelte", usageCode)}
+${codeBlock("svelte", resolvedUsageCode)}
 
 ## Anatomy
 

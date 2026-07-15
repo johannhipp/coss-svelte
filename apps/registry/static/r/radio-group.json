@@ -7,15 +7,29 @@
 		{
 			"path": "packages/coss-svelte/src/components/RadioGroup.svelte",
 			"target": "components/RadioGroup.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { RadioGroup as RadioGroupPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { normalizeOptions, type Option } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof RadioGroupPrimitive.Root> & {\n\tlabel?: string;\n\toptions?: Option[];\n};\nlet {\n\tvalue = $bindable(\"\"),\n\tlabel = \"\",\n\toptions = [],\n\torientation = \"vertical\",\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: Props = $props();\n\nlet items = $derived(normalizeOptions(options));\n</script>\n\n<RadioGroupPrimitive.Root\n\tdata-slot=\"radio-group\"\n\tclass={cn(\"cn-choice-group\", className)}\n\tbind:value\n\t{orientation}\n\t{...rest}\n>\n\t{#if label}\n\t\t<span class=\"cn-choice-label\">{label}</span>\n\t{/if}\n\t<div class=\"cn-choice-stack\">\n\t\t{#if options.length}\n\t\t\t{#each items as normalized}\n\t\t\t\t<RadioGroupPrimitive.Item\n\t\t\t\t\tdata-slot=\"radio-group-item\"\n\t\t\t\t\tclass=\"cn-radio\"\n\t\t\t\t\tvalue={normalized.value}\n\t\t\t\t\tdisabled={normalized.disabled}\n\t\t\t\t>\n\t\t\t\t\t{#snippet children({ checked })}\n\t\t\t\t\t\t<span\n\t\t\t\t\t\t\tclass=\"cn-radio-indicator\"\n\t\t\t\t\t\t\tdata-state={checked ? \"checked\" : \"unchecked\"}\n\t\t\t\t\t\t\taria-hidden=\"true\"\n\t\t\t\t\t\t></span>\n\t\t\t\t\t\t<span>{normalized.label}</span>\n\t\t\t\t\t{/snippet}\n\t\t\t\t</RadioGroupPrimitive.Item>\n\t\t\t{/each}\n\t\t{:else}\n\t\t\t{@render children?.()}\n\t\t{/if}\n\t</div>\n</RadioGroupPrimitive.Root>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/props.js",
+			"target": "internal/props.js",
+			"type": "registry:ui",
+			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/RadioGroupItem.svelte",
 			"target": "components/RadioGroupItem.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { RadioGroup as RadioGroupPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof RadioGroupPrimitive.Item>;\nlet { value, class: className = \"\", children: itemChildren, ...rest }: Props = $props();\n</script>\n\n<RadioGroupPrimitive.Item\n\tdata-slot=\"radio-group-item\"\n\tclass={cn(\"cn-radio\", className)}\n\t{value}\n\t{...rest}\n>\n\t{#snippet children({ checked })}\n\t\t<span\n\t\t\tclass=\"cn-radio-indicator\"\n\t\t\tdata-state={checked ? \"checked\" : \"unchecked\"}\n\t\t\taria-hidden=\"true\"\n\t\t></span>\n\t\t<span>{@render itemChildren?.({ checked })}</span>\n\t{/snippet}\n</RadioGroupPrimitive.Item>\n"
 		}
 	],
-	"dependencies": ["bits-ui"],
+	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

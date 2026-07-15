@@ -1,21 +1,27 @@
-<script>
+<script lang="ts">
 import { Combobox as ComboboxPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
 
 const popupInteractionStyle = "cursor: pointer; overflow: hidden; overscroll-behavior: contain;";
 
-let { class: className = "", children, ...rest } = $props();
+type Props = Omit<ComponentProps<typeof ComboboxPrimitive.Content>, "children" | "child"> & {
+	class?: string;
+	children?: Snippet;
+};
+
+let { class: className = "", children, ...rest }: Props = $props();
 
 let popupStyle = $derived(
 	rest.style ? `${rest.style}; ${popupInteractionStyle}` : popupInteractionStyle
 );
 
-function handleWheel(event) {
+function handleWheel(event: Parameters<NonNullable<Props["onwheel"]>>[0]) {
 	rest.onwheel?.(event);
 	if (event.defaultPrevented || event.deltaY === 0) return;
 
-	const popup = event.currentTarget;
-	const list = popup?.querySelector?.('[data-slot="autocomplete-list"]');
+	const popup = event.currentTarget instanceof HTMLElement ? event.currentTarget : null;
+	const list = popup?.querySelector('[data-slot="autocomplete-list"]');
 	if (!(list instanceof HTMLElement) || list.scrollHeight <= list.clientHeight) {
 		event.preventDefault();
 		return;
@@ -23,7 +29,7 @@ function handleWheel(event) {
 
 	const maxScrollTop = list.scrollHeight - list.clientHeight;
 	const nextScrollTop = Math.min(maxScrollTop, Math.max(0, list.scrollTop + event.deltaY));
-	const pointerIsOutsideList = !list.contains(event.target);
+	const pointerIsOutsideList = !(event.target instanceof Node && list.contains(event.target));
 
 	if (pointerIsOutsideList) {
 		event.preventDefault();

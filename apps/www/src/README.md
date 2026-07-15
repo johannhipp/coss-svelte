@@ -1,5 +1,8 @@
 # apps/www/src
 
-SvelteKit source will be added after the first component and registry batch exists.
+This is the SvelteKit documentation application. It consumes the published
+`coss-svelte` package, the shared theme, and the canonical executable examples
+under `lib/examples`.
 
-Do not add demo-only components here. Documentation examples should eventually come from registry/example source so the docs site and installable code stay aligned.
+Do not add demo-only component implementations here. A new example must have a
+matching package export, metadata entry, and installable registry item.

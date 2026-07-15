@@ -1,15 +1,24 @@
-<script>
+<script lang="ts">
 import { DatePicker as DatePickerPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
+
+type Props = Omit<ComponentProps<typeof DatePickerPrimitive.Root>, "children" | "child"> & {
+	value?: ComponentProps<typeof DatePickerPrimitive.Root>["value"];
+	open?: boolean;
+	label?: string;
+	class?: string;
+	children?: Snippet;
+};
 
 let {
 	value = $bindable(),
 	open = $bindable(false),
 	label = "Choose date",
 	class: className = "",
-	children: rootChildren,
+	children: rootChildren = undefined,
 	...rest
-} = $props();
+}: Props = $props();
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
 	day: "numeric",
@@ -18,9 +27,20 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 	year: "numeric",
 });
 
-function formatDateValue(dateValue) {
-	if (!dateValue || typeof dateValue !== "object") return "";
+type CalendarDateLike = { day: number; month: number; year: number };
 
+function isCalendarDateLike(value: object): value is CalendarDateLike {
+	const candidate = value as Record<string, unknown>;
+	return (
+		typeof candidate.day === "number" &&
+		typeof candidate.month === "number" &&
+		typeof candidate.year === "number"
+	);
+}
+
+function formatDateValue(dateValue: unknown) {
+	if (!dateValue || typeof dateValue !== "object") return "";
+	if (!isCalendarDateLike(dateValue)) return "";
 	const { day, month, year } = dateValue;
 	if (![day, month, year].every(Number.isInteger)) return "";
 

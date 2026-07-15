@@ -1,8 +1,14 @@
-<script>
+<script lang="ts">
 import { DropdownMenu as MenuPrimitive } from "bits-ui";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children: itemChildren, ...rest } = $props();
+type Props = Omit<ComponentProps<typeof MenuPrimitive.CheckboxItem>, "children" | "child"> & {
+	class?: string;
+	children?: ComponentProps<typeof MenuPrimitive.CheckboxItem>["children"];
+};
+
+let { class: className = "", children: itemChildren = undefined, ...rest }: Props = $props();
 </script>
 
 <MenuPrimitive.CheckboxItem

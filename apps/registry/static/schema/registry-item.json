@@ -1,0 +1,39 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "coss-svelte registry item",
+	"type": "object",
+	"required": [
+		"name",
+		"title",
+		"description",
+		"type",
+		"files",
+		"dependencies",
+		"registryDependencies",
+		"cssVars",
+		"meta"
+	],
+	"properties": {
+		"name": { "type": "string" },
+		"title": { "type": "string" },
+		"description": { "type": "string" },
+		"type": { "const": "registry:ui" },
+		"files": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["path", "target", "type", "content"],
+				"properties": {
+					"path": { "type": "string" },
+					"target": { "type": "string" },
+					"type": { "const": "registry:ui" },
+					"content": { "type": "string" }
+				}
+			}
+		},
+		"dependencies": { "type": "array", "items": { "type": "string" } },
+		"registryDependencies": { "type": "array", "items": { "type": "string" } },
+		"cssVars": { "type": "object" },
+		"meta": { "type": "object" }
+	}
+}

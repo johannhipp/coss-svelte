@@ -1,18 +1,8 @@
 import { componentMetadata, componentParts } from "coss-svelte/metadata";
 
 /**
- * @typedef {{
- *   name: string;
- *   type: string;
- *   default?: string;
- *   description: string;
- * }} ApiProp
- *
- * @typedef {{
- *   name: string;
- *   description: string;
- *   props?: ApiProp[];
- * }} ApiElement
+ * @typedef {import("./types.js").ApiElement} ApiElement
+ * @typedef {import("./types.js").ApiProp} ApiProp
  *
  * @typedef {Record<string, ApiElement[]>} ComponentApiReference
  */
@@ -49,12 +39,13 @@ const customPropsByElement = {
 	ComboboxInput: ["showTrigger", "triggerProps"],
 	Command: ["value", "items", "placeholder", "label"],
 	CommandDialog: ["open"],
+	CommandGroup: ["forceMount"],
 	CommandInput: ["value"],
 	DatePicker: ["value", "open", "label"],
 	Dialog: ["open", "trigger", "title", "description"],
 	Drawer: ["open", "trigger", "title", "description"],
-	Field: ["label", "description", "error", "required"],
-	FieldLabel: ["required"],
+	Field: ["id", "label", "description", "error", "required", "disabled", "invalid"],
+	FieldLabel: ["required", "for"],
 	Fieldset: ["legend", "description"],
 	GroupSeparator: ["orientation"],
 	Input: ["type", "value"],
@@ -67,6 +58,8 @@ const customPropsByElement = {
 	OTPField: ["value", "length"],
 	Pagination: ["page", "pages", "count", "perPage"],
 	PaginationLink: ["isActive"],
+	PaginationNext: ["href"],
+	PaginationPrevious: ["href"],
 	Popover: ["open", "label"],
 	PreviewCard: ["href", "label", "title", "description"],
 	Progress: ["value", "min", "max", "label"],
@@ -90,7 +83,7 @@ const customPropsByElement = {
 	Switch: ["id", "checked", "label"],
 	TableHead: ["scope"],
 	Tabs: ["value", "tabs"],
-	Toast: ["title", "description"],
+	Toast: ["title", "description", "open", "dismissible", "closeLabel"],
 	Toggle: ["pressed"],
 	ToggleGroup: ["type", "value", "items"],
 	Toolbar: ["orientation"],
@@ -124,6 +117,11 @@ const propMetadata = {
 		type: "number",
 		description: "Total item count used to calculate pagination.",
 	},
+	closeLabel: {
+		type: "string",
+		default: '"Dismiss notification"',
+		description: "Accessible label for the toast dismiss button.",
+	},
 	defaultOpen: {
 		type: "boolean",
 		default: "true",
@@ -133,6 +131,11 @@ const propMetadata = {
 		type: "string",
 		default: '""',
 		description: "Supporting text rendered by the component's built-in fallback layout.",
+	},
+	dismissible: {
+		type: "boolean",
+		default: "true",
+		description: "Shows a dismiss button that hides the toast when activated.",
 	},
 	disabled: {
 		type: "boolean",

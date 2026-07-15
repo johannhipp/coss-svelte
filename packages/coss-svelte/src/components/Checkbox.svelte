@@ -1,6 +1,13 @@
-<script>
+<script lang="ts">
 import { Checkbox as CheckboxPrimitive, Label as LabelPrimitive, useId } from "bits-ui";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
+
+type Props = Omit<ComponentProps<typeof CheckboxPrimitive.Root>, "children" | "child"> & {
+	id?: string;
+	label?: string;
+	class?: string;
+};
 
 let {
 	id = useId(),
@@ -9,7 +16,7 @@ let {
 	label = "",
 	class: className = "",
 	...rest
-} = $props();
+}: Props = $props();
 </script>
 
 <span data-slot="checkbox-field" class="cn-checkbox-field">

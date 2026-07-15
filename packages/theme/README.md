@@ -10,4 +10,4 @@ This package defines the visual translation layer from COSS's product UI languag
 - `cn-*` placeholder class strategy, if adopted
 - Tailwind CSS v4 imports/preset helpers
 
-The public CSS entry is `@coss-svelte/theme/style-coss.css`.
+The public CSS entry is `@coss-svelte/theme/style-coss.css`; optional sub-entries are `tokens.css` and `components.css`.

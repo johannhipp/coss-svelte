@@ -151,13 +151,10 @@ The generated registry is currently useful as an internal artifact, but there ar
 
 ### Phase 5: Make the documentation site deployable and trustworthy
 
-`apps/www` currently uses `adapter-auto` and has no repository-level production target. Choose one deployment model and encode it in the repository.
+`apps/www` uses `adapter-node` and targets a standard Node server deployment.
 
-- Select a host and adapter appropriate to the site:
-  - static hosting if all routes can be prerendered;
-  - a managed SvelteKit adapter for SSR routes; or
-  - another explicit deployment target with documented environment requirements.
-- Add the adapter and deployment configuration.
+- Document the Node runtime and `node build`/`node build/index.js` deployment
+  commands in the docs release checklist.
 - Build the site in CI using the same command and environment as production.
 - Add a deployment preview and production smoke test for:
   - the root redirect;

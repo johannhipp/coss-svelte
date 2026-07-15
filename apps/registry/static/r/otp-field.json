@@ -7,20 +7,29 @@
 		{
 			"path": "packages/coss-svelte/src/components/OTPField.svelte",
 			"target": "components/OTPField.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { PinInput as PinInputPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<\n\tComponentProps<typeof PinInputPrimitive.Root>,\n\t\"children\" | \"child\" | \"maxlength\"\n> & {\n\tvalue?: string;\n\tlength?: number;\n\tclass?: string;\n\tchildren?: Snippet<[unknown]>;\n};\n\nlet {\n\tvalue = $bindable(\"\"),\n\tlength = 6,\n\tclass: className = \"\",\n\tchildren: rootChildren,\n\t...rest\n}: Props = $props();\n</script>\n\n<PinInputPrimitive.Root\n\tdata-slot=\"otp-field\"\n\tclass={cn(\"cn-otp-field\", className)}\n\tbind:value\n\tmaxlength={length}\n\t{...rest}\n>\n\t{#snippet children({ cells })}\n\t\t{#if rootChildren}\n\t\t\t{@render rootChildren({ cells })}\n\t\t{:else}\n\t\t\t{#each cells as cell}\n\t\t\t\t<PinInputPrimitive.Cell data-slot=\"otp-field-cell\" class=\"cn-otp-cell\" {cell}>\n\t\t\t\t\t{cell.char ?? \"\"}\n\t\t\t\t</PinInputPrimitive.Cell>\n\t\t\t{/each}\n\t\t{/if}\n\t{/snippet}\n</PinInputPrimitive.Root>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/OTPFieldCell.svelte",
 			"target": "components/OTPFieldCell.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { PinInput as PinInputPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof PinInputPrimitive.Cell>;\nlet { cell, class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<PinInputPrimitive.Cell\n\tdata-slot=\"otp-field-cell\"\n\tclass={cn(\"cn-otp-cell\", className)}\n\t{cell}\n\t{...rest}\n>\n\t{@render children?.()}\n</PinInputPrimitive.Cell>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/OTPFieldInput.svelte",
 			"target": "components/OTPFieldInput.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport OTPFieldCell from \"./OTPFieldCell.svelte\";\n\ntype Props = ComponentProps<typeof OTPFieldCell>;\nlet { cell, children, ...rest }: Props = $props();\n</script>\n\n<OTPFieldCell data-slot=\"otp-field-input\" {cell} {...rest}>\n\t{@render children?.()}\n</OTPFieldCell>\n"
 		}
 	],
-	"dependencies": ["bits-ui"],
+	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

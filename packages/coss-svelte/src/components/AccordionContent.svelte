@@ -1,8 +1,15 @@
-<script>
+<script lang="ts">
 import { Accordion as AccordionPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, forceMount = true, ...rest } = $props();
+type Props = Omit<ComponentProps<typeof AccordionPrimitive.Content>, "children" | "child"> & {
+	class?: string;
+	children?: Snippet;
+	forceMount?: boolean;
+};
+
+let { class: className = "", children, forceMount = true, ...rest }: Props = $props();
 </script>
 
 <AccordionPrimitive.Content

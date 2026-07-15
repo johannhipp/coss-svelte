@@ -7,10 +7,17 @@
 		{
 			"path": "packages/coss-svelte/src/components/Toggle.svelte",
 			"target": "components/Toggle.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Toggle as TogglePrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof TogglePrimitive.Root>, \"children\" | \"child\"> & {\n\tpressed?: boolean;\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet { pressed = $bindable(false), class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<TogglePrimitive.Root\n\tdata-slot=\"toggle\"\n\tclass={cn(\"cn-toggle\", pressed && \"cn-toggle-pressed\", className)}\n\tbind:pressed\n\t{...rest}\n>\n\t{@render children?.()}\n</TogglePrimitive.Root>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		}
 	],
-	"dependencies": ["bits-ui"],
+	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

@@ -1,9 +1,25 @@
 {
 	"name": "@coss-svelte/theme",
 	"version": "0.0.0",
-	"private": true,
+	"description": "Consumer-safe CSS tokens and component styles for coss-svelte.",
+	"license": "MIT",
 	"type": "module",
+	"files": [
+		"src",
+		"README.md",
+		"LICENSE"
+	],
 	"exports": {
-		"./style-coss.css": "./src/style-coss.css"
+		"./style-coss.css": "./src/style-coss.css",
+		"./tokens.css": "./src/tokens.css",
+		"./components.css": "./src/components.css"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/johannhipp/coss-svelte.git",
+		"directory": "packages/theme"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }

@@ -1,42 +1,55 @@
-<script>
+<script lang="ts">
+import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
 import { cn } from "../utils.js";
 
-let {
-	href = undefined,
-	type = "button",
-	isActive = false,
-	size = "default",
-	variant = "default",
-	class: className = "",
-	children,
-	...rest
-} = $props();
+type ButtonSize = "default" | "sm" | "lg";
+type ButtonVariant = "default" | "outline";
+type AnchorProps = HTMLAnchorAttributes & {
+	href: string;
+	type?: never;
+	isActive?: boolean;
+	size?: ButtonSize;
+	variant?: ButtonVariant;
+	children?: import("svelte").Snippet;
+};
+type ButtonProps = HTMLButtonAttributes & {
+	href?: undefined;
+	isActive?: boolean;
+	size?: ButtonSize;
+	variant?: ButtonVariant;
+	children?: import("svelte").Snippet;
+};
+type Props = AnchorProps | ButtonProps;
+let props: Props = $props();
+
+function isAnchorProps(value: Props): value is AnchorProps {
+	return typeof value.href === "string";
+}
 </script>
 
-{#if href}
+{#if isAnchorProps(props)}
 	<a
 		data-slot="sidebar-menu-button"
 		data-sidebar="menu-button"
-		data-active={isActive}
-		data-size={size}
-		data-variant={variant}
-		class={cn("cn-sidebar-menu-button", className)}
-		{href}
-		{...rest}
+		data-active={props.isActive ?? false}
+		data-size={props.size ?? "default"}
+		data-variant={props.variant ?? "default"}
+		class={cn("cn-sidebar-menu-button", props.class ?? "")}
+		{...props}
 	>
-		{@render children?.()}
+		{@render props.children?.()}
 	</a>
 {:else}
 	<button
 		data-slot="sidebar-menu-button"
 		data-sidebar="menu-button"
-		data-active={isActive}
-		data-size={size}
-		data-variant={variant}
-		class={cn("cn-sidebar-menu-button", className)}
-		{type}
-		{...rest}
+		data-active={props.isActive ?? false}
+		data-size={props.size ?? "default"}
+		data-variant={props.variant ?? "default"}
+		class={cn("cn-sidebar-menu-button", props.class ?? "")}
+		type={props.type ?? "button"}
+		{...props}
 	>
-		{@render children?.()}
+		{@render props.children?.()}
 	</button>
 {/if}

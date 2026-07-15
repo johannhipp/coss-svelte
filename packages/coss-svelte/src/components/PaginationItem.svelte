@@ -1,5 +1,7 @@
-<script>
-let { children, ...rest } = $props();
+<script lang="ts">
+import type { NativeProps } from "../internal/props.js";
+
+let { children, ...rest }: NativeProps = $props();
 </script>
 
 <li data-slot="pagination-item" {...rest}>

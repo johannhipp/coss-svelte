@@ -35,6 +35,9 @@ jobs:
       - name: Lint and format
         run: pnpm biome:ci
 
+      - name: Prepare package declarations
+        run: pnpm package:prepare
+
       - name: Type and Svelte checks
         run: pnpm check
 

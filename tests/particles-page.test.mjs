@@ -127,8 +127,8 @@ test("local particles route renders a component-catalog view", async () => {
 	);
 	assert.match(
 		loadSource,
-		/registryUrl:\s*`https:\/\/coss\.com\/ui\/r\/\$\{name\}\.json`/,
-		"each particle should derive a unique registry URL from its name"
+		/registryUrl:\s*`\/r\/\$\{component\.slug\}\.json`/,
+		"each particle should derive its registry URL from canonical component metadata"
 	);
 	assert.doesNotMatch(
 		pageSource + browserSource,

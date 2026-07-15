@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import {
 	componentMetadata,
+	componentParts,
 	componentStatus,
 	deferredComponents,
 	experimentalComponents,
@@ -79,6 +80,16 @@ test("registry items follow the ADR-004 shape", () => {
 			assert.deepEqual(item.files, [], `${item.name} deferred item has no installable files`);
 		} else {
 			assert.ok(item.files.length > 0, `${item.name} installable item has files`);
+			assert.deepEqual(
+				item.files.map((file) =>
+					file.path
+						.split("/")
+						.at(-1)
+						?.replace(/\.svelte$/, "")
+				),
+				[item.name, ...componentParts[item.name]],
+				`${item.name} registry files match canonical parts`
+			);
 			for (const file of item.files) {
 				assert.equal(file.type, "registry:ui", `${item.name} file type is registry:ui`);
 				assert.ok(

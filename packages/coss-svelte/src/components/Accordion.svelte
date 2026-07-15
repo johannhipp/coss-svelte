@@ -1,6 +1,18 @@
-<script>
+<script lang="ts">
 import { Accordion as AccordionPrimitive } from "bits-ui";
+import type { Snippet } from "svelte";
+import type { PrimitiveAttributes } from "../internal/props.js";
 import { cn } from "../utils.js";
+
+type AccordionItem = { value?: string; title: string; content: string; disabled?: boolean };
+type Props = PrimitiveAttributes & {
+	type?: "single" | "multiple";
+	value?: string | string[];
+	items?: AccordionItem[];
+	class?: string;
+	children?: Snippet;
+	onValueChange?: (value: string | string[]) => void;
+};
 
 let {
 	type = "single",
@@ -8,17 +20,12 @@ let {
 	items = [],
 	class: className = "",
 	children,
+	onValueChange,
 	...rest
-} = $props();
+}: Props = $props();
 </script>
 
-<AccordionPrimitive.Root
-	data-slot="accordion"
-	class={cn("cn-accordion", className)}
-	{type}
-	bind:value
-	{...rest}
->
+{#snippet content()}
 	{#if items.length}
 		{#each items as item, index}
 			<AccordionPrimitive.Item
@@ -61,4 +68,34 @@ let {
 	{:else}
 		{@render children?.()}
 	{/if}
-</AccordionPrimitive.Root>
+{/snippet}
+
+{#if type === "multiple"}
+	<AccordionPrimitive.Root
+		data-slot="accordion"
+		class={cn("cn-accordion", className)}
+		type="multiple"
+		value={Array.isArray(value) ? value : []}
+		onValueChange={(next) => {
+			value = next;
+			onValueChange?.(next);
+		}}
+		{...rest}
+	>
+		{@render content()}
+	</AccordionPrimitive.Root>
+{:else}
+	<AccordionPrimitive.Root
+		data-slot="accordion"
+		class={cn("cn-accordion", className)}
+		type="single"
+		value={typeof value === "string" ? value : ""}
+		onValueChange={(next) => {
+			value = next;
+			onValueChange?.(next);
+		}}
+		{...rest}
+	>
+		{@render content()}
+	</AccordionPrimitive.Root>
+{/if}

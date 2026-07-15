@@ -7,120 +7,161 @@
 		{
 			"path": "packages/coss-svelte/src/components/Sidebar.svelte",
 			"target": "components/Sidebar.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { getSidebarContext } from \"../internal/sidebar-context.svelte.js\";\nimport { cn } from \"../utils.js\";\n\ntype SidebarItem = string | { label?: string; href?: string };\ntype Props = NativeProps & {\n\titems?: SidebarItem[];\n\tlabel?: string;\n\tside?: \"left\" | \"right\";\n\tvariant?: \"sidebar\" | \"floating\" | \"inset\";\n\tcollapsible?: \"offcanvas\" | \"icon\" | \"none\";\n\tstate?: \"expanded\" | \"collapsed\";\n\tchildren?: Snippet;\n};\n\nlet {\n\titems = [],\n\tlabel = \"Sidebar\",\n\tside = \"left\",\n\tvariant = \"sidebar\",\n\tcollapsible = \"offcanvas\",\n\tstate = \"expanded\",\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: Props = $props();\n\nconst sidebar = getSidebarContext();\nlet effectiveState = $derived(sidebar ? (sidebar.open ? \"expanded\" : \"collapsed\") : state);\n</script>\n\n<aside\n\tdata-slot=\"sidebar\"\n\tdata-sidebar=\"sidebar\"\n\tdata-side={side}\n\tdata-variant={variant}\n\tdata-collapsible={collapsible}\n\tdata-state={effectiveState}\n\tclass={cn(\"cn-sidebar\", className)}\n\taria-label={label}\n\t{...rest}\n>\n\t{#if items.length}\n\t\t<nav class=\"cn-sidebar-legacy-nav\">\n\t\t\t{#each items as item}\n\t\t\t\t{@const itemObject = typeof item === \"object\" && item !== null ? item : null}\n\t\t\t\t<a href={itemObject?.href ?? \"#\"}>{itemObject?.label ?? item}</a>\n\t\t\t{/each}\n\t\t</nav>\n\t{/if}\n\t{@render children?.()}\n</aside>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/props.js",
+			"target": "internal/props.js",
+			"type": "registry:ui",
+			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/sidebar-context.svelte.js",
+			"target": "internal/sidebar-context.svelte.js",
+			"type": "registry:ui",
+			"content": "import { getContext, setContext } from \"svelte\";\n\nconst sidebarContextKey = Symbol(\"coss-svelte-sidebar\");\n\nexport type SidebarContext = {\n\topen: boolean;\n\ttoggle: () => void;\n};\n\nexport function setSidebarContext(context: SidebarContext): void {\n\tsetContext(sidebarContextKey, context);\n}\n\nexport function getSidebarContext(): SidebarContext | undefined {\n\treturn getContext<SidebarContext | undefined>(sidebarContextKey);\n}\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarContent.svelte",
 			"target": "components/SidebarContent.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<div\n\tdata-slot=\"sidebar-content\"\n\tdata-sidebar=\"content\"\n\tclass={cn(\"cn-sidebar-content\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarFooter.svelte",
 			"target": "components/SidebarFooter.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<div\n\tdata-slot=\"sidebar-footer\"\n\tdata-sidebar=\"footer\"\n\tclass={cn(\"cn-sidebar-footer\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarGroup.svelte",
 			"target": "components/SidebarGroup.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<div\n\tdata-slot=\"sidebar-group\"\n\tdata-sidebar=\"group\"\n\tclass={cn(\"cn-sidebar-group\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarGroupAction.svelte",
 			"target": "components/SidebarGroupAction.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { HTMLButtonAttributes } from \"svelte/elements\";\nimport { cn } from \"../utils.js\";\n\nlet { type = \"button\", class: className = \"\", children, ...rest }: HTMLButtonAttributes = $props();\n</script>\n\n<button\n\tdata-slot=\"sidebar-group-action\"\n\tdata-sidebar=\"group-action\"\n\tclass={cn(\"cn-sidebar-group-action\", className)}\n\t{type}\n\t{...rest}\n>\n\t{@render children?.()}\n</button>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarGroupContent.svelte",
 			"target": "components/SidebarGroupContent.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<div\n\tdata-slot=\"sidebar-group-content\"\n\tdata-sidebar=\"group-content\"\n\tclass={cn(\"cn-sidebar-group-content\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarGroupLabel.svelte",
 			"target": "components/SidebarGroupLabel.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<div\n\tdata-slot=\"sidebar-group-label\"\n\tdata-sidebar=\"group-label\"\n\tclass={cn(\"cn-sidebar-group-label\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarHeader.svelte",
 			"target": "components/SidebarHeader.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<div\n\tdata-slot=\"sidebar-header\"\n\tdata-sidebar=\"header\"\n\tclass={cn(\"cn-sidebar-header\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarInput.svelte",
 			"target": "components/SidebarInput.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", ...rest }: NativeProps = $props();\n</script>\n\n<input\n\tdata-slot=\"sidebar-input\"\n\tdata-sidebar=\"input\"\n\tclass={cn(\"cn-sidebar-input\", className)}\n\t{...rest}\n/>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarInset.svelte",
 			"target": "components/SidebarInset.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<main data-slot=\"sidebar-inset\" class={cn(\"cn-sidebar-inset\", className)} {...rest}>\n\t{@render children?.()}\n</main>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarMenu.svelte",
 			"target": "components/SidebarMenu.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<ul data-slot=\"sidebar-menu\" data-sidebar=\"menu\" class={cn(\"cn-sidebar-menu\", className)} {...rest}>\n\t{@render children?.()}\n</ul>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarMenuAction.svelte",
 			"target": "components/SidebarMenuAction.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { HTMLButtonAttributes } from \"svelte/elements\";\nimport { cn } from \"../utils.js\";\n\ntype Props = HTMLButtonAttributes & { showOnHover?: boolean };\nlet {\n\ttype = \"button\",\n\tshowOnHover = false,\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: Props = $props();\n</script>\n\n<button\n\tdata-slot=\"sidebar-menu-action\"\n\tdata-sidebar=\"menu-action\"\n\tdata-show-on-hover={showOnHover}\n\tclass={cn(\"cn-sidebar-menu-action\", className)}\n\t{type}\n\t{...rest}\n>\n\t{@render children?.()}\n</button>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarMenuBadge.svelte",
 			"target": "components/SidebarMenuBadge.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<div\n\tdata-slot=\"sidebar-menu-badge\"\n\tdata-sidebar=\"menu-badge\"\n\tclass={cn(\"cn-sidebar-menu-badge\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarMenuButton.svelte",
 			"target": "components/SidebarMenuButton.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { HTMLAnchorAttributes, HTMLButtonAttributes } from \"svelte/elements\";\nimport { cn } from \"../utils.js\";\n\ntype ButtonSize = \"default\" | \"sm\" | \"lg\";\ntype ButtonVariant = \"default\" | \"outline\";\ntype AnchorProps = HTMLAnchorAttributes & {\n\thref: string;\n\ttype?: never;\n\tisActive?: boolean;\n\tsize?: ButtonSize;\n\tvariant?: ButtonVariant;\n\tchildren?: import(\"svelte\").Snippet;\n};\ntype ButtonProps = HTMLButtonAttributes & {\n\thref?: undefined;\n\tisActive?: boolean;\n\tsize?: ButtonSize;\n\tvariant?: ButtonVariant;\n\tchildren?: import(\"svelte\").Snippet;\n};\ntype Props = AnchorProps | ButtonProps;\nlet props: Props = $props();\n\nfunction isAnchorProps(value: Props): value is AnchorProps {\n\treturn typeof value.href === \"string\";\n}\n</script>\n\n{#if isAnchorProps(props)}\n\t<a\n\t\tdata-slot=\"sidebar-menu-button\"\n\t\tdata-sidebar=\"menu-button\"\n\t\tdata-active={props.isActive ?? false}\n\t\tdata-size={props.size ?? \"default\"}\n\t\tdata-variant={props.variant ?? \"default\"}\n\t\tclass={cn(\"cn-sidebar-menu-button\", props.class ?? \"\")}\n\t\t{...props}\n\t>\n\t\t{@render props.children?.()}\n\t</a>\n{:else}\n\t<button\n\t\tdata-slot=\"sidebar-menu-button\"\n\t\tdata-sidebar=\"menu-button\"\n\t\tdata-active={props.isActive ?? false}\n\t\tdata-size={props.size ?? \"default\"}\n\t\tdata-variant={props.variant ?? \"default\"}\n\t\tclass={cn(\"cn-sidebar-menu-button\", props.class ?? \"\")}\n\t\ttype={props.type ?? \"button\"}\n\t\t{...props}\n\t>\n\t\t{@render props.children?.()}\n\t</button>\n{/if}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarMenuItem.svelte",
 			"target": "components/SidebarMenuItem.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<li\n\tdata-slot=\"sidebar-menu-item\"\n\tdata-sidebar=\"menu-item\"\n\tclass={cn(\"cn-sidebar-menu-item\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</li>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarMenuSkeleton.svelte",
 			"target": "components/SidebarMenuSkeleton.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\ntype Props = NativeProps & { showIcon?: boolean };\n\nlet { showIcon = false, class: className = \"\", ...rest }: Props = $props();\n</script>\n\n<div\n\tdata-slot=\"sidebar-menu-skeleton\"\n\tdata-sidebar=\"menu-skeleton\"\n\tclass={cn(\"cn-sidebar-menu-skeleton\", className)}\n\t{...rest}\n>\n\t{#if showIcon}\n\t\t<span data-sidebar=\"menu-skeleton-icon\" class=\"cn-sidebar-menu-skeleton-icon\"></span>\n\t{/if}\n\t<span data-sidebar=\"menu-skeleton-text\" class=\"cn-sidebar-menu-skeleton-text\"></span>\n</div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarMenuSub.svelte",
 			"target": "components/SidebarMenuSub.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<ul\n\tdata-slot=\"sidebar-menu-sub\"\n\tdata-sidebar=\"menu-sub\"\n\tclass={cn(\"cn-sidebar-menu-sub\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</ul>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarMenuSubButton.svelte",
 			"target": "components/SidebarMenuSubButton.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet {\n\thref = \"#\",\n\tisActive = false,\n\tsize = \"md\",\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: NativeProps<HTMLAnchorElement> & {\n\thref?: string;\n\tisActive?: boolean;\n\tsize?: \"sm\" | \"md\" | \"lg\";\n\tchildren?: Snippet;\n} = $props();\n</script>\n\n<a\n\tdata-slot=\"sidebar-menu-sub-button\"\n\tdata-sidebar=\"menu-sub-button\"\n\tdata-active={isActive}\n\tdata-size={size}\n\tclass={cn(\"cn-sidebar-menu-sub-button\", className)}\n\t{href}\n\t{...rest}\n>\n\t{@render children?.()}\n</a>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarMenuSubItem.svelte",
 			"target": "components/SidebarMenuSubItem.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<li\n\tdata-slot=\"sidebar-menu-sub-item\"\n\tdata-sidebar=\"menu-sub-item\"\n\tclass={cn(\"cn-sidebar-menu-sub-item\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</li>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarProvider.svelte",
 			"target": "components/SidebarProvider.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { setSidebarContext } from \"../internal/sidebar-context.svelte.js\";\nimport { cn } from \"../utils.js\";\n\nlet {\n\tdefaultOpen = true,\n\topen = $bindable(defaultOpen),\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: NativeProps & { defaultOpen?: boolean; open?: boolean; children?: Snippet } = $props();\n\nlet state = $derived(open ? \"expanded\" : \"collapsed\");\n\nfunction toggle() {\n\topen = !open;\n}\n\nsetSidebarContext({\n\tget open() {\n\t\treturn open;\n\t},\n\ttoggle,\n});\n</script>\n\n<div\n\tdata-slot=\"sidebar-wrapper\"\n\tdata-state={state}\n\tdata-sidebar-state={state}\n\tclass={cn(\"cn-sidebar-wrapper\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarRail.svelte",
 			"target": "components/SidebarRail.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { HTMLButtonAttributes } from \"svelte/elements\";\nimport { getSidebarContext } from \"../internal/sidebar-context.svelte.js\";\nimport { cn } from \"../utils.js\";\n\nlet { type = \"button\", class: className = \"\", ...rest }: HTMLButtonAttributes = $props();\nconst sidebar = getSidebarContext();\n</script>\n\n<button\n\tdata-slot=\"sidebar-rail\"\n\tdata-sidebar=\"rail\"\n\tclass={cn(\"cn-sidebar-rail\", className)}\n\taria-label=\"Toggle Sidebar\"\n\taria-expanded={sidebar?.open}\n\tonclick={() => sidebar?.toggle()}\n\ttabindex=\"-1\"\n\ttitle=\"Toggle Sidebar\"\n\t{type}\n\t{...rest}\n></button>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarSeparator.svelte",
 			"target": "components/SidebarSeparator.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", ...rest }: NativeProps = $props();\n</script>\n\n<div\n\tdata-slot=\"sidebar-separator\"\n\tdata-sidebar=\"separator\"\n\tclass={cn(\"cn-sidebar-separator\", className)}\n\trole=\"separator\"\n\t{...rest}\n></div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/SidebarTrigger.svelte",
 			"target": "components/SidebarTrigger.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { HTMLButtonAttributes } from \"svelte/elements\";\nimport { getSidebarContext } from \"../internal/sidebar-context.svelte.js\";\nimport { cn } from \"../utils.js\";\n\nlet { type = \"button\", class: className = \"\", children, ...rest }: HTMLButtonAttributes = $props();\nconst sidebar = getSidebarContext();\n</script>\n\n<button\n\tdata-slot=\"sidebar-trigger\"\n\tdata-sidebar=\"trigger\"\n\tclass={cn(\"cn-sidebar-trigger\", className)}\n\taria-label=\"Toggle Sidebar\"\n\taria-expanded={sidebar?.open}\n\tonclick={() => sidebar?.toggle()}\n\t{type}\n\t{...rest}\n>\n\t{#if children}\n\t\t{@render children()}\n\t{:else}\n\t\t<span class=\"cn-sidebar-trigger-icon\" aria-hidden=\"true\"></span>\n\t\t<span class=\"sr-only\">Toggle Sidebar</span>\n\t{/if}\n</button>\n"
 		}
 	],
-	"dependencies": [],
+	"dependencies": ["clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

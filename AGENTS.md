@@ -1,11 +1,13 @@
 # coss-svelte Development Rules
 
-This repository is intended to become a publishable Svelte component library. Keep setup and implementation work cleanly separated.
+This repository is a publishable Svelte component library. Keep package
+implementation, generated registry output, and docs-only code cleanly separated.
 
 ## Current State
 
-- Foundation scaffold only.
-- No component implementation is present yet.
+- The stable and experimental component surface is implemented under
+  `packages/coss-svelte` and checked through generated declarations.
+- The docs app and registry are local, executable consumers of that package.
 - Upstream source material lives in ignored `.cache/upstream`.
 - Component scope and implementation outlines live in `docs/scope`.
 
@@ -14,7 +16,9 @@ This repository is intended to become a publishable Svelte component library. Ke
 - Do not copy React/Base UI component source into Svelte files.
 - Use Bits UI or native Svelte markup as the implementation foundation.
 - Keep docs examples and registry examples aligned; avoid demo-only components in `apps/www`.
-- Add component code only under `packages/coss-svelte` after the relevant implementation phase is selected.
+- Add component code only under `packages/coss-svelte` after the relevant
+  implementation phase is selected and metadata/registry/docs contracts are
+  updated together.
 - Add generated registry output only under `apps/registry`.
 - Keep raw upstream clones and downloaded source snapshots out of git.
 - Update `docs/references/version-baseline.md` whenever core dependency versions change.
@@ -37,3 +41,4 @@ Before claiming implementation work is complete, run the narrowest relevant chec
 - `pnpm check`
 - component-specific tests once test infrastructure exists
 - docs app visual verification once `apps/www` has routes
+- `pnpm release:check` for publish-facing changes

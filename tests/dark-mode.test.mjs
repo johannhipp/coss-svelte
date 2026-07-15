@@ -2,10 +2,10 @@ import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { test } from "node:test";
+import { readThemeSource } from "./theme-source.mjs";
 
 const root = process.cwd();
 
-const themePath = path.join(root, "packages/theme/src/style-coss.css");
 const headerPath = path.join(root, "apps/www/src/lib/components/docs/docs-header.svelte");
 const appHtmlPath = path.join(root, "apps/www/src/app.html");
 const componentsPath = path.join(root, "packages/coss-svelte/src/components");
@@ -93,7 +93,7 @@ async function listSvelteFiles(directory) {
 }
 
 test("theme defines a complete dark-mode token surface", async () => {
-	const themeCss = await readFile(themePath, "utf8");
+	const themeCss = await readThemeSource(root);
 	const rootBlock = getCssBlock(themeCss, ":root");
 	const darkBlock = getCssBlock(themeCss, ".dark");
 
@@ -117,7 +117,7 @@ test("theme defines a complete dark-mode token surface", async () => {
 });
 
 test("theme component rules use semantic colors for dark compatibility", async () => {
-	const themeCss = await readFile(themePath, "utf8");
+	const themeCss = await readThemeSource(root);
 	const sidebarRule = themeCss.match(/\.cn-sidebar\s*\{[\s\S]*?\n\}/g)?.at(-1) ?? "";
 	const sidebarHoverRule = themeCss.match(/\.cn-sidebar a:hover\s*\{[\s\S]*?\n\}/g)?.at(-1) ?? "";
 	const sidebarCss = `${sidebarRule}\n${sidebarHoverRule}`;

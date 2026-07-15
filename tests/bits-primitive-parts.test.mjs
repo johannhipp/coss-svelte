@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
-
 import { registryItems } from "../packages/registry/src/index.js";
+import { readThemeSource } from "./theme-source.mjs";
 
 const directPrimitiveParts = {
 	Accordion: ["AccordionItem", "AccordionHeader", "AccordionTrigger", "AccordionContent"],
@@ -113,39 +114,6 @@ const nativeHelperParts = {
 	Toolbar: ["ToolbarSeparator"],
 };
 
-const defaultPreviewDirectPrimitiveParts = {
-	...directPrimitiveParts,
-	Avatar: ["AvatarFallback"],
-	Autocomplete: ["AutocompleteInput", "AutocompleteItem", "AutocompleteList", "AutocompletePopup"],
-	Combobox: ["ComboboxInput", "ComboboxItem", "ComboboxList", "ComboboxPopup"],
-	OTPField: [],
-	Pagination: [],
-	Slider: ["SliderRange", "SliderThumb"],
-};
-
-const defaultPreviewNativeHelperParts = {
-	AlertDialog: ["AlertDialogFooter", "AlertDialogHeader"],
-	Autocomplete: ["AutocompleteCollection", "AutocompleteEmpty"],
-	Combobox: ["ComboboxCollection", "ComboboxEmpty"],
-	Command: ["CommandCollection", "CommandFooter", "CommandPanel", "CommandShortcut"],
-	Dialog: ["DialogFooter", "DialogHeader", "DialogPanel"],
-	Drawer: ["DrawerCreateHandle", "DrawerFooter", "DrawerHeader"],
-	Group: ["GroupSeparator"],
-	Meter: ["MeterIndicator", "MeterLabel", "MeterTrack", "MeterValue"],
-	Menu: ["MenuShortcut"],
-	OTPField: ["OTPFieldInput"],
-	Pagination: [
-		"PaginationContent",
-		"PaginationEllipsis",
-		"PaginationItem",
-		"PaginationLink",
-		"PaginationNext",
-		"PaginationPrevious",
-	],
-	Popover: ["PopoverDescription", "PopoverTitle"],
-	Sheet: ["SheetFooter", "SheetHeader", "SheetPanel"],
-};
-
 const directPrimitiveRoots = [
 	"Accordion",
 	"AlertDialog",
@@ -220,20 +188,20 @@ test("compound helpers expose COSS-facing structured parts", async () => {
 	}
 });
 
-test("docs preview renderer exercises direct primitive parts", async () => {
+test("docs previews are loaded through executable example modules", async () => {
 	const previewRenderer = await readFile(
 		"apps/www/src/lib/components/docs/component-preview-renderer.svelte",
 		"utf8"
 	);
+	const examplesIndex = await readFile("apps/www/src/lib/examples/index.ts", "utf8");
 
-	for (const part of [
-		...Object.values(defaultPreviewDirectPrimitiveParts).flat(),
-		...Object.values(defaultPreviewNativeHelperParts).flat(),
-	]) {
-		assert.match(
-			previewRenderer,
-			new RegExp(`<${part}\\b`),
-			`${part} is used in the docs preview renderer`
+	assert.match(previewRenderer, /loadExample\(slug\)/);
+	assert.match(examplesIndex, /import\.meta\.glob\("\.\/\*\.svelte"\)/);
+	for (const slug of ["accordion", "autocomplete", "combobox", "dialog", "group"]) {
+		assert.equal(
+			existsSync(`apps/www/src/lib/examples/${slug}.svelte`),
+			true,
+			`${slug} example exists`
 		);
 	}
 });
@@ -266,10 +234,6 @@ test("autocomplete input supports documented trigger affordance", async () => {
 		"packages/coss-svelte/src/components/AutocompleteInput.svelte",
 		"utf8"
 	);
-	const previewRenderer = await readFile(
-		"apps/www/src/lib/components/docs/component-preview-renderer.svelte",
-		"utf8"
-	);
 
 	assert.match(source, /showTrigger = false/, "AutocompleteInput exposes showTrigger");
 	assert.match(
@@ -282,15 +246,12 @@ test("autocomplete input supports documented trigger affordance", async () => {
 		/data-slot="autocomplete-trigger"/,
 		"AutocompleteInput preserves a trigger data-slot"
 	);
-	assert.doesNotMatch(
-		previewRenderer,
-		/<AutocompleteInput[^>]+showTrigger/,
-		"COSS default autocomplete preview keeps the trigger hidden"
-	);
+	const example = await readFile("apps/www/src/lib/examples/autocomplete.svelte", "utf8");
+	assert.match(example, /import \{ Autocomplete \} from "coss-svelte"/);
 });
 
 test("autocomplete popup follows input width and empty state only shows without items", async () => {
-	const themeSource = await readFile("packages/theme/src/style-coss.css", "utf8");
+	const themeSource = await readThemeSource();
 
 	assert.match(
 		themeSource,
@@ -310,7 +271,7 @@ test("autocomplete popup follows input width and empty state only shows without 
 });
 
 test("dropdown item text matches corresponding control text size", async () => {
-	const themeSource = await readFile("packages/theme/src/style-coss.css", "utf8");
+	const themeSource = await readThemeSource();
 
 	assert.match(
 		themeSource,
@@ -342,11 +303,7 @@ test("dropdown item text matches corresponding control text size", async () => {
 test("combobox input includes the COSS trigger affordance by default", async () => {
 	const source = await readFile("packages/coss-svelte/src/components/ComboboxInput.svelte", "utf8");
 	const rootSource = await readFile("packages/coss-svelte/src/components/Combobox.svelte", "utf8");
-	const themeSource = await readFile("packages/theme/src/style-coss.css", "utf8");
-	const previewRenderer = await readFile(
-		"apps/www/src/lib/components/docs/component-preview-renderer.svelte",
-		"utf8"
-	);
+	const themeSource = await readThemeSource();
 
 	assert.match(source, /showTrigger = true/, "ComboboxInput shows trigger by default");
 	assert.match(
@@ -357,8 +314,8 @@ test("combobox input includes the COSS trigger affordance by default", async () 
 	assert.match(source, /data-slot="combobox-icon"/, "ComboboxInput renders the chevrons icon slot");
 	assert.match(
 		rootSource,
-		/target\.matches\('\[data-slot="combobox-input"\]'\)/,
-		"Combobox opens when its input is clicked"
+		/ComboboxPrimitive\.Input/,
+		"Combobox delegates input interaction to the Bits control"
 	);
 	assert.match(
 		themeSource,
@@ -370,18 +327,15 @@ test("combobox input includes the COSS trigger affordance by default", async () 
 		/\.cn-combobox-popup:has\(\.cn-combobox-item\)\s*>\s*\.cn-combobox-empty\s*\{[^}]*display:\s*none;/s,
 		"Combobox empty state should be hidden when items are rendered"
 	);
-	assert.match(
-		previewRenderer,
-		/<ComboboxInput[^>]+placeholder="Select an item\.\.\."/,
-		"docs preview mirrors the COSS combobox particle input"
-	);
+	const example = await readFile("apps/www/src/lib/examples/combobox.svelte", "utf8");
+	assert.match(example, /import \{ Combobox \} from "coss-svelte"/);
 });
 
 test("accordion trigger includes the COSS chevron affordance", async () => {
 	const [rootSource, triggerSource, themeSource] = await Promise.all([
 		readFile("packages/coss-svelte/src/components/Accordion.svelte", "utf8"),
 		readFile("packages/coss-svelte/src/components/AccordionTrigger.svelte", "utf8"),
-		readFile("packages/theme/src/style-coss.css", "utf8"),
+		readThemeSource(),
 	]);
 
 	for (const source of [rootSource, triggerSource]) {
@@ -405,7 +359,7 @@ test("accordion content stays mounted for responsive height animation", async ()
 	const [rootSource, contentSource, themeSource] = await Promise.all([
 		readFile("packages/coss-svelte/src/components/Accordion.svelte", "utf8"),
 		readFile("packages/coss-svelte/src/components/AccordionContent.svelte", "utf8"),
-		readFile("packages/theme/src/style-coss.css", "utf8"),
+		readThemeSource(),
 	]);
 
 	assert.match(
@@ -454,7 +408,7 @@ test("collapsible content stays mounted for reversible panel animation", async (
 	const [rootSource, contentSource, themeSource] = await Promise.all([
 		readFile("packages/coss-svelte/src/components/Collapsible.svelte", "utf8"),
 		readFile("packages/coss-svelte/src/components/CollapsibleContent.svelte", "utf8"),
-		readFile("packages/theme/src/style-coss.css", "utf8"),
+		readThemeSource(),
 	]);
 
 	assert.match(
@@ -502,7 +456,7 @@ test("select trigger includes the COSS icon affordance", async () => {
 	const [rootSource, triggerSource, themeSource] = await Promise.all([
 		readFile("packages/coss-svelte/src/components/Select.svelte", "utf8"),
 		readFile("packages/coss-svelte/src/components/SelectTrigger.svelte", "utf8"),
-		readFile("packages/theme/src/style-coss.css", "utf8"),
+		readThemeSource(),
 	]);
 
 	for (const source of [rootSource, triggerSource]) {

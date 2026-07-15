@@ -1,7 +1,11 @@
-<script>
+<script lang="ts">
+import type { NativeProps } from "../internal/props.js";
 import { cn } from "../utils.js";
 
-let { items = [], class: className = "", ...rest } = $props();
+type BreadcrumbItem = string | { label?: string; href?: string; ellipsis?: boolean };
+type Props = NativeProps<HTMLElement> & { items?: BreadcrumbItem[] };
+
+let { items = [], class: className = "", ...rest }: Props = $props();
 </script>
 
 <nav data-slot="breadcrumb" class={cn("cn-breadcrumb", className)} aria-label="Breadcrumb" {...rest}>

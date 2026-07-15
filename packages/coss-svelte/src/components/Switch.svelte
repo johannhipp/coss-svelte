@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
 import { Label as LabelPrimitive, Switch as SwitchPrimitive, useId } from "bits-ui";
+import type { NativeProps } from "../internal/props.js";
 import { cn } from "../utils.js";
 
 let {
@@ -9,6 +10,10 @@ let {
 	class: className = "",
 	children,
 	...rest
+}: NativeProps & {
+	id?: string;
+	checked?: boolean;
+	label?: string;
 } = $props();
 </script>
 

@@ -7,80 +7,113 @@
 		{
 			"path": "packages/coss-svelte/src/components/Command.svelte",
 			"target": "components/Command.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Command as CommandPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype CommandItem = string | { value?: string; label?: string; disabled?: boolean };\ntype Props = Omit<ComponentProps<typeof CommandPrimitive.Root>, \"children\" | \"child\"> & {\n\tvalue?: string;\n\titems?: CommandItem[];\n\tplaceholder?: string;\n\tlabel?: string;\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet {\n\tvalue = $bindable(\"\"),\n\titems = [],\n\tplaceholder = \"Type a command\",\n\tlabel = \"Command menu\",\n\tclass: className = \"\",\n\tchildren: rootChildren,\n\t...rest\n}: Props = $props();\n</script>\n\n<CommandPrimitive.Root\n\tdata-slot=\"command\"\n\tclass={cn(\"cn-command\", className)}\n\tbind:value\n\t{label}\n\t{...rest}\n>\n\t{#if rootChildren}\n\t\t{@render rootChildren()}\n\t{:else}\n\t\t<CommandPrimitive.Input data-slot=\"command-input\" class=\"cn-command-input\" {placeholder} />\n\t\t<CommandPrimitive.Empty data-slot=\"command-empty\" class=\"cn-command-empty\">\n\t\t\tNo results found.\n\t\t</CommandPrimitive.Empty>\n\t\t<CommandPrimitive.List data-slot=\"command-list\" class=\"cn-command-list\">\n\t\t\t{#each items as item}\n\t\t\t\t{@const itemObject = typeof item === \"object\" && item !== null ? item : null}\n\t\t\t\t<CommandPrimitive.Item\n\t\t\t\t\tdata-slot=\"command-item\"\n\t\t\t\t\tclass=\"cn-command-item\"\n\t\t\t\t\tvalue={itemObject?.value ?? (typeof item === \"string\" ? item : \"\")}\n\t\t\t\t\tdisabled={itemObject?.disabled}\n\t\t\t\t>\n\t\t\t\t\t{itemObject?.label ?? item}\n\t\t\t\t</CommandPrimitive.Item>\n\t\t\t{/each}\n\t\t</CommandPrimitive.List>\n\t{/if}\n</CommandPrimitive.Root>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandCollection.svelte",
 			"target": "components/CommandCollection.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Command as CommandPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<CommandPrimitive.GroupItems\n\tdata-slot=\"command-collection\"\n\tclass={cn(\"cn-command-collection\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</CommandPrimitive.GroupItems>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/props.js",
+			"target": "internal/props.js",
+			"type": "registry:ui",
+			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandDialog.svelte",
 			"target": "components/CommandDialog.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Dialog as DialogPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\n\ntype Props = Omit<ComponentProps<typeof DialogPrimitive.Root>, \"children\" | \"child\"> & {\n\topen?: boolean;\n\tchildren?: Snippet;\n};\n\nlet { open = $bindable(false), children, ...rest }: Props = $props();\n</script>\n\n<div data-slot=\"command-dialog\">\n\t<DialogPrimitive.Root bind:open {...rest}>\n\t\t{@render children?.()}\n\t</DialogPrimitive.Root>\n</div>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandDialogPopup.svelte",
 			"target": "components/CommandDialogPopup.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Dialog as DialogPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<DialogPrimitive.Portal>\n\t<DialogPrimitive.Overlay data-slot=\"command-dialog-overlay\" class=\"cn-dialog-overlay\" />\n\t<DialogPrimitive.Content\n\t\tdata-slot=\"command-dialog-popup\"\n\t\tclass={cn(\"cn-dialog cn-command-dialog-popup\", className)}\n\t\t{...rest}\n\t>\n\t\t{@render children?.()}\n\t</DialogPrimitive.Content>\n</DialogPrimitive.Portal>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandDialogTrigger.svelte",
 			"target": "components/CommandDialogTrigger.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Dialog as DialogPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof DialogPrimitive.Trigger>, \"children\" | \"child\"> & {\n\tclass?: string;\n\tchildren?: ComponentProps<typeof DialogPrimitive.Trigger>[\"children\"];\n};\n\nlet { class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<DialogPrimitive.Trigger\n\tdata-slot=\"command-dialog-trigger\"\n\tclass={cn(\"cn-command-dialog-trigger\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</DialogPrimitive.Trigger>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandEmpty.svelte",
 			"target": "components/CommandEmpty.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Command as CommandPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof CommandPrimitive.Empty>, \"children\" | \"child\"> & {\n\tclass?: string;\n\tchildren?: ComponentProps<typeof CommandPrimitive.Empty>[\"children\"];\n\tforceMount?: boolean;\n};\n\nlet { class: className = \"\", children, forceMount, ...rest }: Props = $props();\n</script>\n\n<CommandPrimitive.Empty\n\tdata-slot=\"command-empty\"\n\tclass={cn(\"cn-command-empty\", className)}\n\t{forceMount}\n\t{...rest}\n>\n\t{@render children?.()}\n</CommandPrimitive.Empty>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandFooter.svelte",
 			"target": "components/CommandFooter.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children = undefined, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"footer\"\n\tdataSlot=\"command-footer\"\n\tclass={cn(\"cn-command-footer\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/Block.svelte",
+			"target": "internal/Block.svelte",
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\nimport type { NativeProps } from \"./props.js\";\n\ntype Props = NativeProps & { as?: string; dataSlot?: string; children?: Snippet };\n\nlet { as = \"div\", dataSlot = \"\", class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<svelte:element this={as} data-slot={dataSlot || undefined} class={cn(className)} {...rest}>\n\t{@render children?.()}\n</svelte:element>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandGroup.svelte",
 			"target": "components/CommandGroup.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Command as CommandPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet {\n\tclass: className = \"\",\n\tchildren,\n\tforceMount,\n\t...rest\n}: NativeProps & {\n\tforceMount?: boolean;\n} = $props();\n</script>\n\n<CommandPrimitive.Group\n\tdata-slot=\"command-group\"\n\tclass={cn(\"cn-command-group\", className)}\n\t{forceMount}\n\t{...rest}\n>\n\t{@render children?.()}\n</CommandPrimitive.Group>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandGroupLabel.svelte",
 			"target": "components/CommandGroupLabel.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Command as CommandPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<CommandPrimitive.GroupHeading\n\tdata-slot=\"command-group-label\"\n\tclass={cn(\"cn-command-group-label\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</CommandPrimitive.GroupHeading>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandInput.svelte",
 			"target": "components/CommandInput.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Command as CommandPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof CommandPrimitive.Input>, \"children\" | \"child\"> & {\n\tvalue?: string;\n\tclass?: string;\n};\n\nlet { value = $bindable(\"\"), class: className = \"\", ...rest }: Props = $props();\n</script>\n\n<span data-slot=\"command-input-group\" class=\"cn-command-input-group\">\n\t<span data-slot=\"command-icon\" class=\"cn-command-input-icon\" aria-hidden=\"true\">\n\t\t<svg\n\t\t\taria-hidden=\"true\"\n\t\t\twidth=\"16\"\n\t\t\theight=\"16\"\n\t\t\tviewBox=\"0 0 24 24\"\n\t\t\tfill=\"none\"\n\t\t\tstroke=\"currentColor\"\n\t\t\tstroke-width=\"2\"\n\t\t\tstroke-linecap=\"round\"\n\t\t\tstroke-linejoin=\"round\"\n\t\t>\n\t\t\t<circle cx=\"11\" cy=\"11\" r=\"7\" />\n\t\t\t<path d=\"m20 20-3.5-3.5\" />\n\t\t</svg>\n\t</span>\n\t<CommandPrimitive.Input\n\t\tdata-slot=\"command-input\"\n\t\tclass={cn(\"cn-command-input\", className)}\n\t\tbind:value\n\t\t{...rest}\n\t/>\n</span>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandItem.svelte",
 			"target": "components/CommandItem.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Command as CommandPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof CommandPrimitive.Item>, \"children\" | \"child\"> & {\n\tclass?: string;\n\tchildren?: ComponentProps<typeof CommandPrimitive.Item>[\"children\"];\n\tforceMount?: boolean;\n};\n\nlet { class: className = \"\", children, forceMount, ...rest }: Props = $props();\n</script>\n\n<CommandPrimitive.Item\n\tdata-slot=\"command-item\"\n\tclass={cn(\"cn-command-item\", className)}\n\t{forceMount}\n\t{...rest}\n>\n\t{@render children?.()}\n</CommandPrimitive.Item>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandList.svelte",
 			"target": "components/CommandList.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Command as CommandPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<CommandPrimitive.List\n\tdata-slot=\"command-list\"\n\tclass={cn(\"cn-command-list\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</CommandPrimitive.List>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandPanel.svelte",
 			"target": "components/CommandPanel.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Command as CommandPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children = undefined, ...rest }: NativeProps = $props();\n</script>\n\n<CommandPrimitive.Viewport\n\tdata-slot=\"command-panel\"\n\tclass={cn(\"cn-command-panel\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</CommandPrimitive.Viewport>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandSeparator.svelte",
 			"target": "components/CommandSeparator.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Command as CommandPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children = undefined, ...rest }: NativeProps = $props();\n</script>\n\n<CommandPrimitive.Separator\n\tdata-slot=\"command-separator\"\n\tclass={cn(\"cn-command-separator\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</CommandPrimitive.Separator>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/CommandShortcut.svelte",
 			"target": "components/CommandShortcut.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"span\"\n\tdataSlot=\"command-shortcut\"\n\tclass={cn(\"cn-command-shortcut\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		}
 	],
-	"dependencies": ["bits-ui"],
+	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

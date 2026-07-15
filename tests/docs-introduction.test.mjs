@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
+import { readThemeSource } from "./theme-source.mjs";
 
 const headerPath = "apps/www/src/lib/components/docs/docs-header.svelte";
 const shellPath = "apps/www/src/lib/components/docs/docs-shell.svelte";
 const introPath = "apps/www/src/routes/docs/introduction/+page.svelte";
-const themePath = "packages/theme/src/style-coss.css";
 
 test("docs header brand is coss-svelte without an extra ui suffix", async () => {
 	const header = await readFile(headerPath, "utf8");
@@ -15,10 +15,7 @@ test("docs header brand is coss-svelte without an extra ui suffix", async () => 
 });
 
 test("docs sidebar remains scrollable without showing a scrollbar", async () => {
-	const [shell, theme] = await Promise.all([
-		readFile(shellPath, "utf8"),
-		readFile(themePath, "utf8"),
-	]);
+	const [shell, theme] = await Promise.all([readFile(shellPath, "utf8"), readThemeSource()]);
 
 	assert.match(
 		shell,
@@ -66,7 +63,7 @@ test("introduction mirrors the COSS docs shape while staying local to coss-svelt
 });
 
 test("introduction has a minimal page-open animation with reduced-motion support", async () => {
-	const theme = await readFile(themePath, "utf8");
+	const theme = await readThemeSource();
 
 	assert.match(theme, /@keyframes docs-intro-enter/, "intro animation keyframes should exist");
 	assert.match(theme, /\.docs-intro-flow/, "intro animation should target the intro flow");

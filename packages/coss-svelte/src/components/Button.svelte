@@ -1,17 +1,31 @@
-<script>
+<script lang="ts">
+import type { NativeProps } from "../internal/props.js";
 import { cn } from "../utils.js";
 import Spinner from "./Spinner.svelte";
 
+type Variant = keyof typeof variantClassMap;
+type ButtonSize = keyof typeof sizeClassMap;
+type ButtonType = "button" | "submit" | "reset";
+
 let {
-	variant = "default",
-	size = "default",
+	variant = "default" as Variant,
+	size = "default" as ButtonSize,
 	href = "",
-	type = "button",
+	type = "button" as ButtonType,
 	loading = false,
 	disabled = false,
 	class: className = "",
 	children,
 	...rest
+}: NativeProps & {
+	variant?: Variant;
+	size?: ButtonSize;
+	href?: string;
+	type?: ButtonType;
+	loading?: boolean;
+	disabled?: boolean;
+	class?: string;
+	children?: import("svelte").Snippet;
 } = $props();
 
 const variantClassMap = {

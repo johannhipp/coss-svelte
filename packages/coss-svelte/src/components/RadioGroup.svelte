@@ -1,7 +1,13 @@
-<script>
+<script lang="ts">
 import { RadioGroup as RadioGroupPrimitive } from "bits-ui";
+import type { ComponentProps } from "svelte";
+import { normalizeOptions, type Option } from "../internal/props.js";
 import { cn } from "../utils.js";
 
+type Props = ComponentProps<typeof RadioGroupPrimitive.Root> & {
+	label?: string;
+	options?: Option[];
+};
 let {
 	value = $bindable(""),
 	label = "",
@@ -10,7 +16,9 @@ let {
 	class: className = "",
 	children,
 	...rest
-} = $props();
+}: Props = $props();
+
+let items = $derived(normalizeOptions(options));
 </script>
 
 <RadioGroupPrimitive.Root
@@ -25,12 +33,12 @@ let {
 	{/if}
 	<div class="cn-choice-stack">
 		{#if options.length}
-			{#each options as option}
+			{#each items as normalized}
 				<RadioGroupPrimitive.Item
 					data-slot="radio-group-item"
 					class="cn-radio"
-					value={option.value ?? option}
-					disabled={option.disabled}
+					value={normalized.value}
+					disabled={normalized.disabled}
 				>
 					{#snippet children({ checked })}
 						<span
@@ -38,7 +46,7 @@ let {
 							data-state={checked ? "checked" : "unchecked"}
 							aria-hidden="true"
 						></span>
-						<span>{option.label ?? option}</span>
+						<span>{normalized.label}</span>
 					{/snippet}
 				</RadioGroupPrimitive.Item>
 			{/each}

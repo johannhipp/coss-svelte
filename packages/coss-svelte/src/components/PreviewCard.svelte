@@ -1,6 +1,16 @@
-<script>
+<script lang="ts">
 import { LinkPreview as LinkPreviewPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
+
+type Props = Omit<ComponentProps<typeof LinkPreviewPrimitive.Root>, "children" | "child"> & {
+	href?: string;
+	label?: string;
+	title?: string;
+	description?: string;
+	class?: string;
+	children?: Snippet;
+};
 
 let {
 	href = "#",
@@ -10,7 +20,7 @@ let {
 	class: className = "",
 	children: rootChildren,
 	...rest
-} = $props();
+}: Props = $props();
 </script>
 
 <LinkPreviewPrimitive.Root {...rest}>

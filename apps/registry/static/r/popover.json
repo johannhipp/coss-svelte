@@ -7,35 +7,53 @@
 		{
 			"path": "packages/coss-svelte/src/components/Popover.svelte",
 			"target": "components/Popover.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Popover as PopoverPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof PopoverPrimitive.Root>, \"children\" | \"child\"> & {\n\topen?: boolean;\n\tlabel?: string;\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet {\n\topen = $bindable(false),\n\tlabel = \"Popover\",\n\tclass: className = \"\",\n\tchildren: rootChildren,\n\t...rest\n}: Props = $props();\n</script>\n\n<PopoverPrimitive.Root bind:open {...rest}>\n\t{#if rootChildren}\n\t\t{@render rootChildren()}\n\t{:else}\n\t\t<PopoverPrimitive.Trigger data-slot=\"popover-trigger\" class=\"cn-popover-trigger\">\n\t\t\t{label}\n\t\t</PopoverPrimitive.Trigger>\n\t\t<PopoverPrimitive.Portal>\n\t\t\t<PopoverPrimitive.Content data-slot=\"popover-popup\" class={cn(\"cn-popover-content\", className)}>\n\t\t\t\t{label}\n\t\t\t</PopoverPrimitive.Content>\n\t\t</PopoverPrimitive.Portal>\n\t{/if}\n</PopoverPrimitive.Root>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/utils.js",
+			"target": "utils.js",
+			"type": "registry:ui",
+			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/PopoverClose.svelte",
 			"target": "components/PopoverClose.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Popover as PopoverPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<PopoverPrimitive.Close\n\tdata-slot=\"popover-close\"\n\tclass={cn(\"cn-popover-close\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</PopoverPrimitive.Close>\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/internal/props.js",
+			"target": "internal/props.js",
+			"type": "registry:ui",
+			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/PopoverDescription.svelte",
 			"target": "components/PopoverDescription.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<p data-slot=\"popover-description\" class={cn(\"cn-popover-description\", className)} {...rest}>\n\t{@render children?.()}\n</p>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/PopoverPopup.svelte",
 			"target": "components/PopoverPopup.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Popover as PopoverPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof PopoverPrimitive.Content>, \"children\" | \"child\"> & {\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet { class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<PopoverPrimitive.Portal>\n\t<PopoverPrimitive.Content data-slot=\"popover-popup\" class={cn(\"cn-popover-content\", className)} {...rest}>\n\t\t{@render children?.()}\n\t</PopoverPrimitive.Content>\n</PopoverPrimitive.Portal>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/PopoverTitle.svelte",
 			"target": "components/PopoverTitle.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<h2 data-slot=\"popover-title\" class={cn(\"cn-popover-title\", className)} {...rest}>\n\t{@render children?.()}\n</h2>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/PopoverTrigger.svelte",
 			"target": "components/PopoverTrigger.svelte",
-			"type": "registry:ui"
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Popover as PopoverPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<PopoverPrimitive.Trigger\n\tdata-slot=\"popover-trigger\"\n\tclass={cn(\"cn-popover-trigger\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</PopoverPrimitive.Trigger>\n"
 		}
 	],
-	"dependencies": ["bits-ui"],
+	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {

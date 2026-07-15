@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
+import { readThemeSource } from "./theme-source.mjs";
 
 const headerPath = "apps/www/src/lib/components/docs/docs-header.svelte";
 const shellPath = "apps/www/src/lib/components/docs/docs-shell.svelte";
 const mobileMenuPath = "apps/www/src/lib/components/docs/docs-mobile-menu.svelte";
 const sidebarPath = "apps/www/src/lib/components/docs/docs-sidebar.svelte";
-const themePath = "packages/theme/src/style-coss.css";
 const alertDialogPath = "packages/coss-svelte/src/components/AlertDialog.svelte";
 
 test("mobile docs trigger uses a two-line burger icon", async () => {
@@ -92,7 +92,7 @@ test("docs sidebar exposes a larger mobile navigation variant", async () => {
 
 test("alert dialog renders a separated muted footer action band", async () => {
 	const [theme, alertDialog] = await Promise.all([
-		readFile(themePath, "utf8"),
+		readThemeSource(),
 		readFile(alertDialogPath, "utf8"),
 	]);
 

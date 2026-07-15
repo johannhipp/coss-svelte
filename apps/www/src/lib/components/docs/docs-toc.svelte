@@ -1,8 +1,5 @@
 <script lang="ts">
-type TocItem = {
-	href: string;
-	title: string;
-};
+import type { TocItem } from "$lib/docs/types.js";
 
 let { items = [] }: { items?: TocItem[] } = $props();
 </script>
