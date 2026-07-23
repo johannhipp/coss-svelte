@@ -11,8 +11,8 @@
 			"content": "<script lang=\"ts\">\nimport { AlertDialog as AlertDialogPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof AlertDialogPrimitive.Root>, \"children\" | \"child\"> & {\n\topen?: boolean;\n\ttrigger?: string;\n\ttitle?: string;\n\tdescription?: string;\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet {\n\topen = $bindable(false),\n\ttrigger = \"Open alert dialog\",\n\ttitle = \"\",\n\tdescription = \"\",\n\tclass: className = \"\",\n\tchildren: rootChildren,\n\t...rest\n}: Props = $props();\n</script>\n\n<AlertDialogPrimitive.Root bind:open {...rest}>\n\t{#if title || description}\n\t\t<AlertDialogPrimitive.Trigger data-slot=\"alert-dialog-trigger\" class=\"cn-alert-dialog-trigger\">\n\t\t\t{trigger}\n\t\t</AlertDialogPrimitive.Trigger>\n\t\t<AlertDialogPrimitive.Portal>\n\t\t\t<AlertDialogPrimitive.Overlay data-slot=\"alert-dialog-overlay\" class=\"cn-dialog-overlay\" />\n\t\t\t<AlertDialogPrimitive.Content\n\t\t\t\tdata-slot=\"alert-dialog-popup\"\n\t\t\t\tclass={cn(\"cn-dialog cn-alert-dialog\", className)}\n\t\t\t>\n\t\t\t\t<div class=\"cn-alert-dialog-header\">\n\t\t\t\t\t{#if title}\n\t\t\t\t\t\t<AlertDialogPrimitive.Title data-slot=\"alert-dialog-title\" class=\"cn-dialog-title\">\n\t\t\t\t\t\t\t{title}\n\t\t\t\t\t\t</AlertDialogPrimitive.Title>\n\t\t\t\t\t{/if}\n\t\t\t\t\t{#if description}\n\t\t\t\t\t\t<AlertDialogPrimitive.Description\n\t\t\t\t\t\t\tdata-slot=\"alert-dialog-description\"\n\t\t\t\t\t\t\tclass=\"cn-dialog-description\"\n\t\t\t\t\t\t>\n\t\t\t\t\t\t\t{description}\n\t\t\t\t\t\t</AlertDialogPrimitive.Description>\n\t\t\t\t\t{/if}\n\t\t\t\t\t{@render rootChildren?.()}\n\t\t\t\t</div>\n\t\t\t\t<div class=\"cn-alert-dialog-footer cn-alert-dialog-actions\">\n\t\t\t\t\t<AlertDialogPrimitive.Cancel data-slot=\"alert-dialog-cancel\" class=\"cn-alert-dialog-cancel\">\n\t\t\t\t\t\tCancel\n\t\t\t\t\t</AlertDialogPrimitive.Cancel>\n\t\t\t\t\t<AlertDialogPrimitive.Action data-slot=\"alert-dialog-action\" class=\"cn-alert-dialog-action\">\n\t\t\t\t\t\tConfirm\n\t\t\t\t\t</AlertDialogPrimitive.Action>\n\t\t\t\t</div>\n\t\t\t</AlertDialogPrimitive.Content>\n\t\t</AlertDialogPrimitive.Portal>\n\t{:else}\n\t\t{@render rootChildren?.()}\n\t{/if}\n</AlertDialogPrimitive.Root>\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/utils.js",
-			"target": "utils.js",
+			"path": "packages/coss-svelte/src/utils.ts",
+			"target": "utils.ts",
 			"type": "registry:ui",
 			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
@@ -23,8 +23,8 @@
 			"content": "<script lang=\"ts\">\nimport { AlertDialog as AlertDialogPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<AlertDialogPrimitive.Action\n\tdata-slot=\"alert-dialog-action\"\n\tclass={cn(\"cn-alert-dialog-action\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</AlertDialogPrimitive.Action>\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/internal/props.js",
-			"target": "internal/props.js",
+			"path": "packages/coss-svelte/src/internal/props.ts",
+			"target": "internal/props.ts",
 			"type": "registry:ui",
 			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
 		},
@@ -71,7 +71,7 @@
 			"content": "<script lang=\"ts\">\nimport { AlertDialog as AlertDialogPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<AlertDialogPrimitive.Trigger\n\tdata-slot=\"alert-dialog-trigger\"\n\tclass={cn(\"cn-alert-dialog-trigger\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</AlertDialogPrimitive.Trigger>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -86,8 +86,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "alert-dialog"
+		"slug": "alert-dialog",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/alert-dialog.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],
-	"docs": "https://coss.com/ui/docs/components/alert-dialog.md"
+	"docs": "/docs/components/alert-dialog"
 }

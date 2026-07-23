@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@coss-svelte/theme/style-coss.css";
 @source "./**/*.{svelte,ts,js}";
 @source "../../../packages/coss-svelte/src/**/*.{svelte,ts,js}";
 
@@ -238,7 +239,7 @@
 	border-radius: var(--radius-xl);
 	background: color-mix(in srgb, var(--muted) 58%, transparent);
 	padding: 1rem;
-	color: var(--muted-foreground);
+	color: color-mix(in srgb, var(--foreground) 68%, var(--background));
 	font-size: 0.875rem;
 	line-height: 1.55;
 }

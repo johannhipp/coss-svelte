@@ -11,8 +11,8 @@
 			"content": "<script lang=\"ts\">\nimport { Dialog as DialogPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof DialogPrimitive.Root>, \"children\" | \"child\"> & {\n\topen?: boolean;\n\tside?: \"top\" | \"right\" | \"bottom\" | \"left\";\n\ttrigger?: string;\n\ttitle?: string;\n\tdescription?: string;\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet {\n\topen = $bindable(false),\n\tside = \"right\",\n\ttrigger = \"Open sheet\",\n\ttitle = \"\",\n\tdescription = \"\",\n\tclass: className = \"\",\n\tchildren: rootChildren,\n\t...rest\n}: Props = $props();\n</script>\n\n<DialogPrimitive.Root bind:open {...rest}>\n\t{#if title || description}\n\t\t<DialogPrimitive.Trigger data-slot=\"sheet-trigger\" class=\"cn-sheet-trigger\">\n\t\t\t{trigger}\n\t\t</DialogPrimitive.Trigger>\n\t\t<DialogPrimitive.Portal>\n\t\t\t<DialogPrimitive.Overlay data-slot=\"sheet-overlay\" class=\"cn-dialog-overlay\" />\n\t\t\t<DialogPrimitive.Content\n\t\t\t\tdata-slot=\"sheet-popup\"\n\t\t\t\tdata-side={side}\n\t\t\t\tclass={cn(\"cn-sheet\", `cn-sheet-${side}`, className)}\n\t\t\t>\n\t\t\t\t<header data-slot=\"sheet-header\" class=\"cn-sheet-header\">\n\t\t\t\t\t<DialogPrimitive.Title data-slot=\"sheet-title\" class=\"cn-sheet-title\">\n\t\t\t\t\t\t{title}\n\t\t\t\t\t</DialogPrimitive.Title>\n\t\t\t\t\t{#if description}\n\t\t\t\t\t\t<DialogPrimitive.Description data-slot=\"sheet-description\" class=\"cn-sheet-description\">\n\t\t\t\t\t\t\t{description}\n\t\t\t\t\t\t</DialogPrimitive.Description>\n\t\t\t\t\t{/if}\n\t\t\t\t</header>\n\t\t\t\t<div data-slot=\"sheet-panel\" class=\"cn-sheet-panel\">\n\t\t\t\t\t{@render rootChildren?.()}\n\t\t\t\t</div>\n\t\t\t\t<footer data-slot=\"sheet-footer\" class=\"cn-sheet-footer\">\n\t\t\t\t\t<DialogPrimitive.Close data-slot=\"sheet-close\" class=\"cn-sheet-close\">\n\t\t\t\t\t\tClose\n\t\t\t\t\t</DialogPrimitive.Close>\n\t\t\t\t</footer>\n\t\t\t</DialogPrimitive.Content>\n\t\t</DialogPrimitive.Portal>\n\t{:else}\n\t\t{@render rootChildren?.()}\n\t{/if}\n</DialogPrimitive.Root>\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/utils.js",
-			"target": "utils.js",
+			"path": "packages/coss-svelte/src/utils.ts",
+			"target": "utils.ts",
 			"type": "registry:ui",
 			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
@@ -23,8 +23,8 @@
 			"content": "<script lang=\"ts\">\nimport { Dialog as DialogPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<DialogPrimitive.Close\n\tdata-slot=\"sheet-close\"\n\tclass={cn(\"cn-sheet-close\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</DialogPrimitive.Close>\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/internal/props.js",
-			"target": "internal/props.js",
+			"path": "packages/coss-svelte/src/internal/props.ts",
+			"target": "internal/props.ts",
 			"type": "registry:ui",
 			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
 		},
@@ -83,7 +83,7 @@
 			"content": "<script lang=\"ts\">\nimport { Dialog as DialogPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<DialogPrimitive.Trigger\n\tdata-slot=\"sheet-trigger\"\n\tclass={cn(\"cn-sheet-trigger\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</DialogPrimitive.Trigger>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -98,8 +98,10 @@
 		"status": "stable",
 		"foundation": "compound",
 		"particlePriority": "mvp",
-		"slug": "sheet"
+		"slug": "sheet",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/sheet.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],
-	"docs": "https://coss.com/ui/docs/components/sheet.md"
+	"docs": "/docs/components/sheet"
 }

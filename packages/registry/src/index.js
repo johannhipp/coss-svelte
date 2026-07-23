@@ -16,6 +16,9 @@ const themeCssVars = {
 	"--cn-radius": "0.5rem",
 };
 
+const themePackage = "@coss-svelte/theme";
+const themeStyleImport = "@coss-svelte/theme/style-coss.css";
+
 const bitsBackedCompoundComponents = new Set([
 	"Autocomplete",
 	"Command",
@@ -37,14 +40,20 @@ function componentFiles(metadata) {
 }
 
 function componentDependencies(metadata) {
+	const dependencies = [];
+
 	if (
 		metadata.status !== "deferred" &&
 		(metadata.foundation === "bits" || bitsBackedCompoundComponents.has(metadata.name))
 	) {
-		return ["bits-ui"];
+		dependencies.push("bits-ui");
 	}
 
-	return [];
+	if (metadata.status !== "deferred") {
+		dependencies.push(themePackage);
+	}
+
+	return dependencies;
 }
 
 export const registryItems = Object.values(componentMetadata).map((metadata) => ({
@@ -62,9 +71,11 @@ export const registryItems = Object.values(componentMetadata).map((metadata) => 
 		foundation: metadata.foundation,
 		particlePriority: metadata.particlePriority,
 		slug: metadata.slug,
+		sourceDocsUrl: metadata.docsUrl,
+		styleImport: themeStyleImport,
 	},
 	categories: [metadata.category],
-	docs: metadata.docsUrl,
+	docs: `/docs/components/${metadata.slug}`,
 }));
 
 export {

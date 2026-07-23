@@ -11,8 +11,8 @@
 			"content": "<script lang=\"ts\">\nimport { ScrollArea as ScrollAreaPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof ScrollAreaPrimitive.Root>, \"children\" | \"child\"> & {\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet { class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<ScrollAreaPrimitive.Root data-slot=\"scroll-area\" class={cn(\"cn-scroll-area\", className)} {...rest}>\n\t{@render children?.()}\n</ScrollAreaPrimitive.Root>\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/utils.js",
-			"target": "utils.js",
+			"path": "packages/coss-svelte/src/utils.ts",
+			"target": "utils.ts",
 			"type": "registry:ui",
 			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
@@ -23,8 +23,8 @@
 			"content": "<script lang=\"ts\">\nimport { ScrollArea as ScrollAreaPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<ScrollAreaPrimitive.Corner\n\tdata-slot=\"scroll-area-corner\"\n\tclass={cn(\"cn-scroll-area-corner\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</ScrollAreaPrimitive.Corner>\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/internal/props.js",
-			"target": "internal/props.js",
+			"path": "packages/coss-svelte/src/internal/props.ts",
+			"target": "internal/props.ts",
 			"type": "registry:ui",
 			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
 		},
@@ -47,7 +47,7 @@
 			"content": "<script lang=\"ts\">\nimport { ScrollArea as ScrollAreaPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<ScrollAreaPrimitive.Viewport\n\tdata-slot=\"scroll-area-viewport\"\n\tclass={cn(\"cn-scroll-area-viewport\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</ScrollAreaPrimitive.Viewport>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -62,8 +62,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "scroll-area"
+		"slug": "scroll-area",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/scroll-area.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],
-	"docs": "https://coss.com/ui/docs/components/scroll-area.md"
+	"docs": "/docs/components/scroll-area"
 }

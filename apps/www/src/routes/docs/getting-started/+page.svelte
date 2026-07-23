@@ -3,8 +3,8 @@ import CodeBlock from "$lib/components/docs/code-block.svelte";
 import ContentPage from "$lib/components/docs/content-page.svelte";
 import { getContentMarkdown } from "$lib/docs/markdown.js";
 
-const themeImportCode = `<script>
-</${"script"}>`;
+const themeImportCode = `@import "tailwindcss";
+@import "@coss-svelte/theme/style-coss.css";`;
 const markdown = getContentMarkdown("getting-started");
 
 const toc = [
@@ -29,16 +29,16 @@ const toc = [
 >
 	<section id="install" class="grid scroll-mt-20 gap-4">
 		<h2 class="font-semibold text-2xl">Install</h2>
-		<CodeBlock language="bash" code="pnpm add coss-svelte bits-ui" />
+			<CodeBlock language="bash" code="pnpm add coss-svelte bits-ui @coss-svelte/theme" />
 	</section>
 
 	<section id="theme" class="grid scroll-mt-20 gap-4">
 		<h2 class="font-semibold text-2xl">Theme</h2>
 		<p class="text-muted-foreground leading-7">
-			Import the COSS theme once in the app layout so local components receive the same token
-			system as the docs previews.
+				Import the COSS theme once from the global stylesheet loaded by your app layout so local
+				components receive the same token system as the docs previews.
 		</p>
-		<CodeBlock language="svelte" code={themeImportCode} />
+			<CodeBlock language="css" code={themeImportCode} />
 	</section>
 
 	<section id="getting-your-agents-to-use-coss-svelte" class="grid scroll-mt-20 gap-4">

@@ -11,3 +11,10 @@ This package defines the visual translation layer from COSS's product UI languag
 - Tailwind CSS v4 imports/preset helpers
 
 The public CSS entry is `@coss-svelte/theme/style-coss.css`; optional sub-entries are `tokens.css` and `components.css`.
+
+Import the public entry after Tailwind from the global stylesheet loaded by your app layout:
+
+```css
+@import "tailwindcss";
+@import "@coss-svelte/theme/style-coss.css";
+```

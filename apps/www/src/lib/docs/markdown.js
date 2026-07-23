@@ -7,9 +7,9 @@ import { componentDocs, resourcePages } from "./navigation.js";
  * @typedef {import("./types.js").ComponentDoc} ComponentDoc
  */
 
-const installationCommand = "pnpm add coss-svelte bits-ui";
-const themeImportCode = `<script>
-</script>`;
+const installationCommand = "pnpm add coss-svelte bits-ui @coss-svelte/theme";
+const themeImportCode = `@import "tailwindcss";
+@import "@coss-svelte/theme/style-coss.css";`;
 const skillsInstallCommand = "npx skills@latest add johannhipp/skills";
 
 const contentPages = {
@@ -23,9 +23,9 @@ ${installationCommand}
 				title: "Install",
 			},
 			{
-				body: `Import the COSS theme once in the app layout so local components receive the same token system as the docs previews.
+				body: `Import the COSS theme once from the global stylesheet loaded by your app layout so local components receive the same token system as the docs previews.
 
-\`\`\`svelte
+					\`\`\`css
 ${themeImportCode}
 \`\`\``,
 				title: "Theme",

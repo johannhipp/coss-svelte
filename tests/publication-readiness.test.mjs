@@ -71,6 +71,23 @@ test("public-facing docs do not describe implemented packages as empty scaffolds
 	}
 });
 
+test("package and getting-started docs use the public theme contract", async () => {
+	const packageReadme = await readFile("packages/coss-svelte/README.md", "utf8");
+	const gettingStarted = await readFile(
+		"apps/www/src/routes/docs/getting-started/+page.svelte",
+		"utf8"
+	);
+	const markdown = await readFile("apps/www/src/lib/docs/markdown.js", "utf8");
+	const appCss = await readFile("apps/www/src/app.css", "utf8");
+
+	for (const content of [packageReadme, gettingStarted, markdown]) {
+		assert.match(content, /@coss-svelte\/theme/);
+		assert.match(content, /style-coss\.css/);
+	}
+
+	assert.match(appCss, /@import "@coss-svelte\/theme\/style-coss\.css"/);
+});
+
 test("docs app has an explicit production server target", async () => {
 	const config = await readFile("apps/www/svelte.config.js", "utf8");
 	const packageJson = await readJson("apps/www/package.json");
@@ -78,6 +95,7 @@ test("docs app has an explicit production server target", async () => {
 
 	assert.match(config, /adapter-node/);
 	assert.doesNotMatch(config, /adapter-auto/);
+	assert.match(config, /assets:\s*"\.\.\/registry\/static"/);
 	assert.equal(packageJson.scripts.start, "node build");
 	assert.match(workspace, /sharp:\s*true/);
 });
@@ -117,10 +135,8 @@ test("ci validates the repo without publishing to npm", async () => {
 
 	const workflow = await readFile(workflowPath, "utf8");
 	assert.match(workflow, /pnpm install --frozen-lockfile/);
-	assert.match(workflow, /pnpm biome:ci/);
-	assert.match(workflow, /pnpm check/);
-	assert.match(workflow, /pnpm test/);
-	assert.match(workflow, /pnpm pack:dry-run/);
+	assert.match(workflow, /playwright install --with-deps chromium/);
+	assert.match(workflow, /pnpm release:check/);
 	assert.doesNotMatch(workflow, /\bnpm publish\b/);
 	assert.doesNotMatch(workflow, /\bpnpm publish\b/);
 
@@ -130,7 +146,15 @@ test("ci validates the repo without publishing to npm", async () => {
 		"pnpm --filter coss-svelte exec npm pack --dry-run"
 	);
 	assert.equal(
+		rootPackage.scripts["test:consumer"],
+		"pnpm package:prepare && node scripts/check-clean-consumer.mjs"
+	);
+	assert.equal(
+		rootPackage.scripts["test:browser"],
+		"pnpm --filter @coss-svelte/www build && node scripts/smoke-docs-browser.mjs"
+	);
+	assert.equal(
 		rootPackage.scripts["release:check"],
-		"pnpm package:prepare && pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm pack:dry-run"
+		"pnpm package:prepare && pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test:consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm docs:smoke && pnpm test:browser && pnpm pack:dry-run"
 	);
 });

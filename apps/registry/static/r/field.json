@@ -11,20 +11,20 @@
 			"content": "<script lang=\"ts\">\nimport { createFieldContext, setFieldContext } from \"../internal/field-context.svelte.js\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet {\n\tlabel = \"\",\n\tdescription = \"\",\n\terror = \"\",\n\trequired = false,\n\tdisabled = false,\n\tinvalid = Boolean(error),\n\tid,\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: NativeProps & {\n\tlabel?: string;\n\tdescription?: string;\n\terror?: string;\n\trequired?: boolean;\n\tdisabled?: boolean;\n\tinvalid?: boolean;\n} = $props();\n\nconst generatedId = $props.id();\nconst fieldId = $derived(id ?? generatedId);\n// The context is created once so its generated IDs remain stable across hydration.\n// svelte-ignore state_referenced_locally\nconst field = createFieldContext(fieldId, {\n\trequired: () => required,\n\tdisabled: () => disabled,\n\tinvalid: () => invalid,\n\tdescription: () => Boolean(description),\n\terror: () => Boolean(error),\n});\nsetFieldContext(field);\n</script>\n\n<div\n\tdata-slot=\"field\"\n\tdata-invalid={field.invalid ? \"true\" : undefined}\n\tdata-disabled={field.disabled ? \"true\" : undefined}\n\tclass={cn(\"cn-field\", className)}\n\t{...rest}\n>\n\t{#if label}\n\t\t<div class=\"cn-field-label-row\">\n\t\t\t<label class=\"cn-label\" for={field.controlId} id={field.labelId}>{label}</label>\n\t\t\t{#if required}\n\t\t\t\t<span class=\"cn-field-required\" aria-hidden=\"true\">*</span>\n\t\t\t{/if}\n\t\t</div>\n\t{/if}\n\t{@render children?.()}\n\t{#if description}\n\t\t<p id={field.descriptionId} class=\"cn-field-description\">{description}</p>\n\t{/if}\n\t{#if error}\n\t\t<p id={field.errorId} class=\"cn-field-error\" role=\"alert\">{error}</p>\n\t{/if}\n</div>\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/internal/field-context.svelte.js",
-			"target": "internal/field-context.svelte.js",
+			"path": "packages/coss-svelte/src/internal/field-context.svelte.ts",
+			"target": "internal/field-context.svelte.ts",
 			"type": "registry:ui",
 			"content": "import { getContext, setContext } from \"svelte\";\n\nconst fieldContextKey = Symbol(\"coss-svelte-field\");\n\nexport type FieldContext = {\n\tbaseId: string;\n\tcontrolId: string;\n\tlabelId: string;\n\tdescriptionId: string;\n\terrorId: string;\n\tvalidityId: string;\n\trequired: boolean;\n\tdisabled: boolean;\n\tinvalid: boolean;\n\tdescribedBy: string;\n\tregisterDescription: (id?: string) => () => void;\n\tregisterError: (id?: string) => () => void;\n};\n\nexport function createFieldContext(\n\tbaseId: string,\n\tdefaults: {\n\t\trequired: () => boolean;\n\t\tdisabled: () => boolean;\n\t\tinvalid: () => boolean;\n\t\tdescription?: () => boolean;\n\t\terror?: () => boolean;\n\t}\n): FieldContext {\n\tlet descriptions = $state<string[]>(defaults.description?.() ? [`${baseId}-description`] : []);\n\tlet errors = $state<string[]>(defaults.error?.() ? [`${baseId}-error`] : []);\n\tconst register = (items: string[], id: string | undefined) => {\n\t\tif (id && !items.includes(id)) items.push(id);\n\t\treturn () => {\n\t\t\tconst index = id ? items.indexOf(id) : -1;\n\t\t\tif (index >= 0) items.splice(index, 1);\n\t\t};\n\t};\n\n\treturn {\n\t\tbaseId,\n\t\tcontrolId: `${baseId}-control`,\n\t\tlabelId: `${baseId}-label`,\n\t\tdescriptionId: `${baseId}-description`,\n\t\terrorId: `${baseId}-error`,\n\t\tvalidityId: `${baseId}-validity`,\n\t\tget required() {\n\t\t\treturn defaults.required();\n\t\t},\n\t\tget disabled() {\n\t\t\treturn defaults.disabled();\n\t\t},\n\t\tget invalid() {\n\t\t\treturn defaults.invalid();\n\t\t},\n\t\tget describedBy() {\n\t\t\treturn [...descriptions, ...errors].join(\" \");\n\t\t},\n\t\tregisterDescription: (id = `${baseId}-description`) => register(descriptions, id),\n\t\tregisterError: (id = `${baseId}-error`) => register(errors, id),\n\t};\n}\n\nexport function setFieldContext(context: FieldContext): void {\n\tsetContext(fieldContextKey, context);\n}\n\nexport function getFieldContext(): FieldContext | undefined {\n\treturn getContext<FieldContext | undefined>(fieldContextKey);\n}\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/internal/props.js",
-			"target": "internal/props.js",
+			"path": "packages/coss-svelte/src/internal/props.ts",
+			"target": "internal/props.ts",
 			"type": "registry:ui",
 			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/utils.js",
-			"target": "utils.js",
+			"path": "packages/coss-svelte/src/utils.ts",
+			"target": "utils.ts",
 			"type": "registry:ui",
 			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
@@ -59,7 +59,7 @@
 			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport { getFieldContext } from \"../internal/field-context.svelte.js\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\nconst field = getFieldContext();\n</script>\n\n<Block\n\tas=\"p\"\n\tdataSlot=\"field-validity\"\n\tid={field?.validityId}\n\tclass={cn(\"cn-field-validity\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		}
 	],
-	"dependencies": ["clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -74,8 +74,10 @@
 		"status": "stable",
 		"foundation": "compound",
 		"particlePriority": "mvp",
-		"slug": "field"
+		"slug": "field",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/field.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Forms & Validation"],
-	"docs": "https://coss.com/ui/docs/components/field.md"
+	"docs": "/docs/components/field"
 }
