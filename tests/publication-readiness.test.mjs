@@ -71,6 +71,23 @@ test("public-facing docs do not describe implemented packages as empty scaffolds
 	}
 });
 
+test("package and getting-started docs use the public theme contract", async () => {
+	const packageReadme = await readFile("packages/coss-svelte/README.md", "utf8");
+	const gettingStarted = await readFile(
+		"apps/www/src/routes/docs/getting-started/+page.svelte",
+		"utf8"
+	);
+	const markdown = await readFile("apps/www/src/lib/docs/markdown.js", "utf8");
+	const appCss = await readFile("apps/www/src/app.css", "utf8");
+
+	for (const content of [packageReadme, gettingStarted, markdown]) {
+		assert.match(content, /@coss-svelte\/theme/);
+		assert.match(content, /style-coss\.css/);
+	}
+
+	assert.match(appCss, /@import "@coss-svelte\/theme\/style-coss\.css"/);
+});
+
 test("docs app has an explicit production server target", async () => {
 	const config = await readFile("apps/www/svelte.config.js", "utf8");
 	const packageJson = await readJson("apps/www/package.json");

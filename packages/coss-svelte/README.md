@@ -7,7 +7,14 @@ This package is the publishable component surface for the `coss-svelte` monorepo
 The package is not published to npm yet. Once published, install it with its peer dependencies:
 
 ```sh
-pnpm add coss-svelte bits-ui svelte
+pnpm add coss-svelte bits-ui svelte @coss-svelte/theme
+```
+
+Import the shared theme from your global stylesheet after Tailwind:
+
+```css
+@import "tailwindcss";
+@import "@coss-svelte/theme/style-coss.css";
 ```
 
 ## Usage
@@ -27,13 +34,12 @@ pnpm add coss-svelte bits-ui svelte
 
 ## Package Contents
 
-- `src/components` - Svelte component source.
-- `src/index.js` - public component and metadata exports.
-- `src/index.d.ts` - public type declarations.
-- `src/metadata.js` - component status and registry metadata.
-- `src/utils.js` - shared utility exports.
+- `dist/components` - packaged Svelte components and generated declarations.
+- `dist/index.js` and `dist/index.d.ts` - public component and metadata exports.
+- `dist/metadata.js` and `dist/metadata.d.ts` - component status and registry metadata.
+- `dist/utils.js` and `dist/utils.d.ts` - shared utility exports.
 
-The npm package is constrained to `src`, `README.md`, `LICENSE`, and `package.json`.
+The npm package is constrained to `dist`, `README.md`, `LICENSE`, and `package.json`.
 
 ## Release Checks
 
