@@ -71,7 +71,7 @@
 			"content": "<script lang=\"ts\">\nimport { AlertDialog as AlertDialogPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<AlertDialogPrimitive.Trigger\n\tdata-slot=\"alert-dialog-trigger\"\n\tclass={cn(\"cn-alert-dialog-trigger\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</AlertDialogPrimitive.Trigger>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -86,8 +86,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "alert-dialog"
+		"slug": "alert-dialog",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/alert-dialog.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],
-	"docs": "https://coss.com/ui/docs/components/alert-dialog.md"
+	"docs": "/docs/components/alert-dialog"
 }

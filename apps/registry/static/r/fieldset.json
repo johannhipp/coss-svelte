@@ -35,7 +35,7 @@
 			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\nimport type { NativeProps } from \"./props.js\";\n\ntype Props = NativeProps & { as?: string; dataSlot?: string; children?: Snippet };\n\nlet { as = \"div\", dataSlot = \"\", class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<svelte:element this={as} data-slot={dataSlot || undefined} class={cn(className)} {...rest}>\n\t{@render children?.()}\n</svelte:element>\n"
 		}
 	],
-	"dependencies": ["clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -50,8 +50,10 @@
 		"status": "stable",
 		"foundation": "native",
 		"particlePriority": "mvp",
-		"slug": "fieldset"
+		"slug": "fieldset",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/fieldset.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Forms & Validation"],
-	"docs": "https://coss.com/ui/docs/components/fieldset.md"
+	"docs": "/docs/components/fieldset"
 }

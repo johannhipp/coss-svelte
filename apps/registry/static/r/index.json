@@ -8,12 +8,14 @@
 			"description": "A set of collapsible panels with headings.",
 			"type": "registry:ui",
 			"categories": ["Layout & Navigation"],
-			"docs": "https://coss.com/ui/docs/components/accordion.md",
+			"docs": "/docs/components/accordion",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "accordion"
+				"slug": "accordion",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/accordion.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "accordion.json"
 		},
@@ -23,12 +25,14 @@
 			"description": "A callout for displaying important information.",
 			"type": "registry:ui",
 			"categories": ["Feedback & Status"],
-			"docs": "https://coss.com/ui/docs/components/alert.md",
+			"docs": "/docs/components/alert",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "alert"
+				"slug": "alert",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/alert.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "alert.json"
 		},
@@ -38,12 +42,14 @@
 			"description": "A modal dialog that interrupts the user workflow for critical confirmations.",
 			"type": "registry:ui",
 			"categories": ["Overlays & Popups"],
-			"docs": "https://coss.com/ui/docs/components/alert-dialog.md",
+			"docs": "/docs/components/alert-dialog",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "alert-dialog"
+				"slug": "alert-dialog",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/alert-dialog.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "alert-dialog.json"
 		},
@@ -53,12 +59,14 @@
 			"description": "An input that suggests options as you type.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/autocomplete.md",
+			"docs": "/docs/components/autocomplete",
 			"meta": {
 				"status": "stable",
 				"foundation": "compound",
 				"particlePriority": "mvp",
-				"slug": "autocomplete"
+				"slug": "autocomplete",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/autocomplete.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "autocomplete.json"
 		},
@@ -68,12 +76,14 @@
 			"description": "A visual representation of a user or entity.",
 			"type": "registry:ui",
 			"categories": ["Content & Display"],
-			"docs": "https://coss.com/ui/docs/components/avatar.md",
+			"docs": "/docs/components/avatar",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "avatar"
+				"slug": "avatar",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/avatar.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "avatar.json"
 		},
@@ -83,12 +93,14 @@
 			"description": "A small status indicator or label component.",
 			"type": "registry:ui",
 			"categories": ["Content & Display"],
-			"docs": "https://coss.com/ui/docs/components/badge.md",
+			"docs": "/docs/components/badge",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "badge"
+				"slug": "badge",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/badge.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "badge.json"
 		},
@@ -98,12 +110,14 @@
 			"description": "Displays the path to the current resource using a hierarchy of links.",
 			"type": "registry:ui",
 			"categories": ["Layout & Navigation"],
-			"docs": "https://coss.com/ui/docs/components/breadcrumb.md",
+			"docs": "/docs/components/breadcrumb",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "breadcrumb"
+				"slug": "breadcrumb",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/breadcrumb.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "breadcrumb.json"
 		},
@@ -113,12 +127,14 @@
 			"description": "A button or a component that looks like a button.",
 			"type": "registry:ui",
 			"categories": ["Actions"],
-			"docs": "https://coss.com/ui/docs/components/button.md",
+			"docs": "/docs/components/button",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "button"
+				"slug": "button",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/button.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "button.json"
 		},
@@ -128,12 +144,14 @@
 			"description": "A date picker for selecting single dates, ranges, or multiple dates.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/calendar.md",
+			"docs": "/docs/components/calendar",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "calendar"
+				"slug": "calendar",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/calendar.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "calendar.json"
 		},
@@ -143,12 +161,14 @@
 			"description": "A content container for grouping related information.",
 			"type": "registry:ui",
 			"categories": ["Content & Display"],
-			"docs": "https://coss.com/ui/docs/components/card.md",
+			"docs": "/docs/components/card",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "card"
+				"slug": "card",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/card.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "card.json"
 		},
@@ -158,12 +178,14 @@
 			"description": "A binary toggle input for selecting one or multiple options.",
 			"type": "registry:ui",
 			"categories": ["Toggle & Choice"],
-			"docs": "https://coss.com/ui/docs/components/checkbox.md",
+			"docs": "/docs/components/checkbox",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "checkbox"
+				"slug": "checkbox",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/checkbox.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "checkbox.json"
 		},
@@ -173,12 +195,14 @@
 			"description": "A collection of related checkboxes with group-level control.",
 			"type": "registry:ui",
 			"categories": ["Toggle & Choice"],
-			"docs": "https://coss.com/ui/docs/components/checkbox-group.md",
+			"docs": "/docs/components/checkbox-group",
 			"meta": {
 				"status": "stable",
 				"foundation": "custom",
 				"particlePriority": "mvp",
-				"slug": "checkbox-group"
+				"slug": "checkbox-group",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/checkbox-group.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "checkbox-group.json"
 		},
@@ -188,12 +212,14 @@
 			"description": "A component that toggles visibility of content sections.",
 			"type": "registry:ui",
 			"categories": ["Layout & Navigation"],
-			"docs": "https://coss.com/ui/docs/components/collapsible.md",
+			"docs": "/docs/components/collapsible",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "collapsible"
+				"slug": "collapsible",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/collapsible.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "collapsible.json"
 		},
@@ -203,12 +229,14 @@
 			"description": "An input combined with a list of predefined items to select.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/combobox.md",
+			"docs": "/docs/components/combobox",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "combobox"
+				"slug": "combobox",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/combobox.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "combobox.json"
 		},
@@ -218,12 +246,14 @@
 			"description": "A command palette component built with Dialog and Autocomplete for searching and executing commands.",
 			"type": "registry:ui",
 			"categories": ["Overlays & Popups"],
-			"docs": "https://coss.com/ui/docs/components/command.md",
+			"docs": "/docs/components/command",
 			"meta": {
 				"status": "stable",
 				"foundation": "compound",
 				"particlePriority": "mvp",
-				"slug": "command"
+				"slug": "command",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/command.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "command.json"
 		},
@@ -233,12 +263,14 @@
 			"description": "A date selection component, often combined with a calendar in a popover or input.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/date-picker.md",
+			"docs": "/docs/components/date-picker",
 			"meta": {
 				"status": "stable",
 				"foundation": "compound",
 				"particlePriority": "mvp",
-				"slug": "date-picker"
+				"slug": "date-picker",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/date-picker.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "date-picker.json"
 		},
@@ -248,12 +280,14 @@
 			"description": "A modal overlay for displaying content that requires user interaction.",
 			"type": "registry:ui",
 			"categories": ["Overlays & Popups"],
-			"docs": "https://coss.com/ui/docs/components/dialog.md",
+			"docs": "/docs/components/dialog",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "dialog"
+				"slug": "dialog",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/dialog.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "dialog.json"
 		},
@@ -263,12 +297,14 @@
 			"description": "A container for displaying empty state information.",
 			"type": "registry:ui",
 			"categories": ["Content & Display"],
-			"docs": "https://coss.com/ui/docs/components/empty.md",
+			"docs": "/docs/components/empty",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "empty"
+				"slug": "empty",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/empty.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "empty.json"
 		},
@@ -278,12 +314,14 @@
 			"description": "A wrapper component for form inputs with labels and validation.",
 			"type": "registry:ui",
 			"categories": ["Forms & Validation"],
-			"docs": "https://coss.com/ui/docs/components/field.md",
+			"docs": "/docs/components/field",
 			"meta": {
 				"status": "stable",
 				"foundation": "compound",
 				"particlePriority": "mvp",
-				"slug": "field"
+				"slug": "field",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/field.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "field.json"
 		},
@@ -293,12 +331,14 @@
 			"description": "A group of related form fields with a common label.",
 			"type": "registry:ui",
 			"categories": ["Forms & Validation"],
-			"docs": "https://coss.com/ui/docs/components/fieldset.md",
+			"docs": "/docs/components/fieldset",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "fieldset"
+				"slug": "fieldset",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/fieldset.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "fieldset.json"
 		},
@@ -308,12 +348,14 @@
 			"description": "A complete form implementation with validation and submission handling.",
 			"type": "registry:ui",
 			"categories": ["Forms & Validation"],
-			"docs": "https://coss.com/ui/docs/components/form.md",
+			"docs": "/docs/components/form",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "form"
+				"slug": "form",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/form.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "form.json"
 		},
@@ -323,12 +365,14 @@
 			"description": "A container component for displaying content in a frame.",
 			"type": "registry:ui",
 			"categories": ["Content & Display"],
-			"docs": "https://coss.com/ui/docs/components/frame.md",
+			"docs": "/docs/components/frame",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "frame"
+				"slug": "frame",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/frame.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "frame.json"
 		},
@@ -338,12 +382,14 @@
 			"description": "A container component for grouping related content with consistent styling.",
 			"type": "registry:ui",
 			"categories": ["Content & Display"],
-			"docs": "https://coss.com/ui/docs/components/group.md",
+			"docs": "/docs/components/group",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "group"
+				"slug": "group",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/group.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "group.json"
 		},
@@ -353,12 +399,14 @@
 			"description": "A native input element.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/input.md",
+			"docs": "/docs/components/input",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "input"
+				"slug": "input",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/input.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "input.json"
 		},
@@ -368,12 +416,14 @@
 			"description": "A flexible component for grouping inputs with addons, buttons, and other elements.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/input-group.md",
+			"docs": "/docs/components/input-group",
 			"meta": {
 				"status": "stable",
 				"foundation": "compound",
 				"particlePriority": "mvp",
-				"slug": "input-group"
+				"slug": "input-group",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/input-group.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "input-group.json"
 		},
@@ -383,12 +433,14 @@
 			"description": "A component for displaying keyboard keys and shortcuts.",
 			"type": "registry:ui",
 			"categories": ["Content & Display"],
-			"docs": "https://coss.com/ui/docs/components/kbd.md",
+			"docs": "/docs/components/kbd",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "kbd"
+				"slug": "kbd",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/kbd.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "kbd.json"
 		},
@@ -398,12 +450,14 @@
 			"description": "Renders an accessible label associated with controls.",
 			"type": "registry:ui",
 			"categories": ["Forms & Validation"],
-			"docs": "https://coss.com/ui/docs/components/label.md",
+			"docs": "/docs/components/label",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "label"
+				"slug": "label",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/label.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "label.json"
 		},
@@ -413,12 +467,14 @@
 			"description": "A list of actions or options revealed on demand.",
 			"type": "registry:ui",
 			"categories": ["Overlays & Popups"],
-			"docs": "https://coss.com/ui/docs/components/menu.md",
+			"docs": "/docs/components/menu",
 			"meta": {
 				"status": "stable",
 				"foundation": "compound",
 				"particlePriority": "mvp",
-				"slug": "menu"
+				"slug": "menu",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/menu.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "menu.json"
 		},
@@ -428,12 +484,14 @@
 			"description": "A visual representation of a value within a known range.",
 			"type": "registry:ui",
 			"categories": ["Feedback & Status"],
-			"docs": "https://coss.com/ui/docs/components/meter.md",
+			"docs": "/docs/components/meter",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "meter"
+				"slug": "meter",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/meter.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "meter.json"
 		},
@@ -443,12 +501,14 @@
 			"description": "A segmented input for one-time passwords and verification codes.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/otp-field.md",
+			"docs": "/docs/components/otp-field",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "otp-field"
+				"slug": "otp-field",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/otp-field.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "otp-field.json"
 		},
@@ -458,12 +518,14 @@
 			"description": "A pagination with page navigation, next and previous links.",
 			"type": "registry:ui",
 			"categories": ["Layout & Navigation"],
-			"docs": "https://coss.com/ui/docs/components/pagination.md",
+			"docs": "/docs/components/pagination",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "pagination"
+				"slug": "pagination",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/pagination.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "pagination.json"
 		},
@@ -473,12 +535,14 @@
 			"description": "A floating container that appears near a trigger element.",
 			"type": "registry:ui",
 			"categories": ["Overlays & Popups"],
-			"docs": "https://coss.com/ui/docs/components/popover.md",
+			"docs": "/docs/components/popover",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "popover"
+				"slug": "popover",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/popover.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "popover.json"
 		},
@@ -488,12 +552,14 @@
 			"description": "A rich preview component for displaying linked content.",
 			"type": "registry:ui",
 			"categories": ["Overlays & Popups"],
-			"docs": "https://coss.com/ui/docs/components/preview-card.md",
+			"docs": "/docs/components/preview-card",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "preview-card"
+				"slug": "preview-card",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/preview-card.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "preview-card.json"
 		},
@@ -503,12 +569,14 @@
 			"description": "A visual indicator showing the completion status of a task.",
 			"type": "registry:ui",
 			"categories": ["Feedback & Status"],
-			"docs": "https://coss.com/ui/docs/components/progress.md",
+			"docs": "/docs/components/progress",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "progress"
+				"slug": "progress",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/progress.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "progress.json"
 		},
@@ -518,12 +586,14 @@
 			"description": "A set of mutually exclusive options presented as radio buttons.",
 			"type": "registry:ui",
 			"categories": ["Toggle & Choice"],
-			"docs": "https://coss.com/ui/docs/components/radio-group.md",
+			"docs": "/docs/components/radio-group",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "radio-group"
+				"slug": "radio-group",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/radio-group.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "radio-group.json"
 		},
@@ -533,12 +603,14 @@
 			"description": "A container with custom scrollbars for overflow content.",
 			"type": "registry:ui",
 			"categories": ["Layout & Navigation"],
-			"docs": "https://coss.com/ui/docs/components/scroll-area.md",
+			"docs": "/docs/components/scroll-area",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "scroll-area"
+				"slug": "scroll-area",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/scroll-area.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "scroll-area.json"
 		},
@@ -548,12 +620,14 @@
 			"description": "A common form component for choosing a predefined value in a dropdown menu.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/select.md",
+			"docs": "/docs/components/select",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "select"
+				"slug": "select",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/select.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "select.json"
 		},
@@ -563,12 +637,14 @@
 			"description": "A visual divider for separating content sections.",
 			"type": "registry:ui",
 			"categories": ["Content & Display"],
-			"docs": "https://coss.com/ui/docs/components/separator.md",
+			"docs": "/docs/components/separator",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "separator"
+				"slug": "separator",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/separator.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "separator.json"
 		},
@@ -578,12 +654,14 @@
 			"description": "A flyout that opens from the side of the screen, based on the dialog component.",
 			"type": "registry:ui",
 			"categories": ["Overlays & Popups"],
-			"docs": "https://coss.com/ui/docs/components/sheet.md",
+			"docs": "/docs/components/sheet",
 			"meta": {
 				"status": "stable",
 				"foundation": "compound",
 				"particlePriority": "mvp",
-				"slug": "sheet"
+				"slug": "sheet",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/sheet.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "sheet.json"
 		},
@@ -593,12 +671,14 @@
 			"description": "A placeholder for loading content.",
 			"type": "registry:ui",
 			"categories": ["Feedback & Status"],
-			"docs": "https://coss.com/ui/docs/components/skeleton.md",
+			"docs": "/docs/components/skeleton",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "skeleton"
+				"slug": "skeleton",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/skeleton.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "skeleton.json"
 		},
@@ -608,12 +688,14 @@
 			"description": "A draggable control for selecting values from a continuous range.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/slider.md",
+			"docs": "/docs/components/slider",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "slider"
+				"slug": "slider",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/slider.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "slider.json"
 		},
@@ -623,12 +705,14 @@
 			"description": "An indicator that can be used to show a loading state.",
 			"type": "registry:ui",
 			"categories": ["Feedback & Status"],
-			"docs": "https://coss.com/ui/docs/components/spinner.md",
+			"docs": "/docs/components/spinner",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "spinner"
+				"slug": "spinner",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/spinner.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "spinner.json"
 		},
@@ -638,12 +722,14 @@
 			"description": "A toggle control for binary on/off states.",
 			"type": "registry:ui",
 			"categories": ["Toggle & Choice"],
-			"docs": "https://coss.com/ui/docs/components/switch.md",
+			"docs": "/docs/components/switch",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "switch"
+				"slug": "switch",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/switch.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "switch.json"
 		},
@@ -653,12 +739,14 @@
 			"description": "A structured data display component with rows and columns.",
 			"type": "registry:ui",
 			"categories": ["Content & Display"],
-			"docs": "https://coss.com/ui/docs/components/table.md",
+			"docs": "/docs/components/table",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "table"
+				"slug": "table",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/table.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "table.json"
 		},
@@ -668,12 +756,14 @@
 			"description": "A component for toggling between related panels on the same page.",
 			"type": "registry:ui",
 			"categories": ["Layout & Navigation"],
-			"docs": "https://coss.com/ui/docs/components/tabs.md",
+			"docs": "/docs/components/tabs",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "tabs"
+				"slug": "tabs",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/tabs.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "tabs.json"
 		},
@@ -683,12 +773,14 @@
 			"description": "A multi-line text input for longer content.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/textarea.md",
+			"docs": "/docs/components/textarea",
 			"meta": {
 				"status": "stable",
 				"foundation": "native",
 				"particlePriority": "mvp",
-				"slug": "textarea"
+				"slug": "textarea",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/textarea.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "textarea.json"
 		},
@@ -698,12 +790,14 @@
 			"description": "A button that switches between two states.",
 			"type": "registry:ui",
 			"categories": ["Toggle & Choice"],
-			"docs": "https://coss.com/ui/docs/components/toggle.md",
+			"docs": "/docs/components/toggle",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "toggle"
+				"slug": "toggle",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/toggle.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "toggle.json"
 		},
@@ -713,12 +807,14 @@
 			"description": "A group of toggle buttons where one or multiple can be selected.",
 			"type": "registry:ui",
 			"categories": ["Toggle & Choice"],
-			"docs": "https://coss.com/ui/docs/components/toggle-group.md",
+			"docs": "/docs/components/toggle-group",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "toggle-group"
+				"slug": "toggle-group",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/toggle-group.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "toggle-group.json"
 		},
@@ -728,12 +824,14 @@
 			"description": "A container for grouping related actions or controls.",
 			"type": "registry:ui",
 			"categories": ["Layout & Navigation"],
-			"docs": "https://coss.com/ui/docs/components/toolbar.md",
+			"docs": "/docs/components/toolbar",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "toolbar"
+				"slug": "toolbar",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/toolbar.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "toolbar.json"
 		},
@@ -743,12 +841,14 @@
 			"description": "A small overlay that provides contextual information on hover or focus.",
 			"type": "registry:ui",
 			"categories": ["Overlays & Popups"],
-			"docs": "https://coss.com/ui/docs/components/tooltip.md",
+			"docs": "/docs/components/tooltip",
 			"meta": {
 				"status": "stable",
 				"foundation": "bits",
 				"particlePriority": "mvp",
-				"slug": "tooltip"
+				"slug": "tooltip",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/tooltip.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "tooltip.json"
 		},
@@ -758,12 +858,14 @@
 			"description": "A panel that slides in from the edge of the screen with swipe gestures, snap points, and nested drawer support.",
 			"type": "registry:ui",
 			"categories": ["Overlays & Popups"],
-			"docs": "https://coss.com/ui/docs/components/drawer.md",
+			"docs": "/docs/components/drawer",
 			"meta": {
 				"status": "experimental",
 				"foundation": "custom",
 				"particlePriority": "later",
-				"slug": "drawer"
+				"slug": "drawer",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/drawer.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "drawer.json"
 		},
@@ -773,12 +875,14 @@
 			"description": "A collapsible side panel for navigation and secondary content.",
 			"type": "registry:ui",
 			"categories": ["Layout & Navigation"],
-			"docs": "https://coss.com/ui/docs/components/sidebar.md",
+			"docs": "/docs/components/sidebar",
 			"meta": {
 				"status": "experimental",
 				"foundation": "compound",
 				"particlePriority": "later",
-				"slug": "sidebar"
+				"slug": "sidebar",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/sidebar.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "sidebar.json"
 		},
@@ -788,12 +892,14 @@
 			"description": "A temporary notification message that appears and disappears automatically.",
 			"type": "registry:ui",
 			"categories": ["Feedback & Status"],
-			"docs": "https://coss.com/ui/docs/components/toast.md",
+			"docs": "/docs/components/toast",
 			"meta": {
 				"status": "experimental",
 				"foundation": "custom",
 				"particlePriority": "later",
-				"slug": "toast"
+				"slug": "toast",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/toast.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "toast.json"
 		},
@@ -803,12 +909,14 @@
 			"description": "A specialized input for numeric values with increment/decrement controls.",
 			"type": "registry:ui",
 			"categories": ["Selection & Input"],
-			"docs": "https://coss.com/ui/docs/components/number-field.md",
+			"docs": "/docs/components/number-field",
 			"meta": {
 				"status": "deferred",
 				"foundation": "custom",
 				"particlePriority": "unsupported",
-				"slug": "number-field"
+				"slug": "number-field",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/number-field.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "number-field.json"
 		}

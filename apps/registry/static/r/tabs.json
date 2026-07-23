@@ -41,7 +41,7 @@
 			"content": "<script lang=\"ts\">\nimport { Tabs as TabsPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof TabsPrimitive.Trigger>;\nlet { value, class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<TabsPrimitive.Trigger\n\tdata-slot=\"tabs-trigger\"\n\tclass={cn(\"cn-tabs-trigger\", className)}\n\t{value}\n\t{...rest}\n>\n\t{@render children?.()}\n</TabsPrimitive.Trigger>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -56,8 +56,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "tabs"
+		"slug": "tabs",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/tabs.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],
-	"docs": "https://coss.com/ui/docs/components/tabs.md"
+	"docs": "/docs/components/tabs"
 }

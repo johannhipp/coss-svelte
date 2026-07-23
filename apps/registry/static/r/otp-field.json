@@ -29,7 +29,7 @@
 			"content": "<script lang=\"ts\">\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport OTPFieldCell from \"./OTPFieldCell.svelte\";\n\ntype Props = ComponentProps<typeof OTPFieldCell>;\nlet { cell, children, ...rest }: Props = $props();\n</script>\n\n<OTPFieldCell data-slot=\"otp-field-input\" {cell} {...rest}>\n\t{@render children?.()}\n</OTPFieldCell>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -44,8 +44,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "otp-field"
+		"slug": "otp-field",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/otp-field.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Selection & Input"],
-	"docs": "https://coss.com/ui/docs/components/otp-field.md"
+	"docs": "/docs/components/otp-field"
 }

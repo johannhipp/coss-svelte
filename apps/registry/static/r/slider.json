@@ -53,7 +53,7 @@
 			"content": "<script lang=\"ts\">\nimport { Slider as SliderPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof SliderPrimitive.TickLabel>;\nlet { index, class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<SliderPrimitive.TickLabel\n\tdata-slot=\"slider-tick-label\"\n\tclass={cn(\"cn-slider-tick-label\", className)}\n\t{index}\n\t{...rest}\n>\n\t{@render children?.()}\n</SliderPrimitive.TickLabel>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -68,8 +68,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "slider"
+		"slug": "slider",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/slider.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Selection & Input"],
-	"docs": "https://coss.com/ui/docs/components/slider.md"
+	"docs": "/docs/components/slider"
 }

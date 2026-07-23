@@ -77,7 +77,7 @@
 			"content": "<script lang=\"ts\">\nimport { Pagination as PaginationPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<PaginationPrimitive.PrevButton\n\tdata-slot=\"pagination-prev-button\"\n\tclass={cn(\"cn-pagination-button\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</PaginationPrimitive.PrevButton>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -92,8 +92,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "pagination"
+		"slug": "pagination",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/pagination.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],
-	"docs": "https://coss.com/ui/docs/components/pagination.md"
+	"docs": "/docs/components/pagination"
 }

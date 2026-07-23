@@ -29,7 +29,7 @@
 			"content": "<script lang=\"ts\">\nimport { ToggleGroup as ToggleGroupPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof ToggleGroupPrimitive.Item>, \"children\" | \"child\"> & {\n\tchildren?: Snippet;\n};\nlet { value, class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<ToggleGroupPrimitive.Item\n\tdata-slot=\"toggle-group-item\"\n\tclass={cn(\"cn-toggle-group-item\", className)}\n\t{value}\n\t{...rest}\n>\n\t{@render children?.()}\n</ToggleGroupPrimitive.Item>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -44,8 +44,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "toggle-group"
+		"slug": "toggle-group",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/toggle-group.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Toggle & Choice"],
-	"docs": "https://coss.com/ui/docs/components/toggle-group.md"
+	"docs": "/docs/components/toggle-group"
 }

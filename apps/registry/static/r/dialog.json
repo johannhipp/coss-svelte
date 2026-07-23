@@ -71,7 +71,7 @@
 			"content": "<script lang=\"ts\">\nimport { Dialog as DialogPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<DialogPrimitive.Trigger\n\tdata-slot=\"dialog-trigger\"\n\tclass={cn(\"cn-dialog-trigger\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</DialogPrimitive.Trigger>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -86,8 +86,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "dialog"
+		"slug": "dialog",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/dialog.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],
-	"docs": "https://coss.com/ui/docs/components/dialog.md"
+	"docs": "/docs/components/dialog"
 }

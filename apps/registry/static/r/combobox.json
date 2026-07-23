@@ -101,7 +101,7 @@
 			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"span\"\n\tdataSlot=\"combobox-value\"\n\tclass={cn(\"cn-combobox-value\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -116,8 +116,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "combobox"
+		"slug": "combobox",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/combobox.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Selection & Input"],
-	"docs": "https://coss.com/ui/docs/components/combobox.md"
+	"docs": "/docs/components/combobox"
 }

@@ -77,7 +77,7 @@
 			"content": "<script lang=\"ts\">\nimport { Select as SelectPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<SelectPrimitive.Viewport\n\tdata-slot=\"select-viewport\"\n\tclass={cn(\"cn-select-viewport\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</SelectPrimitive.Viewport>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -92,8 +92,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "select"
+		"slug": "select",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/select.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Selection & Input"],
-	"docs": "https://coss.com/ui/docs/components/select.md"
+	"docs": "/docs/components/select"
 }

@@ -47,7 +47,7 @@
 			"content": "<script lang=\"ts\">\nimport { Accordion as AccordionPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<AccordionPrimitive.Trigger\n\tdata-slot=\"accordion-trigger\"\n\tclass={cn(\"cn-accordion-trigger\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n\t<span data-slot=\"accordion-indicator\" class=\"cn-accordion-indicator\">\n\t\t<svg\n\t\t\taria-hidden=\"true\"\n\t\t\twidth=\"16\"\n\t\t\theight=\"16\"\n\t\t\tviewBox=\"0 0 24 24\"\n\t\t\tfill=\"none\"\n\t\t\tstroke=\"currentColor\"\n\t\t\tstroke-width=\"2\"\n\t\t\tstroke-linecap=\"round\"\n\t\t\tstroke-linejoin=\"round\"\n\t\t>\n\t\t\t<path d=\"m6 9 6 6 6-6\" />\n\t\t</svg>\n\t</span>\n</AccordionPrimitive.Trigger>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -62,8 +62,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "accordion"
+		"slug": "accordion",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/accordion.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],
-	"docs": "https://coss.com/ui/docs/components/accordion.md"
+	"docs": "/docs/components/accordion"
 }

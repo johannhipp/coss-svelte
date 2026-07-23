@@ -47,7 +47,7 @@
 			"content": "<script lang=\"ts\">\nimport { ScrollArea as ScrollAreaPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<ScrollAreaPrimitive.Viewport\n\tdata-slot=\"scroll-area-viewport\"\n\tclass={cn(\"cn-scroll-area-viewport\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</ScrollAreaPrimitive.Viewport>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -62,8 +62,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "scroll-area"
+		"slug": "scroll-area",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/scroll-area.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],
-	"docs": "https://coss.com/ui/docs/components/scroll-area.md"
+	"docs": "/docs/components/scroll-area"
 }

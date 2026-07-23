@@ -113,7 +113,7 @@
 			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"span\"\n\tdataSlot=\"command-shortcut\"\n\tclass={cn(\"cn-command-shortcut\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -128,8 +128,10 @@
 		"status": "stable",
 		"foundation": "compound",
 		"particlePriority": "mvp",
-		"slug": "command"
+		"slug": "command",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/command.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],
-	"docs": "https://coss.com/ui/docs/components/command.md"
+	"docs": "/docs/components/command"
 }

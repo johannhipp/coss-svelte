@@ -53,7 +53,7 @@
 			"content": "<script lang=\"ts\">\nimport { Popover as PopoverPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<PopoverPrimitive.Trigger\n\tdata-slot=\"popover-trigger\"\n\tclass={cn(\"cn-popover-trigger\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</PopoverPrimitive.Trigger>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -68,8 +68,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "popover"
+		"slug": "popover",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/popover.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],
-	"docs": "https://coss.com/ui/docs/components/popover.md"
+	"docs": "/docs/components/popover"
 }

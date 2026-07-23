@@ -161,7 +161,7 @@
 			"content": "<script lang=\"ts\">\nimport type { HTMLButtonAttributes } from \"svelte/elements\";\nimport { getSidebarContext } from \"../internal/sidebar-context.svelte.js\";\nimport { cn } from \"../utils.js\";\n\nlet { type = \"button\", class: className = \"\", children, ...rest }: HTMLButtonAttributes = $props();\nconst sidebar = getSidebarContext();\n</script>\n\n<button\n\tdata-slot=\"sidebar-trigger\"\n\tdata-sidebar=\"trigger\"\n\tclass={cn(\"cn-sidebar-trigger\", className)}\n\taria-label=\"Toggle Sidebar\"\n\taria-expanded={sidebar?.open}\n\tonclick={() => sidebar?.toggle()}\n\t{type}\n\t{...rest}\n>\n\t{#if children}\n\t\t{@render children()}\n\t{:else}\n\t\t<span class=\"cn-sidebar-trigger-icon\" aria-hidden=\"true\"></span>\n\t\t<span class=\"sr-only\">Toggle Sidebar</span>\n\t{/if}\n</button>\n"
 		}
 	],
-	"dependencies": ["clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -176,8 +176,10 @@
 		"status": "experimental",
 		"foundation": "compound",
 		"particlePriority": "later",
-		"slug": "sidebar"
+		"slug": "sidebar",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/sidebar.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],
-	"docs": "https://coss.com/ui/docs/components/sidebar.md"
+	"docs": "/docs/components/sidebar"
 }

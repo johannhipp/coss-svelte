@@ -61,10 +61,9 @@ test("registry items follow the ADR-004 shape", () => {
 		assert.ok(item.cssVars && typeof item.cssVars === "object", `${item.name} has cssVars object`);
 		assert.ok(item.meta && typeof item.meta === "object", `${item.name} has meta object`);
 		assert.ok(Array.isArray(item.categories), `${item.name} has categories array`);
-		assert.ok(
-			item.docs?.startsWith("https://coss.com/ui/docs/components/"),
-			`${item.name} has docs URL`
-		);
+		assert.equal(item.docs, `/docs/components/${source?.slug}`, `${item.name} has local docs path`);
+		assert.equal(item.meta.styleImport, "@coss-svelte/theme/style-coss.css");
+		assert.equal(item.meta.sourceDocsUrl, source?.docsUrl);
 		assert.equal(
 			item.meta.status,
 			source?.status,
@@ -79,6 +78,10 @@ test("registry items follow the ADR-004 shape", () => {
 		if (item.meta.status === "deferred") {
 			assert.deepEqual(item.files, [], `${item.name} deferred item has no installable files`);
 		} else {
+			assert.ok(
+				item.dependencies.includes("@coss-svelte/theme"),
+				`${item.name} declares the shared theme package`
+			);
 			assert.ok(item.files.length > 0, `${item.name} installable item has files`);
 			assert.deepEqual(
 				item.files.map((file) =>

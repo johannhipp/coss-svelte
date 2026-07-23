@@ -35,7 +35,7 @@
 			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\ntype Props = NativeProps & { orientation?: \"horizontal\" | \"vertical\" };\n\nlet { orientation = \"vertical\", class: className = \"\", ...rest }: Props = $props();\n</script>\n\n<span\n\tdata-slot=\"group-separator\"\n\tdata-orientation={orientation}\n\tclass={cn(\"cn-group-separator\", className)}\n\taria-hidden=\"true\"\n\t{...rest}\n></span>\n"
 		}
 	],
-	"dependencies": ["clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -50,8 +50,10 @@
 		"status": "stable",
 		"foundation": "native",
 		"particlePriority": "mvp",
-		"slug": "group"
+		"slug": "group",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/group.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Content & Display"],
-	"docs": "https://coss.com/ui/docs/components/group.md"
+	"docs": "/docs/components/group"
 }

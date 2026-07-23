@@ -95,6 +95,7 @@ test("docs app has an explicit production server target", async () => {
 
 	assert.match(config, /adapter-node/);
 	assert.doesNotMatch(config, /adapter-auto/);
+	assert.match(config, /assets:\s*"\.\.\/registry\/static"/);
 	assert.equal(packageJson.scripts.start, "node build");
 	assert.match(workspace, /sharp:\s*true/);
 });

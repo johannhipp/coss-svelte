@@ -29,7 +29,7 @@
 			"content": "<script lang=\"ts\">\nimport { RadioGroup as RadioGroupPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof RadioGroupPrimitive.Item>;\nlet { value, class: className = \"\", children: itemChildren, ...rest }: Props = $props();\n</script>\n\n<RadioGroupPrimitive.Item\n\tdata-slot=\"radio-group-item\"\n\tclass={cn(\"cn-radio\", className)}\n\t{value}\n\t{...rest}\n>\n\t{#snippet children({ checked })}\n\t\t<span\n\t\t\tclass=\"cn-radio-indicator\"\n\t\t\tdata-state={checked ? \"checked\" : \"unchecked\"}\n\t\t\taria-hidden=\"true\"\n\t\t></span>\n\t\t<span>{@render itemChildren?.({ checked })}</span>\n\t{/snippet}\n</RadioGroupPrimitive.Item>\n"
 		}
 	],
-	"dependencies": ["bits-ui", "clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -44,8 +44,10 @@
 		"status": "stable",
 		"foundation": "bits",
 		"particlePriority": "mvp",
-		"slug": "radio-group"
+		"slug": "radio-group",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/radio-group.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Toggle & Choice"],
-	"docs": "https://coss.com/ui/docs/components/radio-group.md"
+	"docs": "/docs/components/radio-group"
 }

@@ -27,6 +27,7 @@
 		"theme:check": "node scripts/check-theme.mjs",
 		"examples:check": "node scripts/check-examples.mjs",
 		"docs:bundle-report": "node scripts/docs-bundle-report.mjs",
+		"docs:smoke": "pnpm --filter @coss-svelte/www build && node scripts/smoke-docs-server.mjs",
 		"scope:build": "node scripts/build-component-scope.mjs",
 		"scope:check": "node scripts/build-component-scope.mjs --check",
 		"package:index": "node scripts/generate-package-index.mjs",

@@ -59,7 +59,7 @@
 			"content": "<script lang=\"ts\">\nimport type { HTMLTextareaAttributes } from \"svelte/elements\";\nimport { getFieldContext } from \"../internal/field-context.svelte.js\";\nimport { cn } from \"../utils.js\";\n\nlet {\n\tid,\n\trequired,\n\tdisabled,\n\t\"aria-describedby\": ariaDescribedBy,\n\t\"aria-invalid\": ariaInvalid,\n\tclass: className = \"\",\n\t...rest\n}: HTMLTextareaAttributes = $props();\nconst field = getFieldContext();\nlet controlId = $derived(id ?? field?.controlId);\nlet describedBy = $derived(\n\t[ariaDescribedBy, field?.describedBy].filter(Boolean).join(\" \") || undefined\n);\nlet isInvalid = $derived(ariaInvalid ?? (field?.invalid ? \"true\" : undefined));\n</script>\n\n<textarea data-slot=\"input-group-textarea\" id={controlId} class={cn(\"cn-input-group-textarea\", className)} required={required ?? field?.required} disabled={disabled ?? field?.disabled} aria-describedby={describedBy} aria-invalid={isInvalid} data-invalid={field?.invalid ? \"true\" : undefined} {...rest}></textarea>\n"
 		}
 	],
-	"dependencies": ["clsx", "tailwind-merge"],
+	"dependencies": ["@coss-svelte/theme", "clsx", "tailwind-merge"],
 	"devDependencies": [],
 	"registryDependencies": [],
 	"cssVars": {
@@ -74,8 +74,10 @@
 		"status": "stable",
 		"foundation": "compound",
 		"particlePriority": "mvp",
-		"slug": "input-group"
+		"slug": "input-group",
+		"sourceDocsUrl": "https://coss.com/ui/docs/components/input-group.md",
+		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Selection & Input"],
-	"docs": "https://coss.com/ui/docs/components/input-group.md"
+	"docs": "/docs/components/input-group"
 }
