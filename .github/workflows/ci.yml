@@ -32,17 +32,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint and format
-        run: pnpm biome:ci
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
 
-      - name: Prepare package declarations
-        run: pnpm package:prepare
-
-      - name: Type and Svelte checks
-        run: pnpm check
-
-      - name: Test
-        run: pnpm test
-
-      - name: Verify package contents
-        run: pnpm pack:dry-run
+      - name: Run release readiness gate
+        run: pnpm release:check
