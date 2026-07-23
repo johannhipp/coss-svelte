@@ -148,6 +148,14 @@ test("ci validates the repo without publishing to npm", async () => {
 		"pnpm --filter coss-svelte exec npm pack --dry-run"
 	);
 	assert.equal(
+		rootPackage.scripts["test:consumer"],
+		"pnpm package:prepare && node scripts/check-clean-consumer.mjs"
+	);
+	assert.equal(
+		rootPackage.scripts["test:browser"],
+		"pnpm --filter @coss-svelte/www build && node scripts/smoke-docs-browser.mjs"
+	);
+	assert.equal(
 		rootPackage.scripts["release:check"],
 		"pnpm package:prepare && pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm pack:dry-run"
 	);

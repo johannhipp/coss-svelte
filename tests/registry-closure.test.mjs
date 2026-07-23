@@ -17,5 +17,12 @@ test("generated registry files contain complete source closures", async () => {
 			assert.ok(source.content.length > 0, `${file}/${source.target} is not empty`);
 		}
 		assert.equal(new Set(item.files.map((source) => source.target)).size, item.files.length);
+		for (const source of item.files.filter((source) => source.path.endsWith(".ts"))) {
+			assert.match(
+				source.target,
+				/\.ts$/,
+				`${file}/${source.target} preserves its TypeScript extension`
+			);
+		}
 	}
 });

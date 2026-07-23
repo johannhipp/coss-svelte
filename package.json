@@ -33,10 +33,14 @@
 		"package:index": "node scripts/generate-package-index.mjs",
 		"package:index:check": "node scripts/generate-package-index.mjs --check",
 		"package:prepare": "pnpm --filter coss-svelte package",
+		"test:browser": "pnpm --filter @coss-svelte/www build && node scripts/smoke-docs-browser.mjs",
+		"test:consumer": "pnpm package:prepare && node scripts/check-clean-consumer.mjs",
 		"test:type-consumer": "pnpm package:prepare && node scripts/check-type-consumer.mjs"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "4.11.0",
 		"@biomejs/biome": "2.4.16",
+		"@playwright/test": "1.57.0",
 		"typescript": "6.0.3"
 	}
 }

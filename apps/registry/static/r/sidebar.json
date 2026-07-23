@@ -11,20 +11,20 @@
 			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { getSidebarContext } from \"../internal/sidebar-context.svelte.js\";\nimport { cn } from \"../utils.js\";\n\ntype SidebarItem = string | { label?: string; href?: string };\ntype Props = NativeProps & {\n\titems?: SidebarItem[];\n\tlabel?: string;\n\tside?: \"left\" | \"right\";\n\tvariant?: \"sidebar\" | \"floating\" | \"inset\";\n\tcollapsible?: \"offcanvas\" | \"icon\" | \"none\";\n\tstate?: \"expanded\" | \"collapsed\";\n\tchildren?: Snippet;\n};\n\nlet {\n\titems = [],\n\tlabel = \"Sidebar\",\n\tside = \"left\",\n\tvariant = \"sidebar\",\n\tcollapsible = \"offcanvas\",\n\tstate = \"expanded\",\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: Props = $props();\n\nconst sidebar = getSidebarContext();\nlet effectiveState = $derived(sidebar ? (sidebar.open ? \"expanded\" : \"collapsed\") : state);\n</script>\n\n<aside\n\tdata-slot=\"sidebar\"\n\tdata-sidebar=\"sidebar\"\n\tdata-side={side}\n\tdata-variant={variant}\n\tdata-collapsible={collapsible}\n\tdata-state={effectiveState}\n\tclass={cn(\"cn-sidebar\", className)}\n\taria-label={label}\n\t{...rest}\n>\n\t{#if items.length}\n\t\t<nav class=\"cn-sidebar-legacy-nav\">\n\t\t\t{#each items as item}\n\t\t\t\t{@const itemObject = typeof item === \"object\" && item !== null ? item : null}\n\t\t\t\t<a href={itemObject?.href ?? \"#\"}>{itemObject?.label ?? item}</a>\n\t\t\t{/each}\n\t\t</nav>\n\t{/if}\n\t{@render children?.()}\n</aside>\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/internal/props.js",
-			"target": "internal/props.js",
+			"path": "packages/coss-svelte/src/internal/props.ts",
+			"target": "internal/props.ts",
 			"type": "registry:ui",
 			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/internal/sidebar-context.svelte.js",
-			"target": "internal/sidebar-context.svelte.js",
+			"path": "packages/coss-svelte/src/internal/sidebar-context.svelte.ts",
+			"target": "internal/sidebar-context.svelte.ts",
 			"type": "registry:ui",
 			"content": "import { getContext, setContext } from \"svelte\";\n\nconst sidebarContextKey = Symbol(\"coss-svelte-sidebar\");\n\nexport type SidebarContext = {\n\topen: boolean;\n\ttoggle: () => void;\n};\n\nexport function setSidebarContext(context: SidebarContext): void {\n\tsetContext(sidebarContextKey, context);\n}\n\nexport function getSidebarContext(): SidebarContext | undefined {\n\treturn getContext<SidebarContext | undefined>(sidebarContextKey);\n}\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/utils.js",
-			"target": "utils.js",
+			"path": "packages/coss-svelte/src/utils.ts",
+			"target": "utils.ts",
 			"type": "registry:ui",
 			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},

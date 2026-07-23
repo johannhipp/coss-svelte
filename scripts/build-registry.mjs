@@ -77,9 +77,7 @@ async function resolveClosure(item) {
 			if (specifier.startsWith(".")) {
 				const resolved = resolveSourcePath(dirname(absolutePath), specifier);
 				if (!resolved) throw new Error(`Unable to resolve ${specifier} from ${absolutePath}`);
-				const targetPath = specifier.endsWith(".js")
-					? `${target.split("/").slice(0, -1).join("/")}/${specifier.replace(/^\.\//, "")}`
-					: relative(sourceRoot, resolved);
+				const targetPath = relative(sourceRoot, resolved);
 				await visit(resolved, normalize(targetPath).replace(/^\.\//, ""));
 			} else {
 				const dependency = packageName(specifier);

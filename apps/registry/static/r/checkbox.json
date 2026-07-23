@@ -11,8 +11,8 @@
 			"content": "<script lang=\"ts\">\nimport { Checkbox as CheckboxPrimitive, Label as LabelPrimitive, useId } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof CheckboxPrimitive.Root>, \"children\" | \"child\"> & {\n\tid?: string;\n\tlabel?: string;\n\tclass?: string;\n};\n\nlet {\n\tid = useId(),\n\tchecked = $bindable(false),\n\tindeterminate = $bindable(false),\n\tlabel = \"\",\n\tclass: className = \"\",\n\t...rest\n}: Props = $props();\n</script>\n\n<span data-slot=\"checkbox-field\" class=\"cn-checkbox-field\">\n\t<CheckboxPrimitive.Root\n\t\t{id}\n\t\tdata-slot=\"checkbox\"\n\t\tclass={cn(\"cn-checkbox\", className)}\n\t\tbind:checked\n\t\tbind:indeterminate\n\t\t{...rest}\n\t>\n\t\t{#snippet children({ checked, indeterminate })}\n\t\t\t<span\n\t\t\t\tclass=\"cn-checkbox-indicator\"\n\t\t\t\tdata-state={indeterminate ? \"indeterminate\" : checked ? \"checked\" : \"unchecked\"}\n\t\t\t\taria-hidden=\"true\"\n\t\t\t>\n\t\t\t\t{#if indeterminate}\n\t\t\t\t\t-\n\t\t\t\t{/if}\n\t\t\t</span>\n\t\t{/snippet}\n\t</CheckboxPrimitive.Root>\n\t{#if label}\n\t\t<LabelPrimitive.Root for={id} class=\"cn-checkbox-label\">{label}</LabelPrimitive.Root>\n\t{/if}\n</span>\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/utils.js",
-			"target": "utils.js",
+			"path": "packages/coss-svelte/src/utils.ts",
+			"target": "utils.ts",
 			"type": "registry:ui",
 			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		}
