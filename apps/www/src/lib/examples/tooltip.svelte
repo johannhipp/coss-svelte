@@ -1,5 +1,8 @@
 <script lang="ts">
-import { Tooltip } from "coss-svelte";
+import { Tooltip, TooltipPopup, TooltipTrigger } from "coss-svelte";
 </script>
 
-<Tooltip label="Hover me" tip="Helpful hint" />
+<Tooltip>
+	<TooltipTrigger>Hover me</TooltipTrigger>
+	<TooltipPopup>Helpful hint</TooltipPopup>
+</Tooltip>
