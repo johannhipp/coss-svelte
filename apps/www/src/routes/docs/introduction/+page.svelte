@@ -25,8 +25,14 @@ const toc = [
 		<div class="docs-intro-note">
 			<p class="font-medium text-foreground">Early Access</p>
 			<p>
-				coss-svelte is still an early Svelte port. The stable components are ready to inspect,
-				while Drawer, Sidebar, and Toast remain experimental and Number Field is deferred.
+				All coss-svelte components are ready to use, though some may still be rough around the
+				edges. If you encounter an issue, please
+				<a
+					class="font-medium text-foreground underline underline-offset-4"
+					href="https://github.com/johannhipp/coss-svelte/issues"
+				>
+					report it on GitHub
+				</a>.
 			</p>
 		</div>
 
