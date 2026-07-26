@@ -8,18 +8,20 @@ import { createComponentMarkdown } from "$lib/docs/markdown.js";
 import type { ComponentDoc, TocItem } from "$lib/docs/types.js";
 
 let {
+	exampleSource = "",
 	next = null,
 	page,
 	previous = null,
 	toc = [],
 }: {
+	exampleSource?: string | null;
 	next?: ComponentDoc | null;
 	page: ComponentDoc;
 	previous?: ComponentDoc | null;
 	toc?: TocItem[];
 } = $props();
 
-let usageCode = $derived(page.exampleSource ?? "");
+let usageCode = $derived(exampleSource ?? "");
 let importCode = $derived(`import { ${page.imports.join(", ")} } from "coss-svelte";`);
 let markdown = $derived(createComponentMarkdown(page, usageCode));
 </script>

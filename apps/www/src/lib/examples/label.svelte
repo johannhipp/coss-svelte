@@ -2,4 +2,4 @@
 import { Label } from "coss-svelte";
 </script>
 
-<Label />
+<Label>Email address</Label>

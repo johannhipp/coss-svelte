@@ -9,4 +9,10 @@ let { data } = $props();
 	<meta name="description" content={data.page.description} />
 </svelte:head>
 
-<ComponentDocPage page={data.page} previous={data.previous} next={data.next} toc={data.toc} />
+<ComponentDocPage
+	page={data.page}
+	exampleSource={data.exampleSource}
+	previous={data.previous}
+	next={data.next}
+	toc={data.toc}
+/>

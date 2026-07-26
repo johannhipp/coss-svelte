@@ -2,4 +2,7 @@
 import { Sidebar } from "coss-svelte";
 </script>
 
-<Sidebar />
+<Sidebar
+	class="h-64 w-56 rounded-lg border border-border"
+	items={["Dashboard", "Projects", "Settings"]}
+/>

@@ -1,5 +1,10 @@
 <script lang="ts">
-import { Form } from "coss-svelte";
+import { Button, Field, Form, Input } from "coss-svelte";
 </script>
 
-<Form />
+<Form class="grid w-full max-w-sm gap-4">
+	<Field label="Name">
+		<Input placeholder="Ada Lovelace" />
+	</Field>
+	<Button type="submit">Save</Button>
+</Form>

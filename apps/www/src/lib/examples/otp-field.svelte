@@ -2,4 +2,4 @@
 import { OTPField } from "coss-svelte";
 </script>
 
-<OTPField />
+<OTPField value="123" />

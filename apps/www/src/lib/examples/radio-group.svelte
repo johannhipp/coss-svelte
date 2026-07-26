@@ -2,4 +2,11 @@
 import { RadioGroup } from "coss-svelte";
 </script>
 
-<RadioGroup />
+<RadioGroup
+	label="Plan"
+	value="pro"
+	options={[
+		{ label: "Free", value: "free" },
+		{ label: "Pro", value: "pro" },
+	]}
+/>

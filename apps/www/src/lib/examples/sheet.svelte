@@ -2,4 +2,4 @@
 import { Sheet } from "coss-svelte";
 </script>
 
-<Sheet />
+<Sheet title="Navigation" description="Browse workspace sections." trigger="Open sheet" />

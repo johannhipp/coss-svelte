@@ -2,4 +2,8 @@
 import { Dialog } from "coss-svelte";
 </script>
 
-<Dialog />
+<Dialog
+	title="Edit profile"
+	description="Make changes to your public profile."
+	trigger="Open dialog"
+/>

@@ -44,6 +44,6 @@ test("docs examples are canonical lazy entry points", async () => {
 			`apps/www/src/lib/examples/${componentMetadata[root].slug}.svelte`,
 			"utf8"
 		);
-		assert.match(source, new RegExp(`import \\{ ${root} \\} from "coss-svelte"`));
+		assert.match(source, new RegExp(`import \\{[^}]*\\b${root}\\b[^}]*\\} from "coss-svelte"`));
 	}
 });

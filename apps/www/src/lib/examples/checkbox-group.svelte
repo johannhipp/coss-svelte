@@ -1,5 +1,8 @@
 <script lang="ts">
-import { CheckboxGroup } from "coss-svelte";
+import { Checkbox, CheckboxGroup } from "coss-svelte";
 </script>
 
-<CheckboxGroup />
+<CheckboxGroup label="Notifications">
+	<Checkbox label="Product updates" checked />
+	<Checkbox label="Weekly summary" />
+</CheckboxGroup>

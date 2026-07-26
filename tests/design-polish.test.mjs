@@ -151,7 +151,7 @@ test("form preview validates email and exposes the invalid input state", async (
 		readThemeSource(),
 	]);
 
-	assert.match(example, /import \{ Form \} from "coss-svelte"/);
+	assert.match(example, /import \{[^}]*\bForm\b[^}]*\} from "coss-svelte"/);
 	assert.match(input, /value\s*=\s*\$bindable\(\)/);
 	assert.match(input, /bind:value/);
 	assert.match(input, /aria-invalid=\{isInvalid\}/);
@@ -168,7 +168,7 @@ test("group previews use one connected control surface and destructive menu item
 
 	assert.match(group, /role="group"/);
 	assert.match(menuItem, /data-variant=\{variant\}/);
-	assert.match(example, /import \{ Group \} from "coss-svelte"/);
+	assert.match(example, /import \{[^}]*\bGroup\b[^}]*\} from "coss-svelte"/);
 	assert.match(theme, /\.cn-group\s*{[\s\S]*align-items:\s*stretch[\s\S]*gap:\s*0/);
 	assert.match(
 		theme,
@@ -219,7 +219,7 @@ test("docs previews use component-specific snippets and adaptive preview shells"
 		readFile("apps/www/src/lib/components/docs/component-preview-tabs.svelte", "utf8"),
 	]);
 
-	assert.match(docPage, /page\.exampleSource/);
+	assert.match(docPage, /usageCode\s*=\s*\$derived\(exampleSource\s*\?\?\s*""\)/);
 	assert.match(docPage, /page\.slug/);
 	assert.doesNotMatch(docPage, /createFallbackUsageCode/);
 	assert.doesNotMatch(docPage, /<\$\{component\.name\}\s*\/>/);
@@ -234,6 +234,17 @@ test("docs previews use component-specific snippets and adaptive preview shells"
 	assert.match(previewTabs, /<TabsTrigger value="preview">Preview<\/TabsTrigger>/);
 	assert.match(previewTabs, /<TabsTrigger value="code">Code<\/TabsTrigger>/);
 	assert.doesNotMatch(previewTabs, /role="tablist"/);
+});
+
+test("component routes pass executable example source into preview code tabs", async () => {
+	const [docPage, route] = await Promise.all([
+		readFile("apps/www/src/lib/components/docs/component-doc-page.svelte", "utf8"),
+		readFile("apps/www/src/routes/docs/components/[slug]/+page.svelte", "utf8"),
+	]);
+
+	assert.match(docPage, /exampleSource\s*=\s*""/);
+	assert.match(docPage, /usageCode\s*=\s*\$derived\(exampleSource\s*\?\?\s*""\)/);
+	assert.match(route, /exampleSource=\{data\.exampleSource\}/);
 });
 
 test("every component docs page has an executable example source", async () => {

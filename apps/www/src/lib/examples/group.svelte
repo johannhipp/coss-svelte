@@ -1,5 +1,8 @@
 <script lang="ts">
-import { Group } from "coss-svelte";
+import { Button, Group } from "coss-svelte";
 </script>
 
-<Group />
+<Group>
+	<Button variant="outline">Back</Button>
+	<Button>Continue</Button>
+</Group>

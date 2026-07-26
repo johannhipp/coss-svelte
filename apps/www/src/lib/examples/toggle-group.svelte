@@ -2,4 +2,4 @@
 import { ToggleGroup } from "coss-svelte";
 </script>
 
-<ToggleGroup />
+<ToggleGroup value="center" items={["Left", "Center", "Right"]} />
