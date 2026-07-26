@@ -3726,6 +3726,25 @@
 	padding: 0.75rem 0.875rem;
 	box-shadow: 0 16px 56px rgb(0 0 0 / 0.12);
 	font-size: 0.875rem;
+	animation: cn-toast-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cn-toast-viewport {
+	position: fixed;
+	z-index: 80;
+	right: 1rem;
+	bottom: 1rem;
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: flex-end;
+	gap: 0.75rem;
+	width: min(22.5rem, calc(100vw - 2rem));
+	pointer-events: none;
+}
+
+.cn-toast-viewport .cn-toast {
+	width: 100%;
+	pointer-events: auto;
 }
 
 .cn-toast strong {
@@ -3755,4 +3774,17 @@
 .cn-toast-close:hover {
 	background: var(--accent);
 	color: var(--accent-foreground);
+}
+
+@keyframes cn-toast-in {
+	from {
+		opacity: 0;
+		transform: translateY(0.5rem) scale(0.98);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cn-toast {
+		animation: none;
+	}
 }

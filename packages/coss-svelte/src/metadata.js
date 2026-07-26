@@ -1106,7 +1106,7 @@ export const componentMetadata = Object.freeze({
 		primitive: "custom store + portal",
 		tier: "custom compound",
 		foundation: "custom",
-		parts: [],
+		parts: ["ToastProvider"],
 		particlePriority: "later",
 		status: "experimental",
 	},

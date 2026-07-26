@@ -1,5 +1,7 @@
 <script lang="ts">
-import { Button, ToastProvider, toastManager } from "coss-svelte";
+import Button from "../src/components/Button.svelte";
+import ToastProvider from "../src/components/ToastProvider.svelte";
+import { toastManager } from "../src/toast-manager.js";
 </script>
 
 <ToastProvider>

@@ -241,6 +241,7 @@ export { default as TabsList } from "./components/TabsList.svelte";
 export { default as TabsTrigger } from "./components/TabsTrigger.svelte";
 export { default as Textarea } from "./components/Textarea.svelte";
 export { default as Toast } from "./components/Toast.svelte";
+export { default as ToastProvider } from "./components/ToastProvider.svelte";
 export { default as Toggle } from "./components/Toggle.svelte";
 export { default as ToggleGroup } from "./components/ToggleGroup.svelte";
 export { default as ToggleGroupItem } from "./components/ToggleGroupItem.svelte";
@@ -262,4 +263,5 @@ export {
 	experimentalComponents,
 	stableComponents,
 } from "./metadata.js";
+export { toastManager } from "./toast-manager.js";
 export { cn } from "./utils.js";

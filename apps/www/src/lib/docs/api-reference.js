@@ -83,7 +83,7 @@ const customPropsByElement = {
 	Switch: ["id", "checked", "label"],
 	TableHead: ["scope"],
 	Tabs: ["value", "tabs"],
-	Toast: ["title", "description", "open", "dismissible", "closeLabel"],
+	Toast: ["title", "description", "open", "dismissible", "closeLabel", "ondismiss"],
 	Toggle: ["pressed"],
 	ToggleGroup: ["type", "value", "items"],
 	Toolbar: ["orientation"],
@@ -214,6 +214,10 @@ const propMetadata = {
 		type: "boolean",
 		default: "false",
 		description: "Open state for the popup or disclosure. Bind with `bind:open`.",
+	},
+	ondismiss: {
+		type: "() => void",
+		description: "Called after the toast is dismissed.",
 	},
 	options: {
 		type: "Array<string | { value?: unknown; label?: string; disabled?: boolean }>",
