@@ -689,7 +689,7 @@ Source notes:
 Implementation outline:
 
 1. Define the public Svelte exports and naming so examples read like COSS while following Svelte conventions.
-2. Wrap Bits UI Tabs list/trigger/content with variant styling, orientation support, and dashboard/settings examples.
+2. Wrap Bits UI Tabs list/trigger/content with variant styling and orientation support, and mirror COSS's default 200ms shared active indicator by measuring the selected Svelte trigger.
 3. Preserve COSS visual tokens through shared variants, CSS variables, and data-slot selectors instead of component-local one-off styles.
 4. Port the highest-signal COSS particle examples first, then add the full particle set after the primitive API is stable.
 5. Verify SSR/hydration, keyboard behavior, focus management, disabled/invalid states, and Field/Form composition where relevant.

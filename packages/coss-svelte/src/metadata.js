@@ -923,7 +923,7 @@ export const componentMetadata = Object.freeze({
 		slug: "tabs",
 		title: "Tabs",
 		firstImplementationPass:
-			"Wrap Bits UI Tabs list/trigger/content with variant styling, orientation support, and dashboard/settings examples.",
+			"Wrap Bits UI Tabs list/trigger/content with variant styling and orientation support, and mirror COSS's default 200ms shared active indicator by measuring the selected Svelte trigger.",
 		primitive: "Tabs",
 		tier: "direct primitive",
 		foundation: "bits",
