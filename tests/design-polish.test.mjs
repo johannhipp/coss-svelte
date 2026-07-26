@@ -226,6 +226,14 @@ test("docs previews use component-specific snippets and adaptive preview shells"
 	assert.match(previewTabs, /component-preview-shell/);
 	assert.match(previewTabs, /data-preview-slug=\{slug\}/);
 	assert.match(previewTabs, /min-h-\[min\(420px,70svh\)\]/);
+	assert.match(
+		previewTabs,
+		/import \{ Tabs, TabsContent, TabsList, TabsTrigger \} from "coss-svelte"/
+	);
+	assert.match(previewTabs, /<Tabs bind:value=\{selected\}/);
+	assert.match(previewTabs, /<TabsTrigger value="preview">Preview<\/TabsTrigger>/);
+	assert.match(previewTabs, /<TabsTrigger value="code">Code<\/TabsTrigger>/);
+	assert.doesNotMatch(previewTabs, /role="tablist"/);
 });
 
 test("every component docs page has an executable example source", async () => {
