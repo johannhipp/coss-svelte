@@ -2,6 +2,7 @@
 import { Tabs as TabsPrimitive } from "bits-ui";
 import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
+import TabsList from "./TabsList.svelte";
 
 type TabItem = string | { value?: string; label?: string; disabled?: boolean; content?: string };
 type Props = Omit<ComponentProps<typeof TabsPrimitive.Root>, "children" | "child"> & {
@@ -22,7 +23,7 @@ let {
 
 <TabsPrimitive.Root data-slot="tabs" class={cn("cn-tabs", className)} bind:value {...rest}>
 	{#if tabs.length}
-		<TabsPrimitive.List data-slot="tabs-list" class="cn-tabs-list">
+		<TabsList>
 		{#each tabs as tab, index}
 			{@const tabObject = typeof tab === "object" && tab !== null ? tab : null}
 			<TabsPrimitive.Trigger
@@ -34,7 +35,7 @@ let {
 				{tabObject?.label ?? tab}
 			</TabsPrimitive.Trigger>
 		{/each}
-	</TabsPrimitive.List>
+		</TabsList>
 		{#each tabs as tab, index}
 			{@const tabObject = typeof tab === "object" && tab !== null ? tab : null}
 			<TabsPrimitive.Content

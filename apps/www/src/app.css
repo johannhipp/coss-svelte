@@ -358,7 +358,7 @@ textarea {
 	color: color-mix(in srgb, var(--info-foreground) 82%, var(--foreground));
 }
 
-.docs-search-dialog {
+.docs-search-dialog.cn-command-dialog-popup {
 	width: min(calc(100vw - 2rem), 48rem);
 	max-height: min(36rem, calc(100vh - 2rem));
 	overflow: hidden;
@@ -368,10 +368,24 @@ textarea {
 	box-shadow:
 		0 20px 56px rgb(0 0 0 / 0.18),
 		0 1px 2px rgb(0 0 0 / 0.14);
+	transition:
+		opacity 200ms var(--ease-out),
+		transform 200ms var(--ease-out);
+	will-change: opacity, transform;
+}
+
+.docs-search-dialog.cn-command-dialog-popup[data-state="closed"] {
+	opacity: 0;
+	transform: translateX(-50%) scale(0.98);
+}
+
+.docs-search-dialog.cn-command-dialog-popup[data-state="open"] {
+	opacity: 1;
+	transform: translateX(-50%) scale(1);
 }
 
 .docs-search-command {
-	background: var(--background);
+	background: color-mix(in srgb, var(--muted) 58%, var(--background));
 	border: 0;
 	border-radius: inherit;
 	box-shadow: none;
@@ -419,17 +433,41 @@ textarea {
 }
 
 .docs-search-list.cn-command-list {
+	width: calc(100% + 2px);
 	margin-top: 0;
+	margin-inline: -1px;
 	gap: 0;
+	border: 1px solid var(--border);
+	border-bottom: 0;
+	border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
+	background: var(--background);
+	overflow: hidden;
+	transform: translateX(-1px);
 }
 
 .docs-search-panel.cn-command-panel {
 	max-height: min(28rem, calc(100vh - 8rem));
 	overflow: auto;
-	border-top: 1px solid var(--border);
-	border-radius: 0.85rem 0.85rem 0 0;
 	padding: 0.75rem 0.5rem 0.65rem;
-	box-shadow: inset 0 1px 0 color-mix(in srgb, var(--border) 35%, transparent);
+	scrollbar-gutter: stable;
+}
+
+.docs-search-panel.can-scroll-up.can-scroll-down {
+	mask-image: linear-gradient(
+		to bottom,
+		transparent,
+		black 1.5rem,
+		black calc(100% - 1.5rem),
+		transparent
+	);
+}
+
+.docs-search-panel.can-scroll-up:not(.can-scroll-down) {
+	mask-image: linear-gradient(to bottom, transparent, black 1.5rem);
+}
+
+.docs-search-panel.can-scroll-down:not(.can-scroll-up) {
+	mask-image: linear-gradient(to bottom, black calc(100% - 1.5rem), transparent);
 }
 
 .docs-search-group.cn-command-group {
@@ -502,7 +540,7 @@ textarea {
 	font-size: 0.875rem;
 }
 
-.dark .docs-search-dialog {
+.dark .docs-search-dialog.cn-command-dialog-popup {
 	border-color: color-mix(in srgb, var(--border) 78%, transparent);
 	background: color-mix(in srgb, var(--background) 94%, white);
 	box-shadow:
@@ -515,11 +553,17 @@ textarea {
 }
 
 .dark .docs-search-panel.cn-command-panel {
-	box-shadow: inset 0 1px 0 color-mix(in srgb, var(--border) 50%, transparent);
+	background: var(--background);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.docs-search-dialog.cn-command-dialog-popup {
+		transition: none;
+	}
 }
 
 @media (max-width: 640px) {
-	.docs-search-dialog {
+	.docs-search-dialog.cn-command-dialog-popup {
 		width: min(calc(100vw - 1rem), 72rem);
 		border-radius: 0.85rem;
 	}

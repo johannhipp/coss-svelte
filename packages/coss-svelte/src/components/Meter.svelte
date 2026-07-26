@@ -1,6 +1,7 @@
 <script lang="ts">
 import { Meter as MeterPrimitive } from "bits-ui";
 import type { ComponentProps, Snippet } from "svelte";
+import { setMeterContext } from "../internal/meter-context.js";
 import { clampPercentage } from "../internal/props.js";
 import { cn } from "../utils.js";
 
@@ -27,6 +28,18 @@ let {
 
 let percentage = $derived(clampPercentage(value, min, max));
 let meterStyle = $derived(`${style}; --meter-value: ${percentage}%`);
+
+setMeterContext({
+	get value() {
+		return value;
+	},
+	get min() {
+		return min;
+	},
+	get max() {
+		return max;
+	},
+});
 </script>
 
 <MeterPrimitive.Root

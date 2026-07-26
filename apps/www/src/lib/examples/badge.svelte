@@ -2,4 +2,4 @@
 import { Badge } from "coss-svelte";
 </script>
 
-<Badge />
+<Badge>Badge</Badge>

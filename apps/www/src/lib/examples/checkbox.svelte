@@ -1,5 +1,8 @@
 <script lang="ts">
-import { Checkbox } from "coss-svelte";
+import { Checkbox, Label } from "coss-svelte";
 </script>
 
-<Checkbox />
+<Label>
+	<Checkbox />
+	Accept terms and conditions
+</Label>

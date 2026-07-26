@@ -1,18 +1,32 @@
 <script lang="ts">
-import type { Snippet } from "svelte";
-import type { NativeProps } from "../internal/props.js";
+import { Checkbox as CheckboxPrimitive } from "bits-ui";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
 
-type Props = NativeProps<HTMLElement> & { label?: string; children?: Snippet };
+type Props = Omit<ComponentProps<typeof CheckboxPrimitive.Group>, "children" | "child"> & {
+	label?: string;
+	children?: Snippet;
+};
 
-let { label = "", class: className = "", children, ...rest }: Props = $props();
+let {
+	value = $bindable([]),
+	label = "",
+	class: className = "",
+	children,
+	...rest
+}: Props = $props();
 </script>
 
-<fieldset data-slot="checkbox-group" class={cn("cn-choice-group", className)} {...rest}>
+<CheckboxPrimitive.Group
+	data-slot="checkbox-group"
+	class={cn("cn-choice-group", className)}
+	bind:value
+	{...rest}
+>
 	{#if label}
-		<legend>{label}</legend>
+		<CheckboxPrimitive.GroupLabel class="cn-choice-label">{label}</CheckboxPrimitive.GroupLabel>
 	{/if}
 	<div class="cn-choice-stack">
 		{@render children?.()}
 	</div>
-</fieldset>
+</CheckboxPrimitive.Group>

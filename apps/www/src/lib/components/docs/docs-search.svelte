@@ -14,7 +14,6 @@ import {
 	CommandItem,
 	CommandList,
 	CommandPanel,
-	CommandSeparator,
 	CommandShortcut,
 } from "coss-svelte";
 import { onMount, tick } from "svelte";
@@ -57,6 +56,8 @@ const searchGroups: SearchGroup[] = [
 
 let open = $state(false);
 let searchValue = $state("");
+let canScrollUp = $state(false);
+let canScrollDown = $state(true);
 
 let normalizedQuery = $derived(searchValue.trim().toLowerCase());
 let filteredGroups = $derived(
@@ -203,6 +204,16 @@ function handleItemClick(event: MouseEvent, href: string) {
 	void selectItem(href);
 }
 
+function updateScrollFade(panel: HTMLElement) {
+	const edgeTolerance = 1;
+	canScrollUp = panel.scrollTop > edgeTolerance;
+	canScrollDown = panel.scrollTop + panel.clientHeight < panel.scrollHeight - edgeTolerance;
+}
+
+function handlePanelScroll(event: Event) {
+	updateScrollFade(event.currentTarget as HTMLElement);
+}
+
 onMount(() => {
 	document.addEventListener("keydown", handleGlobalKeydown);
 
@@ -212,12 +223,19 @@ onMount(() => {
 });
 
 $effect(() => {
-	if (open) {
+	if (open && resultCount >= 0) {
 		tick().then(() => {
 			document.getElementById("docs-search-input")?.focus();
+			const panel = document.querySelector<HTMLElement>(".docs-search-panel");
+
+			if (panel) {
+				updateScrollFade(panel);
+			}
 		});
 	} else {
 		searchValue = "";
+		canScrollUp = false;
+		canScrollDown = true;
 	}
 });
 </script>
@@ -244,7 +262,10 @@ $effect(() => {
 				/>
 			</div>
 			<CommandList class="docs-search-list">
-				<CommandPanel class="docs-search-panel">
+				<CommandPanel
+					class={`docs-search-panel${canScrollUp ? " can-scroll-up" : ""}${canScrollDown ? " can-scroll-down" : ""}`}
+					onscroll={handlePanelScroll}
+				>
 					{#if resultCount === 0}
 						<CommandEmpty forceMount class="docs-search-empty">No results found.</CommandEmpty>
 					{:else}
@@ -278,7 +299,6 @@ $effect(() => {
 						{/each}
 					{/if}
 				</CommandPanel>
-				<CommandSeparator />
 				<CommandFooter class="docs-search-footer items-center">
 					<span>Go to Page</span>
 					<CommandShortcut class="docs-search-return-key">

@@ -1,9 +1,13 @@
 <script lang="ts">
 import { LinkPreview as LinkPreviewPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = Omit<ComponentProps<typeof LinkPreviewPrimitive.Trigger>, "children" | "child"> & {
+	children?: Snippet;
+};
+
+let { class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <LinkPreviewPrimitive.Trigger

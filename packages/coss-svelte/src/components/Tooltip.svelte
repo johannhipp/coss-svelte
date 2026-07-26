@@ -19,17 +19,24 @@ let {
 }: Props = $props();
 </script>
 
-<TooltipPrimitive.Root {...rest}>
-	{#if children}
+{#if children}
+	<TooltipPrimitive.Root {...rest}>
 		{@render children()}
-	{:else}
-		<TooltipPrimitive.Trigger data-slot="tooltip-trigger" class="cn-tooltip-trigger">
-			{label}
-		</TooltipPrimitive.Trigger>
-		<TooltipPrimitive.Portal>
-			<TooltipPrimitive.Content data-slot="tooltip-popup" class={cn("cn-tooltip-content", className)}>
-				{tip}
-			</TooltipPrimitive.Content>
-		</TooltipPrimitive.Portal>
-	{/if}
-</TooltipPrimitive.Root>
+	</TooltipPrimitive.Root>
+{:else}
+	<TooltipPrimitive.Provider>
+		<TooltipPrimitive.Root {...rest}>
+			<TooltipPrimitive.Trigger data-slot="tooltip-trigger" class="cn-tooltip-trigger">
+				{label}
+			</TooltipPrimitive.Trigger>
+			<TooltipPrimitive.Portal>
+				<TooltipPrimitive.Content
+					data-slot="tooltip-popup"
+					class={cn("cn-tooltip-content", className)}
+				>
+					{tip}
+				</TooltipPrimitive.Content>
+			</TooltipPrimitive.Portal>
+		</TooltipPrimitive.Root>
+	</TooltipPrimitive.Provider>
+{/if}

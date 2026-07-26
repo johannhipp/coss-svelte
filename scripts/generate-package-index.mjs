@@ -36,6 +36,7 @@ const generated = `${[
 	"	experimentalComponents,",
 	"	stableComponents,",
 	'} from "./metadata.js";',
+	'export { toastManager } from "./toast-manager.js";',
 	'export { cn } from "./utils.js";',
 ].join("\n")}\n`;
 

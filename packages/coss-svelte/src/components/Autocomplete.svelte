@@ -42,6 +42,12 @@ let items: NormalizedOption[] = $derived(normalizeOptions(options));
 				data-slot="autocomplete-input"
 				class="cn-autocomplete-input"
 				{placeholder}
+				onfocus={() => {
+					open = true;
+				}}
+				oninput={() => {
+					open = true;
+				}}
 			/>
 			<AutocompletePopup>
 				<AutocompleteList>

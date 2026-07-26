@@ -123,6 +123,7 @@ export { default as InputGroupInput } from "./components/InputGroupInput.svelte"
 export { default as InputGroupText } from "./components/InputGroupText.svelte";
 export { default as InputGroupTextarea } from "./components/InputGroupTextarea.svelte";
 export { default as Kbd } from "./components/Kbd.svelte";
+export { default as KbdGroup } from "./components/KbdGroup.svelte";
 export { default as Label } from "./components/Label.svelte";
 export { default as Menu } from "./components/Menu.svelte";
 export { default as MenuCheckboxItem } from "./components/MenuCheckboxItem.svelte";
@@ -241,6 +242,7 @@ export { default as TabsList } from "./components/TabsList.svelte";
 export { default as TabsTrigger } from "./components/TabsTrigger.svelte";
 export { default as Textarea } from "./components/Textarea.svelte";
 export { default as Toast } from "./components/Toast.svelte";
+export { default as ToastProvider } from "./components/ToastProvider.svelte";
 export { default as Toggle } from "./components/Toggle.svelte";
 export { default as ToggleGroup } from "./components/ToggleGroup.svelte";
 export { default as ToggleGroupItem } from "./components/ToggleGroupItem.svelte";
@@ -262,4 +264,5 @@ export {
 	experimentalComponents,
 	stableComponents,
 } from "./metadata.js";
+export { toastManager } from "./toast-manager.js";
 export { cn } from "./utils.js";

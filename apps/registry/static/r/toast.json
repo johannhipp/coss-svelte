@@ -8,7 +8,7 @@
 			"path": "packages/coss-svelte/src/components/Toast.svelte",
 			"target": "components/Toast.svelte",
 			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet {\n\ttitle = \"Saved\",\n\tdescription = \"\",\n\topen = $bindable(true),\n\tdismissible = true,\n\tcloseLabel = \"Dismiss notification\",\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: NativeProps & {\n\ttitle?: string;\n\tdescription?: string;\n\topen?: boolean;\n\tdismissible?: boolean;\n\tcloseLabel?: string;\n} = $props();\n\nfunction dismiss() {\n\topen = false;\n}\n</script>\n\n{#if open}\n\t<aside data-slot=\"toast\" class={cn(\"cn-toast\", className)} role=\"status\" aria-live=\"polite\" {...rest}>\n\t\t<strong>{title}</strong>\n\t\t{#if description}\n\t\t\t<p>{description}</p>\n\t\t{/if}\n\t\t{@render children?.()}\n\t\t{#if dismissible}\n\t\t\t<button class=\"cn-toast-close\" type=\"button\" aria-label={closeLabel} onclick={dismiss}>×</button>\n\t\t{/if}\n\t</aside>\n{/if}\n"
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet {\n\ttitle = \"Saved\",\n\tdescription = \"\",\n\topen = $bindable(true),\n\tdismissible = true,\n\tcloseLabel = \"Dismiss notification\",\n\tondismiss,\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: NativeProps & {\n\ttitle?: string;\n\tdescription?: string;\n\topen?: boolean;\n\tdismissible?: boolean;\n\tcloseLabel?: string;\n\tondismiss?: () => void;\n} = $props();\n\nfunction dismiss() {\n\topen = false;\n\tondismiss?.();\n}\n</script>\n\n{#if open}\n\t<aside data-slot=\"toast\" class={cn(\"cn-toast\", className)} role=\"status\" aria-live=\"polite\" {...rest}>\n\t\t<strong>{title}</strong>\n\t\t{#if description}\n\t\t\t<p>{description}</p>\n\t\t{/if}\n\t\t{@render children?.()}\n\t\t{#if dismissible}\n\t\t\t<button class=\"cn-toast-close\" type=\"button\" aria-label={closeLabel} onclick={dismiss}>×</button>\n\t\t{/if}\n\t</aside>\n{/if}\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/internal/props.ts",
@@ -21,6 +21,18 @@
 			"target": "utils.ts",
 			"type": "registry:ui",
 			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/ToastProvider.svelte",
+			"target": "components/ToastProvider.svelte",
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { Snippet } from \"svelte\";\nimport { type ToastData, toastManager } from \"../toast-manager.js\";\nimport Toast from \"./Toast.svelte\";\n\ntype Props = {\n\tchildren?: Snippet;\n};\n\nlet { children }: Props = $props();\nlet toasts = $state<ToastData[]>([]);\n\n$effect(() => toastManager.subscribe((current) => (toasts = current)));\n</script>\n\n{@render children?.()}\n\n{#if toasts.length > 0}\n\t<div class=\"cn-toast-viewport\" data-slot=\"toast-viewport\" aria-label=\"Notifications\">\n\t\t{#each toasts as toast (toast.id)}\n\t\t\t<Toast\n\t\t\t\ttitle={toast.title}\n\t\t\t\tdescription={toast.description}\n\t\t\t\tdismissible={toast.dismissible}\n\t\t\t\tondismiss={() => toastManager.close(toast.id)}\n\t\t\t/>\n\t\t{/each}\n\t</div>\n{/if}\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/toast-manager.ts",
+			"target": "toast-manager.ts",
+			"type": "registry:ui",
+			"content": "import { writable } from \"svelte/store\";\n\nexport type ToastOptions = {\n\tid?: string;\n\ttitle: string;\n\tdescription?: string;\n\tduration?: number;\n\tdismissible?: boolean;\n};\n\nexport type ToastData = {\n\tid: string;\n\ttitle: string;\n\tdescription?: string;\n\tduration: number;\n\tdismissible: boolean;\n};\n\nlet toastId = 0;\nconst timers = new Map<string, ReturnType<typeof setTimeout>>();\nconst toasts = writable<ToastData[]>([]);\n\nfunction close(id: string) {\n\tconst timer = timers.get(id);\n\tif (timer) {\n\t\tclearTimeout(timer);\n\t\ttimers.delete(id);\n\t}\n\ttoasts.update((current) => current.filter((toast) => toast.id !== id));\n}\n\nfunction add(options: ToastOptions) {\n\tconst id = options.id ?? `toast-${++toastId}`;\n\tconst toast: ToastData = {\n\t\tid,\n\t\ttitle: options.title,\n\t\tdescription: options.description,\n\t\tduration: options.duration ?? 5000,\n\t\tdismissible: options.dismissible ?? true,\n\t};\n\n\ttoasts.update((current) => [...current.filter((item) => item.id !== id), toast]);\n\n\tif (toast.duration > 0) {\n\t\tconst existingTimer = timers.get(id);\n\t\tif (existingTimer) clearTimeout(existingTimer);\n\t\ttimers.set(\n\t\t\tid,\n\t\t\tsetTimeout(() => close(id), toast.duration)\n\t\t);\n\t}\n\n\treturn id;\n}\n\nexport const toastManager = {\n\tsubscribe: toasts.subscribe,\n\tadd,\n\tclose,\n};\n"
 		}
 	],
 	"dependencies": ["@coss-svelte/theme", "clsx", "tailwind-merge"],

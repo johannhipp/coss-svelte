@@ -147,7 +147,8 @@
 }
 
 .cn-button-outline:hover,
-.cn-button-ghost:hover {
+.cn-button-ghost:hover,
+.cn-tooltip-trigger:hover {
 	background: color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
@@ -1907,6 +1908,10 @@
 	.cn-collapsible-trigger svg {
 		transition-duration: 1ms;
 	}
+
+	.cn-tabs-indicator {
+		transition-duration: 1ms;
+	}
 }
 
 .cn-kbd {
@@ -2203,6 +2208,7 @@
 .cn-tabs-list {
 	position: relative;
 	z-index: 0;
+	isolation: isolate;
 	display: flex;
 	width: fit-content;
 	align-items: center;
@@ -2216,6 +2222,7 @@
 
 .cn-tabs-trigger {
 	position: relative;
+	z-index: 1;
 	height: 2.25rem;
 	min-height: 2.25rem;
 	flex-shrink: 0;
@@ -2240,9 +2247,30 @@
 .cn-tabs-trigger[data-state="active"],
 .cn-tabs-trigger[data-active],
 .cn-tabs-trigger[aria-selected="true"] {
-	background: var(--background);
 	color: var(--foreground);
+}
+
+.cn-tabs-indicator {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	width: var(--cn-tabs-indicator-width, 0);
+	height: var(--cn-tabs-indicator-height, 0);
+	border-radius: var(--radius-md);
+	background: var(--background);
 	box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+	opacity: 0;
+	pointer-events: none;
+	transform: translate3d(var(--cn-tabs-indicator-x, 0), var(--cn-tabs-indicator-y, 0), 0);
+}
+
+.cn-tabs-indicator[data-ready] {
+	opacity: 1;
+	transition:
+		width 200ms ease-in-out,
+		height 200ms ease-in-out,
+		transform 200ms ease-in-out;
 }
 
 .cn-toggle-pressed {
@@ -3698,6 +3726,25 @@
 	padding: 0.75rem 0.875rem;
 	box-shadow: 0 16px 56px rgb(0 0 0 / 0.12);
 	font-size: 0.875rem;
+	animation: cn-toast-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cn-toast-viewport {
+	position: fixed;
+	z-index: 80;
+	right: 1rem;
+	bottom: 1rem;
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: flex-end;
+	gap: 0.75rem;
+	width: min(22.5rem, calc(100vw - 2rem));
+	pointer-events: none;
+}
+
+.cn-toast-viewport .cn-toast {
+	width: 100%;
+	pointer-events: auto;
 }
 
 .cn-toast strong {
@@ -3727,4 +3774,17 @@
 .cn-toast-close:hover {
 	background: var(--accent);
 	color: var(--accent-foreground);
+}
+
+@keyframes cn-toast-in {
+	from {
+		opacity: 0;
+		transform: translateY(0.5rem) scale(0.98);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cn-toast {
+		animation: none;
+	}
 }

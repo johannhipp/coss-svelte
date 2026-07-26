@@ -1,5 +1,8 @@
 <script lang="ts">
-import { Alert } from "coss-svelte";
+import { Alert, AlertDescription, AlertTitle } from "coss-svelte";
 </script>
 
-<Alert />
+<Alert>
+	<AlertTitle>Heads up!</AlertTitle>
+	<AlertDescription>Describe what can be done about it here.</AlertDescription>
+</Alert>

@@ -30,7 +30,11 @@ test("each implemented root has one executable example and deferred roots have n
 		}
 		assert.equal(files.has(filename), true, `missing example for ${metadata.slug}`);
 		const source = await readFile(path.join(examplesDirectory, filename), "utf8");
-		assert.match(source, new RegExp(`import \\{ ${metadata.name} \\} from "coss-svelte"`));
+		const exampleExport = metadata.name === "Toast" ? "toastManager" : metadata.name;
+		assert.match(
+			source,
+			new RegExp(`import \\{[^}]*\\b${exampleExport}\\b[^}]*\\} from "coss-svelte"`)
+		);
 		assert.doesNotMatch(source, /from ["'][^"']*packages\/coss-svelte/);
 		assert.doesNotMatch(source, /<script[^>]*>[\s\S]*export\s+default/);
 	}

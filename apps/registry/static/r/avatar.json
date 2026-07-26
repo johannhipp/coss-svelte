@@ -32,7 +32,7 @@
 			"path": "packages/coss-svelte/src/components/AvatarImage.svelte",
 			"target": "components/AvatarImage.svelte",
 			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport { Avatar as AvatarPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", ...rest }: NativeProps = $props();\n</script>\n\n<AvatarPrimitive.Image\n\tdata-slot=\"avatar-image\"\n\tclass={cn(\"cn-avatar-image\", className)}\n\t{...rest}\n/>\n"
+			"content": "<script lang=\"ts\">\nimport { Avatar as AvatarPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof AvatarPrimitive.Image>;\nlet { class: className = \"\", ...rest }: Props = $props();\n</script>\n\n<AvatarPrimitive.Image\n\tdata-slot=\"avatar-image\"\n\tclass={cn(\"cn-avatar-image\", className)}\n\t{...rest}\n/>\n"
 		}
 	],
 	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],

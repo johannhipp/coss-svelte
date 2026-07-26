@@ -39,6 +39,15 @@ test("floating and overlay surfaces animate with origin-aware transform and opac
 	assert.doesNotMatch(theme, /scale\(0\)/);
 });
 
+test("tooltip trigger matches the COSS outline button hover treatment", async () => {
+	const theme = await readThemeSource();
+
+	assert.match(
+		theme,
+		/\.cn-button-outline:hover,[\s\S]*\.cn-tooltip-trigger:hover\s*\{[\s\S]*background:\s*color-mix\(in srgb,\s*var\(--accent\)\s*50%,\s*transparent\)/
+	);
+});
+
 test("keyboard command dialog is explicitly instant", async () => {
 	const theme = await readThemeSource();
 
@@ -47,6 +56,29 @@ test("keyboard command dialog is explicitly instant", async () => {
 		theme,
 		/\.cn-dialog-overlay\[data-slot="command-dialog-overlay"\][\s\S]*transition:\s*none/
 	);
+});
+
+test("docs search adds restrained motion, scroll fades, and a shared results border", async () => {
+	const [appCss, search] = await Promise.all([
+		readFile("apps/www/src/app.css", "utf8"),
+		readFile("apps/www/src/lib/components/docs/docs-search.svelte", "utf8"),
+	]);
+
+	assert.match(
+		appCss,
+		/\.docs-search-dialog\.cn-command-dialog-popup\s*\{[\s\S]*opacity\s+200ms\s+var\(--ease-out\)[\s\S]*transform\s+200ms\s+var\(--ease-out\)/
+	);
+	assert.match(
+		appCss,
+		/\.docs-search-dialog\.cn-command-dialog-popup\[data-state="closed"\][\s\S]*translateX\(-50%\)\s+scale\(0\.98\)/
+	);
+	assert.match(
+		appCss,
+		/\.docs-search-list\.cn-command-list\s*\{[\s\S]*margin-inline:\s*-1px[\s\S]*border:\s*1px\s+solid\s+var\(--border\)/
+	);
+	assert.match(appCss, /\.docs-search-panel\.can-scroll-up\.can-scroll-down[\s\S]*mask-image:/);
+	assert.match(search, /onscroll=\{handlePanelScroll\}/);
+	assert.doesNotMatch(search, /CommandSeparator/);
 });
 
 test("command dialog keeps COSS-style top and bottom bands", async () => {
@@ -128,7 +160,7 @@ test("form preview validates email and exposes the invalid input state", async (
 		readThemeSource(),
 	]);
 
-	assert.match(example, /import \{ Form \} from "coss-svelte"/);
+	assert.match(example, /import \{[^}]*\bForm\b[^}]*\} from "coss-svelte"/);
 	assert.match(input, /value\s*=\s*\$bindable\(\)/);
 	assert.match(input, /bind:value/);
 	assert.match(input, /aria-invalid=\{isInvalid\}/);
@@ -145,7 +177,7 @@ test("group previews use one connected control surface and destructive menu item
 
 	assert.match(group, /role="group"/);
 	assert.match(menuItem, /data-variant=\{variant\}/);
-	assert.match(example, /import \{ Group \} from "coss-svelte"/);
+	assert.match(example, /import \{[^}]*\bGroup\b[^}]*\} from "coss-svelte"/);
 	assert.match(theme, /\.cn-group\s*{[\s\S]*align-items:\s*stretch[\s\S]*gap:\s*0/);
 	assert.match(
 		theme,
@@ -196,13 +228,32 @@ test("docs previews use component-specific snippets and adaptive preview shells"
 		readFile("apps/www/src/lib/components/docs/component-preview-tabs.svelte", "utf8"),
 	]);
 
-	assert.match(docPage, /page\.exampleSource/);
+	assert.match(docPage, /usageCode\s*=\s*\$derived\(exampleSource\s*\?\?\s*""\)/);
 	assert.match(docPage, /page\.slug/);
 	assert.doesNotMatch(docPage, /createFallbackUsageCode/);
 	assert.doesNotMatch(docPage, /<\$\{component\.name\}\s*\/>/);
 	assert.match(previewTabs, /component-preview-shell/);
 	assert.match(previewTabs, /data-preview-slug=\{slug\}/);
 	assert.match(previewTabs, /min-h-\[min\(420px,70svh\)\]/);
+	assert.match(
+		previewTabs,
+		/import \{ Tabs, TabsContent, TabsList, TabsTrigger \} from "coss-svelte"/
+	);
+	assert.match(previewTabs, /<Tabs bind:value=\{selected\}/);
+	assert.match(previewTabs, /<TabsTrigger value="preview">Preview<\/TabsTrigger>/);
+	assert.match(previewTabs, /<TabsTrigger value="code">Code<\/TabsTrigger>/);
+	assert.doesNotMatch(previewTabs, /role="tablist"/);
+});
+
+test("component routes pass executable example source into preview code tabs", async () => {
+	const [docPage, route] = await Promise.all([
+		readFile("apps/www/src/lib/components/docs/component-doc-page.svelte", "utf8"),
+		readFile("apps/www/src/routes/docs/components/[slug]/+page.svelte", "utf8"),
+	]);
+
+	assert.match(docPage, /exampleSource\s*=\s*""/);
+	assert.match(docPage, /usageCode\s*=\s*\$derived\(exampleSource\s*\?\?\s*""\)/);
+	assert.match(route, /exampleSource=\{data\.exampleSource\}/);
 });
 
 test("every component docs page has an executable example source", async () => {

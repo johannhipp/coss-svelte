@@ -8,6 +8,7 @@ let {
 	open = $bindable(true),
 	dismissible = true,
 	closeLabel = "Dismiss notification",
+	ondismiss,
 	class: className = "",
 	children,
 	...rest
@@ -17,10 +18,12 @@ let {
 	open?: boolean;
 	dismissible?: boolean;
 	closeLabel?: string;
+	ondismiss?: () => void;
 } = $props();
 
 function dismiss() {
 	open = false;
+	ondismiss?.();
 }
 </script>
 
