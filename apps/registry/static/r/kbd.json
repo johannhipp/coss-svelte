@@ -21,6 +21,12 @@
 			"target": "utils.ts",
 			"type": "registry:ui",
 			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/KbdGroup.svelte",
+			"target": "components/KbdGroup.svelte",
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<kbd data-slot=\"kbd-group\" class={cn(\"cn-kbd-group\", className)} {...rest}>\n\t{@render children?.()}\n</kbd>\n"
 		}
 	],
 	"dependencies": ["@coss-svelte/theme", "clsx", "tailwind-merge"],

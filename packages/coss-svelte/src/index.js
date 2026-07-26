@@ -123,6 +123,7 @@ export { default as InputGroupInput } from "./components/InputGroupInput.svelte"
 export { default as InputGroupText } from "./components/InputGroupText.svelte";
 export { default as InputGroupTextarea } from "./components/InputGroupTextarea.svelte";
 export { default as Kbd } from "./components/Kbd.svelte";
+export { default as KbdGroup } from "./components/KbdGroup.svelte";
 export { default as Label } from "./components/Label.svelte";
 export { default as Menu } from "./components/Menu.svelte";
 export { default as MenuCheckboxItem } from "./components/MenuCheckboxItem.svelte";

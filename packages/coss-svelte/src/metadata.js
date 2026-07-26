@@ -533,7 +533,7 @@ export const componentMetadata = Object.freeze({
 		primitive: "native kbd",
 		tier: "presentational",
 		foundation: "native",
-		parts: [],
+		parts: ["KbdGroup"],
 		particlePriority: "mvp",
 		status: "stable",
 	},

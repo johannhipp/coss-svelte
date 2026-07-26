@@ -39,5 +39,5 @@ test("package publishes generated declarations instead of a handwritten escape h
 
 test("package exports generated component entrypoints", () => {
 	const exportCount = (indexSource.match(/^export \{ default as /gm) ?? []).length;
-	assert.equal(exportCount, 257);
+	assert.equal(exportCount, 258);
 });
