@@ -32,8 +32,10 @@ $effect(() => {
 	if (!ref) return;
 
 	updateIndicator();
-	const readyFrame = requestAnimationFrame(() => {
-		indicatorReady = true;
+	let readyFrame = requestAnimationFrame(() => {
+		readyFrame = requestAnimationFrame(() => {
+			indicatorReady = true;
+		});
 	});
 
 	const mutationObserver = new MutationObserver(updateIndicator);

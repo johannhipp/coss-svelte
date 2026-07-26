@@ -20,6 +20,10 @@ test("Tabs renders one shared indicator that follows the active trigger", async 
 
 	readyFrames[0]?.(0);
 	await Promise.resolve();
+	expect(indicator).not.toHaveAttribute("data-ready");
+
+	readyFrames[1]?.(0);
+	await Promise.resolve();
 	expect(indicator).toHaveAttribute("data-ready");
 
 	await fireEvent.click(details);
