@@ -49,6 +49,29 @@ test("keyboard command dialog is explicitly instant", async () => {
 	);
 });
 
+test("docs search adds restrained motion, scroll fades, and a shared results border", async () => {
+	const [appCss, search] = await Promise.all([
+		readFile("apps/www/src/app.css", "utf8"),
+		readFile("apps/www/src/lib/components/docs/docs-search.svelte", "utf8"),
+	]);
+
+	assert.match(
+		appCss,
+		/\.docs-search-dialog\.cn-command-dialog-popup\s*\{[\s\S]*opacity\s+200ms\s+var\(--ease-out\)[\s\S]*transform\s+200ms\s+var\(--ease-out\)/
+	);
+	assert.match(
+		appCss,
+		/\.docs-search-dialog\.cn-command-dialog-popup\[data-state="closed"\][\s\S]*translateX\(-50%\)\s+scale\(0\.98\)/
+	);
+	assert.match(
+		appCss,
+		/\.docs-search-list\.cn-command-list\s*\{[\s\S]*margin-inline:\s*-1px[\s\S]*border:\s*1px\s+solid\s+var\(--border\)/
+	);
+	assert.match(appCss, /\.docs-search-panel\.can-scroll-up\.can-scroll-down[\s\S]*mask-image:/);
+	assert.match(search, /onscroll=\{handlePanelScroll\}/);
+	assert.doesNotMatch(search, /CommandSeparator/);
+});
+
 test("command dialog keeps COSS-style top and bottom bands", async () => {
 	const theme = await readThemeSource();
 
