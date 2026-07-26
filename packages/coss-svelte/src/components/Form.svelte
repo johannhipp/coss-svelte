@@ -1,8 +1,15 @@
 <script lang="ts">
-import type { NativeProps } from "../internal/props.js";
+import type { Snippet } from "svelte";
+import type { HTMLFormAttributes } from "svelte/elements";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = Omit<HTMLFormAttributes, "id"> & {
+	class?: string;
+	id?: string;
+	children?: Snippet;
+};
+
+let { class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <form data-slot="form" class={cn("cn-form", className)} {...rest}>
