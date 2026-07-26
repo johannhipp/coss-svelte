@@ -5,13 +5,16 @@ import ComponentPreviewRenderer from "$lib/components/docs/component-preview-ren
 
 let { code, slug, title } = $props();
 let selected = $state("preview");
+let hasCode = $derived(Boolean(code?.trim()));
 </script>
 
 <Tabs bind:value={selected} class="mt-4 mb-10 gap-2" id="preview">
 	<div class="flex items-center justify-between">
 		<TabsList aria-label={`${title} example`}>
 			<TabsTrigger value="preview">Preview</TabsTrigger>
-			<TabsTrigger value="code">Code</TabsTrigger>
+			{#if hasCode}
+				<TabsTrigger value="code">Code</TabsTrigger>
+			{/if}
 		</TabsList>
 	</div>
 
@@ -24,8 +27,10 @@ let selected = $state("preview");
 				<ComponentPreviewRenderer {slug} />
 			</div>
 		</TabsContent>
-		<TabsContent value="code">
-			<CodeBlock {code} />
-		</TabsContent>
+		{#if hasCode}
+			<TabsContent value="code">
+				<CodeBlock {code} />
+			</TabsContent>
+		{/if}
 	</div>
 </Tabs>
