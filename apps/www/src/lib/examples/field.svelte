@@ -1,7 +1,9 @@
 <script lang="ts">
-import { Field, Input } from "coss-svelte";
+import { Field, FieldDescription, FieldLabel, Input } from "coss-svelte";
 </script>
 
-<Field label="Email" description="We will only use this for account updates.">
-	<Input type="email" placeholder="you@example.com" />
+<Field>
+	<FieldLabel>Name</FieldLabel>
+	<Input placeholder="Enter your name" type="text" />
+	<FieldDescription>Visible on your profile</FieldDescription>
 </Field>

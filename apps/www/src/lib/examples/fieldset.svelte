@@ -1,9 +1,17 @@
 <script lang="ts">
-import { Field, Fieldset, Input } from "coss-svelte";
+import { Field, FieldDescription, FieldLabel, Fieldset, FieldsetLegend, Input } from "coss-svelte";
 </script>
 
-<Fieldset legend="Contact details" description="How can we reach you?">
-	<Field label="Email">
-		<Input type="email" placeholder="you@example.com" />
+<Fieldset class="flex w-full flex-col gap-6">
+	<FieldsetLegend>Billing Details</FieldsetLegend>
+	<Field>
+		<FieldLabel>Company</FieldLabel>
+		<Input placeholder="Enter company name" type="text" />
+		<FieldDescription>The name that will appear on invoices.</FieldDescription>
+	</Field>
+	<Field>
+		<FieldLabel>Tax ID</FieldLabel>
+		<Input placeholder="Enter tax identification number" type="text" />
+		<FieldDescription>Your business tax identification number.</FieldDescription>
 	</Field>
 </Fieldset>

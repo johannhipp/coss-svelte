@@ -1,5 +1,8 @@
 <script lang="ts">
-import { Switch } from "coss-svelte";
+import { Label, Switch } from "coss-svelte";
 </script>
 
-<Switch label="Marketing emails" />
+<Label>
+	<Switch />
+	Marketing emails
+</Label>

@@ -1,8 +1,9 @@
 <script lang="ts">
-import { Checkbox, CheckboxGroup } from "coss-svelte";
+import { Checkbox, CheckboxGroup, Label } from "coss-svelte";
 </script>
 
-<CheckboxGroup label="Notifications">
-	<Checkbox label="Product updates" checked />
-	<Checkbox label="Weekly summary" />
+<CheckboxGroup aria-label="Select frameworks" value={["next"]}>
+	<Label><Checkbox value="next" /> Next.js</Label>
+	<Label><Checkbox value="vite" /> Vite</Label>
+	<Label><Checkbox value="astro" /> Astro</Label>
 </CheckboxGroup>
