@@ -2,4 +2,4 @@
 import { Slider } from "coss-svelte";
 </script>
 
-<Slider />
+<Slider value={50} />

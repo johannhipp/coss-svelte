@@ -2,4 +2,4 @@
 import { Progress } from "coss-svelte";
 </script>
 
-<Progress />
+<Progress value={20} />

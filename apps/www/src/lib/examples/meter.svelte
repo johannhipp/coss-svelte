@@ -1,5 +1,11 @@
 <script lang="ts">
-import { Meter } from "coss-svelte";
+import { Meter, MeterIndicator, MeterLabel, MeterTrack, MeterValue } from "coss-svelte";
 </script>
 
-<Meter />
+<Meter value={75}>
+	<div class="flex items-center justify-between gap-2">
+		<MeterLabel>Storage usage</MeterLabel>
+		<MeterValue />
+	</div>
+	<MeterTrack><MeterIndicator /></MeterTrack>
+</Meter>
