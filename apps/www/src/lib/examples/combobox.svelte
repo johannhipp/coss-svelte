@@ -2,4 +2,7 @@
 import { Combobox } from "coss-svelte";
 </script>
 
-<Combobox />
+<Combobox
+	placeholder="Select an item…"
+	options={["Apple", "Banana", "Orange", "Grape", "Strawberry", "Mango", "Pineapple", "Kiwi"]}
+/>

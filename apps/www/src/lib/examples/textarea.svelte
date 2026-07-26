@@ -2,4 +2,4 @@
 import { Textarea } from "coss-svelte";
 </script>
 
-<Textarea />
+<Textarea placeholder="Type your message here" />

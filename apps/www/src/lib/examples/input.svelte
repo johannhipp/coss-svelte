@@ -2,4 +2,4 @@
 import { Input } from "coss-svelte";
 </script>
 
-<Input />
+<Input aria-label="Enter text" placeholder="Enter text" type="text" />

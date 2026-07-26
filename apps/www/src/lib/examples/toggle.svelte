@@ -2,4 +2,4 @@
 import { Toggle } from "coss-svelte";
 </script>
 
-<Toggle />
+<Toggle>Toggle</Toggle>

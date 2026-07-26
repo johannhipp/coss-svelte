@@ -2,4 +2,4 @@
 import { Switch } from "coss-svelte";
 </script>
 
-<Switch />
+<Switch label="Marketing emails" />

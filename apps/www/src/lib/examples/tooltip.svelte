@@ -2,4 +2,4 @@
 import { Tooltip } from "coss-svelte";
 </script>
 
-<Tooltip />
+<Tooltip label="Hover me" tip="Helpful hint" />

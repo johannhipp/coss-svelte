@@ -2,4 +2,4 @@
 import { Checkbox } from "coss-svelte";
 </script>
 
-<Checkbox />
+<Checkbox label="Accept terms and conditions" />
