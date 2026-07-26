@@ -1,15 +1,52 @@
 <script lang="ts">
-import { Menu } from "coss-svelte";
+import { Pause, Play, SkipBack, SkipForward, Trash2 } from "@lucide/svelte";
+import {
+	Menu,
+	MenuCheckboxItem,
+	MenuGroup,
+	MenuGroupLabel,
+	MenuItem,
+	MenuPopup,
+	MenuSeparator,
+	MenuShortcut,
+	MenuSub,
+	MenuSubPopup,
+	MenuSubTrigger,
+	MenuTrigger,
+} from "coss-svelte";
 </script>
 
-<Menu
-	label="Open menu"
-	items={[
-		"Play",
-		{ label: "Pause", disabled: true },
-		"Previous",
-		"Next",
-		"Shuffle",
-		"Repeat",
-	]}
-/>
+<Menu>
+	<MenuTrigger>Open menu</MenuTrigger>
+	<MenuPopup>
+		<MenuGroup>
+			<MenuGroupLabel>Playback</MenuGroupLabel>
+			<MenuItem><Play aria-hidden="true" /> Play <MenuShortcut>⌘P</MenuShortcut></MenuItem>
+			<MenuItem disabled>
+				<Pause aria-hidden="true" /> Pause <MenuShortcut>⇧⌘P</MenuShortcut>
+			</MenuItem>
+			<MenuItem>
+				<SkipBack aria-hidden="true" /> Previous <MenuShortcut>⌘[</MenuShortcut>
+			</MenuItem>
+			<MenuItem>
+				<SkipForward aria-hidden="true" /> Next <MenuShortcut>⌘]</MenuShortcut>
+			</MenuItem>
+		</MenuGroup>
+		<MenuSeparator />
+		<MenuCheckboxItem>Shuffle</MenuCheckboxItem>
+		<MenuCheckboxItem>Repeat</MenuCheckboxItem>
+		<MenuSeparator />
+		<MenuSub>
+			<MenuSubTrigger>Add to Playlist</MenuSubTrigger>
+			<MenuSubPopup>
+				<MenuItem>Jazz</MenuItem>
+				<MenuItem>Rock</MenuItem>
+				<MenuItem>Pop</MenuItem>
+			</MenuSubPopup>
+		</MenuSub>
+		<MenuSeparator />
+		<MenuItem variant="destructive">
+			<Trash2 aria-hidden="true" /> Delete <MenuShortcut>⌘⌫</MenuShortcut>
+		</MenuItem>
+	</MenuPopup>
+</Menu>

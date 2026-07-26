@@ -38,7 +38,7 @@
 			"path": "packages/coss-svelte/src/components/AccordionItem.svelte",
 			"target": "components/AccordionItem.svelte",
 			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport { Accordion as AccordionPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<AccordionPrimitive.Item\n\tdata-slot=\"accordion-item\"\n\tclass={cn(\"cn-accordion-item\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</AccordionPrimitive.Item>\n"
+			"content": "<script lang=\"ts\">\nimport { Accordion as AccordionPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof AccordionPrimitive.Item>;\n\nlet { class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<AccordionPrimitive.Item\n\tdata-slot=\"accordion-item\"\n\tclass={cn(\"cn-accordion-item\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</AccordionPrimitive.Item>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/AccordionTrigger.svelte",
