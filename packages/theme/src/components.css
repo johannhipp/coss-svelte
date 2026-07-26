@@ -147,7 +147,8 @@
 }
 
 .cn-button-outline:hover,
-.cn-button-ghost:hover {
+.cn-button-ghost:hover,
+.cn-tooltip-trigger:hover {
 	background: color-mix(in srgb, var(--accent) 50%, transparent);
 }
 

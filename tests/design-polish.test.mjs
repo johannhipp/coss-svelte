@@ -39,6 +39,15 @@ test("floating and overlay surfaces animate with origin-aware transform and opac
 	assert.doesNotMatch(theme, /scale\(0\)/);
 });
 
+test("tooltip trigger matches the COSS outline button hover treatment", async () => {
+	const theme = await readThemeSource();
+
+	assert.match(
+		theme,
+		/\.cn-button-outline:hover,[\s\S]*\.cn-tooltip-trigger:hover\s*\{[\s\S]*background:\s*color-mix\(in srgb,\s*var\(--accent\)\s*50%,\s*transparent\)/
+	);
+});
+
 test("keyboard command dialog is explicitly instant", async () => {
 	const theme = await readThemeSource();
 
