@@ -8,6 +8,7 @@ type Props = ComponentProps<typeof TabsPrimitive.List>;
 let { class: className = "", children, ref = $bindable(null), ...rest }: Props = $props();
 
 let indicatorStyle = $state("");
+let indicatorReady = $state(false);
 
 function updateIndicator() {
 	if (!ref) return;
@@ -31,6 +32,9 @@ $effect(() => {
 	if (!ref) return;
 
 	updateIndicator();
+	const readyFrame = requestAnimationFrame(() => {
+		indicatorReady = true;
+	});
 
 	const mutationObserver = new MutationObserver(updateIndicator);
 	mutationObserver.observe(ref, {
@@ -47,6 +51,7 @@ $effect(() => {
 	}
 
 	return () => {
+		cancelAnimationFrame(readyFrame);
 		mutationObserver.disconnect();
 		resizeObserver?.disconnect();
 	};
@@ -63,7 +68,7 @@ $effect(() => {
 	<span
 		aria-hidden="true"
 		class="cn-tabs-indicator"
-		data-ready={indicatorStyle ? "" : undefined}
+		data-ready={indicatorReady ? "" : undefined}
 		data-slot="tabs-indicator"
 		style={indicatorStyle}
 	></span>

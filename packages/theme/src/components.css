@@ -2263,14 +2263,14 @@
 	opacity: 0;
 	pointer-events: none;
 	transform: translate3d(var(--cn-tabs-indicator-x, 0), var(--cn-tabs-indicator-y, 0), 0);
-	transition:
-		width 200ms ease-in-out,
-		height 200ms ease-in-out,
-		transform 200ms ease-in-out;
 }
 
 .cn-tabs-indicator[data-ready] {
 	opacity: 1;
+	transition:
+		width 200ms ease-in-out,
+		height 200ms ease-in-out,
+		transform 200ms ease-in-out;
 }
 
 .cn-toggle-pressed {
