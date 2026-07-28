@@ -10,6 +10,19 @@ let { reference = [] }: { reference?: ApiElement[] } = $props();
 			<h3 class="mb-3 font-semibold text-xl">{element.name}</h3>
 			<p class="mb-5 text-muted-foreground leading-7">{element.description}</p>
 
+			{#if element.signatures?.length}
+				<div class="mb-5">
+					<h4 class="mb-2 font-medium text-sm">Signatures</h4>
+					<div class="grid gap-2">
+						{#each element.signatures as signature}
+							<code class="overflow-x-auto rounded-md bg-muted px-3 py-2 font-mono text-sm">
+								{signature}
+							</code>
+						{/each}
+					</div>
+				</div>
+			{/if}
+
 			{#if element.props?.length}
 				{@const hasDefault = element.props.some((prop) => prop.default !== undefined)}
 				<!-- svelte-ignore a11y_no_noninteractive_tabindex (Keyboard users need to focus and scroll overflowing API tables.) -->
@@ -35,7 +48,7 @@ let { reference = [] }: { reference?: ApiElement[] } = $props();
 								<tr class="border-border border-b last:border-b-0">
 									<td class="px-4 py-3 align-top">
 										<code class="rounded-md bg-muted px-2 py-1 font-mono text-foreground">
-											{prop.name}
+											{prop.bindable ? `bind:${prop.name}` : prop.name}
 										</code>
 									</td>
 									<td class="px-4 py-3 align-top">
@@ -60,6 +73,33 @@ let { reference = [] }: { reference?: ApiElement[] } = $props();
 						</tbody>
 					</table>
 				</div>
+			{/if}
+
+			{#if element.facts?.length}
+				<div class="mt-4 flex flex-wrap gap-2" aria-label={`${element.name} composition facts`}>
+					{#each element.facts as fact}
+						<span class="rounded-md border border-border bg-muted/30 px-2.5 py-1.5 text-sm">
+							<code class="font-mono">
+								{fact.bindable ? `bind:${fact.name}` : fact.name}
+							</code>
+							<span class="text-muted-foreground">: {fact.type}</span>
+						</span>
+					{/each}
+				</div>
+			{/if}
+
+			{#if element.inherited}
+				<p class="mt-4 text-muted-foreground text-sm">
+					Inherits from
+					<a
+						class="font-medium text-foreground underline underline-offset-4"
+						href={element.inherited.url}
+						target="_blank"
+						rel="noreferrer"
+					>
+						{element.inherited.label}
+					</a>.
+				</p>
 			{/if}
 		</section>
 	{/each}
