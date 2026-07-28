@@ -3,7 +3,9 @@ import type { Snippet } from "svelte";
 import type { HTMLAttributes } from "svelte/elements";
 import { getFieldContext } from "../internal/field-context.svelte.js";
 import {
-	type NumberFieldReason,
+	assertNumberFieldValue,
+	type NumberFieldChangeDetails,
+	resolveNumberFieldFormat,
 	serializeInvariantNumber,
 	validateNumberFieldConfig,
 } from "../internal/number-field.js";
@@ -20,6 +22,7 @@ import NumberFieldInput from "./NumberFieldInput.svelte";
 import NumberFieldScrubArea from "./NumberFieldScrubArea.svelte";
 
 type Props = Omit<HTMLAttributes<HTMLDivElement>, "children" | "id"> & {
+	ref?: HTMLDivElement | null;
 	defaultValue?: number | null;
 	value?: number | null;
 	min?: number;
@@ -39,8 +42,8 @@ type Props = Omit<HTMLAttributes<HTMLDivElement>, "children" | "id"> & {
 	readonly?: boolean;
 	invalid?: boolean;
 	allowWheelScrub?: boolean;
-	onValueChange?: (value: number | null, reason: NumberFieldReason) => void;
-	onValueCommit?: (value: number | null, reason: NumberFieldReason) => void;
+	onValueChange?: (value: number | null, details: NumberFieldChangeDetails) => void;
+	onValueCommit?: (value: number | null, details: NumberFieldChangeDetails) => void;
 	class?: string;
 	children?: Snippet;
 };
@@ -56,7 +59,7 @@ let {
 	locale = "en-US",
 	format = {},
 	label,
-	size = "md",
+	size = "default",
 	id,
 	name,
 	form,
@@ -67,31 +70,38 @@ let {
 	allowWheelScrub = false,
 	onValueChange,
 	onValueCommit,
+	ref = $bindable(null),
 	class: className = "",
 	children,
 	...rest
 }: Props = $props();
 
+// Form reset follows the initial default, not later prop changes.
+// svelte-ignore state_referenced_locally
+const resetValue = assertNumberFieldValue(defaultValue, "defaultValue");
 const generatedId = $props.id();
 const field = getFieldContext();
 let inputId = $derived(id ?? field?.controlId ?? generatedId);
-let resolvedLabel = $derived(label ?? (field ? undefined : "Number"));
+let resolvedLabel = $derived(label ?? (field?.hasLabel ? undefined : "Number"));
 let resolvedRequired = $derived(required ?? field?.required ?? false);
 let resolvedDisabled = $derived(disabled ?? field?.disabled ?? false);
 let resolvedInvalid = $derived(invalid ?? field?.invalid ?? false);
 let describedBy = $derived(field?.describedBy || undefined);
 let config = $derived(validateNumberFieldConfig({ min, max, step, smallStep, largeStep }));
+let validatedValue = $derived(assertNumberFieldValue(value));
+let resolvedFormat = $derived(resolveNumberFieldFormat(locale, format, config));
 
 const state = createNumberFieldState({
-	getValue: () => value,
+	getValue: () => validatedValue,
 	setValue: (nextValue) => {
 		value = nextValue;
 	},
 	getConfig: () => config,
 	getLocale: () => locale,
-	getFormat: () => format,
+	getFormat: () => resolvedFormat,
 	getInputId: () => inputId,
 	getLabel: () => resolvedLabel,
+	getHasFieldLabel: () => field?.hasLabel ?? false,
 	getSize: () => size,
 	getForm: () => form,
 	getRequired: () => resolvedRequired,
@@ -109,8 +119,8 @@ $effect(() => {
 	const formElement = state.inputElement?.form;
 	if (!formElement) return;
 
-	const handleReset = () => {
-		state.reset(defaultValue);
+	const handleReset = (event: Event) => {
+		state.reset(resetValue, event);
 	};
 	formElement.addEventListener("reset", handleReset);
 	return () => formElement.removeEventListener("reset", handleReset);
@@ -118,19 +128,20 @@ $effect(() => {
 </script>
 
 <div
+	bind:this={ref}
+	{...rest}
 	data-slot="number-field"
 	data-size={state.size}
 	data-disabled={state.disabled ? "" : undefined}
 	data-readonly={state.readonly ? "" : undefined}
 	data-invalid={state.invalid ? "" : undefined}
 	class={cn("cn-number-field", className)}
-	{...rest}
 >
 	{#if children}
 		{@render children()}
 	{:else}
 		{#if resolvedLabel}
-			<NumberFieldScrubArea>{resolvedLabel}</NumberFieldScrubArea>
+			<NumberFieldScrubArea label={resolvedLabel} />
 		{/if}
 		<NumberFieldGroup>
 			<NumberFieldDecrement />

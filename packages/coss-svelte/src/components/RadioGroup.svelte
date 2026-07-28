@@ -1,38 +1,70 @@
 <script lang="ts">
 import { RadioGroup as RadioGroupPrimitive } from "bits-ui";
 import type { ComponentProps } from "svelte";
+import { getFieldContext, mergeFieldIds } from "../internal/field-context.svelte.js";
 import { normalizeOptions, type Option } from "../internal/props.js";
 import { cn } from "../utils.js";
 
-type Props = ComponentProps<typeof RadioGroupPrimitive.Root> & {
+type Props = Omit<ComponentProps<typeof RadioGroupPrimitive.Root>, "child"> & {
 	label?: string;
 	options?: Option[];
 };
 let {
+	ref = $bindable(null),
 	value = $bindable(""),
 	label = "",
 	options = [],
 	orientation = "vertical",
+	id,
+	disabled,
+	required,
 	class: className = "",
 	children,
 	...rest
 }: Props = $props();
 
+const generatedId = $props.id();
+const field = getFieldContext();
 let items = $derived(normalizeOptions(options));
+let resolvedId = $derived(id ?? field?.controlId ?? generatedId);
+let convenienceLabelId = $derived(`${resolvedId}-label`);
+let resolvedDisabled = $derived(disabled ?? field?.disabled ?? false);
+let resolvedRequired = $derived(required ?? field?.required ?? false);
+let describedBy = $derived(mergeFieldIds(rest["aria-describedby"], field?.describedBy));
+let labelledBy = $derived(
+	rest["aria-labelledby"] ??
+		(rest["aria-label"]
+			? undefined
+			: field?.hasLabel
+				? field.labelId
+				: label
+					? convenienceLabelId
+					: undefined)
+);
+let resolvedInvalid = $derived(rest["aria-invalid"] ?? (field?.invalid ? "true" : undefined));
 </script>
 
 <RadioGroupPrimitive.Root
+	bind:ref
+	{...rest}
+	id={resolvedId}
 	data-slot="radio-group"
 	class={cn("cn-choice-group", className)}
 	bind:value
 	{orientation}
-	{...rest}
+	disabled={resolvedDisabled}
+	required={resolvedRequired}
+	aria-labelledby={labelledBy}
+	aria-describedby={describedBy}
+	aria-invalid={resolvedInvalid}
 >
 	{#if label}
-		<span class="cn-choice-label">{label}</span>
+		<span id={convenienceLabelId} class="cn-choice-label">{label}</span>
 	{/if}
 	<div class="cn-choice-stack">
-		{#if options.length}
+		{#if children}
+			{@render children()}
+		{:else if options.length}
 			{#each items as normalized}
 				<RadioGroupPrimitive.Item
 					data-slot="radio-group-item"
@@ -50,8 +82,6 @@ let items = $derived(normalizeOptions(options));
 					{/snippet}
 				</RadioGroupPrimitive.Item>
 			{/each}
-		{:else}
-			{@render children?.()}
 		{/if}
 	</div>
 </RadioGroupPrimitive.Root>

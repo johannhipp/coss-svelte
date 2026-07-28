@@ -11,6 +11,7 @@ type Props = Omit<ComponentProps<typeof CollapsiblePrimitive.Root>, "children" |
 };
 
 let {
+	ref = $bindable(null),
 	open = $bindable(false),
 	title = "",
 	class: className = "",
@@ -20,6 +21,7 @@ let {
 </script>
 
 <CollapsiblePrimitive.Root
+	bind:ref
 	data-slot="collapsible"
 	class={cn("cn-collapsible", className)}
 	bind:open

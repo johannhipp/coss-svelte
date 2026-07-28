@@ -8,10 +8,11 @@ type Props = Omit<ComponentProps<typeof MenuPrimitive.SubContent>, "children" | 
 	children?: Snippet;
 };
 
-let { class: className = "", children, ...rest }: Props = $props();
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <MenuPrimitive.SubContent
+	bind:ref
 	data-slot="menu-sub-popup"
 	class={cn("cn-menu-sub-popup", className)}
 	{...rest}

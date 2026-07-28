@@ -30,13 +30,13 @@ function selectAction(action: string) {
 <div class="grid w-full max-w-sm gap-3">
 	<ContextMenu>
 		<ContextMenuTrigger
-			class="grid min-h-44 place-items-center rounded-xl border border-dashed bg-muted/35 p-6 text-center outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
+			class="grid min-h-40 place-items-center rounded-xl border border-dashed bg-muted/35 p-6 text-center outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
 			tabindex={0}
 			aria-label="Project files context menu"
 		>
 			<div class="grid gap-1">
-				<strong class="font-medium text-sm">Project files</strong>
-				<span class="text-muted-foreground text-xs">Right-click or press Shift + F10</span>
+				<strong class="font-medium text-sm">Right-click here</strong>
+				<span class="text-muted-foreground text-xs">or press Shift+F10</span>
 			</div>
 		</ContextMenuTrigger>
 
@@ -80,13 +80,11 @@ function selectAction(action: string) {
 			</ContextMenuSub>
 
 			<ContextMenuLinkItem
-				href="https://coss.com/ui/docs"
-				target="_blank"
-				rel="noreferrer"
-				onSelect={() => selectAction("Opened documentation")}
+				href="#context-menu-result"
+				onSelect={() => selectAction("Opened selection details")}
 			>
 				<ExternalLink aria-hidden="true" />
-				Open documentation
+				View selection details
 			</ContextMenuLinkItem>
 
 			<ContextMenuSeparator />
@@ -99,7 +97,11 @@ function selectAction(action: string) {
 		</ContextMenuPopup>
 	</ContextMenu>
 
-	<p class="m-0 text-muted-foreground text-xs" aria-live="polite">
+	<p
+		id="context-menu-result"
+		class="m-0 text-muted-foreground text-xs"
+		aria-live="polite"
+	>
 		{lastAction} · sorted by {sort}{showDetails ? " · details visible" : ""}
 	</p>
 </div>

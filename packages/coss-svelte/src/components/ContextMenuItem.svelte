@@ -12,6 +12,8 @@ type Props = Omit<ComponentProps<typeof ContextMenuPrimitive.Item>, "children"> 
 };
 
 let {
+	ref = $bindable(null),
+	child,
 	inset = false,
 	variant = "default",
 	class: className = "",
@@ -21,11 +23,15 @@ let {
 </script>
 
 <ContextMenuPrimitive.Item
+	{...rest}
+	bind:ref
+	{child}
 	data-slot="context-menu-item"
 	data-inset={inset ? "" : undefined}
 	data-variant={variant}
 	class={cn("cn-menu-item", className)}
-	{...rest}
 >
-	{@render children?.()}
+	{#if !child}
+		{@render children?.()}
+	{/if}
 </ContextMenuPrimitive.Item>

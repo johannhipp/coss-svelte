@@ -12,9 +12,9 @@ let value = $state<number | null>(3);
 </script>
 
 <div class="grid w-full max-w-80 gap-3">
-	<NumberField bind:value min={0} max={99} step={1} label="Quantity">
+	<NumberField bind:value min={0} max={24} step={0.25} label="Quantity">
 		{#snippet children()}
-			<NumberFieldScrubArea>Quantity</NumberFieldScrubArea>
+			<NumberFieldScrubArea label="Quantity" />
 			<NumberFieldGroup>
 				<NumberFieldDecrement />
 				<NumberFieldInput />

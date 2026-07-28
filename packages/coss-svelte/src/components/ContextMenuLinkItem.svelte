@@ -5,16 +5,20 @@ import type { HTMLAnchorAttributes } from "svelte/elements";
 import { cn } from "../utils.js";
 
 type ContextMenuItemVariant = "default" | "destructive";
-type AnchorProps = Pick<
-	HTMLAnchorAttributes,
-	"download" | "href" | "hreflang" | "referrerpolicy" | "rel" | "target"
->;
+type AnchorProps = {
+	href: string;
+	target?: HTMLAnchorAttributes["target"];
+	rel?: HTMLAnchorAttributes["rel"];
+	download?: boolean | string;
+	hreflang?: HTMLAnchorAttributes["hreflang"];
+	referrerpolicy?: HTMLAnchorAttributes["referrerpolicy"];
+};
 type Props = Omit<
 	ComponentProps<typeof ContextMenuPrimitive.Item>,
-	"child" | "children" | "class"
+	"child" | "children" | "class" | "ref"
 > &
 	AnchorProps & {
-		href: string;
+		ref?: HTMLAnchorElement | null;
 		inset?: boolean;
 		variant?: ContextMenuItemVariant;
 		class?: string;
@@ -22,6 +26,7 @@ type Props = Omit<
 	};
 
 let {
+	ref = $bindable(null),
 	href,
 	target,
 	rel,
@@ -44,7 +49,16 @@ let {
 	class={cn("cn-menu-item", className)}
 >
 	{#snippet child({ props })}
-		<a {...props} {href} {target} {rel} {download} {hreflang} {referrerpolicy}>
+		<a
+			bind:this={ref}
+			{...props}
+			{href}
+			{target}
+			{rel}
+			{download}
+			{hreflang}
+			{referrerpolicy}
+		>
 			{@render children?.()}
 		</a>
 	{/snippet}

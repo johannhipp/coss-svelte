@@ -50,9 +50,10 @@ npx shadcn@latest add @coss/dialog --view
 
 - Use existing primitives and particle patterns before writing custom behavior.
 - For trigger-based components, keep the documented trigger and popup hierarchy.
-- COSS/Base UI composition commonly uses `render={<Button />}`; do not assume Radix `asChild` patterns apply everywhere.
+- Svelte composition uses snippets and the exact Bits `child` contract on parts that deliberately delegate their element; do not copy React `render` or Radix `asChild` props.
 - Dialog-like components need their title, description, panel, and footer structures preserved when the flow uses them.
 - Use controlled state for cross-component flows such as menu item opens dialog.
+- Root behavior is classified in `componentComposition`: compound, children-first fallback, content children, payload snippet, additive, or presentational. Children replace the full convenience hierarchy only for roots classified `children-first-fallback`.
 
 ## Forms And Inputs
 
@@ -77,9 +78,19 @@ The `portalProps` escape hatch is available only on specific portaled surfaces:
 
 - `DialogPopup`, `AlertDialogPopup`, `SheetPopup`, `DrawerPopup`, `CommandDialogPopup`
 - `MenuPopup`, `PopoverPopup`, `TooltipPopup`, `PreviewCardPopup`, `AutocompletePopup`, `ComboboxPopup`, `SelectPopup`
-- `ToastProvider` and `AnchoredToastProvider`
+- `ContextMenuPopup` and `ContextMenuSubPopup`
 
-Use it for portal-level behavior like `keepMounted` or `container`. Placement should still use the component's placement props or lower-level Base UI composition.
+The exact Bits UI options are `to?: Element | string` and `disabled?: boolean`.
+Use `to` for an element or selector target and `disabled` for inline rendering.
+Popup components own Portal children; React/Base UI names such as `container`
+and `keepMounted` are not part of the Svelte API. Placement still belongs to
+the popup's placement props.
+
+Dialog, Alert Dialog, Sheet, Drawer, and Command Dialog close from a backdrop
+pointer interaction through the Bits dismissible layer. Dialog, Sheet, Drawer,
+and Command Dialog can cancel an exceptional outside interaction through
+`onInteractOutside(event.preventDefault())`; Alert Dialog deliberately retains
+Bits UI's fixed public surface.
 
 ## Migration Boundaries
 

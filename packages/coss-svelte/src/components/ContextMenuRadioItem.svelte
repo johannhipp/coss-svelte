@@ -1,16 +1,24 @@
 <script lang="ts">
 import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-type Props = ContextMenuPrimitive.RadioItemProps;
-let { value, class: className = "", children: itemChildren, ...rest }: Props = $props();
+type Props = Omit<ComponentProps<typeof ContextMenuPrimitive.RadioItem>, "child">;
+let {
+	ref = $bindable(null),
+	value,
+	class: className = "",
+	children: itemChildren,
+	...rest
+}: Props = $props();
 </script>
 
 <ContextMenuPrimitive.RadioItem
+	{...rest}
+	bind:ref
 	{value}
 	data-slot="context-menu-radio-item"
 	class={cn("cn-menu-item cn-menu-radio-item", className)}
-	{...rest}
 >
 	{#snippet children({ checked })}
 		<span

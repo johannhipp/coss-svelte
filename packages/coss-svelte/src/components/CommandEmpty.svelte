@@ -9,10 +9,17 @@ type Props = Omit<ComponentProps<typeof CommandPrimitive.Empty>, "children" | "c
 	forceMount?: boolean;
 };
 
-let { class: className = "", children, forceMount, ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	class: className = "",
+	children,
+	forceMount,
+	...rest
+}: Props = $props();
 </script>
 
 <CommandPrimitive.Empty
+	bind:ref
 	data-slot="command-empty"
 	class={cn("cn-command-empty", className)}
 	{forceMount}

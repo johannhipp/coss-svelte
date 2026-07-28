@@ -1,35 +1,80 @@
 <script lang="ts">
 import { Calendar as CalendarPrimitive } from "bits-ui";
 import type { ComponentProps, Snippet } from "svelte";
-import type { PrimitiveAttributes } from "../internal/props.js";
 import { cn } from "../utils.js";
 
 type RootProps = ComponentProps<typeof CalendarPrimitive.Root>;
-type SingleRootProps = Extract<RootProps, { type: "single" }>;
-type MultipleRootProps = Extract<RootProps, { type: "multiple" }>;
-type CalendarValue = NonNullable<SingleRootProps["value"]>;
-type CalendarChildProps = Parameters<NonNullable<SingleRootProps["children"]>>[0];
-type Props = PrimitiveAttributes & {
-	type?: "single" | "multiple";
-	value?: CalendarValue | CalendarValue[];
+type PrimitiveSingleProps = Extract<RootProps, { type: "single" }>;
+type PrimitiveMultipleProps = Extract<RootProps, { type: "multiple" }>;
+type CalendarValue = NonNullable<PrimitiveSingleProps["value"]>;
+type CalendarChildProps = Parameters<NonNullable<PrimitiveSingleProps["children"]>>[0];
+type ConvenienceProps = {
 	class?: string;
 	children?: Snippet<[CalendarChildProps]>;
-	onValueChange?: (value: CalendarValue | CalendarValue[] | undefined) => void;
 };
+type SingleProps = Omit<
+	PrimitiveSingleProps,
+	"child" | "children" | "onValueChange" | "type" | "value"
+> &
+	ConvenienceProps & {
+		type?: "single";
+		value?: CalendarValue;
+		onValueChange?: PrimitiveSingleProps["onValueChange"];
+	};
+type MultipleProps = Omit<
+	PrimitiveMultipleProps,
+	"child" | "children" | "onValueChange" | "type" | "value"
+> &
+	ConvenienceProps & {
+		type: "multiple";
+		value?: CalendarValue[];
+		onValueChange?: PrimitiveMultipleProps["onValueChange"];
+	};
+type Props = SingleProps | MultipleProps;
 
 let {
-	type = "single",
+	ref = $bindable(null),
 	value = $bindable(),
-	class: className = "",
-	children: rootChildren,
-	onValueChange,
-	...rest
+	placeholder = $bindable(),
+	...props
 }: Props = $props();
+
+function singleValue(value: Props["value"]): CalendarValue | undefined {
+	if (value === undefined || !Array.isArray(value)) return value;
+	throw new TypeError('Calendar type="single" requires one DateValue.');
+}
+
+function multipleValue(value: Props["value"]): CalendarValue[] | undefined {
+	if (value === undefined || Array.isArray(value)) return value;
+	throw new TypeError('Calendar type="multiple" requires a DateValue[].');
+}
+
+function singleRootProps(props: Omit<SingleProps, "value">) {
+	const {
+		class: _class,
+		children: _children,
+		type: _type,
+		onValueChange: _onValueChange,
+		...rootProps
+	} = props;
+	return rootProps;
+}
+
+function multipleRootProps(props: Omit<MultipleProps, "value">) {
+	const {
+		class: _class,
+		children: _children,
+		type: _type,
+		onValueChange: _onValueChange,
+		...rootProps
+	} = props;
+	return rootProps;
+}
 </script>
 
 {#snippet content({ months, weekdays }: CalendarChildProps)}
-	{#if rootChildren}
-		{@render rootChildren({ months, weekdays })}
+	{#if props.children}
+		{@render props.children({ months, weekdays })}
 	{:else}
 			<CalendarPrimitive.Header data-slot="calendar-header" class="cn-calendar-header">
 				<CalendarPrimitive.PrevButton
@@ -80,31 +125,35 @@ let {
 	{/if}
 {/snippet}
 
-{#if type === "multiple"}
+{#if props.type === "multiple"}
 	<CalendarPrimitive.Root
+		bind:ref
+		bind:placeholder
+		{...multipleRootProps(props)}
 		data-slot="calendar"
-		class={cn("cn-calendar", className)}
+		class={cn("cn-calendar", props.class)}
 		type="multiple"
-		value={Array.isArray(value) ? value : []}
+		value={multipleValue(value)}
 		onValueChange={(next) => {
 			value = next;
-			onValueChange?.(next);
+			props.onValueChange?.(next);
 		}}
-		{...rest}
 	>
 		{#snippet children(props)}{@render content(props)}{/snippet}
 	</CalendarPrimitive.Root>
 {:else}
 	<CalendarPrimitive.Root
+		bind:ref
+		bind:placeholder
+		{...singleRootProps(props)}
 		data-slot="calendar"
-		class={cn("cn-calendar", className)}
+		class={cn("cn-calendar", props.class)}
 		type="single"
-		value={Array.isArray(value) ? value[0] : value}
+		value={singleValue(value)}
 		onValueChange={(next) => {
 			value = next;
-			onValueChange?.(next);
+			props.onValueChange?.(next);
 		}}
-		{...rest}
 	>
 		{#snippet children(props)}{@render content(props)}{/snippet}
 	</CalendarPrimitive.Root>

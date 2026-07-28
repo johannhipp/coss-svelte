@@ -2,7 +2,7 @@ import { render as renderSSR } from "svelte/server";
 import { expect, test } from "vitest";
 import NumberFieldSsrFixture from "./NumberFieldSsrFixture.svelte";
 
-test("NumberField emits deterministic spinbutton and form markup during SSR", () => {
+test("[ssr:number-field] emits deterministic spinbutton and form markup", () => {
 	const { body } = renderSSR(NumberFieldSsrFixture);
 
 	expect(body).toContain('id="server-quantity"');
@@ -13,4 +13,9 @@ test("NumberField emits deterministic spinbutton and form markup during SSR", ()
 	expect(body).toContain('aria-valuemax="99"');
 	expect(body).toContain('name="quantity"');
 	expect(body).toContain('value="12.5"');
+	const spinbuttonIds = [...body.matchAll(/id="([^"]+)"[^>]+role="spinbutton"/gu)].map(
+		(match) => match[1]
+	);
+	expect(spinbuttonIds).toHaveLength(3);
+	expect(new Set(spinbuttonIds).size).toBe(spinbuttonIds.length);
 });

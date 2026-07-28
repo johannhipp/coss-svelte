@@ -12,6 +12,8 @@ type Props = Omit<ComponentProps<typeof AvatarPrimitive.Root>, "children" | "chi
 };
 
 let {
+	ref = $bindable(null),
+	loadingStatus = $bindable("loading"),
 	src = "",
 	alt = "",
 	fallback = "",
@@ -21,7 +23,13 @@ let {
 }: Props = $props();
 </script>
 
-<AvatarPrimitive.Root data-slot="avatar" class={cn("cn-avatar", className)} {...rest}>
+<AvatarPrimitive.Root
+	bind:ref
+	bind:loadingStatus
+	data-slot="avatar"
+	class={cn("cn-avatar", className)}
+	{...rest}
+>
 	{#if rootChildren}
 		{@render rootChildren()}
 	{:else}

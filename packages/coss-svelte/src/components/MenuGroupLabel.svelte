@@ -1,12 +1,15 @@
 <script lang="ts">
 import { DropdownMenu as MenuPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = Omit<ComponentProps<typeof MenuPrimitive.GroupHeading>, "child">;
+
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <MenuPrimitive.GroupHeading
+	bind:ref
 	data-slot="menu-group-label"
 	class={cn("cn-menu-group-label", className)}
 	{...rest}

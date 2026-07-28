@@ -1,12 +1,15 @@
 <script lang="ts">
 import { Avatar as AvatarPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = Omit<ComponentProps<typeof AvatarPrimitive.Fallback>, "child">;
+
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <AvatarPrimitive.Fallback
+	bind:ref
 	data-slot="avatar-fallback"
 	class={cn("cn-avatar-fallback", className)}
 	{...rest}

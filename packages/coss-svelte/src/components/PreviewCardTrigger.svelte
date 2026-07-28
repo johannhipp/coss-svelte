@@ -7,10 +7,11 @@ type Props = Omit<ComponentProps<typeof LinkPreviewPrimitive.Trigger>, "children
 	children?: Snippet;
 };
 
-let { class: className = "", children, ...rest }: Props = $props();
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <LinkPreviewPrimitive.Trigger
+	bind:ref
 	data-slot="preview-card-trigger"
 	class={cn("cn-preview-card-trigger", className)}
 	{...rest}

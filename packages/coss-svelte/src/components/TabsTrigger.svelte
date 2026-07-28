@@ -4,10 +4,11 @@ import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
 type Props = ComponentProps<typeof TabsPrimitive.Trigger>;
-let { value, class: className = "", children, ...rest }: Props = $props();
+let { ref = $bindable(null), value, class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <TabsPrimitive.Trigger
+	bind:ref
 	data-slot="tabs-trigger"
 	class={cn("cn-tabs-trigger", className)}
 	{value}

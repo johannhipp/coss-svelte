@@ -4,7 +4,7 @@ import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
 
 type GroupProps = ComponentProps<typeof ToolbarPrimitive.Group>;
-type Props = Omit<GroupProps, "children" | "type" | "value"> & {
+type Props = Omit<GroupProps, "child" | "children" | "type" | "value"> & {
 	type?: "single" | "multiple";
 	value?: string | string[];
 	class?: string;
@@ -12,6 +12,7 @@ type Props = Omit<GroupProps, "children" | "type" | "value"> & {
 };
 
 let {
+	ref = $bindable(null),
 	type = "single",
 	value = $bindable(),
 	class: className = "",
@@ -21,6 +22,7 @@ let {
 </script>
 
 <ToolbarPrimitive.Group
+	bind:ref
 	data-slot="toolbar-group"
 	class={cn("cn-toolbar-group", className)}
 	{type}

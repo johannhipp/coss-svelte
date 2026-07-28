@@ -5,7 +5,21 @@ import { cn } from "../utils.js";
 
 type Props = Omit<
 	HTMLInputAttributes,
-	"children" | "disabled" | "form" | "id" | "name" | "readonly" | "required" | "type" | "value"
+	| "children"
+	| "defaultValue"
+	| "disabled"
+	| "form"
+	| "id"
+	| "max"
+	| "min"
+	| "name"
+	| "oninput"
+	| "onwheel"
+	| "readonly"
+	| "required"
+	| "step"
+	| "type"
+	| "value"
 > & {
 	class?: string;
 	ref?: HTMLInputElement | null;
@@ -23,7 +37,7 @@ let resolvedInvalid = $derived(
 		: undefined
 );
 let valueText = $derived(
-	state.value !== null && state.formattedValue !== String(state.value)
+	!state.focused && state.value !== null && state.formattedValue !== String(state.value)
 		? state.formattedValue
 		: undefined
 );
@@ -42,13 +56,12 @@ function handleFocus(event: FocusEvent & { currentTarget: HTMLInputElement }) {
 
 function handleBlur(event: FocusEvent & { currentTarget: HTMLInputElement }) {
 	rest.onblur?.(event);
-	state.endEdit();
+	if (!event.defaultPrevented) state.endEdit(event);
 }
 
 function handleInput(event: Event & { currentTarget: HTMLInputElement }) {
-	rest.oninput?.(event);
-	if (event.defaultPrevented || state.disabled || state.readonly) return;
-	state.updateEdit(event.currentTarget.value);
+	if (state.disabled || state.readonly) return;
+	state.updateEdit(event.currentTarget.value, event);
 }
 
 function handleKeydown(event: KeyboardEvent & { currentTarget: HTMLInputElement }) {
@@ -56,13 +69,11 @@ function handleKeydown(event: KeyboardEvent & { currentTarget: HTMLInputElement 
 	if (event.defaultPrevented) return;
 
 	if (event.key === "Enter") {
-		state.commitEdit("input");
-		event.preventDefault();
+		state.commitEdit("input", event);
 		return;
 	}
 	if (event.key === "Escape") {
-		state.cancelEdit();
-		event.preventDefault();
+		if (state.cancelEdit()) event.preventDefault();
 		return;
 	}
 	if (state.disabled || state.readonly) return;
@@ -74,20 +85,25 @@ function handleKeydown(event: KeyboardEvent & { currentTarget: HTMLInputElement 
 			: event.altKey
 				? state.config.smallStep
 				: state.config.step;
-		state.adjust(direction, amount, "keyboard");
-		state.commit("keyboard");
+		const previousValue = state.value;
+		if (state.adjust(direction, amount, "keyboard", event)) {
+			state.commit("keyboard", previousValue, event);
+		}
 		event.preventDefault();
 		return;
 	}
 	if (event.key === "PageUp" || event.key === "PageDown") {
-		state.adjust(direction, state.config.largeStep, "keyboard");
-		state.commit("keyboard");
+		const previousValue = state.value;
+		if (state.adjust(direction, state.config.largeStep, "keyboard", event)) {
+			state.commit("keyboard", previousValue, event);
+		}
 		event.preventDefault();
 		return;
 	}
 	if (event.key === "Home" || event.key === "End") {
-		const changed = state.setToBound(event.key === "Home" ? "min" : "max", "keyboard");
-		if (changed) state.commit("keyboard");
+		const previousValue = state.value;
+		const changed = state.setToBound(event.key === "Home" ? "min" : "max", "keyboard", event);
+		if (changed) state.commit("keyboard", previousValue, event);
 		if (state.config[event.key === "Home" ? "min" : "max"] !== undefined) {
 			event.preventDefault();
 		}
@@ -95,9 +111,7 @@ function handleKeydown(event: KeyboardEvent & { currentTarget: HTMLInputElement 
 }
 
 function handleWheel(event: WheelEvent & { currentTarget: HTMLInputElement }) {
-	rest.onwheel?.(event);
 	if (
-		event.defaultPrevented ||
 		!state.allowWheelScrub ||
 		!state.focused ||
 		state.disabled ||
@@ -107,9 +121,10 @@ function handleWheel(event: WheelEvent & { currentTarget: HTMLInputElement }) {
 		return;
 	}
 
-	const changed = state.adjust(event.deltaY < 0 ? 1 : -1, state.config.step, "wheel");
+	const previousValue = state.value;
+	const changed = state.adjust(event.deltaY < 0 ? 1 : -1, state.config.step, "wheel", event);
 	if (changed) {
-		state.commit("wheel");
+		state.commit("wheel", previousValue, event);
 		event.preventDefault();
 	}
 }
@@ -131,10 +146,16 @@ function handleWheel(event: WheelEvent & { currentTarget: HTMLInputElement }) {
 	required={state.required}
 	disabled={state.disabled}
 	readonly={state.readonly}
-	aria-label={rest["aria-label"] ?? (rest["aria-labelledby"] ? undefined : state.label)}
+	aria-label={rest["aria-label"] ??
+		(rest["aria-labelledby"] || state.hasScrubArea || state.hasFieldLabel
+			? undefined
+			: state.label)}
 	aria-labelledby={rest["aria-labelledby"]}
 	aria-describedby={describedBy}
 	aria-invalid={resolvedInvalid}
+	aria-required={state.required ? "true" : undefined}
+	aria-readonly={state.readonly ? "true" : undefined}
+	aria-disabled={state.disabled ? "true" : undefined}
 	aria-valuenow={state.value ?? undefined}
 	aria-valuemin={state.config.min}
 	aria-valuemax={state.config.max}

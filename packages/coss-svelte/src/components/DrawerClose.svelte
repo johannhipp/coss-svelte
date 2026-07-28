@@ -1,12 +1,15 @@
 <script lang="ts">
 import { Dialog as DialogPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = ComponentProps<typeof DialogPrimitive.Close>;
+
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <DialogPrimitive.Close
+	bind:ref
 	data-slot="drawer-close"
 	class={cn("cn-drawer-close", className)}
 	{...rest}

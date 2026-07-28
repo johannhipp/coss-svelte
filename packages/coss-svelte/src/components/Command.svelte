@@ -14,6 +14,7 @@ type Props = Omit<ComponentProps<typeof CommandPrimitive.Root>, "children" | "ch
 };
 
 let {
+	ref = $bindable(null),
 	value = $bindable(""),
 	items = [],
 	placeholder = "Type a command",
@@ -25,6 +26,7 @@ let {
 </script>
 
 <CommandPrimitive.Root
+	bind:ref
 	data-slot="command"
 	class={cn("cn-command", className)}
 	bind:value

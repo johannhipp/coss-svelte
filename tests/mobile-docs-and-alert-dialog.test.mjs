@@ -109,14 +109,15 @@ test("alert dialog renders a separated muted footer action band", async () => {
 	assert.match(alertDialog, /cn-alert-dialog-footer/);
 });
 
-test("alert dialogs close when the user interacts outside", async () => {
+test("alert dialogs use one Bits-owned outside-dismissal path", async () => {
 	const [alertDialog, alertDialogPopup] = await Promise.all([
 		readFile(alertDialogPath, "utf8"),
 		readFile(alertDialogPopupPath, "utf8"),
 	]);
 
 	assert.match(alertDialog, /interactOutsideBehavior="close"/);
-	assert.match(alertDialog, /onclick=\{alertDialogContext\.close\}/);
 	assert.match(alertDialogPopup, /interactOutsideBehavior\s*=\s*"close"/);
-	assert.match(alertDialogPopup, /onclick=\{alertDialogContext\.close\}/);
+	assert.doesNotMatch(alertDialog, /onclick=/);
+	assert.doesNotMatch(alertDialogPopup, /onclick=/);
+	assert.doesNotMatch(`${alertDialog}\n${alertDialogPopup}`, /alertDialogContext/);
 });

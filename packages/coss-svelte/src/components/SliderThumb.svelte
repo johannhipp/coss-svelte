@@ -6,10 +6,11 @@ import { cn } from "../utils.js";
 type Props = Omit<ComponentProps<typeof SliderPrimitive.Thumb>, "children" | "child"> & {
 	children?: Snippet;
 };
-let { index, class: className = "", children, ...rest }: Props = $props();
+let { ref = $bindable(null), index, class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <SliderPrimitive.Thumb
+	bind:ref
 	data-slot="slider-thumb"
 	class={cn("cn-slider-thumb", className)}
 	{index}

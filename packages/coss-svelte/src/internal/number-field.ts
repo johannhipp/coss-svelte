@@ -12,6 +12,12 @@ export type NumberFieldReason =
 	| "scrub"
 	| "reset";
 
+export type NumberFieldChangeDetails = Readonly<{
+	reason: NumberFieldReason;
+	previousValue: number | null;
+	sourceEvent: Event | null;
+}>;
+
 export type NumberFieldDirection = -1 | 1;
 
 export type NumberFieldConfig = Readonly<{
@@ -71,16 +77,13 @@ export function validateNumberFieldConfig({
 	return { min, max, step, smallStep, largeStep };
 }
 
-export function normalizeNumberFieldValue(
-	value: number | null,
-	{ min, max }: Pick<NumberFieldConfig, "min" | "max">
-): number | null {
+export function assertNumberFieldValue(value: number | null, name = "value"): number | null {
 	if (value === null) return null;
 	if (!Number.isFinite(value)) {
-		throw new TypeError("NumberField value must be a finite number or null.");
+		throw new TypeError(`NumberField ${name} must be a finite number or null.`);
 	}
 
-	return clampNumberFieldValue(value, { min, max });
+	return value;
 }
 
 export function clampNumberFieldValue(
@@ -90,6 +93,15 @@ export function clampNumberFieldValue(
 	return Math.min(
 		max ?? Number.POSITIVE_INFINITY,
 		Math.max(min ?? Number.NEGATIVE_INFINITY, value)
+	);
+}
+
+export function isNumberFieldValueOutOfBounds(
+	value: number | null,
+	{ min, max }: Pick<NumberFieldConfig, "min" | "max">
+): boolean {
+	return (
+		value !== null && ((min !== undefined && value < min) || (max !== undefined && value > max))
 	);
 }
 
@@ -254,6 +266,39 @@ export function formatBlurredNumber(
 ): string {
 	if (value === null) return "";
 	return new Intl.NumberFormat(locale, format).format(value);
+}
+
+export function resolveNumberFieldFormat(
+	locale: string | string[],
+	format: Intl.NumberFormatOptions,
+	config: Pick<NumberFieldConfig, "step" | "smallStep" | "largeStep">
+): Intl.NumberFormatOptions {
+	const configuredPrecision = Math.max(
+		decimalPrecision(config.step),
+		decimalPrecision(config.smallStep),
+		decimalPrecision(config.largeStep)
+	);
+	const defaultMaximumFractionDigits = Math.max(
+		configuredPrecision,
+		format.minimumFractionDigits ?? 0
+	);
+	const resolved =
+		format.maximumFractionDigits === undefined
+			? {
+					...format,
+					maximumFractionDigits: defaultMaximumFractionDigits,
+				}
+			: { ...format };
+
+	try {
+		new Intl.NumberFormat(locale, resolved);
+		createNumberFieldLocale(locale);
+	} catch (error) {
+		const reason = error instanceof Error ? error.message : String(error);
+		throw new TypeError(`NumberField locale or format is invalid: ${reason}`);
+	}
+
+	return resolved;
 }
 
 export function serializeInvariantNumber(value: number | null): string {

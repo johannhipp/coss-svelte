@@ -1,12 +1,15 @@
 import { describe, expect, test } from "vitest";
 import {
 	alignNumberFieldValue,
+	assertNumberFieldValue,
+	clampNumberFieldValue,
 	createNumberFieldLocale,
 	formatBlurredNumber,
 	formatFocusedNumber,
 	isNumberFieldStepDisabled,
-	normalizeNumberFieldValue,
+	isNumberFieldValueOutOfBounds,
 	parseLocalizedNumberEdit,
+	resolveNumberFieldFormat,
 	stepNumberFieldValue,
 	validateNumberFieldConfig,
 } from "../src/internal/number-field.js";
@@ -28,10 +31,12 @@ describe("Number Field numeric helpers", () => {
 		expect(alignNumberFieldValue(0.62, config.step, config)).toBe(0.5);
 	});
 
-	test("normalizes finite values and rejects invalid configuration", () => {
-		expect(normalizeNumberFieldValue(12, { min: 0, max: 10 })).toBe(10);
-		expect(normalizeNumberFieldValue(null, {})).toBeNull();
-		expect(() => normalizeNumberFieldValue(Number.NaN, {})).toThrow(/finite number or null/);
+	test("validates external values without silently clamping them", () => {
+		expect(assertNumberFieldValue(12)).toBe(12);
+		expect(clampNumberFieldValue(12, { min: 0, max: 10 })).toBe(10);
+		expect(isNumberFieldValueOutOfBounds(12, { min: 0, max: 10 })).toBe(true);
+		expect(isNumberFieldValueOutOfBounds(null, { min: 0, max: 10 })).toBe(false);
+		expect(() => assertNumberFieldValue(Number.NaN)).toThrow(/finite number or null/);
 		expect(() => validateNumberFieldConfig({ min: 2, max: 1 })).toThrow(/less than or equal/);
 		expect(() => validateNumberFieldConfig({ step: 0 })).toThrow(/greater than zero/);
 		expect(() => validateNumberFieldConfig({ smallStep: Number.POSITIVE_INFINITY })).toThrow(
@@ -83,5 +88,33 @@ describe("Number Field locale helpers", () => {
 				currency: "USD",
 			})
 		).toBe("$1,234.50");
+	});
+
+	test("derives useful default precision and validates Intl options eagerly", () => {
+		const config = validateNumberFieldConfig({
+			step: 0.001,
+			smallStep: 0.0001,
+			largeStep: 1,
+		});
+		expect(resolveNumberFieldFormat("en-US", {}, config)).toMatchObject({
+			maximumFractionDigits: 4,
+		});
+		expect(resolveNumberFieldFormat("de-DE", { minimumFractionDigits: 6 }, config)).toMatchObject({
+			minimumFractionDigits: 6,
+			maximumFractionDigits: 6,
+		});
+		expect(() =>
+			resolveNumberFieldFormat(
+				"de-DE",
+				{ minimumFractionDigits: 3, maximumFractionDigits: 2 },
+				config
+			)
+		).toThrow(/NumberField locale or format is invalid/);
+		expect(() => resolveNumberFieldFormat("en-US", { style: "currency" }, config)).toThrow(
+			/NumberField locale or format is invalid/
+		);
+		expect(() => resolveNumberFieldFormat("not_a_locale", {}, config)).toThrow(
+			/NumberField locale or format is invalid/
+		);
 	});
 });

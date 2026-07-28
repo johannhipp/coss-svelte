@@ -1,12 +1,15 @@
 <script lang="ts">
 import { Select as SelectPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = ComponentProps<typeof SelectPrimitive.Trigger>;
+
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <SelectPrimitive.Trigger
+	bind:ref
 	data-slot="select-trigger"
 	class={cn("cn-select-trigger", className)}
 	{...rest}

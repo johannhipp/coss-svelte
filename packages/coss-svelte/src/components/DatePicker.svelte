@@ -1,60 +1,95 @@
 <script lang="ts">
 import { DatePicker as DatePickerPrimitive } from "bits-ui";
 import type { ComponentProps, Snippet } from "svelte";
+import { getFieldContext, mergeFieldIds } from "../internal/field-context.svelte.js";
 import { cn } from "../utils.js";
 
-type Props = Omit<ComponentProps<typeof DatePickerPrimitive.Root>, "children" | "child"> & {
-	value?: ComponentProps<typeof DatePickerPrimitive.Root>["value"];
-	open?: boolean;
-	label?: string;
-	class?: string;
-	children?: Snippet;
-};
+type RootProps = ComponentProps<typeof DatePickerPrimitive.Root>;
+type DateValue = NonNullable<RootProps["value"]>;
+type TriggerAccessibilityProps = Pick<
+	ComponentProps<typeof DatePickerPrimitive.Trigger>,
+	"id" | "aria-label" | "aria-labelledby" | "aria-describedby" | "aria-invalid"
+>;
+type Props = Omit<RootProps, "children"> &
+	TriggerAccessibilityProps & {
+		label?: string;
+		previousMonthLabel?: string;
+		nextMonthLabel?: string;
+		class?: ComponentProps<typeof DatePickerPrimitive.Trigger>["class"];
+		children?: Snippet;
+	};
 
 let {
 	value = $bindable(),
+	placeholder = $bindable(),
 	open = $bindable(false),
 	label = "Choose date",
+	previousMonthLabel = "Previous month",
+	nextMonthLabel = "Next month",
+	locale = "en-US",
+	id,
+	disabled,
+	required,
+	"aria-label": ariaLabel,
+	"aria-labelledby": ariaLabelledBy,
+	"aria-describedby": ariaDescribedBy,
+	"aria-invalid": ariaInvalid,
 	class: className = "",
 	children: rootChildren = undefined,
 	...rest
 }: Props = $props();
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-	day: "numeric",
-	month: "long",
-	timeZone: "UTC",
-	year: "numeric",
-});
+const generatedId = $props.id();
+const field = getFieldContext();
+let resolvedControlId = $derived(id ?? field?.controlId ?? generatedId);
+let resolvedDisabled = $derived(disabled ?? field?.disabled ?? false);
+let resolvedRequired = $derived(required ?? field?.required ?? false);
+let describedBy = $derived(mergeFieldIds(ariaDescribedBy, field?.describedBy));
+let resolvedInvalid = $derived(ariaInvalid ?? (field?.invalid ? "true" : undefined));
+let dateFormatter = $derived(
+	new Intl.DateTimeFormat(locale, {
+		day: "numeric",
+		month: "long",
+		timeZone: "UTC",
+		year: "numeric",
+	})
+);
 
-type CalendarDateLike = { day: number; month: number; year: number };
-
-function isCalendarDateLike(value: object): value is CalendarDateLike {
-	const candidate = value as Record<string, unknown>;
-	return (
-		typeof candidate.day === "number" &&
-		typeof candidate.month === "number" &&
-		typeof candidate.year === "number"
-	);
+function toUtcDate(dateValue: DateValue): Date {
+	if ("timeZone" in dateValue) return dateValue.toDate();
+	return dateValue.toDate("UTC");
 }
 
-function formatDateValue(dateValue: unknown) {
-	if (!dateValue || typeof dateValue !== "object") return "";
-	if (!isCalendarDateLike(dateValue)) return "";
-	const { day, month, year } = dateValue;
-	if (![day, month, year].every(Number.isInteger)) return "";
-
-	return dateFormatter.format(new Date(Date.UTC(year, month - 1, day, 12)));
+function formatDateValue(dateValue: DateValue | undefined): string {
+	return dateValue ? dateFormatter.format(toUtcDate(dateValue)) : "";
 }
 
 let dateLabel = $derived(formatDateValue(value) || label);
 </script>
 
-<DatePickerPrimitive.Root bind:value bind:open {...rest}>
+<DatePickerPrimitive.Root
+	bind:value
+	bind:placeholder
+	bind:open
+	{locale}
+	disabled={resolvedDisabled}
+	required={resolvedRequired}
+	{...rest}
+>
 	{#if rootChildren}
 		{@render rootChildren()}
 	{:else}
-		<DatePickerPrimitive.Trigger data-slot="date-picker" class={cn("cn-date-picker", className)}>
+		<DatePickerPrimitive.Trigger
+			id={resolvedControlId}
+			data-slot="date-picker"
+			class={cn("cn-date-picker", className)}
+			aria-label={ariaLabel}
+			aria-labelledby={ariaLabelledBy}
+			aria-describedby={describedBy}
+			aria-invalid={resolvedInvalid}
+			aria-required={resolvedRequired ? "true" : undefined}
+			disabled={resolvedDisabled}
+		>
 			<span class="cn-date-picker-icon" aria-hidden="true"></span>
 			<span class="cn-date-picker-label">{dateLabel}</span>
 		</DatePickerPrimitive.Trigger>
@@ -63,20 +98,36 @@ let dateLabel = $derived(formatDateValue(value) || label);
 				<DatePickerPrimitive.Calendar data-slot="calendar" class="cn-calendar">
 					{#snippet children({ months, weekdays })}
 						<DatePickerPrimitive.Header data-slot="calendar-header" class="cn-calendar-header">
-							<DatePickerPrimitive.PrevButton
-								data-slot="calendar-prev-button"
-								class="cn-calendar-nav-button"
-								aria-label="Previous month"
-							>
-								<span class="cn-calendar-nav-icon cn-calendar-nav-icon-prev" aria-hidden="true"></span>
+							<DatePickerPrimitive.PrevButton>
+								{#snippet child({ props })}
+									<button
+										{...props}
+										data-slot="calendar-prev-button"
+										class="cn-calendar-nav-button"
+										aria-label={previousMonthLabel}
+									>
+										<span
+											class="cn-calendar-nav-icon cn-calendar-nav-icon-prev"
+											aria-hidden="true"
+										></span>
+									</button>
+								{/snippet}
 							</DatePickerPrimitive.PrevButton>
 							<DatePickerPrimitive.Heading data-slot="calendar-heading" class="cn-calendar-heading" />
-							<DatePickerPrimitive.NextButton
-								data-slot="calendar-next-button"
-								class="cn-calendar-nav-button"
-								aria-label="Next month"
-							>
-								<span class="cn-calendar-nav-icon cn-calendar-nav-icon-next" aria-hidden="true"></span>
+							<DatePickerPrimitive.NextButton>
+								{#snippet child({ props })}
+									<button
+										{...props}
+										data-slot="calendar-next-button"
+										class="cn-calendar-nav-button"
+										aria-label={nextMonthLabel}
+									>
+										<span
+											class="cn-calendar-nav-icon cn-calendar-nav-icon-next"
+											aria-hidden="true"
+										></span>
+									</button>
+								{/snippet}
 							</DatePickerPrimitive.NextButton>
 						</DatePickerPrimitive.Header>
 						{#each months as month}

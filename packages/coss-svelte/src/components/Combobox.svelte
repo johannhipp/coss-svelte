@@ -1,53 +1,128 @@
 <script lang="ts">
 import { Combobox as ComboboxPrimitive } from "bits-ui";
 import type { ComponentProps, Snippet } from "svelte";
+import { getFieldContext, mergeFieldIds } from "../internal/field-context.svelte.js";
 import { type NormalizedOption, normalizeOptions, type Option } from "../internal/props.js";
 import { cn } from "../utils.js";
 
 type RootProps = ComponentProps<typeof ComboboxPrimitive.Root>;
-type Props = Omit<RootProps, "children" | "items" | "type" | "value" | "open" | "onValueChange"> & {
-	type?: "single" | "multiple";
-	value?: string | string[];
-	open?: boolean;
-	onValueChange?: (value: string | string[]) => void;
+type PrimitiveSingleProps = Extract<RootProps, { type: "single" }>;
+type PrimitiveMultipleProps = Extract<RootProps, { type: "multiple" }>;
+type InputAccessibilityProps = Pick<
+	ComponentProps<typeof ComboboxPrimitive.Input>,
+	"id" | "aria-label" | "aria-labelledby" | "aria-describedby" | "aria-invalid"
+>;
+type ConvenienceProps = InputAccessibilityProps & {
 	options?: Option[];
 	placeholder?: string;
 	class?: string;
 	children?: Snippet;
 };
+type SingleProps = Omit<PrimitiveSingleProps, "children" | "onValueChange" | "type" | "value"> &
+	ConvenienceProps & {
+		type?: "single";
+		value?: string;
+		onValueChange?: PrimitiveSingleProps["onValueChange"];
+	};
+type MultipleProps = Omit<PrimitiveMultipleProps, "children" | "onValueChange" | "type" | "value"> &
+	ConvenienceProps & {
+		type: "multiple";
+		value?: string[];
+		onValueChange?: PrimitiveMultipleProps["onValueChange"];
+	};
+type Props = SingleProps | MultipleProps;
 
-let {
-	type = "single",
-	value = $bindable(""),
-	open = $bindable(false),
-	options = [],
-	placeholder = "Choose",
-	class: className = "",
-	children: rootChildren,
-	onValueChange,
-	...rest
-}: Props = $props();
+let { value = $bindable(), open = $bindable(false), ...props }: Props = $props();
 
-let items: NormalizedOption[] = $derived(normalizeOptions(options));
+const generatedId = $props.id();
+const field = getFieldContext();
+let items: NormalizedOption[] = $derived(normalizeOptions(props.items ?? props.options ?? []));
+let resolvedControlId = $derived(props.id ?? field?.controlId ?? generatedId);
+let resolvedDisabled = $derived(props.disabled ?? field?.disabled ?? false);
+let resolvedRequired = $derived(props.required ?? field?.required ?? false);
+let describedBy = $derived(mergeFieldIds(props["aria-describedby"], field?.describedBy));
+let resolvedInvalid = $derived(props["aria-invalid"] ?? (field?.invalid ? "true" : undefined));
+
+function singleValue(value: Props["value"]): string | undefined {
+	if (value === undefined || typeof value === "string") return value;
+	throw new TypeError('Combobox type="single" requires a string value.');
+}
+
+function multipleValue(value: Props["value"]): string[] | undefined {
+	if (value === undefined || Array.isArray(value)) return value;
+	throw new TypeError('Combobox type="multiple" requires a string[] value.');
+}
+
+function singleRootProps(props: Omit<SingleProps, "open" | "value">) {
+	const {
+		options: _options,
+		placeholder: _placeholder,
+		class: _class,
+		id: _id,
+		children: _children,
+		items: _items,
+		type: _type,
+		onValueChange: _onValueChange,
+		disabled: _disabled,
+		required: _required,
+		"aria-label": _ariaLabel,
+		"aria-labelledby": _ariaLabelledBy,
+		"aria-describedby": _ariaDescribedBy,
+		"aria-invalid": _ariaInvalid,
+		...rootProps
+	} = props;
+	return rootProps;
+}
+
+function multipleRootProps(props: Omit<MultipleProps, "open" | "value">) {
+	const {
+		options: _options,
+		placeholder: _placeholder,
+		class: _class,
+		id: _id,
+		children: _children,
+		items: _items,
+		type: _type,
+		onValueChange: _onValueChange,
+		disabled: _disabled,
+		required: _required,
+		"aria-label": _ariaLabel,
+		"aria-labelledby": _ariaLabelledBy,
+		"aria-describedby": _ariaDescribedBy,
+		"aria-invalid": _ariaInvalid,
+		...rootProps
+	} = props;
+	return rootProps;
+}
 </script>
 
 {#snippet content()}
-	{#if rootChildren}
-		<div class={cn("cn-combobox", className)}>
-			{@render rootChildren()}
+	{#if props.children}
+		<div class={cn("cn-combobox", props.class)}>
+			{@render props.children()}
 		</div>
 	{:else}
-		<div data-slot="combobox" class={cn("cn-combobox", className)}>
+		<div data-slot="combobox" class={cn("cn-combobox", props.class)}>
 			<span data-slot="combobox-input-group" class="cn-combobox-input-group">
 				<span data-slot="combobox-input-control" class="cn-combobox-input-control">
 					<ComboboxPrimitive.Input
+						id={resolvedControlId}
 						data-slot="combobox-input"
 						class="cn-combobox-input"
-						{placeholder}
+						placeholder={props.placeholder ?? "Choose"}
+						aria-label={props["aria-label"]}
+						aria-labelledby={props["aria-labelledby"]}
+						aria-describedby={describedBy}
+						aria-invalid={resolvedInvalid}
+						disabled={resolvedDisabled}
+						required={resolvedRequired}
 					/>
 					<ComboboxPrimitive.Trigger
 						data-slot="combobox-trigger"
 						class="cn-combobox-input-trigger"
+						aria-label={props["aria-label"]
+							? `${props["aria-label"]} options`
+							: "Show options"}
 					>
 						<span data-slot="combobox-icon" class="cn-combobox-icon" aria-hidden="true">
 							<svg
@@ -89,31 +164,35 @@ let items: NormalizedOption[] = $derived(normalizeOptions(options));
 	{/if}
 {/snippet}
 
-{#if type === "multiple"}
+{#if props.type === "multiple"}
 	<ComboboxPrimitive.Root
+		{...multipleRootProps(props)}
 		type="multiple"
-		value={Array.isArray(value) ? value : []}
+		value={multipleValue(value)}
 		bind:open
 		{items}
+		disabled={resolvedDisabled}
+		required={resolvedRequired}
 		onValueChange={(next) => {
 			value = next;
-			onValueChange?.(next);
+			props.onValueChange?.(next);
 		}}
-		{...rest}
 	>
 		{@render content()}
 	</ComboboxPrimitive.Root>
 {:else}
 	<ComboboxPrimitive.Root
+		{...singleRootProps(props)}
 		type="single"
-		value={typeof value === "string" ? value : ""}
+		value={singleValue(value)}
 		bind:open
 		{items}
+		disabled={resolvedDisabled}
+		required={resolvedRequired}
 		onValueChange={(next) => {
 			value = next;
-			onValueChange?.(next);
+			props.onValueChange?.(next);
 		}}
-		{...rest}
 	>
 		{@render content()}
 	</ComboboxPrimitive.Root>

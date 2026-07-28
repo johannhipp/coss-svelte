@@ -1,32 +1,34 @@
 <script lang="ts">
-import type { NativeProps } from "../internal/props.js";
+import type { Snippet } from "svelte";
+import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
 import { cn } from "../utils.js";
 import Spinner from "./Spinner.svelte";
 
 type Variant = keyof typeof variantClassMap;
 type ButtonSize = keyof typeof sizeClassMap;
-type ButtonType = "button" | "submit" | "reset";
-
-let {
-	variant = "default" as Variant,
-	size = "default" as ButtonSize,
-	href = "",
-	type = "button" as ButtonType,
-	loading = false,
-	disabled = false,
-	class: className = "",
-	children,
-	...rest
-}: NativeProps & {
+type SharedProps = {
 	variant?: Variant;
 	size?: ButtonSize;
-	href?: string;
-	type?: ButtonType;
 	loading?: boolean;
-	disabled?: boolean;
 	class?: string;
-	children?: import("svelte").Snippet;
-} = $props();
+	children?: Snippet;
+};
+type AnchorProps = SharedProps &
+	Omit<HTMLAnchorAttributes, "children" | "class" | "disabled" | "form" | "href" | "type"> & {
+		href: string;
+		disabled?: never;
+		form?: never;
+		type?: never;
+	};
+type NativeButtonProps = SharedProps &
+	Omit<HTMLButtonAttributes, "children" | "class" | "download" | "href" | "target"> & {
+		href?: undefined;
+		download?: never;
+		target?: never;
+	};
+type Props = AnchorProps | NativeButtonProps;
+
+let props: Props = $props();
 
 const variantClassMap = {
 	default: "primary",
@@ -53,36 +55,74 @@ const sizeClassMap = {
 	"icon-xl": "icon-xl",
 };
 
+let variant = $derived(props.variant ?? "default");
+let size = $derived(props.size ?? "default");
+let loading = $derived(props.loading ?? false);
 let variantClass = $derived(variantClassMap[variant] ?? variant);
 let sizeClass = $derived(sizeClassMap[size] ?? size);
-let isDisabled = $derived(Boolean(disabled || loading));
+
+function anchorAttributes(props: AnchorProps): HTMLAnchorAttributes {
+	const {
+		href: _href,
+		variant: _variant,
+		size: _size,
+		loading: _loading,
+		class: _class,
+		children: _children,
+		...attributes
+	} = props;
+	return attributes;
+}
+
+function buttonAttributes(props: NativeButtonProps): HTMLButtonAttributes {
+	const {
+		href: _href,
+		variant: _variant,
+		size: _size,
+		loading: _loading,
+		class: _class,
+		children: _children,
+		...attributes
+	} = props;
+	return attributes;
+}
+
+function preventLoadingAnchor(event: MouseEvent) {
+	if (!loading) return;
+	event.preventDefault();
+	event.stopImmediatePropagation();
+}
 </script>
 
-{#if href}
+{#if props.href !== undefined}
+	{@const attributes = anchorAttributes(props)}
 	<a
+		{...attributes}
 		data-slot="button"
 		data-loading={loading ? "" : undefined}
-		aria-disabled={isDisabled ? "true" : undefined}
-		class={cn("cn-button", `cn-button-${variantClass}`, `cn-button-${sizeClass}`, className)}
-		{href}
-		{...rest}
+		aria-disabled={loading ? "true" : attributes["aria-disabled"]}
+		class={cn("cn-button", `cn-button-${variantClass}`, `cn-button-${sizeClass}`, props.class)}
+		href={props.href}
+		onclickcapture={preventLoadingAnchor}
 	>
-		{@render children?.()}
+		{@render props.children?.()}
 		{#if loading}
 			<Spinner class="cn-button-loading-indicator" data-slot="button-loading-indicator" />
 		{/if}
 	</a>
 {:else}
+	{@const attributes = buttonAttributes(props)}
 	<button
+		{...attributes}
 		data-slot="button"
 		data-loading={loading ? "" : undefined}
 		aria-disabled={loading ? "true" : undefined}
-		class={cn("cn-button", `cn-button-${variantClass}`, `cn-button-${sizeClass}`, className)}
-		{type}
-		disabled={isDisabled}
-		{...rest}
+		class={cn("cn-button", `cn-button-${variantClass}`, `cn-button-${sizeClass}`, props.class)}
+		type={attributes.type ?? "button"}
+		disabled={Boolean(attributes.disabled || loading)}
+		onclickcapture={preventLoadingAnchor}
 	>
-		{@render children?.()}
+		{@render props.children?.()}
 		{#if loading}
 			<Spinner class="cn-button-loading-indicator" data-slot="button-loading-indicator" />
 		{/if}

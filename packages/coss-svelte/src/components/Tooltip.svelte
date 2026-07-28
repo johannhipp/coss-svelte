@@ -1,16 +1,19 @@
 <script lang="ts">
 import { Tooltip as TooltipPrimitive } from "bits-ui";
-import type { ComponentProps, Snippet } from "svelte";
-import { cn } from "../utils.js";
+import type { ComponentProps } from "svelte";
+import TooltipPopup from "./TooltipPopup.svelte";
 
-type Props = Omit<ComponentProps<typeof TooltipPrimitive.Root>, "children" | "child"> & {
+type RootProps = ComponentProps<typeof TooltipPrimitive.Root>;
+type Props = Omit<RootProps, "children" | "child"> & {
 	label?: string;
 	tip?: string;
 	class?: string;
-	children?: Snippet;
+	children?: RootProps["children"];
 };
 
 let {
+	open = $bindable(false),
+	triggerId = $bindable(null),
 	label = "Hover",
 	tip = "Tooltip",
 	class: className = "",
@@ -20,23 +23,14 @@ let {
 </script>
 
 {#if children}
-	<TooltipPrimitive.Root {...rest}>
-		{@render children()}
-	</TooltipPrimitive.Root>
+	<TooltipPrimitive.Root bind:open bind:triggerId {children} {...rest} />
 {:else}
 	<TooltipPrimitive.Provider>
-		<TooltipPrimitive.Root {...rest}>
+		<TooltipPrimitive.Root bind:open bind:triggerId {...rest}>
 			<TooltipPrimitive.Trigger data-slot="tooltip-trigger" class="cn-tooltip-trigger">
 				{label}
 			</TooltipPrimitive.Trigger>
-			<TooltipPrimitive.Portal>
-				<TooltipPrimitive.Content
-					data-slot="tooltip-popup"
-					class={cn("cn-tooltip-content", className)}
-				>
-					{tip}
-				</TooltipPrimitive.Content>
-			</TooltipPrimitive.Portal>
+			<TooltipPopup class={className}>{tip}</TooltipPopup>
 		</TooltipPrimitive.Root>
 	</TooltipPrimitive.Provider>
 {/if}

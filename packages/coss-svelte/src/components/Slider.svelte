@@ -1,84 +1,127 @@
 <script lang="ts">
 import { Slider as SliderPrimitive } from "bits-ui";
 import type { ComponentProps, Snippet } from "svelte";
-import type { PrimitiveAttributes } from "../internal/props.js";
 import { cn } from "../utils.js";
 
 type RootProps = ComponentProps<typeof SliderPrimitive.Root>;
-type SingleRootProps = Extract<RootProps, { type: "single" }>;
-type MultipleRootProps = Extract<RootProps, { type: "multiple" }>;
-type SliderValue = NonNullable<SingleRootProps["value"]>;
-type SliderChildProps = Parameters<NonNullable<SingleRootProps["children"]>>[0];
-type SliderContentProps = Pick<SliderChildProps, "thumbItems" | "tickItems">;
-type Props = PrimitiveAttributes & {
-	type?: "single" | "multiple";
-	value?: SliderValue | SliderValue[];
-	min?: number;
-	max?: number;
-	step?: number;
+type PrimitiveSingleProps = Extract<RootProps, { type: "single" }>;
+type PrimitiveMultipleProps = Extract<RootProps, { type: "multiple" }>;
+type SliderValue = NonNullable<PrimitiveSingleProps["value"]>;
+type SliderChildProps = Parameters<NonNullable<PrimitiveSingleProps["children"]>>[0];
+type ConvenienceProps = {
 	class?: string;
-	children?: Snippet<[SliderContentProps]>;
-	onValueChange?: (value: SliderValue | SliderValue[]) => void;
+	children?: Snippet<[SliderChildProps]>;
 };
+type SingleProps = Omit<
+	PrimitiveSingleProps,
+	"child" | "children" | "onValueChange" | "onValueCommit" | "type" | "value"
+> &
+	ConvenienceProps & {
+		type?: "single";
+		value?: SliderValue;
+		onValueChange?: PrimitiveSingleProps["onValueChange"];
+		onValueCommit?: PrimitiveSingleProps["onValueCommit"];
+	};
+type MultipleProps = Omit<
+	PrimitiveMultipleProps,
+	"child" | "children" | "onValueChange" | "onValueCommit" | "type" | "value"
+> &
+	ConvenienceProps & {
+		type: "multiple";
+		value?: SliderValue[];
+		onValueChange?: PrimitiveMultipleProps["onValueChange"];
+		onValueCommit?: PrimitiveMultipleProps["onValueCommit"];
+	};
+type Props = SingleProps | MultipleProps;
 
-let {
-	type = "single",
-	value = $bindable(40),
-	min = 0,
-	max = 100,
-	step = 1,
-	class: className = "",
-	children: rootChildren,
-	onValueChange,
-	...rest
-}: Props = $props();
+let { ref = $bindable(null), value = $bindable(), ...props }: Props = $props();
+let thumbLabel = $derived(props["aria-label"] ?? "Value");
+
+function singleValue(value: Props["value"]): SliderValue | undefined {
+	if (value === undefined || typeof value === "number") return value;
+	throw new TypeError('Slider type="single" requires a number value.');
+}
+
+function multipleValue(value: Props["value"]): SliderValue[] | undefined {
+	if (value === undefined || Array.isArray(value)) return value;
+	throw new TypeError('Slider type="multiple" requires a number[] value.');
+}
+
+function singleRootProps(props: Omit<SingleProps, "value">) {
+	const {
+		class: _class,
+		children: _children,
+		type: _type,
+		onValueChange: _onValueChange,
+		onValueCommit: _onValueCommit,
+		...rootProps
+	} = props;
+	return rootProps;
+}
+
+function multipleRootProps(props: Omit<MultipleProps, "value">) {
+	const {
+		class: _class,
+		children: _children,
+		type: _type,
+		onValueChange: _onValueChange,
+		onValueCommit: _onValueCommit,
+		...rootProps
+	} = props;
+	return rootProps;
+}
 </script>
 
-{#snippet content({ thumbItems, tickItems }: SliderContentProps)}
-		{#if rootChildren}
-			{@render rootChildren({ thumbItems, tickItems })}
+{#snippet content(sliderProps: SliderChildProps)}
+		{#if props.children}
+			{@render props.children(sliderProps)}
 		{:else}
 			<SliderPrimitive.Range data-slot="slider-range" class="cn-slider-range" />
-			{#each tickItems as tick}
+			{#each sliderProps.tickItems as tick}
 				<SliderPrimitive.Tick data-slot="slider-tick" class="cn-slider-tick" index={tick.index} />
 			{/each}
-			{#each thumbItems as thumb}
-				<SliderPrimitive.Thumb data-slot="slider-thumb" class="cn-slider-thumb" index={thumb.index} />
+			{#each sliderProps.thumbItems as thumb}
+				<SliderPrimitive.Thumb
+					data-slot="slider-thumb"
+					class="cn-slider-thumb"
+					index={thumb.index}
+					aria-label={sliderProps.thumbItems.length > 1
+						? `${thumbLabel} ${thumb.index + 1}`
+						: thumbLabel}
+				/>
 			{/each}
 		{/if}
 {/snippet}
 
-{#if type === "multiple"}
+{#if props.type === "multiple"}
 	<SliderPrimitive.Root
+		bind:ref
+		{...multipleRootProps(props)}
 		data-slot="slider"
-		class={cn("cn-slider", className)}
+		class={cn("cn-slider", props.class)}
 		type="multiple"
-		value={Array.isArray(value) ? value : [value]}
-		min={min}
-		max={max}
-		step={step}
+		value={multipleValue(value)}
 		onValueChange={(next) => {
 			value = next;
-			onValueChange?.(next);
+			props.onValueChange?.(next);
 		}}
-		{...rest}
+		onValueCommit={props.onValueCommit}
 	>
 		{#snippet children(props)}{@render content(props)}{/snippet}
 	</SliderPrimitive.Root>
 {:else}
 	<SliderPrimitive.Root
+		bind:ref
+		{...singleRootProps(props)}
 		data-slot="slider"
-		class={cn("cn-slider", className)}
+		class={cn("cn-slider", props.class)}
 		type="single"
-		value={Array.isArray(value) ? value[0] ?? 0 : value}
-		min={min}
-		max={max}
-		step={step}
+		value={singleValue(value)}
 		onValueChange={(next) => {
 			value = next;
-			onValueChange?.(next);
+			props.onValueChange?.(next);
 		}}
-		{...rest}
+		onValueCommit={props.onValueCommit}
 	>
 		{#snippet children(props)}{@render content(props)}{/snippet}
 	</SliderPrimitive.Root>

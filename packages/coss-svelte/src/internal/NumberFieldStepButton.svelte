@@ -18,6 +18,7 @@ type Props = Omit<HTMLButtonAttributes, "children" | "disabled" | "type"> & {
 	dataSlot: string;
 	className: string;
 	class?: string;
+	ref?: HTMLButtonElement | null;
 	children?: Snippet;
 };
 
@@ -28,6 +29,7 @@ let {
 	dataSlot,
 	className,
 	class: consumerClass = "",
+	ref = $bindable(null),
 	children,
 	"aria-label": ariaLabel,
 	onpointerdown,
@@ -45,6 +47,9 @@ let suppressClickTimer: ReturnType<typeof setTimeout> | undefined;
 let pressActive = false;
 let suppressNextClick = false;
 let activePointerId: number | undefined;
+let interactionStart: number | null = null;
+let initiatingEvent: PointerEvent | null = null;
+let interactionChanged = false;
 let isDisabled = $derived(direction > 0 ? state.incrementDisabled : state.decrementDisabled);
 
 function clearTimers() {
@@ -63,52 +68,72 @@ function releaseClickSuppressionSoon() {
 }
 
 function removeWindowBlurListener() {
-	if (typeof window !== "undefined") window.removeEventListener("blur", finishPress);
+	if (typeof window !== "undefined") window.removeEventListener("blur", handleWindowBlur);
 }
 
-function finishPress() {
+function finishPress(sourceEvent: Event | null) {
 	if (!pressActive) return;
 	pressActive = false;
 	activePointerId = undefined;
 	clearTimers();
 	removeWindowBlurListener();
-	state.commit(reason);
+	if (interactionChanged) state.commit(reason, interactionStart, sourceEvent);
+	interactionChanged = false;
+	initiatingEvent = null;
 	releaseClickSuppressionSoon();
+}
+
+function handleWindowBlur(event: Event) {
+	finishPress(event);
 }
 
 function handlePointerDown(event: PointerEvent & { currentTarget: HTMLButtonElement }) {
 	onpointerdown?.(event);
-	if (event.defaultPrevented || event.button !== 0 || isDisabled) return;
+	if (
+		event.defaultPrevented ||
+		event.button !== 0 ||
+		event.isPrimary === false ||
+		pressActive ||
+		isDisabled
+	) {
+		return;
+	}
 
 	clearTimeout(suppressClickTimer);
 	suppressClickTimer = undefined;
 	pressActive = true;
 	suppressNextClick = true;
 	activePointerId = event.pointerId;
+	interactionStart = state.value;
+	initiatingEvent = event;
+	interactionChanged = false;
 	event.currentTarget.setPointerCapture?.(event.pointerId);
-	state.adjust(direction, state.config.step, reason);
+	state.inputElement?.focus({ preventScroll: true });
+	interactionChanged =
+		state.adjust(direction, state.config.step, reason, event) || interactionChanged;
 	delayTimer = setTimeout(() => {
 		repeatTimer = setInterval(() => {
-			state.adjust(direction, state.config.step, reason);
+			interactionChanged =
+				state.adjust(direction, state.config.step, reason, initiatingEvent) || interactionChanged;
 		}, NUMBER_FIELD_REPEAT_INTERVAL);
 	}, NUMBER_FIELD_PRESS_DELAY);
-	if (typeof window !== "undefined") window.addEventListener("blur", finishPress);
+	if (typeof window !== "undefined") window.addEventListener("blur", handleWindowBlur);
 	event.preventDefault();
 }
 
 function handlePointerUp(event: PointerEvent & { currentTarget: HTMLButtonElement }) {
 	onpointerup?.(event);
-	if (activePointerId === event.pointerId) finishPress();
+	if (activePointerId === event.pointerId) finishPress(event);
 }
 
 function handlePointerCancel(event: PointerEvent & { currentTarget: HTMLButtonElement }) {
 	onpointercancel?.(event);
-	if (activePointerId === event.pointerId) finishPress();
+	if (activePointerId === event.pointerId) finishPress(event);
 }
 
 function handleLostPointerCapture(event: PointerEvent & { currentTarget: HTMLButtonElement }) {
 	onlostpointercapture?.(event);
-	if (activePointerId === event.pointerId) finishPress();
+	if (activePointerId === event.pointerId) finishPress(event);
 }
 
 function handleClick(event: MouseEvent & { currentTarget: HTMLButtonElement }) {
@@ -120,10 +145,17 @@ function handleClick(event: MouseEvent & { currentTarget: HTMLButtonElement }) {
 		suppressClickTimer = undefined;
 		return;
 	}
-	if (state.adjust(direction, state.config.step, reason)) state.commit(reason);
+
+	const previousValue = state.value;
+	if (state.adjust(direction, state.config.step, reason, event)) {
+		state.commit(reason, previousValue, event);
+	}
 }
 
 onDestroy(() => {
+	if (pressActive && interactionChanged) {
+		state.commit(reason, interactionStart, null);
+	}
 	pressActive = false;
 	suppressNextClick = false;
 	clearTimers();
@@ -133,6 +165,8 @@ onDestroy(() => {
 </script>
 
 <button
+	bind:this={ref}
+	{...rest}
 	data-slot={dataSlot}
 	data-size={state.size}
 	class={cn(className, consumerClass)}
@@ -144,7 +178,6 @@ onDestroy(() => {
 	onpointercancel={handlePointerCancel}
 	onlostpointercapture={handleLostPointerCapture}
 	onclick={handleClick}
-	{...rest}
 >
 	{#if children}
 		{@render children()}

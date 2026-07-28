@@ -137,6 +137,8 @@ const nativeHelperParts = {
 	Toolbar: ["ToolbarSeparator"],
 };
 
+const slotlessStructuralParts = new Set(["ContextMenuSub"]);
+
 const directPrimitiveRoots = [
 	"Accordion",
 	"AlertDialog",
@@ -191,7 +193,9 @@ test("direct primitives expose COSS-facing Bits-backed parts", async () => {
 				"utf8"
 			);
 			assert.match(partSource, /from "bits-ui"/, `${part} imports Bits UI`);
-			assert.match(partSource, /data-slot=|dataSlot=/, `${part} preserves a data-slot`);
+			if (!slotlessStructuralParts.has(part)) {
+				assert.match(partSource, /data-slot=|dataSlot=/, `${part} preserves a data-slot`);
+			}
 		}
 	}
 });
@@ -235,7 +239,7 @@ test("tabs composition does not render inside fallback convenience panels", asyn
 
 	assert.match(
 		source,
-		/tabs = children \? \[\] : \["Overview", "Details"\]/,
+		/tabs = \$derived\(children \? \[\] : tabItems\)/,
 		"Tabs should only use default convenience tabs when no composed children are supplied"
 	);
 });
@@ -248,7 +252,11 @@ test("overlay roots render provided trigger and popup children", async () => {
 		);
 
 		assert.match(source, /children/, `${component} accepts composed children`);
-		assert.match(source, /@render (rootChildren|children)\(\)/, `${component} renders children`);
+		assert.match(
+			source,
+			/@render (rootChildren|children)\(\)|\{children\}/,
+			`${component} renders children`
+		);
 		assert.match(source, /{:else}/, `${component} keeps fallback convenience usage`);
 	}
 });

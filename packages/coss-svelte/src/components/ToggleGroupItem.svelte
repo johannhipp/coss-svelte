@@ -6,10 +6,11 @@ import { cn } from "../utils.js";
 type Props = Omit<ComponentProps<typeof ToggleGroupPrimitive.Item>, "children" | "child"> & {
 	children?: Snippet;
 };
-let { value, class: className = "", children, ...rest }: Props = $props();
+let { ref = $bindable(null), value, class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <ToggleGroupPrimitive.Item
+	bind:ref
 	data-slot="toggle-group-item"
 	class={cn("cn-toggle-group-item", className)}
 	{value}

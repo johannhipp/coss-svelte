@@ -1,12 +1,15 @@
 <script lang="ts">
 import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = ComponentProps<typeof AlertDialogPrimitive.Trigger>;
+
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <AlertDialogPrimitive.Trigger
+	bind:ref
 	data-slot="alert-dialog-trigger"
 	class={cn("cn-alert-dialog-trigger", className)}
 	{...rest}

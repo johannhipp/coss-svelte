@@ -1,11 +1,7 @@
 <script lang="ts">
 import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
-import { type ComponentProps, type Snippet, setContext } from "svelte";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
-
-type AlertDialogContext = {
-	close: () => void;
-};
 
 type Props = Omit<ComponentProps<typeof AlertDialogPrimitive.Root>, "children" | "child"> & {
 	open?: boolean;
@@ -25,27 +21,17 @@ let {
 	children: rootChildren,
 	...rest
 }: Props = $props();
-
-const alertDialogContext: AlertDialogContext = {
-	close: () => {
-		open = false;
-	},
-};
-
-setContext("coss-svelte-alert-dialog", alertDialogContext);
 </script>
 
 <AlertDialogPrimitive.Root bind:open {...rest}>
-	{#if title || description}
+	{#if rootChildren}
+		{@render rootChildren()}
+	{:else if title || description}
 		<AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" class="cn-alert-dialog-trigger">
 			{trigger}
 		</AlertDialogPrimitive.Trigger>
 		<AlertDialogPrimitive.Portal>
-			<AlertDialogPrimitive.Overlay
-				data-slot="alert-dialog-overlay"
-				class="cn-dialog-overlay"
-				onclick={alertDialogContext.close}
-			/>
+			<AlertDialogPrimitive.Overlay data-slot="alert-dialog-overlay" class="cn-dialog-overlay" />
 			<AlertDialogPrimitive.Content
 				data-slot="alert-dialog-popup"
 				class={cn("cn-dialog cn-alert-dialog", className)}
@@ -65,7 +51,6 @@ setContext("coss-svelte-alert-dialog", alertDialogContext);
 							{description}
 						</AlertDialogPrimitive.Description>
 					{/if}
-					{@render rootChildren?.()}
 				</div>
 				<div class="cn-alert-dialog-footer cn-alert-dialog-actions">
 					<AlertDialogPrimitive.Cancel data-slot="alert-dialog-cancel" class="cn-alert-dialog-cancel">
@@ -77,7 +62,5 @@ setContext("coss-svelte-alert-dialog", alertDialogContext);
 				</div>
 			</AlertDialogPrimitive.Content>
 		</AlertDialogPrimitive.Portal>
-	{:else}
-		{@render rootChildren?.()}
 	{/if}
 </AlertDialogPrimitive.Root>

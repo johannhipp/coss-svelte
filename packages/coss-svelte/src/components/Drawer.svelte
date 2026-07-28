@@ -25,13 +25,19 @@ let {
 </script>
 
 <DialogPrimitive.Root bind:open {...rest}>
-	{#if title || description}
+	{#if rootChildren}
+		{@render rootChildren()}
+	{:else if title || description}
 		<DialogPrimitive.Trigger data-slot="drawer-trigger" class="cn-drawer-trigger">
 			{trigger}
 		</DialogPrimitive.Trigger>
 		<DialogPrimitive.Portal>
 			<DialogPrimitive.Overlay data-slot="drawer-overlay" class="cn-dialog-overlay" />
-			<DialogPrimitive.Content data-slot="drawer-popup" class={cn("cn-drawer", className)}>
+			<DialogPrimitive.Content
+				data-slot="drawer-popup"
+				class={cn("cn-drawer", className)}
+				interactOutsideBehavior="close"
+			>
 				<DrawerCreateHandle />
 				<header data-slot="drawer-header" class="cn-drawer-header">
 					<DialogPrimitive.Title data-slot="drawer-title" class="cn-drawer-title">
@@ -43,9 +49,7 @@ let {
 						</DialogPrimitive.Description>
 					{/if}
 				</header>
-				<div data-slot="drawer-panel" class="cn-drawer-panel">
-					{@render rootChildren?.()}
-				</div>
+				<div data-slot="drawer-panel" class="cn-drawer-panel"></div>
 				<footer data-slot="drawer-footer" class="cn-drawer-footer">
 					<DialogPrimitive.Close data-slot="drawer-close" class="cn-drawer-close">
 						Close
@@ -53,7 +57,5 @@ let {
 				</footer>
 			</DialogPrimitive.Content>
 		</DialogPrimitive.Portal>
-	{:else}
-		{@render rootChildren?.()}
 	{/if}
 </DialogPrimitive.Root>

@@ -15,7 +15,9 @@ type Props = Omit<
 };
 
 let {
+	ref = $bindable(null),
 	checked = $bindable(false),
+	indeterminate = $bindable(false),
 	variant = "default",
 	class: className = "",
 	children: itemChildren,
@@ -24,11 +26,13 @@ let {
 </script>
 
 <ContextMenuPrimitive.CheckboxItem
+	{...rest}
+	bind:ref
 	bind:checked
+	bind:indeterminate
 	data-slot="context-menu-checkbox-item"
 	data-variant={variant}
 	class={cn("cn-menu-item cn-menu-checkbox-item", className)}
-	{...rest}
 >
 	{#snippet children({ checked: itemChecked, indeterminate })}
 		{#if variant === "switch"}

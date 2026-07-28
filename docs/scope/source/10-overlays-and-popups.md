@@ -25,7 +25,8 @@ Components in this category: 10
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `DialogPopup` -> Base UI `Dialog.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `DialogPopup` forwards exact Bits UI Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Backdrop dismissal**: a backdrop pointer interaction closes through Bits UI once. Prevent the exceptional close in `onInteractOutside`; content interactions remain inside.
 - **Section structure invariant**: keep `DialogHeader`, `DialogPanel`, and `DialogFooter` as direct sections in `DialogPopup` to preserve built-in layout/styling behavior.
 - **Form in dialog**: keep **`DialogHeader`** outside the form; wrap **`DialogPanel`** + **`DialogFooter`** in **`<Form className="contents">`** (or native `<form className="contents">`) so the popup's flex column treats header, panel, and footer as direct layout sections.
 - **Action buttons**: use `DialogClose` with `render={<Button ... />}` for cancel/close actions and set explicit `type` on submit/action buttons.
@@ -97,7 +98,8 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `AlertDialogPopup` -> Base UI `AlertDialog.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `AlertDialogPopup` forwards exact Bits UI Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Backdrop dismissal**: backdrop pointer interaction closes through Bits UI. Alert Dialog intentionally does not invent the standard Dialog `onInteractOutside` cancellation callback.
 - **Section structure**: keep `AlertDialogHeader` and `AlertDialogFooter` as direct sections of `AlertDialogPopup` (there is no `AlertDialogPanel`; add a `div` or fragment between them only if you need extra body content).
 - **Action composition**: use `AlertDialogClose render={<Button ... />}` for cancel/confirm actions to preserve button semantics and styling.
 - **Destructive affordance**: pair destructive trigger/confirm variants (`destructive-outline`, `destructive`) for clear risk signaling.
@@ -157,7 +159,8 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `SheetPopup` -> Base UI `Dialog.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `SheetPopup` forwards exact Bits UI Dialog Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Backdrop dismissal**: backdrop pointer interaction closes through the Bits dismissible layer and can be prevented through `onInteractOutside`.
 
 ### Common Pitfalls
 
@@ -212,7 +215,8 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `DrawerPopup` -> Base UI `Drawer.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `DrawerPopup` forwards exact Bits UI Dialog Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Backdrop dismissal**: backdrop pointer interaction closes through the Bits dismissible layer and can be prevented through `onInteractOutside`.
 
 ### Common Pitfalls
 
@@ -289,7 +293,7 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `PopoverPopup` -> Base UI `Popover.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `PopoverPopup` forwards exact Bits UI Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
 - **Form-in-popover**: use `PopoverPopup` as a lightweight form container (for example feedback forms with `Form` + `Field` + `Textarea`).
 - **Dismiss controls**: use `PopoverClose` both for footer actions and icon close buttons (`aria-label` + `render={<Button size="icon" .../>}`).
 - **Tooltip-like popovers**: use `tooltipStyle` for info-icon helper content where tooltip density is preferred.
@@ -349,7 +353,7 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `TooltipPopup` -> Base UI `Tooltip.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `TooltipPopup` owns one Portal and forwards exact Bits UI options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
 
 ### Common Pitfalls
 
@@ -399,7 +403,7 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `PreviewCardPopup` -> Base UI `PreviewCard.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `PreviewCardPopup` forwards exact Bits UI Link Preview Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
 
 ### Common Pitfalls
 
@@ -443,7 +447,7 @@ import { PreviewCard, PreviewCardPopup, PreviewCardTrigger } from "@/components/
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `MenuPopup` -> Base UI `Menu.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `MenuPopup` forwards exact Bits UI Dropdown Menu Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
 - Use `MenuTrigger render={<Button ... />}` as the default trigger composition.
 - Use `openOnHover` on `MenuTrigger` only for explicit hover-driven UX.
 - Use `MenuItem render={<Link ... />}` for navigational entries.
@@ -521,8 +525,12 @@ import {
 
 - Build on Bits UI Context Menu so positioning, roving focus, typeahead, long press, dismissal, and submenu ownership remain primitive behavior.
 - Give the target an accessible keyboard focus path when it is not already interactive.
+- Shift+F10 and the Context Menu key dispatch one composed right-button `contextmenu` event from the current trigger at its visual center; prevented and disabled key paths do nothing.
+- Root popup defaults are `side="bottom"`, `align="center"`, and `sideOffset={4}`. Explicit consumer placement always wins.
+- Subpopups default to logical inline-end (`right` in LTR and `left` in RTL), `align="start"`, `sideOffset={0}`, and `alignOffset={-5}` outside centered alignment.
+- Escape closes the deepest submenu first and restores focus to its trigger; a later Escape closes the root and restores its trigger.
 - Use `ContextMenuLinkItem` for navigation and `ContextMenuItem` for actions.
-- Use `portalProps={{ to, disabled }}` when the popup needs a custom Svelte portal target or inline rendering.
+- Use the exact `portalProps={{ to, disabled }}` contract when the popup needs a custom Svelte portal target or inline rendering; there are no `container`, `keepMounted`, or caller-owned Portal-children aliases.
 - Use `bind:checked`, `bind:value`, and `bind:open` for checkbox, radio-group, and root/submenu state.
 - Use `closeOnSelect={false}` only for controls that should keep the menu open.
 - Use `variant="destructive"` for dangerous actions and `ContextMenuShortcut` for discoverable keyboard hints.
@@ -594,7 +602,8 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `CommandDialogPopup` -> Base UI `Dialog.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `CommandDialogPopup` forwards exact Bits UI Dialog Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Backdrop dismissal**: backdrop pointer interaction closes through the Bits dismissible layer and can be prevented through `onInteractOutside`.
 
 ### Common Pitfalls
 
