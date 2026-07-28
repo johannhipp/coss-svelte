@@ -23,8 +23,8 @@ Do **not** publish to npm, create a GitHub release or tag, make the repository p
 - [x] Registry documentation URLs point to local component documentation rather than upstream COSS URLs.
 - [x] Registry source-closure generation includes every resolved local file and preserves `.ts` targets for TypeScript helpers. Generated registry output is regenerated and checked for drift.
 - [x] The docs server serves generated registry items at `/r/*` and schemas at `/schema/*` from `apps/registry/static`; `/llms.txt` and representative registry/schema routes have production-server smoke coverage.
-- [x] A clean temporary SvelteKit fixture packs the component and theme packages, installs only the tarballs and declared dependencies, writes a generated registry Button, then runs Svelte type checking and a production Vite build.
-- [x] A real Chromium smoke test runs against the built adapter-node docs server. It verifies hydration, theme switching, command-dialog keyboard dismissal, and no serious or critical axe WCAG violations on the introduction route.
+- [x] A clean temporary SvelteKit fixture packs the component and theme packages, installs only the tarballs and declared dependencies, writes generated registry copies of Button, Number Field, and Context Menu, then runs Svelte type checking and a production Vite build.
+- [x] A real Chromium smoke test runs against the built adapter-node docs server. It verifies hydration, theme switching, command-dialog keyboard dismissal, Preview/Code behavior, Number Field and Context Menu interactions, 390px layouts, reduced motion, and no serious or critical axe WCAG violations on its audited routes and states.
 - [x] The browser check found and corrected a dark-mode contrast failure in the introductory notice.
 - [x] CI remains non-publishing and now runs the complete `pnpm release:check` gate after installing Chromium.
 - [x] Package declarations are generated from real Svelte component sources,
@@ -39,6 +39,9 @@ Do **not** publish to npm, create a GitHub release or tag, make the repository p
   have focused runtime tests while remaining explicitly experimental.
 - [x] The current docs bundle warning is accepted behind the maintained
   `pnpm docs:bundle-report` 700 kB safety threshold.
+- [x] Canonical metadata, package source/exports/declarations, examples,
+  registry items, and built HTML/Markdown routes agree on 55 roots: 52 stable,
+  3 experimental, and none deferred.
 
 ## Remaining implementation work before release freeze
 
@@ -46,7 +49,9 @@ Do **not** publish to npm, create a GitHub release or tag, make the repository p
 
 - [ ] Confirm the release version, package names, and whether `coss-svelte` remains unscoped before any public publication. Package renames after the first release are disruptive.
 - [ ] Write the supported environment matrix: Node and package-manager versions, Svelte, Bits UI, SvelteKit/Vite, Tailwind v4, and supported browser policy.
-- [ ] Record stable, experimental (`Drawer`, `Sidebar`, `Toast`), and deferred (`NumberField`) status in user-facing docs, metadata, and release notes.
+- [x] Record the 52 stable roots, experimental `Drawer`, `Sidebar`, and `Toast`,
+  and the absence of deferred canonical roots in docs and metadata. Final
+  release-note wording remains part of the release freeze.
 - [ ] Decide whether registry installation is supported at `0.1.0` or explicitly experimental. The generated output is now consumable in a clean fixture, but its support promise still needs a product decision.
 - [ ] Confirm source distribution is intentional and document the bundler expectations for consumers outside SvelteKit.
 - [ ] Update `docs/references/version-baseline.md` and `docs/scope/component-implementation-outline.md` whenever final dependency versions or component strategies change.
@@ -65,7 +70,10 @@ Do **not** publish to npm, create a GitHub release or tag, make the repository p
 
 ### 3. Raise component behavior and accessibility coverage
 
-- [ ] Add focused browser tests for representative button/link, form, overlay, navigation, selection, and layout families. The current browser smoke protects the docs shell and command dialog; it is not a substitute for component-family coverage.
+- [ ] Add focused browser tests for the remaining representative button/link,
+  form, overlay, navigation, selection, and layout families. The current browser
+  smoke protects the docs shell, Preview/Code, Number Field, and Context Menu;
+  it is not a substitute for the remaining component-family coverage.
 - [ ] Expand SSR and hydration coverage beyond the existing package, Field, and
   docs smoke paths to include a representative interactive overlay.
 - [ ] Test keyboard navigation, focus restoration, Escape behavior, disabled/invalid/loading states, controlled and uncontrolled bindings, and portal/scroll-lock behavior where applicable.
@@ -80,13 +88,16 @@ Do **not** publish to npm, create a GitHub release or tag, make the repository p
 - [x] Validate generated registry structure and source closure
   deterministically, serve the registry schemas, and smoke-test the production
   schema routes.
-- [ ] Exercise more than one registry item in the clean fixture, including a component with shared parts and a Bits UI dependency.
+- [x] Exercise Button, the custom multi-part Number Field, and the Bits-backed
+  multi-part Context Menu registry items together in the clean fixture.
 - [ ] Document the supported registry workflow: how a consumer downloads an item, writes files, installs dependencies, imports the theme, and updates copied code.
 - [ ] Confirm public documentation examples match the external fixture's exact commands and import paths line by line.
 - [x] Accept the current docs client-chunk warning temporarily and monitor it
   with the maintained bundle report and 700 kB threshold.
 - [ ] Add standard site metadata and policy before deployment: canonical URL, favicon, Open Graph/Twitter metadata, robots, sitemap, 404 behavior, and a concise project description.
-- [ ] Check mobile layout, reduced motion, dark mode, deep-link refreshes, copy controls, and broken links against the final docs build.
+- [ ] Complete the final docs-wide mobile, reduced-motion, dark-mode,
+  deep-link, copy-control, and broken-link review. Automated coverage already
+  protects the high-risk Number Field and Context Menu routes.
 
 ### 5. Repository governance and security
 
@@ -121,7 +132,6 @@ These items remain out of the stable first-release promise unless an implementat
 
 - [ ] Full CLI implementation and automated npm publishing.
 - [ ] Full Drawer, Sidebar, and Toast parity; they remain experimental.
-- [ ] NumberField.
 - [ ] Complete particle/example parity and additional presets.
 - [ ] Form-library adapters.
 - [ ] Pixel-perfect parity with upstream React components.

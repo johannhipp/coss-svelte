@@ -17,9 +17,10 @@ promotion criteria beyond the first release.
 
 ## Deferred From Stable v0.1
 
-| Item | Status | Reason | Later Path |
-| --- | --- | --- | --- |
-| NumberField | Deferred | A full number field needs an accessible spinbutton contract, keyboard behavior, min/max/step handling, locale parsing, formatting, and scrub behavior. A quick clone would be fragile. | Write an accessibility spec, add interaction tests, then implement as a dedicated primitive or adapter. |
+No canonical component root is currently deferred. Number Field moved to the
+stable surface after its spinbutton, keyboard, bounds, locale, formatting,
+pointer, form, reset, SSR, and Field-integration contracts were implemented and
+tested.
 
 ## Stable Components With Known Parity Gaps
 
@@ -28,7 +29,9 @@ promotion criteria beyond the first release.
 | Autocomplete | Stable partial | Combobox-backed root, input, popup, list, group, item, separator, empty, status, collection parts, and documented `showTrigger` input affordance. | True free-text autocomplete semantics, `useAutocompleteFilter`, async loading/error state helpers, result limiting, `showClear` input affordance, and object result stringification policy. |
 | Combobox | Stable partial | Bits UI root, input, trigger, popup, list, group, item, separator, and structural clear/value/empty/collection parts. | Automatic `ComboboxClear` state reset, render-prop collection semantics, `useComboboxFilter`, async/loading examples, object value serialization policy, and empty state tied to filtered results. |
 | Command | Stable partial | Bits UI command root, dialog shell, trigger, popup, input, empty, list, group, collection, item, panel, separator, footer, and shortcut parts. | Global keyboard shortcut wiring, action execution conventions, grouped async command examples, destructive-action confirmation patterns, and full dialog focus restoration tests. |
+| Context Menu | Stable partial | Complete Bits UI-backed root, keyboard-capable trigger, popup and portal, action/link/checkbox/radio items, groups, labels, separator, shortcut, and submenu family. | Additional COSS particle examples and maintained visual regression baselines; core component behavior is implemented. |
 | Menu | Stable partial | Bits UI root, trigger, popup, item, checkbox item, radio group/item, group, group label, separator, submenu, submenu trigger/popup, and shortcut helper. | Drawer menu responsive variants, hover-open tuning, COSS `MenuLinkItem` parity if Bits UI adds a matching DropdownMenu link primitive, switch-style checkbox item variant, and menu-to-dialog cross-flow examples. |
+| Number Field | Stable partial | Custom finite-number state, locale-aware editing/formatting, decimal-safe steps, bounds, scrub and wheel input, press-and-hold controls, native form serialization/reset, Field integration, and SSR behavior. | Additional particle examples and assistive-technology lab coverage; the published component contract is implemented. |
 | Sheet | Stable partial | Dialog-backed root, trigger, popup, title, description, header, content, panel, footer, close, and side placement classes. | Inset variants, responsive sheet/drawer switching examples, side-specific animation tokens, and focus restoration browser coverage. |
 
 ## Experimental Implementations
@@ -41,7 +44,6 @@ promotion criteria beyond the first release.
 
 ## Cross-Cutting Deferred Work
 
-- `ContextMenu` parity. COSS added a standalone `@coss/context-menu` registry component after this repo's v0.1 scope was generated. Bits UI has a ContextMenu primitive, but implementing this cleanly requires the full component family: trigger, popup, link item, checkbox/radio items, groups, labels, separator, shortcut, submenu parts, docs preview, registry metadata, and interaction tests.
 - Standalone `CheckboxIndicator` part. Bits UI Checkbox exposes checked and indeterminate state through the root children snippet instead of a separate indicator primitive, so the current Svelte wrapper renders its indicator internally. Adding a standalone indicator without a real context API would be brittle.
 - Full COSS particle parity.
 - Registry install/update CLI.

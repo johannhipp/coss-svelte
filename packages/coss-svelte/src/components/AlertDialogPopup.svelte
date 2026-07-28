@@ -1,16 +1,37 @@
 <script lang="ts">
 import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import { type ComponentProps, getContext, type Snippet } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type AlertDialogContext = {
+	close: () => void;
+};
+
+type Props = Omit<ComponentProps<typeof AlertDialogPrimitive.Content>, "children" | "child"> & {
+	class?: string;
+	children?: Snippet;
+};
+
+let {
+	interactOutsideBehavior = "close",
+	class: className = "",
+	children,
+	...rest
+}: Props = $props();
+
+const alertDialogContext = getContext<AlertDialogContext>("coss-svelte-alert-dialog");
 </script>
 
 <AlertDialogPrimitive.Portal>
-	<AlertDialogPrimitive.Overlay data-slot="alert-dialog-overlay" class="cn-dialog-overlay" />
+	<AlertDialogPrimitive.Overlay
+		data-slot="alert-dialog-overlay"
+		class="cn-dialog-overlay"
+		onclick={alertDialogContext.close}
+	/>
 	<AlertDialogPrimitive.Content
 		data-slot="alert-dialog-popup"
 		class={cn("cn-dialog cn-alert-dialog", className)}
+		{interactOutsideBehavior}
 		{...rest}
 	>
 		{@render children?.()}

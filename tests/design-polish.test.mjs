@@ -222,8 +222,9 @@ test("particle filter popup aligns with the outer search bar", async () => {
 	);
 });
 
-test("docs previews use component-specific snippets and adaptive preview shells", async () => {
-	const [docPage, previewTabs] = await Promise.all([
+test("docs previews use component-specific snippets and fixed Preview/Code shells", async () => {
+	const [appCss, docPage, previewTabs] = await Promise.all([
+		readFile("apps/www/src/app.css", "utf8"),
 		readFile("apps/www/src/lib/components/docs/component-doc-page.svelte", "utf8"),
 		readFile("apps/www/src/lib/components/docs/component-preview-tabs.svelte", "utf8"),
 	]);
@@ -234,14 +235,25 @@ test("docs previews use component-specific snippets and adaptive preview shells"
 	assert.doesNotMatch(docPage, /<\$\{component\.name\}\s*\/>/);
 	assert.match(previewTabs, /component-preview-shell/);
 	assert.match(previewTabs, /data-preview-slug=\{slug\}/);
-	assert.match(previewTabs, /min-h-\[min\(420px,70svh\)\]/);
+	assert.match(previewTabs, /docs-preview-frame/);
+	assert.match(previewTabs, /docs-preview-code-surface/);
+	assert.match(
+		appCss,
+		/\.docs-preview-surface,\s*\.docs-preview-code-surface\s*\{[^}]*height:\s*min\(28\.125rem,\s*70svh\);[^}]*min-height:\s*min\(28\.125rem,\s*70svh\);/s
+	);
 	assert.match(
 		previewTabs,
 		/import \{ Tabs, TabsContent, TabsList, TabsTrigger \} from "coss-svelte"/
 	);
-	assert.match(previewTabs, /<Tabs bind:value=\{selected\}/);
-	assert.match(previewTabs, /<TabsTrigger value="preview">Preview<\/TabsTrigger>/);
-	assert.match(previewTabs, /<TabsTrigger value="code">Code<\/TabsTrigger>/);
+	assert.match(previewTabs, /<Tabs\s+bind:value=\{selected\}/);
+	assert.match(
+		previewTabs,
+		/<TabsTrigger class="docs-preview-tab" value="preview">Preview<\/TabsTrigger>/
+	);
+	assert.match(
+		previewTabs,
+		/<TabsTrigger class="docs-preview-tab" value="code">Code<\/TabsTrigger>/
+	);
 	assert.doesNotMatch(previewTabs, /role="tablist"/);
 });
 

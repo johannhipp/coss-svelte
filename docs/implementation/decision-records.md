@@ -140,10 +140,12 @@ Drawer, Number Field, and Toast look like components, but their full COSS behavi
 
 ### Decision
 
-Reduce or defer high-risk custom behavior:
+Require explicit behavior contracts before promoting high-risk custom behavior:
 
 - Drawer ships only as an experimental Dialog-backed edge panel.
-- Number Field is deferred from stable v0.1.
+- Number Field ships as a stable custom spinbutton after its numeric, locale,
+  form, keyboard, pointer, wheel, scrub, and reset contracts are covered by
+  runtime and SSR tests.
 - Toast ships as an experimental provider/manager-backed surface with basic add
   and dismiss behavior. It remains experimental until queueing, timing,
   updates, focus, and gesture behavior are specified and tested.
@@ -154,10 +156,11 @@ These components can harm quality if they are implemented as visual clones witho
 
 ### Gap To 100%
 
-Drawer needs gestures, snap points, nested stacks, and mobile physics. Number
-Field needs a real spinbutton spec. Toast needs complete queue and timing
-rules, update and dedupe/upsert semantics, promise helpers, focus behavior, and
-swipe behavior.
+Drawer needs gestures, snap points, nested stacks, and mobile physics. Toast
+needs complete queue and timing rules, update and dedupe/upsert semantics,
+promise helpers, focus behavior, and swipe behavior. Number Field's stable
+contract should grow only with matching interaction, locale, form, and
+accessibility evidence.
 
 ## ADR-007: Particle Scope
 
@@ -215,3 +218,36 @@ The verification strategy should match the real failure mode of each component f
 ### Gap To 100%
 
 Full visual regression, mobile viewport suites, assistive-technology checks, and per-component acceptance matrices are later work.
+
+## ADR-009: Catalog Additions Land As Complete Vertical Slices
+
+### Problem
+
+The upstream COSS catalog can add components after this repository's original
+scope snapshot. Adding metadata before implementation, or implementation
+without docs and registry output, creates empty routes and misleading package
+status.
+
+### Decision
+
+A later upstream root may enter stable scope when a Svelte-native foundation
+exists and its package exports, generated declarations, theme rules, registry
+closure, executable example, exact source preview, API anatomy, and observable
+interaction tests land together.
+
+Context Menu is the first component admitted through this rule. It uses Bits UI
+for pointer positioning, long press, roving focus, dismissal, and submenus,
+while coss-svelte owns the public Svelte wrappers, link semantics, visual
+contract, docs, and verification.
+
+### Why
+
+The catalog should be judged as a joined consumer experience, not as unrelated
+source files. A vertical-slice rule keeps navigation, package APIs, examples,
+and copy-and-own registry output truthful at the same commit.
+
+### Gap To 100%
+
+Full upstream particle parity remains separate. New components still need an
+explicit product decision when no durable Svelte-native behavior foundation
+exists.

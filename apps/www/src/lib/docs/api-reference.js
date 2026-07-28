@@ -41,6 +41,53 @@ const customPropsByElement = {
 	CommandDialog: ["open"],
 	CommandGroup: ["forceMount"],
 	CommandInput: ["value"],
+	ContextMenu: ["open"],
+	ContextMenuCheckboxItem: [
+		"checked",
+		"indeterminate",
+		"variant",
+		"disabled",
+		"closeOnSelect",
+		"textValue",
+	],
+	ContextMenuGroupLabel: ["inset"],
+	ContextMenuItem: ["variant", "inset", "disabled", "closeOnSelect", "textValue"],
+	ContextMenuLinkItem: [
+		"href",
+		"target",
+		"rel",
+		"download",
+		"hreflang",
+		"referrerpolicy",
+		"variant",
+		"inset",
+		"disabled",
+		"closeOnSelect",
+		"textValue",
+	],
+	ContextMenuPopup: [
+		"side",
+		"sideOffset",
+		"align",
+		"alignOffset",
+		"collisionPadding",
+		"loop",
+		"portalProps",
+	],
+	ContextMenuRadioGroup: ["value"],
+	ContextMenuRadioItem: ["value", "disabled", "closeOnSelect", "textValue"],
+	ContextMenuSub: ["open"],
+	ContextMenuSubPopup: [
+		"side",
+		"sideOffset",
+		"align",
+		"alignOffset",
+		"collisionPadding",
+		"loop",
+		"portalProps",
+	],
+	ContextMenuSubTrigger: ["inset", "disabled", "textValue", "openDelay"],
+	ContextMenuTrigger: ["disabled"],
 	DatePicker: ["value", "open", "label"],
 	Dialog: ["open", "trigger", "title", "description"],
 	Drawer: ["open", "trigger", "title", "description"],
@@ -55,6 +102,30 @@ const customPropsByElement = {
 	MenuItem: ["variant"],
 	MenuSub: ["open"],
 	Meter: ["value", "min", "max", "label", "style"],
+	NumberField: [
+		"defaultValue",
+		"value",
+		"min",
+		"max",
+		"step",
+		"smallStep",
+		"largeStep",
+		"locale",
+		"format",
+		"label",
+		"size",
+		"id",
+		"name",
+		"form",
+		"required",
+		"disabled",
+		"readonly",
+		"invalid",
+		"allowWheelScrub",
+		"onValueChange",
+		"onValueCommit",
+	],
+	NumberFieldInput: ["ref"],
 	OTPField: ["value", "length"],
 	Pagination: ["page", "pages", "count", "perPage"],
 	PaginationLink: ["isActive"],
@@ -127,6 +198,11 @@ const propMetadata = {
 		default: "true",
 		description: "Initial open state for the sidebar provider.",
 	},
+	defaultValue: {
+		type: "number | null",
+		default: "null",
+		description: "Initial and native-reset value used when no bound value is supplied.",
+	},
 	description: {
 		type: "string",
 		default: '""',
@@ -155,6 +231,15 @@ const propMetadata = {
 	forceMount: {
 		type: "boolean",
 		description: "Keeps content mounted while closed so transitions can complete.",
+	},
+	form: {
+		type: "string",
+		description: "Associates the control with a form elsewhere in the document.",
+	},
+	format: {
+		type: "Intl.NumberFormatOptions",
+		default: "{}",
+		description: "Formats the committed display value with `Intl.NumberFormat`.",
 	},
 	href: {
 		type: "string",
@@ -195,6 +280,11 @@ const propMetadata = {
 		default: "6",
 		description: "Number of one-time-code cells to render.",
 	},
+	largeStep: {
+		type: "number",
+		default: "10",
+		description: "Increment used by PageUp/PageDown and Shift+Arrow keys.",
+	},
 	loading: {
 		type: "boolean",
 		default: "false",
@@ -210,6 +300,10 @@ const propMetadata = {
 		default: "0",
 		description: "Minimum value for the control.",
 	},
+	name: {
+		type: "string",
+		description: "Serializes the invariant numeric value through a hidden form control.",
+	},
 	open: {
 		type: "boolean",
 		default: "false",
@@ -218,6 +312,15 @@ const propMetadata = {
 	ondismiss: {
 		type: "() => void",
 		description: "Called after the toast is dismissed.",
+	},
+	onValueChange: {
+		type: "(value: number | null, reason: NumberFieldReason) => void",
+		description: "Runs after each accepted numeric value change.",
+	},
+	onValueCommit: {
+		type: "(value: number | null, reason: NumberFieldReason) => void",
+		description:
+			"Runs when an input, keyboard, pointer, wheel, scrub, or reset interaction commits.",
 	},
 	options: {
 		type: "Array<string | { value?: unknown; label?: string; disabled?: boolean }>",
@@ -258,6 +361,16 @@ const propMetadata = {
 		default: "false",
 		description: "Marks the field or label as required.",
 	},
+	readonly: {
+		type: "boolean",
+		default: "false",
+		description: "Keeps the input focusable while preventing value changes.",
+	},
+	ref: {
+		type: "HTMLInputElement | null",
+		default: "null",
+		description: "Bindable reference to the visible text input.",
+	},
 	scope: {
 		type: '"col" | "row" | string',
 		default: '"col"',
@@ -277,6 +390,11 @@ const propMetadata = {
 		type: "boolean",
 		default: "false",
 		description: "Shows a trigger button beside the input.",
+	},
+	smallStep: {
+		type: "number",
+		default: "0.1",
+		description: "Fine-grained increment used by Alt+Arrow keys.",
 	},
 	side: {
 		type: '"top" | "right" | "bottom" | "left" | string',
@@ -342,6 +460,80 @@ const propMetadata = {
 		default: '""',
 		description: "Current value for the component. Bind with `bind:value` when supported.",
 	},
+	allowWheelScrub: {
+		type: "boolean",
+		default: "false",
+		description: "Allows focused wheel gestures to change the number.",
+	},
+	alignOffset: {
+		type: "number",
+		default: "0",
+		description: "Offsets the popup from its preferred alignment in pixels.",
+	},
+	closeOnSelect: {
+		type: "boolean",
+		default: "true",
+		description: "Closes the context menu after the item is selected.",
+	},
+	download: {
+		type: "boolean | string",
+		description: "Forwards the anchor download attribute to a link item.",
+	},
+	hreflang: {
+		type: "string",
+		description: "Declares the language of a link item's destination.",
+	},
+	inset: {
+		type: "boolean",
+		default: "false",
+		description: "Adds leading space so the item aligns with rows that render an indicator.",
+	},
+	invalid: {
+		type: "boolean",
+		default: "false",
+		description: "Marks the component invalid independently of parse validity.",
+	},
+	loop: {
+		type: "boolean",
+		default: "true",
+		description: "Wraps keyboard focus from the last menu item to the first and back.",
+	},
+	locale: {
+		type: "string | string[]",
+		default: '"en-US"',
+		description: "Locale used for deterministic numeric parsing and formatting.",
+	},
+	openDelay: {
+		type: "number",
+		default: "100",
+		description: "Delays pointer-triggered submenu opening by this many milliseconds.",
+	},
+	portalProps: {
+		type: "{ to?: Element | string; disabled?: boolean }",
+		default: "{}",
+		description: "Configures where the floating menu surface is rendered.",
+	},
+	referrerpolicy: {
+		type: "HTMLAnchorAttributes['referrerpolicy']",
+		description: "Controls referrer information sent when a link item is followed.",
+	},
+	rel: {
+		type: "string",
+		description: "Describes the relationship between a link item and its destination.",
+	},
+	sideOffset: {
+		type: "number",
+		default: "2",
+		description: "Sets the distance between the pointer anchor and popup in pixels.",
+	},
+	target: {
+		type: "HTMLAnchorAttributes['target']",
+		description: "Chooses the browsing context used by a link item.",
+	},
+	textValue: {
+		type: "string",
+		description: "Provides plain text for keyboard typeahead when item content is complex.",
+	},
 	variant: {
 		type: "string",
 		default: '"default"',
@@ -360,12 +552,73 @@ const propOverridesByElement = {
 	Combobox: { placeholder: { default: '"Choose"' }, type: { default: '"single"' } },
 	ComboboxInput: { showTrigger: { default: "true" } },
 	Command: { label: { default: '"Command menu"' }, placeholder: { default: '"Type a command"' } },
+	ContextMenuCheckboxItem: {
+		variant: { type: '"default" | "switch"' },
+	},
+	ContextMenuItem: {
+		variant: { type: '"default" | "destructive"' },
+	},
+	ContextMenuLinkItem: {
+		href: { default: undefined },
+		variant: { type: '"default" | "destructive"' },
+	},
+	ContextMenuPopup: {
+		align: {
+			type: '"start" | "center" | "end"',
+			default: '"start"',
+			description: "Aligns the popup with the virtual pointer anchor.",
+		},
+		collisionPadding: {
+			default: "8",
+			description: "Keeps the popup inset from viewport collision boundaries.",
+		},
+		side: { default: '"right"' },
+	},
+	ContextMenuRadioGroup: {
+		value: { type: "string", default: '""', description: "Selected radio item value." },
+	},
+	ContextMenuRadioItem: {
+		value: {
+			type: "string",
+			default: undefined,
+			description: "Value selected by this radio item.",
+		},
+	},
+	ContextMenuSubPopup: {
+		align: {
+			type: '"start" | "center" | "end"',
+			default: '"start"',
+			description: "Aligns the submenu with its trigger.",
+		},
+		alignOffset: { default: "-5" },
+		collisionPadding: {
+			default: "8",
+			description: "Keeps the submenu inset from viewport collision boundaries.",
+		},
+		side: { default: '"right"' },
+		sideOffset: { default: "0" },
+	},
 	DatePicker: { label: { default: '"Choose date"' }, value: { default: undefined } },
 	GroupSeparator: { orientation: { default: '"vertical"' } },
 	Input: { type: { default: '"text"' }, value: { default: undefined } },
 	InputGroupInput: { type: { default: '"text"' } },
 	Menu: { label: { default: '"Menu"' } },
 	Meter: { value: { default: "70" } },
+	NumberField: {
+		label: {
+			default: '"Number" outside Field',
+			description:
+				"Visible scrub label and accessible name; an enclosing Field label is used when omitted.",
+		},
+		max: { default: undefined },
+		min: { default: undefined },
+		size: { type: '"sm" | "md" | "lg"', default: '"md"' },
+		value: {
+			type: "number | null",
+			default: "defaultValue",
+			description: "Current finite numeric value. Bind with `bind:value`.",
+		},
+	},
 	Pagination: { count: { default: "totalPages" } },
 	Popover: { label: { default: '"Popover"' } },
 	PreviewCard: {
@@ -478,6 +731,37 @@ const suffixDescriptions = [
 	[/Viewport$/, "Wraps the scrollable viewport for the parent component."],
 ];
 
+/** @type {Record<string, string>} */
+const elementDescriptions = {
+	ContextMenuCheckboxItem:
+		"Renders a bindable checkbox action with either a checkmark or switch presentation.",
+	ContextMenuGroup: "Groups related contextual actions without adding another interactive layer.",
+	ContextMenuGroupLabel: "Labels a related group of contextual actions.",
+	ContextMenuItem: "Renders a selectable contextual action with default or destructive styling.",
+	ContextMenuLinkItem:
+		"Renders a menu item as a semantic anchor while preserving menu keyboard behavior.",
+	ContextMenuPopup:
+		"Portals and positions the contextual menu surface at the pointer or keyboard anchor.",
+	ContextMenuRadioGroup: "Coordinates one selected value across related radio menu items.",
+	ContextMenuRadioItem: "Renders one bindable single-choice action within a radio group.",
+	ContextMenuSeparator: "Visually separates groups of contextual actions.",
+	ContextMenuShortcut: "Displays a semantic keyboard shortcut hint aligned to an item.",
+	ContextMenuSub: "Provides independent open state for a nested contextual menu.",
+	ContextMenuSubPopup: "Portals and positions the floating surface for a nested menu.",
+	ContextMenuSubTrigger: "Opens a nested contextual menu with pointer or keyboard input.",
+	ContextMenuTrigger:
+		"Defines the right-click target and opens from Shift+F10 or the Context Menu key.",
+	NumberFieldDecrement:
+		"Decreases the shared value, including press-and-hold repetition and bound handling.",
+	NumberFieldGroup:
+		"Groups the input and step controls into one focus-ring and validation surface.",
+	NumberFieldIncrement:
+		"Increases the shared value, including press-and-hold repetition and bound handling.",
+	NumberFieldInput: "Renders the locale-aware text input with accessible spinbutton semantics.",
+	NumberFieldScrubArea:
+		"Labels the input and supports horizontal pointer scrubbing on fine pointers.",
+};
+
 /**
  * @param {string} rootName
  * @param {string} elementName
@@ -486,8 +770,12 @@ function descriptionForElement(rootName, elementName) {
 	if (elementName === rootName) {
 		const metadata = metadataByName[rootName];
 		return metadata.status === "deferred"
-			? "Deferred numeric input component; no implemented Svelte API is published yet."
+			? "This deferred component does not publish an implemented Svelte API."
 			: metadata.description;
+	}
+
+	if (elementDescriptions[elementName]) {
+		return elementDescriptions[elementName];
 	}
 
 	for (const [pattern, description] of suffixDescriptions) {

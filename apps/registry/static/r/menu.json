@@ -62,7 +62,7 @@
 			"path": "packages/coss-svelte/src/components/MenuRadioItem.svelte",
 			"target": "components/MenuRadioItem.svelte",
 			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport { DropdownMenu as MenuPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof MenuPrimitive.RadioItem>;\nlet { value, class: className = \"\", children: itemChildren, ...rest }: Props = $props();\n</script>\n\n<MenuPrimitive.RadioItem\n\tdata-slot=\"menu-radio-item\"\n\tclass={cn(\"cn-menu-item cn-menu-radio-item\", className)}\n\t{value}\n\t{...rest}\n>\n\t{#snippet children({ checked })}\n\t\t<span\n\t\t\tclass=\"cn-menu-item-indicator\"\n\t\t\tdata-state={checked ? \"checked\" : \"unchecked\"}\n\t\t\taria-hidden=\"true\"\n\t\t></span>\n\t\t<span>{@render itemChildren?.({ checked })}</span>\n\t{/snippet}\n</MenuPrimitive.RadioItem>\n"
+			"content": "<script lang=\"ts\">\nimport { DropdownMenu as MenuPrimitive } from \"bits-ui\";\nimport { cn } from \"../utils.js\";\n\ntype Props = MenuPrimitive.RadioItemProps;\nlet { value, class: className = \"\", children: itemChildren, ...rest }: Props = $props();\n</script>\n\n<MenuPrimitive.RadioItem\n\tdata-slot=\"menu-radio-item\"\n\tclass={cn(\"cn-menu-item cn-menu-radio-item\", className)}\n\t{value}\n\t{...rest}\n>\n\t{#snippet children({ checked })}\n\t\t<span\n\t\t\tclass=\"cn-menu-item-indicator\"\n\t\t\tdata-state={checked ? \"checked\" : \"unchecked\"}\n\t\t\taria-hidden=\"true\"\n\t\t></span>\n\t\t<span>{@render itemChildren?.({ checked })}</span>\n\t{/snippet}\n</MenuPrimitive.RadioItem>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/MenuSeparator.svelte",

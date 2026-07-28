@@ -51,7 +51,7 @@ Source notes:
 Implementation outline:
 
 1. Define the public Svelte exports and naming so examples read like COSS while following Svelte conventions.
-2. Map COSS Alert Dialog sections onto Bits UI AlertDialog root, trigger, portal, overlay, content, title, description, action, and cancel parts.
+2. Map COSS Alert Dialog sections onto Bits UI primitives and make overlay interaction dismiss the popup consistently with the other modal components.
 3. Preserve COSS visual tokens through shared variants, CSS variables, and data-slot selectors instead of component-local one-off styles.
 4. Port the highest-signal COSS particle examples first, then add the full particle set after the primitive API is stable.
 5. Verify SSR/hydration, keyboard behavior, focus management, disabled/invalid states, and Field/Form composition where relevant.
@@ -192,6 +192,28 @@ Source notes:
 
 - Local primitive reference present: yes
 - COSS live docs: https://coss.com/ui/docs/components/menu.md
+
+## Context Menu
+
+- Category: Overlays & Popups
+- COSS scope: A menu that appears at the pointer on right click or long press.
+- COSS docs: https://coss.com/ui/docs/components/context-menu.md
+- Particle examples: 8
+- Svelte foundation: ContextMenu (bits)
+- Implementation tier: direct primitive
+
+Implementation outline:
+
+1. Define the public Svelte exports and naming so examples read like COSS while following Svelte conventions.
+2. Wrap Bits UI ContextMenu with pointer and keyboard triggers, action and link items, checkbox and radio controls, nested submenus, labels, separators, and shortcuts.
+3. Preserve COSS visual tokens through shared variants, CSS variables, and data-slot selectors instead of component-local one-off styles.
+4. Port the highest-signal COSS particle examples first, then add the full particle set after the primitive API is stable.
+5. Verify SSR/hydration, keyboard behavior, focus management, disabled/invalid states, and Field/Form composition where relevant.
+
+Source notes:
+
+- Local primitive reference present: yes
+- COSS live docs: https://coss.com/ui/docs/components/context-menu.md
 
 ## Command
 

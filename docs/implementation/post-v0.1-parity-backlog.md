@@ -17,9 +17,10 @@ The repository already has:
 - a publishable package and theme boundary;
 - complete generated registry source closure and schema checks;
 - a clean SvelteKit consumer fixture;
-- one executable local example for every implemented component;
+- one executable local example for every canonical component;
 - runtime, SSR, hydration, production-server, Chromium, and accessibility
   checks in the release gate;
+- stable Number Field and Context Menu families with focused interaction tests;
 - a provider-controlled Sidebar and a basic Toast provider/manager lifecycle.
 
 Do not reopen these as roadmap work unless a current check demonstrates a
@@ -77,20 +78,8 @@ Remaining work:
 - pause-on-hover, action-focus, and reduced-motion behavior;
 - anchored/multiple viewports and swipe gestures.
 
-### Number Field
-
-Number Field remains deferred. Before implementation:
-
-- define the accessible spinbutton and keyboard contract;
-- decide native-input versus custom behavior;
-- specify min/max/step, locale parsing, formatting, and serialization;
-- add tests for keyboard, pointer, press-and-hold, wheel, and assistive
-  technology behavior.
-
 ## Cross-Cutting Backlog
 
-- Add Context Menu only as a complete Bits UI-backed family with registry,
-  docs, examples, and interaction tests.
 - Add a standalone Checkbox Indicator only if a real context API can preserve
   checked and indeterminate semantics.
 - Build visual regression around the stable example set before pursuing exact
@@ -105,8 +94,7 @@ Number Field remains deferred. Before implementation:
 2. Expand stable component-family browser and accessibility coverage.
 3. Establish maintained visual regression baselines.
 4. Stabilize Toast and Sidebar behavior, then run the Drawer interaction spike.
-5. Specify Number Field before implementing it.
-6. Expand particles and ecosystem automation after the package and registry
+5. Expand particles and ecosystem automation after the package and registry
    support promises are stable.
 
 Update this file when priority, product boundary, or promotion criteria change.

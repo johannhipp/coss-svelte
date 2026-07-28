@@ -8,6 +8,6 @@ export default defineConfig({
 	},
 	test: {
 		environment: "node",
-		include: ["tests/field-ssr.test.ts"],
+		include: ["tests/*-ssr.test.ts"],
 	},
 });

@@ -19,9 +19,9 @@ is deliberately deferred.
 
 | Status | Components / Work |
 | --- | --- |
-| Stable v0.1 | Broad component surface using native markup, Svelte, and Bits UI where possible. |
-| Experimental v0.1 | Drawer, provider-controlled Sidebar, and basic provider/manager-backed Toast. |
-| Deferred | Number Field, full Drawer parity, full Toast parity, full particle parity, CLI installer, multiple style presets, and core form-library adapters. |
+| Stable v0.1 | 52 canonical component roots using native markup, Svelte, and Bits UI where possible, including the complete Context Menu family and custom Number Field contract. |
+| Experimental v0.1 | 3 roots: Drawer, provider-controlled Sidebar, and basic provider/manager-backed Toast. |
+| Deferred | No canonical component root. Full Drawer/Toast/particle parity, the CLI installer, multiple style presets, and core form-library adapters remain deferred work. |
 
 ## Decision Trail
 

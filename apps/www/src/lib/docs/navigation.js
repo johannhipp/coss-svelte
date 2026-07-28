@@ -26,6 +26,12 @@ const overviewDocs = [
 		slug: "getting-started",
 		title: "Get Started",
 	},
+	{
+		description: "Browse every component with its live preview, source, API, and registry entry.",
+		href: "/docs/components",
+		slug: "components",
+		title: "Components",
+	},
 ];
 
 const resourceDocs = [

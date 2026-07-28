@@ -22,6 +22,9 @@ test("each implemented root has one executable example and deferred roots have n
 	const files = new Set(
 		(await readdir(examplesDirectory)).filter((file) => file.endsWith(".svelte"))
 	);
+	const implementedComponents = Object.values(componentMetadata).filter(
+		(metadata) => metadata.status !== "deferred"
+	);
 	for (const metadata of Object.values(componentMetadata)) {
 		const filename = `${metadata.slug}.svelte`;
 		if (metadata.status === "deferred") {
@@ -38,12 +41,19 @@ test("each implemented root has one executable example and deferred roots have n
 		assert.doesNotMatch(source, /from ["'][^"']*packages\/coss-svelte/);
 		assert.doesNotMatch(source, /<script[^>]*>[\s\S]*export\s+default/);
 	}
-	assert.equal(files.size, 53);
+	assert.equal(files.size, implementedComponents.length);
 });
 
 test("the lazy manifest and server source contract cover the same slugs", async () => {
-	assert.match(exampleIndex, /import\.meta\.glob\("\.\/\*\.svelte"\)/);
-	assert.match(sourceReader, /readFile\(new URL\(`\$\{metadata\.slug\}\.svelte`/);
+	const executableGlob = exampleIndex.match(/import\.meta\.glob\("(?<pattern>[^"]+)"\)/);
+	const rawGlob = sourceReader.match(/import\.meta\.glob(?:<[^>]+>)?\("(?<pattern>[^"]+)"/);
+	assert.ok(executableGlob?.groups?.pattern, "missing executable example glob");
+	assert.ok(rawGlob?.groups?.pattern, "missing raw example glob");
+	assert.equal(rawGlob.groups.pattern, executableGlob.groups.pattern);
+	assert.match(sourceReader, /eager:\s*true/);
+	assert.match(sourceReader, /import:\s*"default"/);
+	assert.match(sourceReader, /query:\s*"\?raw"/);
+	assert.doesNotMatch(sourceReader, /node:fs|readFile/);
 	for (const metadata of Object.values(componentMetadata).filter(
 		(item) => item.status !== "deferred"
 	)) {

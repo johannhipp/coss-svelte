@@ -1,6 +1,6 @@
 # Particle Coverage
 
-The installed `coss-particles` skill lists 484 copy-paste-ready particles across 52 component types.
+The upstream COSS particle catalog lists 492 copy-paste-ready particles across 53 component types.
 
 | Component type | Slug             | Particles |
 | -------------- | ---------------- | --------: |
@@ -19,6 +19,7 @@ The installed `coss-particles` skill lists 484 copy-paste-ready particles across
 | Collapsible    | `collapsible`    |         1 |
 | Combobox       | `combobox`       |        18 |
 | Command        | `command`        |         2 |
+| Context Menu   | `context-menu`   |         8 |
 | Date Picker    | `date-picker`    |         9 |
 | Dialog         | `dialog`         |         6 |
 | Drawer         | `drawer`         |        14 |
@@ -449,6 +450,17 @@ The installed `coss-particles` skill lists 484 copy-paste-ready particles across
 - `p-menu-6`: Menu with group labels ([JSON](https://coss.com/ui/r/p-menu-6.json))
 - `p-menu-7`: Nested menu ([JSON](https://coss.com/ui/r/p-menu-7.json))
 - `p-menu-8`: Menu close on click ([JSON](https://coss.com/ui/r/p-menu-8.json))
+
+## Context Menu
+
+- `p-context-menu-1`: Basic pointer menu ([JSON](https://coss.com/ui/r/p-context-menu-1.json))
+- `p-context-menu-2`: Link and navigation items ([JSON](https://coss.com/ui/r/p-context-menu-2.json))
+- `p-context-menu-3`: Nested submenu ([JSON](https://coss.com/ui/r/p-context-menu-3.json))
+- `p-context-menu-4`: Checkbox items ([JSON](https://coss.com/ui/r/p-context-menu-4.json))
+- `p-context-menu-5`: Grouped sections with labels ([JSON](https://coss.com/ui/r/p-context-menu-5.json))
+- `p-context-menu-6`: Icons, shortcuts, and destructive actions ([JSON](https://coss.com/ui/r/p-context-menu-6.json))
+- `p-context-menu-7`: Radio group ([JSON](https://coss.com/ui/r/p-context-menu-7.json))
+- `p-context-menu-8`: Switch-style checkbox items ([JSON](https://coss.com/ui/r/p-context-menu-8.json))
 
 ## Meter
 

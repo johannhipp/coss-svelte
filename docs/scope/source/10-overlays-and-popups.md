@@ -1,6 +1,6 @@
 # Overlays & Popups
 
-Components in this category: 9
+Components in this category: 10
 
 ## Dialog
 
@@ -493,6 +493,81 @@ import {
 - `p-menu-6`: Menu with group labels ([JSON](https://coss.com/ui/r/p-menu-6.json))
 - `p-menu-7`: Nested menu ([JSON](https://coss.com/ui/r/p-menu-7.json))
 - `p-menu-8`: Menu close on click ([JSON](https://coss.com/ui/r/p-menu-8.json))
+
+---
+
+## Context Menu
+
+- Purpose: A pointer-anchored action menu opened by right click, long press, or a keyboard alternative.
+- Registry name: `ContextMenu`
+- Source coverage: live docs and particles
+- Sources: [docs](https://coss.com/ui/docs/components/context-menu.md); 8 particles
+- Package dependency: `bits-ui`
+- Canonical exports: `ContextMenu`, `ContextMenuCheckboxItem`, `ContextMenuGroup`, `ContextMenuGroupLabel`, `ContextMenuItem`, `ContextMenuLinkItem`, `ContextMenuPopup`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuSeparator`, `ContextMenuShortcut`, `ContextMenuSub`, `ContextMenuSubPopup`, `ContextMenuSubTrigger`, `ContextMenuTrigger`
+
+### Covers
+
+- Actions whose meaning depends on the target under the pointer.
+- Mixed action, navigation, checkbox, radio, and nested submenu rows.
+- Pointer, long-press, Shift+F10, and Context Menu key entry points.
+
+### Out Of Scope / Use Another Primitive
+
+- If an always-visible button should reveal the actions -> use Menu instead.
+- If the surface contains rich information rather than actions -> use Popover instead.
+- If the action requires a blocking decision or form -> use Dialog or Alert Dialog.
+
+### Key Patterns And Invariants
+
+- Build on Bits UI Context Menu so positioning, roving focus, typeahead, long press, dismissal, and submenu ownership remain primitive behavior.
+- Give the target an accessible keyboard focus path when it is not already interactive.
+- Use `ContextMenuLinkItem` for navigation and `ContextMenuItem` for actions.
+- Use `portalProps={{ to, disabled }}` when the popup needs a custom Svelte portal target or inline rendering.
+- Use `bind:checked`, `bind:value`, and `bind:open` for checkbox, radio-group, and root/submenu state.
+- Use `closeOnSelect={false}` only for controls that should keep the menu open.
+- Use `variant="destructive"` for dangerous actions and `ContextMenuShortcut` for discoverable keyboard hints.
+
+### Common Pitfalls
+
+- Making right click the only way to reach the menu.
+- Using an action item for navigation and losing anchor semantics.
+- Placing nested content without the `ContextMenuSub`, `ContextMenuSubTrigger`, and `ContextMenuSubPopup` structure.
+- Reimplementing pointer positioning or focus movement outside the primitive.
+
+### Canonical Svelte Import Shape
+
+```svelte
+<script lang="ts">
+	import {
+		ContextMenu,
+		ContextMenuCheckboxItem,
+		ContextMenuGroup,
+		ContextMenuGroupLabel,
+		ContextMenuItem,
+		ContextMenuLinkItem,
+		ContextMenuPopup,
+		ContextMenuRadioGroup,
+		ContextMenuRadioItem,
+		ContextMenuSeparator,
+		ContextMenuShortcut,
+		ContextMenuSub,
+		ContextMenuSubPopup,
+		ContextMenuSubTrigger,
+		ContextMenuTrigger,
+	} from "coss-svelte";
+</script>
+```
+
+### Particle Coverage
+
+- `p-context-menu-1`: Basic pointer menu ([JSON](https://coss.com/ui/r/p-context-menu-1.json))
+- `p-context-menu-2`: Link and navigation items ([JSON](https://coss.com/ui/r/p-context-menu-2.json))
+- `p-context-menu-3`: Nested submenu ([JSON](https://coss.com/ui/r/p-context-menu-3.json))
+- `p-context-menu-4`: Checkbox items ([JSON](https://coss.com/ui/r/p-context-menu-4.json))
+- `p-context-menu-5`: Grouped sections with labels ([JSON](https://coss.com/ui/r/p-context-menu-5.json))
+- `p-context-menu-6`: Icons, shortcuts, and destructive actions ([JSON](https://coss.com/ui/r/p-context-menu-6.json))
+- `p-context-menu-7`: Radio group ([JSON](https://coss.com/ui/r/p-context-menu-7.json))
+- `p-context-menu-8`: Switch-style checkbox items ([JSON](https://coss.com/ui/r/p-context-menu-8.json))
 
 ---
 

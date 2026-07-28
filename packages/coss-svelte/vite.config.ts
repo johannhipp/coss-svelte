@@ -9,7 +9,7 @@ export default defineConfig({
 	test: {
 		environment: "jsdom",
 		include: ["tests/**/*.test.ts"],
-		exclude: ["tests/field-ssr.test.ts"],
+		exclude: ["tests/*-ssr.test.ts"],
 		setupFiles: ["tests/setup.ts"],
 	},
 });

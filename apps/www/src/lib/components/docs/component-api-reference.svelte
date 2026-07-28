@@ -12,7 +12,13 @@ let { reference = [] }: { reference?: ApiElement[] } = $props();
 
 			{#if element.props?.length}
 				{@const hasDefault = element.props.some((prop) => prop.default !== undefined)}
-				<div class="overflow-x-auto border-border border-y">
+				<!-- svelte-ignore a11y_no_noninteractive_tabindex (Keyboard users need to focus and scroll overflowing API tables.) -->
+				<div
+					class="overflow-x-auto border-border border-y"
+					role="region"
+					aria-label={`${element.name} props`}
+					tabindex="0"
+				>
 					<table class="w-full min-w-[620px] table-fixed text-left text-sm">
 						<thead>
 							<tr class="border-border border-b">
@@ -28,19 +34,19 @@ let { reference = [] }: { reference?: ApiElement[] } = $props();
 							{#each element.props as prop}
 								<tr class="border-border border-b last:border-b-0">
 									<td class="px-4 py-3 align-top">
-										<code class="rounded-md bg-muted px-2 py-1 font-mono text-muted-foreground">
+										<code class="rounded-md bg-muted px-2 py-1 font-mono text-foreground">
 											{prop.name}
 										</code>
 									</td>
 									<td class="px-4 py-3 align-top">
-										<code class="rounded-md bg-muted px-2 py-1 font-mono text-muted-foreground">
+										<code class="rounded-md bg-muted px-2 py-1 font-mono text-foreground">
 											{prop.type}
 										</code>
 									</td>
 									{#if hasDefault}
 										<td class="px-4 py-3 align-top">
 											{#if prop.default !== undefined}
-												<code class="rounded-md bg-muted px-2 py-1 font-mono text-muted-foreground">
+												<code class="rounded-md bg-muted px-2 py-1 font-mono text-foreground">
 													{prop.default}
 												</code>
 											{:else}

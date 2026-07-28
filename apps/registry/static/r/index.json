@@ -479,6 +479,23 @@
 			"path": "menu.json"
 		},
 		{
+			"name": "ContextMenu",
+			"title": "Context Menu",
+			"description": "A menu of contextual actions opened from a pointer or keyboard target.",
+			"type": "registry:ui",
+			"categories": ["Overlays & Popups"],
+			"docs": "/docs/components/context-menu",
+			"meta": {
+				"status": "stable",
+				"foundation": "bits",
+				"particlePriority": "mvp",
+				"slug": "context-menu",
+				"sourceDocsUrl": "https://coss.com/ui/docs/components/context-menu.md",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
+			},
+			"path": "context-menu.json"
+		},
+		{
 			"name": "Meter",
 			"title": "Meter",
 			"description": "A visual representation of a value within a known range.",
@@ -911,9 +928,9 @@
 			"categories": ["Selection & Input"],
 			"docs": "/docs/components/number-field",
 			"meta": {
-				"status": "deferred",
+				"status": "stable",
 				"foundation": "custom",
-				"particlePriority": "unsupported",
+				"particlePriority": "mvp",
 				"slug": "number-field",
 				"sourceDocsUrl": "https://coss.com/ui/docs/components/number-field.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"

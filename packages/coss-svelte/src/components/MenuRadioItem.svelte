@@ -1,9 +1,8 @@
 <script lang="ts">
 import { DropdownMenu as MenuPrimitive } from "bits-ui";
-import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-type Props = ComponentProps<typeof MenuPrimitive.RadioItem>;
+type Props = MenuPrimitive.RadioItemProps;
 let { value, class: className = "", children: itemChildren, ...rest }: Props = $props();
 </script>
 

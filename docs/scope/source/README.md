@@ -8,10 +8,10 @@ Treat this folder as source evidence. Implementation decisions live in [../../im
 
 ## Scope Summary
 
-- Components covered: 54
+- Components covered: 55
 - Hooks covered from live docs: 2
-- Particle examples indexed: 484 across 52 component types
-- Local primitive references used: 53
+- Particle examples indexed: 492 across 53 component types
+- Local primitive references used: 54
 - Live-doc addition not present in the local primitive references: Date Picker
 
 ## File Map
