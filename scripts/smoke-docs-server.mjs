@@ -137,11 +137,11 @@ try {
 	await request(`${baseUrl}/schema/registry-index.json`, "application/json");
 	await request(`${baseUrl}/schema/registry-item.json`, "application/json");
 
-	const componentIndex = await request(`${baseUrl}/docs/components`, "text/html");
-	for (const slug of ["number-field", "context-menu"]) {
-		if (!componentIndex.includes(`/docs/components/${slug}`)) {
-			throw new Error(`/docs/components is missing its ${slug} navigation link.`);
-		}
+	const componentIndexResponse = await fetch(`${baseUrl}/docs/components`);
+	if (componentIndexResponse.status !== 404) {
+		throw new Error(
+			`Removed aggregate component route returned ${componentIndexResponse.status} instead of 404.`
+		);
 	}
 
 	await crawlComponentRoutes(baseUrl, registryIndex);

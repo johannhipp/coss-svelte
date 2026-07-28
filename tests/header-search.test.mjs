@@ -87,6 +87,10 @@ test("docs search index covers overview, components, resources, and particles", 
 		"overview pages should be searchable"
 	);
 	assert.ok(
+		!searchPages.some((page) => page.href === "/docs/components"),
+		"the removed aggregate component page should not be searchable"
+	);
+	assert.ok(
 		searchPages.some(
 			(page) => page.group === "Components" && page.href === "/docs/components/button"
 		),
