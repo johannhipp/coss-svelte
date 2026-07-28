@@ -23,12 +23,17 @@ pnpm release:check
 - Shared theme CSS belongs in `packages/theme`.
 - Registry schema and generated metadata belong in `packages/registry` and `apps/registry`.
 - Documentation UI belongs in `apps/www`.
-- Implementation plans and decisions belong in `docs/implementation`.
+- Current scope, decisions, limitations, and roadmap guidance belong in
+  `docs/implementation`.
 - Raw upstream clones and downloaded source snapshots must stay out of git.
 
 ## Component Work
 
-Use `docs/implementation/phases.md` as the ordering guide and keep each pull request scoped to a small component family. Update registry metadata, docs examples, and tests with the component changes.
+Start with `docs/implementation/v0.1-scope-decisions.md`, preserve the decisions
+in `docs/implementation/decision-records.md`, and keep each pull request scoped
+to a small component family. Update canonical component metadata, generated
+registry and scope output, docs examples, API reference content, and relevant
+tests together.
 
 ## Release Work
 

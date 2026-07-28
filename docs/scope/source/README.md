@@ -34,4 +34,8 @@ Treat this folder as source evidence. Implementation decisions live in [../../im
 
 Use the component index to find a component quickly. Use the category files when you need scope, "use this versus that" guidance, canonical exports, common pitfalls, and all matching particles for a component. Use the source audit when you need to understand what came from local skills versus the live docs map.
 
-For implementation status, use [v0.1 Scope Decisions](../../implementation/v0.1-scope-decisions.md) and [Unimplemented Components And Parity Gaps](../../implementation/unimplemented-components.md).
+For current implementation status, use
+[v0.1 Scope Decisions](../../implementation/v0.1-scope-decisions.md) and
+[Unimplemented Components And Parity Gaps](../../implementation/unimplemented-components.md).
+These source files preserve upstream provenance and are not an implementation
+checklist.

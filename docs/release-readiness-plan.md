@@ -4,6 +4,8 @@ Status: implementation in progress; publishing and deployment are intentionally 
 
 Target: first public `coss-svelte` release, recommended as `0.1.0`
 
+Last reconciled with the repository: 2026-07-28.
+
 ## Purpose and boundary
 
 This is the active plan for turning the repository into a production-ready component library. It distinguishes work that can be completed while implementation is still changing from actions that must wait for the final release decision.
@@ -25,6 +27,18 @@ Do **not** publish to npm, create a GitHub release or tag, make the repository p
 - [x] A real Chromium smoke test runs against the built adapter-node docs server. It verifies hydration, theme switching, command-dialog keyboard dismissal, and no serious or critical axe WCAG violations on the introduction route.
 - [x] The browser check found and corrected a dark-mode contrast failure in the introductory notice.
 - [x] CI remains non-publishing and now runs the complete `pnpm release:check` gate after installing Chromium.
+- [x] Package declarations are generated from real Svelte component sources,
+  checked for broad escape hatches, and exercised by an external type consumer.
+- [x] Field label, description, error, invalid, required, disabled, SSR, and
+  hydration associations have focused runtime coverage.
+- [x] Generated registry JSON has deterministic build/check coverage, complete
+  source-closure tests, and served schema smoke checks.
+- [x] Docs examples have one executable source per implemented component, and
+  Markdown/source views consume the same files.
+- [x] Sidebar provider state and the basic Toast provider/manager lifecycle
+  have focused runtime tests while remaining explicitly experimental.
+- [x] The current docs bundle warning is accepted behind the maintained
+  `pnpm docs:bundle-report` 700 kB safety threshold.
 
 ## Remaining implementation work before release freeze
 
@@ -39,8 +53,10 @@ Do **not** publish to npm, create a GitHub release or tag, make the repository p
 
 ### 2. Complete package and theme quality
 
-- [ ] Replace broad public component declarations with useful component-specific props, events, bindings, and snippet types, or generate declarations from the real Svelte sources.
-- [ ] Review every package export and metadata subpath from an external TypeScript/Svelte consumer; keep deep imports unsupported unless they are deliberately added to `exports`.
+- [x] Generate component declarations from the real Svelte sources and reject
+  broad handwritten component escape hatches.
+- [x] Exercise public package exports and component prop types through the
+  external TypeScript/Svelte consumer fixture; deep imports remain unsupported.
 - [ ] Verify npm, pnpm, and the supported SvelteKit install path. The current clean fixture proves pnpm; add another package-manager fixture only if it changes the supported claim.
 - [ ] Review runtime versus peer dependencies and remove unused published dependencies. Document why `svelte` and `bits-ui` are peers.
 - [ ] Confirm `@coss-svelte/theme` can be claimed and published under the intended npm scope, has a final version, and remains synchronized with `coss-svelte`.
@@ -50,19 +66,25 @@ Do **not** publish to npm, create a GitHub release or tag, make the repository p
 ### 3. Raise component behavior and accessibility coverage
 
 - [ ] Add focused browser tests for representative button/link, form, overlay, navigation, selection, and layout families. The current browser smoke protects the docs shell and command dialog; it is not a substitute for component-family coverage.
-- [ ] Cover SSR and hydration for interactive component examples, including a representative overlay and form control.
+- [ ] Expand SSR and hydration coverage beyond the existing package, Field, and
+  docs smoke paths to include a representative interactive overlay.
 - [ ] Test keyboard navigation, focus restoration, Escape behavior, disabled/invalid/loading states, controlled and uncontrolled bindings, and portal/scroll-lock behavior where applicable.
-- [ ] Resolve and test the documented `Field` association contract (`id`, label, description, `aria-describedby`, and `aria-invalid`) and nested/repeated field cases.
+- [x] Resolve and test the documented `Field` association contract (`id`,
+  label, description, `aria-describedby`, `aria-invalid`, explicit IDs, and
+  repeated fields) across runtime, SSR, and hydration.
 - [ ] Manually verify the highest-risk overlays and form controls with keyboard-only use and a screen reader. Record the tested platform and outstanding limitations.
 - [ ] Review experimental component limitations and ensure they are visible wherever those components are documented or listed.
 
 ### 4. Finish registry and documentation product work
 
-- [ ] Validate generated JSON against the served schemas and add deterministic schema-validation coverage.
+- [x] Validate generated registry structure and source closure
+  deterministically, serve the registry schemas, and smoke-test the production
+  schema routes.
 - [ ] Exercise more than one registry item in the clean fixture, including a component with shared parts and a Bits UI dependency.
 - [ ] Document the supported registry workflow: how a consumer downloads an item, writes files, installs dependencies, imports the theme, and updates copied code.
 - [ ] Confirm public documentation examples match the external fixture's exact commands and import paths line by line.
-- [ ] Resolve or deliberately accept the current docs client-chunk warning (about 527 kB minified at the last check). If accepted, document the reason and monitor it with the bundle report.
+- [x] Accept the current docs client-chunk warning temporarily and monitor it
+  with the maintained bundle report and 700 kB threshold.
 - [ ] Add standard site metadata and policy before deployment: canonical URL, favicon, Open Graph/Twitter metadata, robots, sitemap, 404 behavior, and a concise project description.
 - [ ] Check mobile layout, reduced motion, dark mode, deep-link refreshes, copy controls, and broken links against the final docs build.
 

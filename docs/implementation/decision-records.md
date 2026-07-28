@@ -144,7 +144,9 @@ Reduce or defer high-risk custom behavior:
 
 - Drawer ships only as an experimental Dialog-backed edge panel.
 - Number Field is deferred from stable v0.1.
-- Toast ships only as an experimental visual/static surface until a real provider/store lifecycle is implemented and tested.
+- Toast ships as an experimental provider/manager-backed surface with basic add
+  and dismiss behavior. It remains experimental until queueing, timing,
+  updates, focus, and gesture behavior are specified and tested.
 
 ### Why
 
@@ -152,7 +154,10 @@ These components can harm quality if they are implemented as visual clones witho
 
 ### Gap To 100%
 
-Drawer needs gestures, snap points, nested stacks, and mobile physics. Number Field needs a real spinbutton spec. Toast needs a provider/store manager, lifecycle rules, dedupe/upsert, promise helpers, and swipe behavior.
+Drawer needs gestures, snap points, nested stacks, and mobile physics. Number
+Field needs a real spinbutton spec. Toast needs complete queue and timing
+rules, update and dedupe/upsert semantics, promise helpers, focus behavior, and
+swipe behavior.
 
 ## ADR-007: Particle Scope
 

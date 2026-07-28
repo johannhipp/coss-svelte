@@ -2,7 +2,9 @@
 
 This file tracks components or behaviors skipped because implementing them now would be brittle, incomplete, or too far beyond the v0.1 scope decisions.
 
-Use this file during implementation. Use [Post-v0.1 Parity Backlog](./post-v0.1-parity-backlog.md) for the broader roadmap from the first release to full COSS parity.
+Use this file for factual limitations of the current implementation. Use
+[Post-v0.1 Parity Backlog](./post-v0.1-parity-backlog.md) for prioritization and
+promotion criteria beyond the first release.
 
 ## Status Semantics
 
@@ -34,8 +36,8 @@ Use this file during implementation. Use [Post-v0.1 Parity Backlog](./post-v0.1-
 | Item | Status | Implemented Now | Missing For Stable |
 | --- | --- | --- | --- |
 | Drawer | Experimental | Dialog-backed bottom panel with trigger, popup, handle, title, description, content, footer, close, focus handling, escape, and outside-click dismiss. | Drag gestures, snap points, nested drawers, physics, mobile swipe tuning, drawer menu variants, and responsive dialog/drawer switching examples. |
-| Sidebar | Experimental | Static app-shell sidebar parts, grouped menu structure, inset content area, rail, trigger, separator, badge, skeleton, and sub-menu helpers. | Controlled app-shell state, persistence, collapsed icon mode, mobile drawer mode, keyboard shortcut, collapsed tooltips, and layout token decisions. |
-| Toast | Experimental | Static toast surface for demo and styling. | Provider/store lifecycle, queued toasts, auto-dismiss timing, pause-on-hover, action focus behavior, anchored toasts, promise helpers, dedupe/upsert, and swipe gestures. |
+| Sidebar | Experimental | Provider-owned bindable open state, functional trigger and rail toggles, expanded/collapsed data state, grouped menu structure, inset content, badge, skeleton, and sub-menu helpers. | Persistence, mobile drawer mode, keyboard shortcut policy, complete collapsed-icon/tooltips behavior, layout token decisions, and broader browser coverage. |
+| Toast | Experimental | Provider, viewport, basic manager add flow, bindable/dismissible live-region surface, and runtime lifecycle tests. | Queue and auto-dismiss policy, update/dedupe/upsert and promise helpers, pause-on-hover, action focus, anchored/multiple viewports, reduced motion, and swipe gestures. |
 
 ## Cross-Cutting Deferred Work
 
