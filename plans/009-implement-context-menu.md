@@ -14,8 +14,7 @@
 
 ## Status
 
-- **Status**: IN PROGRESS — a full 15-export spike exists but requires contract
-  reconciliation and missing evidence
+- **Status**: DONE
 - **Priority**: P1
 - **Effort**: L
 - **Risk**: MED

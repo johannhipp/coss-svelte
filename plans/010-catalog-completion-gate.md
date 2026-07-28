@@ -14,8 +14,7 @@
 
 ## Status
 
-- **Status**: IN PROGRESS — gate scaffolding exists; final cross-surface and
-  prerequisite gates remain unproven
+- **Status**: DONE
 - **Priority**: P0 release gate
 - **Effort**: M
 - **Risk**: MED

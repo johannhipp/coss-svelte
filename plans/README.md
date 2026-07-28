@@ -103,16 +103,16 @@ criteria—not only the current narrow checks—are satisfied.
 
 | Plan | Title | Priority | Effort | Exact dependencies | Status |
 |---|---|---:|---:|---|---|
-| [001](001-restore-bits-ui-type-fidelity.md) | Restore Bits UI type fidelity | P1 | L | — | TODO |
-| [002](002-coherent-composition-overlays-portals.md) | Define composition, dismissal, and portal contracts | P1 | L | 001 | TODO — reconcile Alert Dialog changes first |
-| [003](003-form-accessibility-locale-contracts.md) | Close form, accessible-name, and locale gaps | P1 | M | 001 | TODO |
-| [004](004-component-family-behavior-verification.md) | Add component-family behavior verification | P1 | L | 002, 003, 008, 009 | TODO |
-| [005](005-truthful-api-docs-and-dev-loop.md) | Generate truthful API docs and a live dev loop | P2 | M/L | 001, 002, 003, 007 | TODO |
-| [006](006-remove-postcss-security-advisory.md) | Remove the PostCSS advisory | P1 | S | — | TODO |
-| [007](007-preview-and-code-infrastructure.md) | Harden docs motion, in-page navigation, and Preview/Code | P0 | M/L | — | IN PROGRESS — route-motion, TOC, and copy-rail evidence remains |
-| [008](008-implement-number-field.md) | Implement Number Field | P1 | XL | 001, 003, 005, 007 | IN PROGRESS — full spike requires contract reconciliation and evidence |
-| [009](009-implement-context-menu.md) | Implement Context Menu | P1 | L | 001, 002, 005, 007 | IN PROGRESS — full spike requires contract reconciliation and evidence |
-| [010](010-catalog-completion-gate.md) | Enforce catalog completion | P0 release | M | 004, 005, 007, 008, 009 | IN PROGRESS — scaffolding exists; final gates remain unproven |
+| [001](001-restore-bits-ui-type-fidelity.md) | Restore Bits UI type fidelity | P1 | L | — | DONE |
+| [002](002-coherent-composition-overlays-portals.md) | Define composition, dismissal, and portal contracts | P1 | L | 001 | DONE |
+| [003](003-form-accessibility-locale-contracts.md) | Close form, accessible-name, and locale gaps | P1 | M | 001 | DONE |
+| [004](004-component-family-behavior-verification.md) | Add component-family behavior verification | P1 | L | 002, 003, 008, 009 | DONE |
+| [005](005-truthful-api-docs-and-dev-loop.md) | Generate truthful API docs and a live dev loop | P2 | M/L | 001, 002, 003, 007 | DONE |
+| [006](006-remove-postcss-security-advisory.md) | Remove the PostCSS advisory | P1 | S | — | DONE |
+| [007](007-preview-and-code-infrastructure.md) | Harden docs motion, in-page navigation, and Preview/Code | P0 | M/L | — | DONE |
+| [008](008-implement-number-field.md) | Implement Number Field | P1 | XL | 001, 003, 005, 007 | DONE |
+| [009](009-implement-context-menu.md) | Implement Context Menu | P1 | L | 001, 002, 005, 007 | DONE |
+| [010](010-catalog-completion-gate.md) | Enforce catalog completion | P0 release | M | 004, 005, 007, 008, 009 | DONE |
 
 Allowed status values are `TODO`, `IN PROGRESS`, `DONE`,
 `BLOCKED: <reason>`, and `REJECTED: <reason>`. A qualifier after TODO or IN

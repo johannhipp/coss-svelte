@@ -15,8 +15,7 @@
 
 ## Status
 
-- **Status**: IN PROGRESS — a full six-part spike exists but requires contract
-  reconciliation and missing evidence
+- **Status**: DONE
 - **Priority**: P1
 - **Effort**: XL
 - **Risk**: HIGH

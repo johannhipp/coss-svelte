@@ -13,7 +13,7 @@
 
 ## Status
 
-- **Status**: TODO — reconcile the live Alert Dialog changes first
+- **Status**: DONE
 - **Priority**: P1
 - **Effort**: L
 - **Risk**: MED

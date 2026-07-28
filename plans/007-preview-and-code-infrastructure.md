@@ -2,8 +2,7 @@
 
 ## Status
 
-- **Status**: IN PROGRESS — Preview/Code and production routes are verified;
-  route-motion, TOC, and copy-rail browser evidence remains
+- **Status**: DONE
 - **Priority**: P0
 - **Effort**: M/L
 - **Risk**: MED
