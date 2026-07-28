@@ -1,12 +1,15 @@
 <script lang="ts">
 import { Accordion as AccordionPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = Omit<ComponentProps<typeof AccordionPrimitive.Header>, "child">;
+
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <AccordionPrimitive.Header
+	bind:ref
 	data-slot="accordion-header"
 	class={cn("cn-accordion-header", className)}
 	{...rest}

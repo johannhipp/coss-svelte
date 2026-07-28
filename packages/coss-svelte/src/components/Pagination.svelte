@@ -3,19 +3,19 @@ import { Pagination as PaginationPrimitive } from "bits-ui";
 import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
 
-type Props = Omit<
-	ComponentProps<typeof PaginationPrimitive.Root>,
-	"children" | "child" | "count"
-> & {
+type RootProps = ComponentProps<typeof PaginationPrimitive.Root>;
+type PaginationChildProps = Parameters<NonNullable<RootProps["children"]>>[0];
+type Props = Omit<RootProps, "children" | "child" | "count"> & {
 	page?: number;
 	pages?: number;
 	count?: number;
 	perPage?: number;
 	class?: string;
-	children?: Snippet<[unknown]>;
+	children?: Snippet<[PaginationChildProps]>;
 };
 
 let {
+	ref = $bindable(null),
 	page = $bindable(2),
 	pages: totalPages = 5,
 	count = totalPages,
@@ -27,6 +27,7 @@ let {
 </script>
 
 <PaginationPrimitive.Root
+	bind:ref
 	data-slot="pagination"
 	class={cn("cn-pagination", className)}
 	aria-label={rest["aria-label"] || "Pagination"}

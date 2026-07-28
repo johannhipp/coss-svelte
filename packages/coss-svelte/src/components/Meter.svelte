@@ -16,6 +16,7 @@ type Props = Omit<ComponentProps<typeof MeterPrimitive.Root>, "children" | "chil
 };
 
 let {
+	ref = $bindable(null),
 	class: className = "",
 	value = 70,
 	min = 0,
@@ -43,6 +44,7 @@ setMeterContext({
 </script>
 
 <MeterPrimitive.Root
+	bind:ref
 	data-slot="meter"
 	class={cn(children ? "cn-meter-root" : "cn-meter", className)}
 	style={meterStyle}

@@ -19,8 +19,26 @@ const result = spawnSync(
 		"ES2022",
 		"--ignoreConfig",
 		"tests/type-consumer.ts",
+		"tests/types/type-contracts.ts",
 	],
 	{ cwd: join(root, "packages/coss-svelte"), stdio: "inherit" }
 );
 
-process.exitCode = result.status ?? 1;
+if (result.status !== 0) {
+	process.exitCode = result.status ?? 1;
+} else {
+	const svelteResult = spawnSync(
+		"pnpm",
+		[
+			"exec",
+			"svelte-check",
+			"--workspace",
+			"tests/types",
+			"--tsconfig",
+			"./tsconfig.json",
+			"--fail-on-warnings",
+		],
+		{ cwd: join(root, "packages/coss-svelte"), stdio: "inherit" }
+	);
+	process.exitCode = svelteResult.status ?? 1;
+}

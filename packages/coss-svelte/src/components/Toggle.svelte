@@ -9,10 +9,17 @@ type Props = Omit<ComponentProps<typeof TogglePrimitive.Root>, "children" | "chi
 	children?: Snippet;
 };
 
-let { pressed = $bindable(false), class: className = "", children, ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	pressed = $bindable(false),
+	class: className = "",
+	children,
+	...rest
+}: Props = $props();
 </script>
 
 <TogglePrimitive.Root
+	bind:ref
 	data-slot="toggle"
 	class={cn("cn-toggle", pressed && "cn-toggle-pressed", className)}
 	bind:pressed

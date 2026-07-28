@@ -9,10 +9,17 @@ type Props = Omit<ComponentProps<typeof MenuPrimitive.Item>, "children" | "child
 	variant?: string;
 };
 
-let { class: className = "", children, variant = "default", ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	class: className = "",
+	children,
+	variant = "default",
+	...rest
+}: Props = $props();
 </script>
 
 <MenuPrimitive.Item
+	bind:ref
 	data-slot="menu-item"
 	data-variant={variant}
 	class={cn("cn-menu-item", className)}

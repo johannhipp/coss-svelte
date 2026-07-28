@@ -3,11 +3,18 @@ import { RadioGroup as RadioGroupPrimitive } from "bits-ui";
 import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-type Props = ComponentProps<typeof RadioGroupPrimitive.Item>;
-let { value, class: className = "", children: itemChildren, ...rest }: Props = $props();
+type Props = Omit<ComponentProps<typeof RadioGroupPrimitive.Item>, "child">;
+let {
+	ref = $bindable(null),
+	value,
+	class: className = "",
+	children: itemChildren,
+	...rest
+}: Props = $props();
 </script>
 
 <RadioGroupPrimitive.Item
+	bind:ref
 	data-slot="radio-group-item"
 	class={cn("cn-radio", className)}
 	{value}

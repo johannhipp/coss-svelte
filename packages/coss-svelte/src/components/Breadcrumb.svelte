@@ -28,7 +28,7 @@ let { items = [], class: className = "", ...rest }: Props = $props();
 				{/if}
 			</li>
 			{#if index < items.length - 1}
-				<li class="cn-breadcrumb-separator" role="presentation">
+				<li class="cn-breadcrumb-separator" aria-hidden="true">
 					<span class="cn-breadcrumb-separator-icon" aria-hidden="true"></span>
 				</li>
 			{/if}

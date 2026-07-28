@@ -13,6 +13,7 @@ type Props = Omit<ComponentProps<typeof LinkPreviewPrimitive.Root>, "children" |
 };
 
 let {
+	open = $bindable(false),
 	href = "#",
 	label = "Preview",
 	title = "Preview",
@@ -23,7 +24,7 @@ let {
 }: Props = $props();
 </script>
 
-<LinkPreviewPrimitive.Root {...rest}>
+<LinkPreviewPrimitive.Root bind:open {...rest}>
 	{#if rootChildren}
 		{@render rootChildren()}
 	{:else}

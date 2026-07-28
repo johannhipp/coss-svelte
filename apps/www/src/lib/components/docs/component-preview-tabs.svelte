@@ -1,35 +1,55 @@
-<script>
+<script lang="ts">
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "coss-svelte";
 import CodeBlock from "$lib/components/docs/code-block.svelte";
 import ComponentPreviewRenderer from "$lib/components/docs/component-preview-renderer.svelte";
 
-let { code, slug, title } = $props();
+type PreviewAlignment = "start" | "center" | "end";
+
+let {
+	align = "center",
+	code,
+	slug,
+	title,
+}: {
+	align?: PreviewAlignment;
+	code: string;
+	slug: string;
+	title: string;
+} = $props();
 let selected = $state("preview");
 let hasCode = $derived(Boolean(code?.trim()));
 </script>
 
-<Tabs bind:value={selected} class="mt-4 mb-10 gap-2" id="preview">
+<Tabs
+	bind:value={selected}
+	class="docs-component-preview-tabs mt-4 mb-12"
+	id="preview"
+	data-preview-tabs={slug}
+>
 	<div class="flex items-center justify-between">
-		<TabsList aria-label={`${title} example`}>
-			<TabsTrigger value="preview">Preview</TabsTrigger>
+		<TabsList class="docs-preview-tabs-list" aria-label={`${title} example`}>
+			<TabsTrigger class="docs-preview-tab" value="preview">Preview</TabsTrigger>
 			{#if hasCode}
-				<TabsTrigger value="code">Code</TabsTrigger>
+				<TabsTrigger class="docs-preview-tab" value="code">Code</TabsTrigger>
 			{/if}
 		</TabsList>
 	</div>
 
-	<div class="overflow-hidden rounded-lg border border-border bg-card">
-		<TabsContent value="preview">
+	<div class="docs-preview-frame">
+		<TabsContent class="docs-preview-panel" value="preview">
 			<div
-				class="component-preview-shell flex min-h-[min(420px,70svh)] items-center justify-center overflow-auto bg-background p-4 sm:min-h-[420px] sm:p-8"
+				class="component-preview-shell docs-preview-surface"
+				data-align={align}
 				data-preview-slug={slug}
 			>
 				<ComponentPreviewRenderer {slug} />
 			</div>
 		</TabsContent>
 		{#if hasCode}
-			<TabsContent value="code">
-				<CodeBlock {code} />
+			<TabsContent class="docs-preview-panel" value="code">
+				<div class="docs-preview-code-surface" data-code-preview={slug}>
+					<CodeBlock {code} mode="embedded" />
+				</div>
 			</TabsContent>
 		{/if}
 	</div>

@@ -8,10 +8,11 @@ type Props = Omit<ComponentProps<typeof DialogPrimitive.Trigger>, "children" | "
 	children?: ComponentProps<typeof DialogPrimitive.Trigger>["children"];
 };
 
-let { class: className = "", children, ...rest }: Props = $props();
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <DialogPrimitive.Trigger
+	bind:ref
 	data-slot="command-dialog-trigger"
 	class={cn("cn-command-dialog-trigger", className)}
 	{...rest}

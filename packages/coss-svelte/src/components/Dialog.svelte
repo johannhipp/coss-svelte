@@ -24,13 +24,19 @@ let {
 </script>
 
 <DialogPrimitive.Root bind:open {...rest}>
-	{#if title || description}
+	{#if rootChildren}
+		{@render rootChildren()}
+	{:else if title || description}
 		<DialogPrimitive.Trigger data-slot="dialog-trigger" class="cn-dialog-trigger">
 			{trigger}
 		</DialogPrimitive.Trigger>
 		<DialogPrimitive.Portal>
 			<DialogPrimitive.Overlay data-slot="dialog-overlay" class="cn-dialog-overlay" />
-			<DialogPrimitive.Content data-slot="dialog-popup" class={cn("cn-dialog", className)}>
+			<DialogPrimitive.Content
+				data-slot="dialog-popup"
+				class={cn("cn-dialog", className)}
+				interactOutsideBehavior="close"
+			>
 				{#if title}
 					<DialogPrimitive.Title data-slot="dialog-title" class="cn-dialog-title">
 						{title}
@@ -41,13 +47,10 @@ let {
 						{description}
 					</DialogPrimitive.Description>
 				{/if}
-				{@render rootChildren?.()}
 				<DialogPrimitive.Close data-slot="dialog-close" class="cn-dialog-close">
 					Close
 				</DialogPrimitive.Close>
 			</DialogPrimitive.Content>
 		</DialogPrimitive.Portal>
-	{:else}
-		{@render rootChildren?.()}
 	{/if}
 </DialogPrimitive.Root>

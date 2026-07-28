@@ -9,7 +9,13 @@ type Props = Omit<ComponentProps<typeof ComboboxPrimitive.Input>, "children" | "
 	triggerProps?: ComponentProps<typeof ComboboxPrimitive.Trigger>;
 };
 
-let { class: className = "", showTrigger = true, triggerProps = {}, ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	class: className = "",
+	showTrigger = true,
+	triggerProps = {},
+	...rest
+}: Props = $props();
 
 let triggerClass = $derived(triggerProps.class ?? "");
 let triggerLabel = $derived(triggerProps["aria-label"] ?? "Toggle combobox options");
@@ -23,6 +29,7 @@ let triggerRest = $derived.by(() => {
 	<span data-slot="combobox-input-group" class="cn-combobox-input-group">
 		<span data-slot="combobox-input-control" class="cn-combobox-input-control">
 			<ComboboxPrimitive.Input
+				bind:ref
 				data-slot="combobox-input"
 				class={cn("cn-combobox-input", className)}
 				{...rest}
@@ -54,6 +61,7 @@ let triggerRest = $derived.by(() => {
 	</span>
 {:else}
 	<ComboboxPrimitive.Input
+		bind:ref
 		data-slot="combobox-input"
 		class={cn("cn-combobox-input", className)}
 		{...rest}

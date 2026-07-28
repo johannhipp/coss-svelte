@@ -3,11 +3,18 @@ import { DropdownMenu as MenuPrimitive } from "bits-ui";
 import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-type Props = ComponentProps<typeof MenuPrimitive.RadioItem>;
-let { value, class: className = "", children: itemChildren, ...rest }: Props = $props();
+type Props = Omit<ComponentProps<typeof MenuPrimitive.RadioItem>, "child">;
+let {
+	ref = $bindable(null),
+	value,
+	class: className = "",
+	children: itemChildren,
+	...rest
+}: Props = $props();
 </script>
 
 <MenuPrimitive.RadioItem
+	bind:ref
 	data-slot="menu-radio-item"
 	class={cn("cn-menu-item cn-menu-radio-item", className)}
 	{value}

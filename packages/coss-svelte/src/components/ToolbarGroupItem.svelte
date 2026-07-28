@@ -6,10 +6,11 @@ import { cn } from "../utils.js";
 type Props = Omit<ComponentProps<typeof ToolbarPrimitive.GroupItem>, "children" | "child"> & {
 	children?: Snippet;
 };
-let { value, class: className = "", children, ...rest }: Props = $props();
+let { ref = $bindable(null), value, class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <ToolbarPrimitive.GroupItem
+	bind:ref
 	data-slot="toolbar-group-item"
 	class={cn("cn-toolbar-group-item", className)}
 	{value}

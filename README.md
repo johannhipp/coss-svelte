@@ -33,10 +33,12 @@ Versions were captured from npm on 2026-06-10.
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm biome:ci
-pnpm check
-pnpm test
+pnpm dev
 ```
+
+The root development command first builds the package declarations and JavaScript, then watches both
+`packages/coss-svelte` and the SvelteKit docs app. Package source edits therefore reach docs routes
+without a separate build command. Use `pnpm check` and `pnpm test` for focused verification.
 
 Run the full pre-release verification before tagging or publishing:
 

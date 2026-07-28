@@ -1,10 +1,16 @@
 <script lang="ts">
 import { Progress as ProgressPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps, Snippet } from "svelte";
 import { clampPercentage } from "../internal/props.js";
 import { cn } from "../utils.js";
 
+type Props = Omit<ComponentProps<typeof ProgressPrimitive.Root>, "child" | "children"> & {
+	label?: string;
+	children?: Snippet;
+};
+
 let {
+	ref = $bindable(null),
 	class: className = "",
 	value = 45,
 	min = 0,
@@ -12,17 +18,13 @@ let {
 	label = "",
 	children,
 	...rest
-}: NativeProps & {
-	value?: number | null;
-	min?: number;
-	max?: number;
-	label?: string;
-} = $props();
+}: Props = $props();
 
 let percentage = $derived(clampPercentage(value, min, max));
 </script>
 
 <ProgressPrimitive.Root
+	bind:ref
 	data-slot="progress"
 	class={cn("cn-progress", className)}
 	{value}

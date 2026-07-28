@@ -8,7 +8,13 @@
 			"path": "packages/coss-svelte/src/components/Tooltip.svelte",
 			"target": "components/Tooltip.svelte",
 			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport { Tooltip as TooltipPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof TooltipPrimitive.Root>, \"children\" | \"child\"> & {\n\tlabel?: string;\n\ttip?: string;\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet {\n\tlabel = \"Hover\",\n\ttip = \"Tooltip\",\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: Props = $props();\n</script>\n\n{#if children}\n\t<TooltipPrimitive.Root {...rest}>\n\t\t{@render children()}\n\t</TooltipPrimitive.Root>\n{:else}\n\t<TooltipPrimitive.Provider>\n\t\t<TooltipPrimitive.Root {...rest}>\n\t\t\t<TooltipPrimitive.Trigger data-slot=\"tooltip-trigger\" class=\"cn-tooltip-trigger\">\n\t\t\t\t{label}\n\t\t\t</TooltipPrimitive.Trigger>\n\t\t\t<TooltipPrimitive.Portal>\n\t\t\t\t<TooltipPrimitive.Content\n\t\t\t\t\tdata-slot=\"tooltip-popup\"\n\t\t\t\t\tclass={cn(\"cn-tooltip-content\", className)}\n\t\t\t\t>\n\t\t\t\t\t{tip}\n\t\t\t\t</TooltipPrimitive.Content>\n\t\t\t</TooltipPrimitive.Portal>\n\t\t</TooltipPrimitive.Root>\n\t</TooltipPrimitive.Provider>\n{/if}\n"
+			"content": "<script lang=\"ts\">\nimport { Tooltip as TooltipPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport TooltipPopup from \"./TooltipPopup.svelte\";\n\ntype RootProps = ComponentProps<typeof TooltipPrimitive.Root>;\ntype Props = Omit<RootProps, \"children\" | \"child\"> & {\n\tlabel?: string;\n\ttip?: string;\n\tclass?: string;\n\tchildren?: RootProps[\"children\"];\n};\n\nlet {\n\topen = $bindable(false),\n\ttriggerId = $bindable(null),\n\tlabel = \"Hover\",\n\ttip = \"Tooltip\",\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: Props = $props();\n</script>\n\n{#if children}\n\t<TooltipPrimitive.Root bind:open bind:triggerId {children} {...rest} />\n{:else}\n\t<TooltipPrimitive.Provider>\n\t\t<TooltipPrimitive.Root bind:open bind:triggerId {...rest}>\n\t\t\t<TooltipPrimitive.Trigger data-slot=\"tooltip-trigger\" class=\"cn-tooltip-trigger\">\n\t\t\t\t{label}\n\t\t\t</TooltipPrimitive.Trigger>\n\t\t\t<TooltipPopup class={className}>{tip}</TooltipPopup>\n\t\t</TooltipPrimitive.Root>\n\t</TooltipPrimitive.Provider>\n{/if}\n"
+		},
+		{
+			"path": "packages/coss-svelte/src/components/TooltipPopup.svelte",
+			"target": "components/TooltipPopup.svelte",
+			"type": "registry:ui",
+			"content": "<script lang=\"ts\">\nimport { Tooltip as TooltipPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype PortalOptions = Omit<ComponentProps<typeof TooltipPrimitive.Portal>, \"children\">;\ntype Props = Omit<ComponentProps<typeof TooltipPrimitive.Content>, \"children\" | \"child\"> & {\n\tportalProps?: PortalOptions;\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nconst generatedId = $props.id();\nlet {\n\tref = $bindable(null),\n\tid = generatedId,\n\trole = \"tooltip\",\n\tportalProps = {},\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: Props = $props();\n</script>\n\n<TooltipPrimitive.Portal {...portalProps}>\n\t<TooltipPrimitive.Content\n\tbind:ref\n\t\t{...rest}\n\t\t{id}\n\t\t{role}\n\t\tdata-slot=\"tooltip-popup\"\n\t\tclass={cn(\"cn-tooltip-content\", className)}\n\t>\n\t\t{@render children?.()}\n\t</TooltipPrimitive.Content>\n</TooltipPrimitive.Portal>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/utils.ts",
@@ -17,28 +23,16 @@
 			"content": "import type { ClassValue } from \"clsx\";\nimport { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]): string {\n\treturn twMerge(clsx(inputs));\n}\n"
 		},
 		{
-			"path": "packages/coss-svelte/src/components/TooltipPopup.svelte",
-			"target": "components/TooltipPopup.svelte",
-			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport { Tooltip as TooltipPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof TooltipPrimitive.Content>, \"children\" | \"child\"> & {\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet { class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<TooltipPrimitive.Content\n\tdata-slot=\"tooltip-popup\"\n\tclass={cn(\"cn-tooltip-content\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</TooltipPrimitive.Content>\n"
-		},
-		{
 			"path": "packages/coss-svelte/src/components/TooltipProvider.svelte",
 			"target": "components/TooltipProvider.svelte",
 			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport { Tooltip as TooltipPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<TooltipPrimitive.Provider {...rest}>\n\t<span data-slot=\"tooltip-provider\" class={cn(\"cn-tooltip-provider\", className)}>\n\t\t{@render children?.()}\n\t</span>\n</TooltipPrimitive.Provider>\n"
-		},
-		{
-			"path": "packages/coss-svelte/src/internal/props.ts",
-			"target": "internal/props.ts",
-			"type": "registry:ui",
-			"content": "import type { Snippet } from \"svelte\";\nimport type { HTMLAttributes } from \"svelte/elements\";\n\nexport type DataAttributes = {\n\t[key: `data-${string}`]: string | null | undefined;\n\t[key: `aria-${string}`]: string | null | undefined;\n};\n\nexport type PrimitiveAttributes = DataAttributes & {\n\tclass?: string;\n\tid?: string;\n\tstyle?: string;\n\trole?: string;\n\tdir?: \"ltr\" | \"rtl\";\n\ttabindex?: number;\n};\n\nexport type NativeProps<Element extends EventTarget = HTMLElement> = Omit<\n\tHTMLAttributes<Element>,\n\t\"id\"\n> & {\n\tclass?: string;\n\tid?: string;\n\tchildren?: Snippet;\n};\n\nexport type Option =\n\t| string\n\t| {\n\t\t\tvalue?: string;\n\t\t\tlabel?: string;\n\t\t\tdisabled?: boolean;\n\t  };\n\nexport type NormalizedOption = {\n\tvalue: string;\n\tlabel: string;\n\tdisabled: boolean;\n};\n\nexport function normalizeOption(option: Option): NormalizedOption {\n\tif (typeof option === \"string\") {\n\t\treturn { value: option, label: option, disabled: false };\n\t}\n\n\treturn {\n\t\tvalue: option.value ?? option.label ?? \"\",\n\t\tlabel: option.label ?? option.value ?? \"\",\n\t\tdisabled: option.disabled ?? false,\n\t};\n}\n\nexport function normalizeOptions(options: Option[]): NormalizedOption[] {\n\treturn options.map(normalizeOption);\n}\n\nexport function clampPercentage(value: number | null | undefined, min = 0, max = 100): number {\n\tif (value === null || value === undefined) return 100;\n\tif (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max) || max <= min) {\n\t\treturn 0;\n\t}\n\n\treturn Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));\n}\n"
+			"content": "<script lang=\"ts\">\nimport { Tooltip as TooltipPrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof TooltipPrimitive.Provider>, \"children\"> & {\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet { class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<TooltipPrimitive.Provider {...rest}>\n\t<span data-slot=\"tooltip-provider\" class={cn(\"cn-tooltip-provider\", className)}>\n\t\t{@render children?.()}\n\t</span>\n</TooltipPrimitive.Provider>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/TooltipTrigger.svelte",
 			"target": "components/TooltipTrigger.svelte",
 			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport { Tooltip as TooltipPrimitive } from \"bits-ui\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<TooltipPrimitive.Trigger\n\tdata-slot=\"tooltip-trigger\"\n\tclass={cn(\"cn-tooltip-trigger\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</TooltipPrimitive.Trigger>\n"
+			"content": "<script lang=\"ts\">\nimport { Tooltip as TooltipPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof TooltipPrimitive.Trigger>;\n\nlet { ref = $bindable(null), class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<TooltipPrimitive.Trigger\n\tbind:ref\n\tdata-slot=\"tooltip-trigger\"\n\tclass={cn(\"cn-tooltip-trigger\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</TooltipPrimitive.Trigger>\n"
 		}
 	],
 	"dependencies": ["@coss-svelte/theme", "bits-ui", "clsx", "tailwind-merge"],

@@ -8,9 +8,9 @@ type Props = Omit<ComponentProps<typeof ScrollAreaPrimitive.Root>, "children" | 
 	children?: Snippet;
 };
 
-let { class: className = "", children, ...rest }: Props = $props();
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
-<ScrollAreaPrimitive.Root data-slot="scroll-area" class={cn("cn-scroll-area", className)} {...rest}>
+<ScrollAreaPrimitive.Root bind:ref data-slot="scroll-area" class={cn("cn-scroll-area", className)} {...rest}>
 	{@render children?.()}
 </ScrollAreaPrimitive.Root>

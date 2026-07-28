@@ -72,7 +72,11 @@ import { Input } from "@/components/ui/input";
 
 ### Key Patterns And Invariants
 
-- No dedicated bullets found in the local reference.
+- Field control IDs resolve in this order: an explicit control ID, the enclosing Field control ID, then a component-generated ID.
+- Explicit control `disabled`, `required`, and invalid values override Field state; otherwise Field state reaches the actual checkbox, switch, group, trigger, or input.
+- `aria-describedby` is the deduplicated union of caller IDs and the Field description/error IDs.
+- Accessible names preserve caller `aria-labelledby`, then caller `aria-label`, then the native Field label association, then component convenience labels.
+- In compound Select, Combobox, and Autocomplete usage, apply an explicit ID to the semantic Trigger/Input part; root convenience IDs apply only to generated controls.
 
 ### Common Pitfalls
 

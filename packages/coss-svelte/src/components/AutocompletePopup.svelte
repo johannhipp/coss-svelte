@@ -5,12 +5,20 @@ import { cn } from "../utils.js";
 
 const popupInteractionStyle = "cursor: pointer; overflow: hidden; overscroll-behavior: contain;";
 
+type PortalOptions = Omit<ComponentProps<typeof ComboboxPrimitive.Portal>, "children">;
 type Props = Omit<ComponentProps<typeof ComboboxPrimitive.Content>, "children" | "child"> & {
+	portalProps?: PortalOptions;
 	class?: string;
 	children?: Snippet;
 };
 
-let { class: className = "", children, ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	portalProps = {},
+	class: className = "",
+	children,
+	...rest
+}: Props = $props();
 
 let popupStyle = $derived(
 	rest.style ? `${rest.style}; ${popupInteractionStyle}` : popupInteractionStyle
@@ -43,8 +51,9 @@ function handleWheel(event: Parameters<NonNullable<Props["onwheel"]>>[0]) {
 }
 </script>
 
-<ComboboxPrimitive.Portal>
+<ComboboxPrimitive.Portal {...portalProps}>
 	<ComboboxPrimitive.Content
+	bind:ref
 		{...rest}
 		data-slot="autocomplete-popup"
 		class={cn("cn-autocomplete-popup", className)}

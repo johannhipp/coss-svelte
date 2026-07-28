@@ -4,16 +4,20 @@ import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
 type RootProps = ComponentProps<typeof PinInputPrimitive.Root>;
-type Props = Omit<RootProps, "children" | "child" | "maxlength"> & {
+type Props = Omit<RootProps, "children" | "child" | "maxlength" | "onComplete"> & {
 	value?: string;
 	length?: number;
+	onComplete?: (value: string) => void;
 	class?: string;
 	children?: RootProps["children"];
 };
 
 let {
+	ref = $bindable(null),
+	inputRef = $bindable(null),
 	value = $bindable(""),
 	length = 6,
+	onComplete,
 	class: className = "",
 	children: rootChildren,
 	...rest
@@ -21,10 +25,13 @@ let {
 </script>
 
 <PinInputPrimitive.Root
+	bind:ref
+	bind:inputRef
 	data-slot="otp-field"
 	class={cn("cn-otp-field", className)}
 	bind:value
 	maxlength={length}
+	{onComplete}
 	{...rest}
 >
 	{#snippet children(snippetProps)}

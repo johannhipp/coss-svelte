@@ -6,16 +6,21 @@ The implementation strategy is to preserve COSS's visual language and copy-and-o
 
 ## Composition contract
 
-Root components use one consistent composition model: custom `children` snippets
-always take precedence, and convenience props render an explicit fallback only
-when no children are supplied. This keeps the compound-part API composable while
-making small examples possible without hidden root modes. New roots must follow
-the same rule, and their fallback props must be listed in the docs API reference.
+Root composition is explicit per component in the package's
+`componentComposition` map. The closed modes are:
 
-The model is recorded as `compositionModel` in the package metadata so registry,
-docs, and validation tooling can refer to the same contract. Components with
-specialized payloads (for example, calendar dates or slider values) still own
-their payload normalization; the shared rule governs only root content selection.
+- `compound`: children supply the complete part hierarchy.
+- `children-first-fallback`: children replace the whole generated convenience hierarchy.
+- `content-children`: the root generates structure and children fill its content region.
+- `payload-snippet`: the primitive invokes children with typed state or collection data.
+- `additive`: legacy convenience content and children intentionally render together.
+- `presentational`: native children are ordinary element content.
+
+`compositionModel` remains as a compatibility description of the common
+children-first default; it is not a package-wide override. Collapsible's
+title/content pairing, Sidebar's legacy additive items, and typed Calendar and
+Pagination payloads are deliberate exceptions. New roots must add an explicit
+mode in the same change as their metadata.
 
 ## Dialog
 
@@ -25,6 +30,7 @@ their payload normalization; the shared rule governs only root content selection
 - Particle examples: 6
 - Svelte foundation: Dialog (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -47,11 +53,12 @@ Source notes:
 - Particle examples: 2
 - Svelte foundation: AlertDialog (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
 1. Define the public Svelte exports and naming so examples read like COSS while following Svelte conventions.
-2. Map COSS Alert Dialog sections onto Bits UI AlertDialog root, trigger, portal, overlay, content, title, description, action, and cancel parts.
+2. Map COSS Alert Dialog sections onto Bits UI primitives and make overlay interaction dismiss the popup consistently with the other modal components.
 3. Preserve COSS visual tokens through shared variants, CSS variables, and data-slot selectors instead of component-local one-off styles.
 4. Port the highest-signal COSS particle examples first, then add the full particle set after the primitive API is stable.
 5. Verify SSR/hydration, keyboard behavior, focus management, disabled/invalid states, and Field/Form composition where relevant.
@@ -69,6 +76,7 @@ Source notes:
 - Particle examples: 3
 - Svelte foundation: Dialog (compound)
 - Implementation tier: compound primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -91,6 +99,7 @@ Source notes:
 - Particle examples: 14
 - Svelte foundation: Dialog accessibility shell + custom motion (custom)
 - Implementation tier: custom compound
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -113,6 +122,7 @@ Source notes:
 - Particle examples: 3
 - Svelte foundation: Popover (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -135,6 +145,7 @@ Source notes:
 - Particle examples: 4
 - Svelte foundation: Tooltip (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -157,6 +168,7 @@ Source notes:
 - Particle examples: 1
 - Svelte foundation: LinkPreview (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -179,6 +191,7 @@ Source notes:
 - Particle examples: 9
 - Svelte foundation: DropdownMenu / ContextMenu / Menu (compound)
 - Implementation tier: compound primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -193,6 +206,29 @@ Source notes:
 - Local primitive reference present: yes
 - COSS live docs: https://coss.com/ui/docs/components/menu.md
 
+## Context Menu
+
+- Category: Overlays & Popups
+- COSS scope: A menu that appears at the pointer on right click or long press.
+- COSS docs: https://coss.com/ui/docs/components/context-menu.md
+- Particle examples: 8
+- Svelte foundation: ContextMenu (bits)
+- Implementation tier: direct primitive
+- Root composition: compound
+
+Implementation outline:
+
+1. Define the public Svelte exports and naming so examples read like COSS while following Svelte conventions.
+2. Wrap Bits UI ContextMenu with pointer and keyboard triggers, action and link items, checkbox and radio controls, nested submenus, labels, separators, and shortcuts.
+3. Preserve COSS visual tokens through shared variants, CSS variables, and data-slot selectors instead of component-local one-off styles.
+4. Port the highest-signal COSS particle examples first, then add the full particle set after the primitive API is stable.
+5. Verify SSR/hydration, keyboard behavior, focus management, disabled/invalid states, and Field/Form composition where relevant.
+
+Source notes:
+
+- Local primitive reference present: yes
+- COSS live docs: https://coss.com/ui/docs/components/context-menu.md
+
 ## Command
 
 - Category: Overlays & Popups
@@ -201,6 +237,7 @@ Source notes:
 - Particle examples: 2
 - Svelte foundation: Command + Dialog (compound)
 - Implementation tier: compound primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -223,6 +260,7 @@ Source notes:
 - Particle examples: 23
 - Svelte foundation: Select (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -245,6 +283,7 @@ Source notes:
 - Particle examples: 18
 - Svelte foundation: Combobox (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -267,6 +306,7 @@ Source notes:
 - Particle examples: 15
 - Svelte foundation: Combobox (compound)
 - Implementation tier: compound primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -289,6 +329,7 @@ Source notes:
 - Particle examples: 19
 - Svelte foundation: native input (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -311,6 +352,7 @@ Source notes:
 - Particle examples: 15
 - Svelte foundation: native textarea (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -333,6 +375,7 @@ Source notes:
 - Particle examples: 28
 - Svelte foundation: native markup (compound)
 - Implementation tier: compound primitive
+- Root composition: presentational
 
 Implementation outline:
 
@@ -355,6 +398,7 @@ Source notes:
 - Particle examples: 9
 - Svelte foundation: PinInput (bits)
 - Implementation tier: direct primitive
+- Root composition: payload-snippet
 
 Implementation outline:
 
@@ -377,6 +421,7 @@ Source notes:
 - Particle examples: 11
 - Svelte foundation: custom spinbutton (custom)
 - Implementation tier: custom primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -399,6 +444,7 @@ Source notes:
 - Particle examples: 23
 - Svelte foundation: Slider (bits)
 - Implementation tier: direct primitive
+- Root composition: payload-snippet
 
 Implementation outline:
 
@@ -421,6 +467,7 @@ Source notes:
 - Particle examples: 24
 - Svelte foundation: Calendar / RangeCalendar (bits)
 - Implementation tier: direct primitive
+- Root composition: payload-snippet
 
 Implementation outline:
 
@@ -443,6 +490,7 @@ Source notes:
 - Particle examples: 9
 - Svelte foundation: DatePicker / DateRangePicker (compound)
 - Implementation tier: compound primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -465,6 +513,7 @@ Source notes:
 - Particle examples: 2
 - Svelte foundation: native form (native)
 - Implementation tier: integration layer
+- Root composition: presentational
 
 Implementation outline:
 
@@ -487,6 +536,7 @@ Source notes:
 - Particle examples: 18
 - Svelte foundation: Label + native semantics (compound)
 - Implementation tier: compound primitive
+- Root composition: content-children
 
 Implementation outline:
 
@@ -509,6 +559,7 @@ Source notes:
 - Particle examples: 1
 - Svelte foundation: native fieldset (native)
 - Implementation tier: presentational
+- Root composition: content-children
 
 Implementation outline:
 
@@ -531,6 +582,7 @@ Source notes:
 - Particle examples: 0
 - Svelte foundation: Label (bits)
 - Implementation tier: direct primitive
+- Root composition: presentational
 
 Implementation outline:
 
@@ -553,6 +605,7 @@ Source notes:
 - Particle examples: 5
 - Svelte foundation: Checkbox (bits)
 - Implementation tier: direct primitive
+- Root composition: presentational
 
 Implementation outline:
 
@@ -575,6 +628,7 @@ Source notes:
 - Particle examples: 5
 - Svelte foundation: Checkbox + custom group (custom)
 - Implementation tier: compound primitive
+- Root composition: content-children
 
 Implementation outline:
 
@@ -597,6 +651,7 @@ Source notes:
 - Particle examples: 6
 - Svelte foundation: RadioGroup (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -619,6 +674,7 @@ Source notes:
 - Particle examples: 6
 - Svelte foundation: Switch (bits)
 - Implementation tier: direct primitive
+- Root composition: content-children
 
 Implementation outline:
 
@@ -641,6 +697,7 @@ Source notes:
 - Particle examples: 8
 - Svelte foundation: Toggle (bits)
 - Implementation tier: direct primitive
+- Root composition: presentational
 
 Implementation outline:
 
@@ -663,6 +720,7 @@ Source notes:
 - Particle examples: 9
 - Svelte foundation: ToggleGroup (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -685,6 +743,7 @@ Source notes:
 - Particle examples: 13
 - Svelte foundation: Tabs (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -707,6 +766,7 @@ Source notes:
 - Particle examples: 4
 - Svelte foundation: Accordion (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -729,6 +789,7 @@ Source notes:
 - Particle examples: 1
 - Svelte foundation: Collapsible (bits)
 - Implementation tier: direct primitive
+- Root composition: content-children
 
 Implementation outline:
 
@@ -751,6 +812,7 @@ Source notes:
 - Particle examples: 0
 - Svelte foundation: Collapsible + native navigation (compound)
 - Implementation tier: compound primitive
+- Root composition: additive
 
 Implementation outline:
 
@@ -773,6 +835,7 @@ Source notes:
 - Particle examples: 7
 - Svelte foundation: native nav (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -795,6 +858,7 @@ Source notes:
 - Particle examples: 3
 - Svelte foundation: Pagination (bits)
 - Implementation tier: direct primitive
+- Root composition: payload-snippet
 
 Implementation outline:
 
@@ -817,6 +881,7 @@ Source notes:
 - Particle examples: 1
 - Svelte foundation: Toolbar (bits)
 - Implementation tier: direct primitive
+- Root composition: presentational
 
 Implementation outline:
 
@@ -839,6 +904,7 @@ Source notes:
 - Particle examples: 5
 - Svelte foundation: ScrollArea (bits)
 - Implementation tier: direct primitive
+- Root composition: presentational
 
 Implementation outline:
 
@@ -861,6 +927,7 @@ Source notes:
 - Particle examples: 11
 - Svelte foundation: native markup (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -883,6 +950,7 @@ Source notes:
 - Particle examples: 4
 - Svelte foundation: native markup (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -905,6 +973,7 @@ Source notes:
 - Particle examples: 8
 - Svelte foundation: native table (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -927,6 +996,7 @@ Source notes:
 - Particle examples: 14
 - Svelte foundation: Avatar (bits)
 - Implementation tier: direct primitive
+- Root composition: children-first-fallback
 
 Implementation outline:
 
@@ -949,6 +1019,7 @@ Source notes:
 - Particle examples: 20
 - Svelte foundation: native markup (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -971,6 +1042,7 @@ Source notes:
 - Particle examples: 1
 - Svelte foundation: native kbd (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -993,6 +1065,7 @@ Source notes:
 - Particle examples: 1
 - Svelte foundation: Separator (bits)
 - Implementation tier: direct primitive
+- Root composition: presentational
 
 Implementation outline:
 
@@ -1015,6 +1088,7 @@ Source notes:
 - Particle examples: 22
 - Svelte foundation: native markup (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -1037,6 +1111,7 @@ Source notes:
 - Particle examples: 1
 - Svelte foundation: native markup (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -1059,6 +1134,7 @@ Source notes:
 - Particle examples: 7
 - Svelte foundation: native markup (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -1081,6 +1157,7 @@ Source notes:
 - Particle examples: 13
 - Svelte foundation: custom store + portal (custom)
 - Implementation tier: custom compound
+- Root composition: content-children
 
 Implementation outline:
 
@@ -1103,6 +1180,7 @@ Source notes:
 - Particle examples: 3
 - Svelte foundation: Progress (bits)
 - Implementation tier: direct primitive
+- Root composition: content-children
 
 Implementation outline:
 
@@ -1125,6 +1203,7 @@ Source notes:
 - Particle examples: 4
 - Svelte foundation: Meter (bits)
 - Implementation tier: direct primitive
+- Root composition: content-children
 
 Implementation outline:
 
@@ -1147,6 +1226,7 @@ Source notes:
 - Particle examples: 1
 - Svelte foundation: native SVG/CSS (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -1169,6 +1249,7 @@ Source notes:
 - Particle examples: 2
 - Svelte foundation: native markup (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 
@@ -1191,6 +1272,7 @@ Source notes:
 - Particle examples: 40
 - Svelte foundation: native button/link (native)
 - Implementation tier: presentational
+- Root composition: presentational
 
 Implementation outline:
 

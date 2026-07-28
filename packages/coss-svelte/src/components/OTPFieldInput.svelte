@@ -1,9 +1,7 @@
 <script lang="ts">
-import type { ComponentProps, Snippet } from "svelte";
-import OTPFieldCell from "./OTPFieldCell.svelte";
+import OTPFieldCell, { type OTPFieldCellProps } from "./OTPFieldCell.svelte";
 
-type Props = ComponentProps<typeof OTPFieldCell>;
-let { cell, children, ...rest }: Props = $props();
+let { cell, children, ...rest }: OTPFieldCellProps = $props();
 </script>
 
 <OTPFieldCell data-slot="otp-field-input" {cell} {...rest}>

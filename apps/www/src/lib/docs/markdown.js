@@ -145,17 +145,33 @@ function createApiReferenceMarkdown(reference = []) {
 						hasDefault ? "| --- | --- | --- | --- |" : "| --- | --- | --- |",
 						...props.map((prop) =>
 							hasDefault
-								? `| \`${escapeTableCell(prop.name)}\` | \`${escapeTableCell(prop.type)}\` | ${
+								? `| \`${escapeTableCell(prop.bindable ? `bind:${prop.name}` : prop.name)}\` | \`${escapeTableCell(prop.type)}\` | ${
 										prop.default !== undefined ? `\`${escapeTableCell(prop.default)}\`` : "-"
 									} | ${escapeTableCell(prop.description)} |`
-								: `| \`${escapeTableCell(prop.name)}\` | \`${escapeTableCell(prop.type)}\` | ${escapeTableCell(prop.description)} |`
+								: `| \`${escapeTableCell(prop.bindable ? `bind:${prop.name}` : prop.name)}\` | \`${escapeTableCell(prop.type)}\` | ${escapeTableCell(prop.description)} |`
 						),
 					].join("\n")
+				: "";
+			const signatures = element.signatures?.length
+				? `\n\n**Signatures**\n\n${element.signatures
+						.map((signature) => `- \`${escapeTableCell(signature)}\``)
+						.join("\n")}`
+				: "";
+			const facts = element.facts?.length
+				? `\n\n**Composition and refs**\n\n${element.facts
+						.map(
+							(fact) =>
+								`- \`${fact.bindable ? `bind:${fact.name}` : fact.name}: ${escapeTableCell(fact.type)}\``
+						)
+						.join("\n")}`
+				: "";
+			const inherited = element.inherited
+				? `\n\nInherits from [${element.inherited.label}](${element.inherited.url}).`
 				: "";
 
 			return `### ${element.name}
 
-${element.description}${table ? `\n\n${table}` : ""}`;
+${element.description}${signatures}${table ? `\n\n${table}` : ""}${facts}${inherited}`;
 		})
 		.join("\n\n");
 }

@@ -5,7 +5,7 @@ import {
 	experimentalComponents,
 	stableComponents,
 } from "coss-svelte/metadata";
-import { getComponentApiReference } from "./api-reference.js";
+import { getComponentApiReference } from "./api-reference.generated.js";
 
 const statusLabels = {
 	deferred: "Deferred",

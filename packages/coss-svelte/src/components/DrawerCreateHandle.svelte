@@ -1,9 +1,11 @@
 <script lang="ts">
 import { Dialog as DialogPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", ...rest }: NativeProps = $props();
+type Props = Omit<ComponentProps<typeof DialogPrimitive.Close>, "child" | "children">;
+
+let { ref = $bindable(null), class: className = "", ...rest }: Props = $props();
 
 type DragState = { pointerId: number; popup: HTMLElement; startY: number; distance: number } | null;
 let dragState: DragState = null;
@@ -89,6 +91,7 @@ function handlePointerCancel(event: PointerEvent): void {
 </script>
 
 <DialogPrimitive.Close
+	bind:ref
 	data-slot="drawer-create-handle"
 	class={cn("cn-drawer-handle", className)}
 	aria-label="Close drawer"

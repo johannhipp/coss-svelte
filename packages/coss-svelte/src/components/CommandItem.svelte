@@ -9,10 +9,17 @@ type Props = Omit<ComponentProps<typeof CommandPrimitive.Item>, "children" | "ch
 	forceMount?: boolean;
 };
 
-let { class: className = "", children, forceMount, ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	class: className = "",
+	children,
+	forceMount,
+	...rest
+}: Props = $props();
 </script>
 
 <CommandPrimitive.Item
+	bind:ref
 	data-slot="command-item"
 	class={cn("cn-command-item", className)}
 	{forceMount}

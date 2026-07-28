@@ -6,10 +6,28 @@ Thanks for helping prepare `coss-svelte` for public use. Keep setup, documentati
 
 ```sh
 pnpm install --frozen-lockfile
+pnpm dev
+```
+
+The root development command performs the initial package build, then watches the package and docs
+app together. For verification, run:
+
+```sh
 pnpm biome:ci
 pnpm check
 pnpm test
 ```
+
+The browser matrix can be narrowed while developing a component family:
+
+```sh
+pnpm test:browser:components
+node scripts/smoke-docs-browser.mjs --family modal
+```
+
+The first command builds the docs app before running every component family.
+The second reuses an existing build and accepts any family listed in
+`tests/component-family-matrix.mjs`.
 
 Before a release-oriented change is considered complete, run:
 
@@ -23,12 +41,17 @@ pnpm release:check
 - Shared theme CSS belongs in `packages/theme`.
 - Registry schema and generated metadata belong in `packages/registry` and `apps/registry`.
 - Documentation UI belongs in `apps/www`.
-- Implementation plans and decisions belong in `docs/implementation`.
+- Current scope, decisions, limitations, and roadmap guidance belong in
+  `docs/implementation`.
 - Raw upstream clones and downloaded source snapshots must stay out of git.
 
 ## Component Work
 
-Use `docs/implementation/phases.md` as the ordering guide and keep each pull request scoped to a small component family. Update registry metadata, docs examples, and tests with the component changes.
+Start with `docs/implementation/v0.1-scope-decisions.md`, preserve the decisions
+in `docs/implementation/decision-records.md`, and keep each pull request scoped
+to a small component family. Update canonical component metadata, generated
+registry and scope output, docs examples, API reference content, and relevant
+tests together.
 
 ## Release Work
 

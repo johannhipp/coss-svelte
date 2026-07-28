@@ -2,11 +2,55 @@ import { spawn } from "node:child_process";
 import { createServer } from "node:net";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import AxeBuilder from "@axe-core/playwright";
 import { chromium } from "@playwright/test";
+import {
+	componentFamilyGroups,
+	runComponentFamilyCases,
+} from "./browser/component-family-cases.mjs";
+import { runDocsShellCases } from "./browser/docs-shell-cases.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const docsRoot = join(root, "apps/www");
+const fixturePath = "/__test__/component-families";
+const suites = new Set(["all", "docs", "components"]);
+
+function parseArguments(arguments_) {
+	let suite = "all";
+	let family;
+
+	for (let index = 0; index < arguments_.length; index += 1) {
+		const argument = arguments_[index];
+		if (argument === "--suite") {
+			suite = arguments_[index + 1];
+			index += 1;
+			if (!suite || !suites.has(suite)) {
+				throw new Error(
+					`Unknown browser suite "${suite ?? ""}". Expected one of: ${[...suites].join(", ")}.`
+				);
+			}
+			continue;
+		}
+		if (argument === "--family") {
+			family = arguments_[index + 1];
+			index += 1;
+			if (!family || !(family in componentFamilyGroups)) {
+				throw new Error(
+					`Unknown component family "${family ?? ""}". Expected one of: ${Object.keys(
+						componentFamilyGroups
+					).join(", ")}.`
+				);
+			}
+			continue;
+		}
+		throw new Error(`Unknown browser argument "${argument}". Use --suite or --family.`);
+	}
+
+	if (family && suite === "docs") {
+		throw new Error("--family cannot be combined with --suite docs.");
+	}
+	if (family && suite === "all") suite = "components";
+	return { family, suite };
+}
 
 function reservePort() {
 	return new Promise((resolve, reject) => {
@@ -54,59 +98,96 @@ async function stop(child) {
 	]);
 }
 
-const port = await reservePort();
-const docsServer = spawn(process.execPath, ["build"], {
-	cwd: docsRoot,
-	env: { ...process.env, PORT: String(port) },
-	stdio: "inherit",
-});
-const baseUrl = `http://127.0.0.1:${port}`;
+async function startDocsServer(fixtureEnabled) {
+	const port = await reservePort();
+	const environment = { ...process.env, PORT: String(port) };
+	if (fixtureEnabled) {
+		environment.COSS_ENABLE_TEST_FIXTURES = "1";
+	} else {
+		delete environment.COSS_ENABLE_TEST_FIXTURES;
+	}
+	const child = spawn(process.execPath, ["build"], {
+		cwd: docsRoot,
+		env: environment,
+		stdio: "inherit",
+	});
+	const baseUrl = `http://127.0.0.1:${port}`;
+	await waitForServer(baseUrl, 20_000);
+	return { baseUrl, child };
+}
+
+async function assertFixtureGuard() {
+	const normalServer = await startDocsServer(false);
+	try {
+		const response = await fetch(`${normalServer.baseUrl}${fixturePath}`);
+		if (response.status !== 404) {
+			throw new Error(`The browser-only fixture returned ${response.status} without its guard.`);
+		}
+	} finally {
+		await stop(normalServer.child);
+	}
+}
+
+async function assertFixtureAnchors(baseUrl) {
+	const response = await fetch(`${baseUrl}${fixturePath}`);
+	if (!response.ok) {
+		throw new Error(`The enabled browser fixture returned ${response.status}.`);
+	}
+	const html = await response.text();
+	for (const anchor of [
+		"component-family-fixture",
+		"modal-family",
+		"floating-family",
+		"menu-family",
+		"listbox-family",
+		"choice-family",
+		"disclosure-family",
+		"date-range-family",
+		"native-form-family",
+		"managed-feedback-family",
+		"action-family",
+		"presentational-family",
+		"selector-portal-host",
+		"element-portal-host",
+	]) {
+		if (!html.includes(`data-testid="${anchor}"`)) {
+			throw new Error(`The enabled browser fixture is missing ${anchor}.`);
+		}
+	}
+}
+
+let options;
+try {
+	options = parseArguments(process.argv.slice(2));
+} catch (error) {
+	console.error(error instanceof Error ? error.message : error);
+	process.exit(2);
+}
+
+await assertFixtureGuard();
+const docsServer = await startDocsServer(true);
 let browser;
 
 try {
-	await waitForServer(baseUrl, 20_000);
+	await assertFixtureAnchors(docsServer.baseUrl);
 	browser = await chromium.launch();
-	const context = await browser.newContext();
-	const page = await context.newPage();
-
-	await page.goto(`${baseUrl}/docs/introduction`, { waitUntil: "networkidle" });
-	await page.getByRole("heading", { name: "Introduction" }).waitFor();
-
-	const toggle = page.getByRole("button", { name: /Switch to (dark|light) theme/ });
-	const wasPressed = await toggle.getAttribute("aria-pressed");
-	await toggle.click();
-	await page.waitForFunction(
-		(expected) => document.documentElement.classList.contains("dark") === expected,
-		wasPressed !== "true"
-	);
-
-	await page.keyboard.press("ControlOrMeta+K");
-	await page.locator("#docs-search-input").waitFor();
-	await page.keyboard.press("Escape");
-	await page.locator("#docs-search-input").waitFor({ state: "hidden" });
-
-	const accessibility = await new AxeBuilder({ page })
-		.withTags(["wcag2a", "wcag2aa", "wcag21aa"])
-		.analyze();
-	const blockingViolations = accessibility.violations.filter((violation) =>
-		["critical", "serious"].includes(violation.impact)
-	);
-	if (blockingViolations.length > 0) {
-		throw new Error(
-			`Accessibility violations:\n${blockingViolations
-				.map(
-					(violation) =>
-						`${violation.id}: ${violation.nodes.map((node) => node.target.join(", ")).join("; ")}`
-				)
-				.join("\n")}`
-		);
+	if (options.suite === "all" || options.suite === "docs") {
+		await runDocsShellCases({ browser, baseUrl: docsServer.baseUrl });
 	}
-
-	console.log("Docs browser smoke and accessibility checks passed.");
+	if (options.suite === "all" || options.suite === "components") {
+		await runComponentFamilyCases({
+			browser,
+			baseUrl: docsServer.baseUrl,
+			family: options.family,
+		});
+	}
+	console.log(
+		`Browser smoke passed for ${options.family ? `component family ${options.family}` : `suite ${options.suite}`}.`
+	);
 } catch (error) {
 	console.error(error);
 	process.exitCode = 1;
 } finally {
 	await browser?.close();
-	await stop(docsServer);
+	await stop(docsServer.child);
 }

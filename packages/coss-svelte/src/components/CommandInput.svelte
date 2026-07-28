@@ -8,7 +8,12 @@ type Props = Omit<ComponentProps<typeof CommandPrimitive.Input>, "children" | "c
 	class?: string;
 };
 
-let { value = $bindable(""), class: className = "", ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	value = $bindable(""),
+	class: className = "",
+	...rest
+}: Props = $props();
 </script>
 
 <span data-slot="command-input-group" class="cn-command-input-group">
@@ -29,6 +34,7 @@ let { value = $bindable(""), class: className = "", ...rest }: Props = $props();
 		</svg>
 	</span>
 	<CommandPrimitive.Input
+	bind:ref
 		data-slot="command-input"
 		class={cn("cn-command-input", className)}
 		bind:value

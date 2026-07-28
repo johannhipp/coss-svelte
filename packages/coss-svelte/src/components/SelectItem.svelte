@@ -6,10 +6,11 @@ import { cn } from "../utils.js";
 type Props = Omit<ComponentProps<typeof SelectPrimitive.Item>, "children" | "child"> & {
 	children?: Snippet;
 };
-let { value, class: className = "", children, ...rest }: Props = $props();
+let { ref = $bindable(null), value, class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <SelectPrimitive.Item
+	bind:ref
 	data-slot="select-item"
 	class={cn("cn-select-item", className)}
 	{value}

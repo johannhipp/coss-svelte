@@ -99,10 +99,36 @@ test("local particles route renders a component-catalog view", async () => {
 	);
 	assert.match(
 		browserSource,
-		/each particles as particle/,
+		/each matchingParticleOptions as option/,
 		"particle filters should be sourced from supported particles"
 	);
-	assert.match(browserSource, /particle\.title/, "particle filters should display component names");
+	assert.match(browserSource, /option\.label/, "particle filters should display component names");
+	assert.match(
+		browserSource,
+		/<Combobox/,
+		"particle search should use the shared combobox behavior"
+	);
+	assert.match(browserSource, /type="multiple"/, "particle search should support multiple filters");
+	assert.match(
+		browserSource,
+		/onfocus=\{\(\) => \{/,
+		"particle search should open its filters immediately on focus"
+	);
+	assert.match(
+		browserSource,
+		/event\.key === "Backspace" \|\| event\.key === "Delete"/,
+		"particle search should remove filters from the keyboard"
+	);
+	assert.match(
+		browserSource,
+		/data-particle-filter-popup/,
+		"particle search should expose one dismissible popup"
+	);
+	assert.doesNotMatch(
+		browserSource,
+		/<details|<summary/,
+		"particle search should not expose a separate tag-icon disclosure"
+	);
 	assert.doesNotMatch(
 		loadSource + pageSource + browserSource,
 		/categoryOrder|selectedCategories|categories=\{data\.categories\}/,

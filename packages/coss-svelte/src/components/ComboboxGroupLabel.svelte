@@ -1,12 +1,15 @@
 <script lang="ts">
 import { Combobox as ComboboxPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = Omit<ComponentProps<typeof ComboboxPrimitive.GroupHeading>, "child">;
+
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <ComboboxPrimitive.GroupHeading
+	bind:ref
 	data-slot="combobox-group-label"
 	class={cn("cn-combobox-group-label", className)}
 	{...rest}

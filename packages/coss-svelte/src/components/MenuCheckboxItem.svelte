@@ -8,10 +8,20 @@ type Props = Omit<ComponentProps<typeof MenuPrimitive.CheckboxItem>, "children" 
 	children?: ComponentProps<typeof MenuPrimitive.CheckboxItem>["children"];
 };
 
-let { class: className = "", children: itemChildren = undefined, ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	checked = $bindable(false),
+	indeterminate = $bindable(false),
+	class: className = "",
+	children: itemChildren = undefined,
+	...rest
+}: Props = $props();
 </script>
 
 <MenuPrimitive.CheckboxItem
+	bind:ref
+	bind:checked
+	bind:indeterminate
 	data-slot="menu-checkbox-item"
 	class={cn("cn-menu-item cn-menu-checkbox-item", className)}
 	{...rest}

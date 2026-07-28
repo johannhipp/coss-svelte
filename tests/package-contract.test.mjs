@@ -3,6 +3,7 @@ import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
+import { componentMetadata } from "../packages/coss-svelte/src/metadata.js";
 
 const packageManifest = JSON.parse(
 	await readFile(new URL("../packages/coss-svelte/package.json", import.meta.url), "utf8")
@@ -39,5 +40,8 @@ test("package publishes generated declarations instead of a handwritten escape h
 
 test("package exports generated component entrypoints", () => {
 	const exportCount = (indexSource.match(/^export \{ default as /gm) ?? []).length;
-	assert.equal(exportCount, 258);
+	const expectedExportCount = Object.values(componentMetadata)
+		.filter((metadata) => metadata.status !== "deferred")
+		.reduce((count, metadata) => count + 1 + metadata.parts.length, 0);
+	assert.equal(exportCount, expectedExportCount);
 });

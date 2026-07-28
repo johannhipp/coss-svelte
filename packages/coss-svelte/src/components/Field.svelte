@@ -31,6 +31,7 @@ const field = createFieldContext(fieldId, {
 	required: () => required,
 	disabled: () => disabled,
 	invalid: () => invalid,
+	label: () => Boolean(label),
 	description: () => Boolean(description),
 	error: () => Boolean(error),
 });

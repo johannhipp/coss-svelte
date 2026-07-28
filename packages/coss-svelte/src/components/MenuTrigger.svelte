@@ -1,12 +1,15 @@
 <script lang="ts">
 import { DropdownMenu as MenuPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = ComponentProps<typeof MenuPrimitive.Trigger>;
+
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <MenuPrimitive.Trigger
+	bind:ref
 	data-slot="menu-trigger"
 	class={cn("cn-menu-trigger", className)}
 	{...rest}

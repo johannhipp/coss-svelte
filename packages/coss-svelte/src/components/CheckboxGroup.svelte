@@ -3,12 +3,14 @@ import { Checkbox as CheckboxPrimitive } from "bits-ui";
 import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
 
-type Props = Omit<ComponentProps<typeof CheckboxPrimitive.Group>, "children" | "child"> & {
+type Props = Omit<ComponentProps<typeof CheckboxPrimitive.Group>, "children" | "child" | "name"> & {
+	name?: string;
 	label?: string;
 	children?: Snippet;
 };
 
 let {
+	ref = $bindable(null),
 	value = $bindable([]),
 	label = "",
 	class: className = "",
@@ -18,6 +20,7 @@ let {
 </script>
 
 <CheckboxPrimitive.Group
+	bind:ref
 	data-slot="checkbox-group"
 	class={cn("cn-choice-group", className)}
 	bind:value

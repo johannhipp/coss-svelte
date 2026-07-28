@@ -9,10 +9,17 @@ type Props = Omit<ComponentProps<typeof AccordionPrimitive.Content>, "children" 
 	forceMount?: boolean;
 };
 
-let { class: className = "", children, forceMount = true, ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	class: className = "",
+	children,
+	forceMount = true,
+	...rest
+}: Props = $props();
 </script>
 
 <AccordionPrimitive.Content
+	bind:ref
 	data-slot="accordion-content"
 	class={cn("cn-accordion-content", className)}
 	{forceMount}

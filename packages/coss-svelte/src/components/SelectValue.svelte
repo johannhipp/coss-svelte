@@ -8,11 +8,17 @@ type Props = Omit<ComponentProps<typeof SelectPrimitive.Value>, "children" | "ch
 	children?: ComponentProps<typeof SelectPrimitive.Value>["children"];
 };
 
-let { class: className = "", children: valueChildren = undefined, ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	class: className = "",
+	children: valueChildren = undefined,
+	...rest
+}: Props = $props();
 </script>
 
 {#if valueChildren}
 	<SelectPrimitive.Value
+		bind:ref
 		data-slot="select-value"
 		class={cn("cn-select-value", className)}
 		{...rest}
@@ -23,6 +29,7 @@ let { class: className = "", children: valueChildren = undefined, ...rest }: Pro
 	</SelectPrimitive.Value>
 {:else}
 	<SelectPrimitive.Value
+		bind:ref
 		data-slot="select-value"
 		class={cn("cn-select-value", className)}
 		{...rest}

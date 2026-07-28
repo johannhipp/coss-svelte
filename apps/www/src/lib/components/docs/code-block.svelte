@@ -2,7 +2,17 @@
 import { Check, Copy, SquareTerminal } from "@lucide/svelte";
 import { onDestroy } from "svelte";
 
-let { code, language = "svelte" }: { code: string; language?: string } = $props();
+type CodeBlockMode = "standalone" | "embedded";
+
+let {
+	code,
+	language = "svelte",
+	mode = "standalone",
+}: {
+	code: string;
+	language?: string;
+	mode?: CodeBlockMode;
+} = $props();
 
 const packageManagers = ["bun", "npm", "pnpm", "yarn"];
 
@@ -74,7 +84,7 @@ onDestroy(() => {
 });
 </script>
 
-<figure class="docs-code-block">
+<figure class="docs-code-block" data-mode={mode}>
 	{#if isShell}
 		<div class="docs-code-toolbar">
 			<SquareTerminal size={17} strokeWidth={2.1} />
@@ -95,6 +105,7 @@ onDestroy(() => {
 			</div>
 		</div>
 	{/if}
+	<span class="docs-code-copy-rail" aria-hidden="true"></span>
 	<button class="docs-code-copy" type="button" aria-label="Copy code" onclick={copyCode}>
 		{#if copied}
 			<Check size={18} strokeWidth={2.1} />
@@ -102,5 +113,10 @@ onDestroy(() => {
 			<Copy size={18} strokeWidth={2.1} />
 		{/if}
 	</button>
-	<pre class="m-0 overflow-x-auto p-4 text-[13px] leading-6"><code>{@html highlightedCode}</code></pre>
+	<!-- svelte-ignore a11y_no_noninteractive_tabindex (Keyboard users need to focus and scroll overflowing code.) -->
+	<pre
+		class="m-0 overflow-x-auto p-4 text-[13px] leading-6"
+		tabindex="0"
+		aria-label={`${language} code`}
+	><code>{@html highlightedCode}</code></pre>
 </figure>

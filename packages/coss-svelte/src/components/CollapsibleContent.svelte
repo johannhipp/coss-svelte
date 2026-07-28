@@ -9,10 +9,17 @@ type Props = Omit<ComponentProps<typeof CollapsiblePrimitive.Content>, "children
 	forceMount?: boolean;
 };
 
-let { class: className = "", children, forceMount = true, ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	class: className = "",
+	children,
+	forceMount = true,
+	...rest
+}: Props = $props();
 </script>
 
 <CollapsiblePrimitive.Content
+	bind:ref
 	data-slot="collapsible-content"
 	class={cn("cn-collapsible-content", className)}
 	{forceMount}

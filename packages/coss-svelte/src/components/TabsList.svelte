@@ -3,7 +3,7 @@ import { Tabs as TabsPrimitive } from "bits-ui";
 import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-type Props = ComponentProps<typeof TabsPrimitive.List>;
+type Props = Omit<ComponentProps<typeof TabsPrimitive.List>, "child">;
 
 let { class: className = "", children, ref = $bindable(null), ...rest }: Props = $props();
 

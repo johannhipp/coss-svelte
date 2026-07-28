@@ -13,15 +13,18 @@ type Props = Omit<ComponentProps<typeof TabsPrimitive.Root>, "children" | "child
 };
 
 let {
+	ref = $bindable(null),
 	children,
 	value = $bindable("tab-1"),
-	tabs = children ? [] : ["Overview", "Details"],
+	tabs: tabItems = ["Overview", "Details"],
 	class: className = "",
 	...rest
 }: Props = $props();
+
+let tabs = $derived(children ? [] : tabItems);
 </script>
 
-<TabsPrimitive.Root data-slot="tabs" class={cn("cn-tabs", className)} bind:value {...rest}>
+<TabsPrimitive.Root bind:ref data-slot="tabs" class={cn("cn-tabs", className)} bind:value {...rest}>
 	{#if tabs.length}
 		<TabsList>
 		{#each tabs as tab, index}

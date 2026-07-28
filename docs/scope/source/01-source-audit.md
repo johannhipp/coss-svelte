@@ -11,12 +11,12 @@ Generated: 2026-06-09
 
 ## Counts
 
-- Local registry components with primitive references: 53
-- Live `llms.txt` components: 54
+- Local registry components with primitive references: 54
+- Live `llms.txt` components: 55
 - Live `llms.txt` hooks: 2
-- Particle component types: 52
-- Particle examples: 484
-- Union component scope in these files: 54
+- Particle component types: 53
+- Particle examples: 492
+- Union component scope in these files: 55
 
 ## Cross-check Results
 

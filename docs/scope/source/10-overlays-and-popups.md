@@ -1,6 +1,6 @@
 # Overlays & Popups
 
-Components in this category: 9
+Components in this category: 10
 
 ## Dialog
 
@@ -25,7 +25,8 @@ Components in this category: 9
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `DialogPopup` -> Base UI `Dialog.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `DialogPopup` forwards exact Bits UI Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Backdrop dismissal**: a backdrop pointer interaction closes through Bits UI once. Prevent the exceptional close in `onInteractOutside`; content interactions remain inside.
 - **Section structure invariant**: keep `DialogHeader`, `DialogPanel`, and `DialogFooter` as direct sections in `DialogPopup` to preserve built-in layout/styling behavior.
 - **Form in dialog**: keep **`DialogHeader`** outside the form; wrap **`DialogPanel`** + **`DialogFooter`** in **`<Form className="contents">`** (or native `<form className="contents">`) so the popup's flex column treats header, panel, and footer as direct layout sections.
 - **Action buttons**: use `DialogClose` with `render={<Button ... />}` for cancel/close actions and set explicit `type` on submit/action buttons.
@@ -97,7 +98,8 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `AlertDialogPopup` -> Base UI `AlertDialog.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `AlertDialogPopup` forwards exact Bits UI Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Backdrop dismissal**: backdrop pointer interaction closes through Bits UI. Alert Dialog intentionally does not invent the standard Dialog `onInteractOutside` cancellation callback.
 - **Section structure**: keep `AlertDialogHeader` and `AlertDialogFooter` as direct sections of `AlertDialogPopup` (there is no `AlertDialogPanel`; add a `div` or fragment between them only if you need extra body content).
 - **Action composition**: use `AlertDialogClose render={<Button ... />}` for cancel/confirm actions to preserve button semantics and styling.
 - **Destructive affordance**: pair destructive trigger/confirm variants (`destructive-outline`, `destructive`) for clear risk signaling.
@@ -157,7 +159,8 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `SheetPopup` -> Base UI `Dialog.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `SheetPopup` forwards exact Bits UI Dialog Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Backdrop dismissal**: backdrop pointer interaction closes through the Bits dismissible layer and can be prevented through `onInteractOutside`.
 
 ### Common Pitfalls
 
@@ -212,7 +215,8 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `DrawerPopup` -> Base UI `Drawer.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `DrawerPopup` forwards exact Bits UI Dialog Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Backdrop dismissal**: backdrop pointer interaction closes through the Bits dismissible layer and can be prevented through `onInteractOutside`.
 
 ### Common Pitfalls
 
@@ -289,7 +293,7 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `PopoverPopup` -> Base UI `Popover.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `PopoverPopup` forwards exact Bits UI Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
 - **Form-in-popover**: use `PopoverPopup` as a lightweight form container (for example feedback forms with `Form` + `Field` + `Textarea`).
 - **Dismiss controls**: use `PopoverClose` both for footer actions and icon close buttons (`aria-label` + `render={<Button size="icon" .../>}`).
 - **Tooltip-like popovers**: use `tooltipStyle` for info-icon helper content where tooltip density is preferred.
@@ -349,7 +353,7 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `TooltipPopup` -> Base UI `Tooltip.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `TooltipPopup` owns one Portal and forwards exact Bits UI options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
 
 ### Common Pitfalls
 
@@ -399,7 +403,7 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `PreviewCardPopup` -> Base UI `PreviewCard.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `PreviewCardPopup` forwards exact Bits UI Link Preview Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
 
 ### Common Pitfalls
 
@@ -443,7 +447,7 @@ import { PreviewCard, PreviewCardPopup, PreviewCardTrigger } from "@/components/
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `MenuPopup` -> Base UI `Menu.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `MenuPopup` forwards exact Bits UI Dropdown Menu Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
 - Use `MenuTrigger render={<Button ... />}` as the default trigger composition.
 - Use `openOnHover` on `MenuTrigger` only for explicit hover-driven UX.
 - Use `MenuItem render={<Link ... />}` for navigational entries.
@@ -496,6 +500,85 @@ import {
 
 ---
 
+## Context Menu
+
+- Purpose: A pointer-anchored action menu opened by right click, long press, or a keyboard alternative.
+- Registry name: `ContextMenu`
+- Source coverage: live docs and particles
+- Sources: [docs](https://coss.com/ui/docs/components/context-menu.md); 8 particles
+- Package dependency: `bits-ui`
+- Canonical exports: `ContextMenu`, `ContextMenuCheckboxItem`, `ContextMenuGroup`, `ContextMenuGroupLabel`, `ContextMenuItem`, `ContextMenuLinkItem`, `ContextMenuPopup`, `ContextMenuRadioGroup`, `ContextMenuRadioItem`, `ContextMenuSeparator`, `ContextMenuShortcut`, `ContextMenuSub`, `ContextMenuSubPopup`, `ContextMenuSubTrigger`, `ContextMenuTrigger`
+
+### Covers
+
+- Actions whose meaning depends on the target under the pointer.
+- Mixed action, navigation, checkbox, radio, and nested submenu rows.
+- Pointer, long-press, Shift+F10, and Context Menu key entry points.
+
+### Out Of Scope / Use Another Primitive
+
+- If an always-visible button should reveal the actions -> use Menu instead.
+- If the surface contains rich information rather than actions -> use Popover instead.
+- If the action requires a blocking decision or form -> use Dialog or Alert Dialog.
+
+### Key Patterns And Invariants
+
+- Build on Bits UI Context Menu so positioning, roving focus, typeahead, long press, dismissal, and submenu ownership remain primitive behavior.
+- Give the target an accessible keyboard focus path when it is not already interactive.
+- Shift+F10 and the Context Menu key dispatch one composed right-button `contextmenu` event from the current trigger at its visual center; prevented and disabled key paths do nothing.
+- Root popup defaults are `side="bottom"`, `align="center"`, and `sideOffset={4}`. Explicit consumer placement always wins.
+- Subpopups default to logical inline-end (`right` in LTR and `left` in RTL), `align="start"`, `sideOffset={0}`, and `alignOffset={-5}` outside centered alignment.
+- Escape closes the deepest submenu first and restores focus to its trigger; a later Escape closes the root and restores its trigger.
+- Use `ContextMenuLinkItem` for navigation and `ContextMenuItem` for actions.
+- Use the exact `portalProps={{ to, disabled }}` contract when the popup needs a custom Svelte portal target or inline rendering; there are no `container`, `keepMounted`, or caller-owned Portal-children aliases.
+- Use `bind:checked`, `bind:value`, and `bind:open` for checkbox, radio-group, and root/submenu state.
+- Use `closeOnSelect={false}` only for controls that should keep the menu open.
+- Use `variant="destructive"` for dangerous actions and `ContextMenuShortcut` for discoverable keyboard hints.
+
+### Common Pitfalls
+
+- Making right click the only way to reach the menu.
+- Using an action item for navigation and losing anchor semantics.
+- Placing nested content without the `ContextMenuSub`, `ContextMenuSubTrigger`, and `ContextMenuSubPopup` structure.
+- Reimplementing pointer positioning or focus movement outside the primitive.
+
+### Canonical Svelte Import Shape
+
+```svelte
+<script lang="ts">
+	import {
+		ContextMenu,
+		ContextMenuCheckboxItem,
+		ContextMenuGroup,
+		ContextMenuGroupLabel,
+		ContextMenuItem,
+		ContextMenuLinkItem,
+		ContextMenuPopup,
+		ContextMenuRadioGroup,
+		ContextMenuRadioItem,
+		ContextMenuSeparator,
+		ContextMenuShortcut,
+		ContextMenuSub,
+		ContextMenuSubPopup,
+		ContextMenuSubTrigger,
+		ContextMenuTrigger,
+	} from "coss-svelte";
+</script>
+```
+
+### Particle Coverage
+
+- `p-context-menu-1`: Basic pointer menu ([JSON](https://coss.com/ui/r/p-context-menu-1.json))
+- `p-context-menu-2`: Link and navigation items ([JSON](https://coss.com/ui/r/p-context-menu-2.json))
+- `p-context-menu-3`: Nested submenu ([JSON](https://coss.com/ui/r/p-context-menu-3.json))
+- `p-context-menu-4`: Checkbox items ([JSON](https://coss.com/ui/r/p-context-menu-4.json))
+- `p-context-menu-5`: Grouped sections with labels ([JSON](https://coss.com/ui/r/p-context-menu-5.json))
+- `p-context-menu-6`: Icons, shortcuts, and destructive actions ([JSON](https://coss.com/ui/r/p-context-menu-6.json))
+- `p-context-menu-7`: Radio group ([JSON](https://coss.com/ui/r/p-context-menu-7.json))
+- `p-context-menu-8`: Switch-style checkbox items ([JSON](https://coss.com/ui/r/p-context-menu-8.json))
+
+---
+
 ## Command
 
 - Purpose: A command palette component built with Dialog and Autocomplete for searching and executing commands.
@@ -519,7 +602,8 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `CommandDialogPopup` -> Base UI `Dialog.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `CommandDialogPopup` forwards exact Bits UI Dialog Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Backdrop dismissal**: backdrop pointer interaction closes through the Bits dismissible layer and can be prevented through `onInteractOutside`.
 
 ### Common Pitfalls
 

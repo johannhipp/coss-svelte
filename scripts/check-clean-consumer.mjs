@@ -1,13 +1,15 @@
 import { spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, isAbsolute, join, sep as pathSeparator, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const packageRoot = join(root, "packages/coss-svelte");
 const themeRoot = join(root, "packages/theme");
-const registryItemPath = join(root, "apps/registry/static/r/button.json");
+const registryItemPaths = ["button", "number-field", "context-menu"].map((slug) =>
+	join(root, `apps/registry/static/r/${slug}.json`)
+);
 
 function run(command, args, options = {}) {
 	const result = spawnSync(command, args, {
@@ -42,7 +44,7 @@ function fixtureDependencies({
 	appPackage,
 	componentPackage,
 	componentTarball,
-	registryItem,
+	registryItems,
 	themeTarball,
 }) {
 	const dependencies = {
@@ -60,30 +62,56 @@ function fixtureDependencies({
 		vite: appPackage.dependencies.vite,
 	};
 
-	for (const dependency of registryItem.dependencies) {
-		if (dependency in dependencies) continue;
-		throw new Error(`Registry fixture needs an undeclared fixture version for ${dependency}.`);
+	for (const registryItem of registryItems) {
+		for (const dependency of registryItem.dependencies) {
+			if (dependency in dependencies) continue;
+			throw new Error(
+				`${registryItem.name} registry fixture needs an undeclared fixture version for ${dependency}.`
+			);
+		}
 	}
 
 	return dependencies;
 }
 
-async function writeRegistryFiles(fixtureRoot, registryItem) {
+async function writeRegistryFiles(fixtureRoot, registryItems) {
 	const libRoot = join(fixtureRoot, "src/lib");
+	const writtenTargets = new Map();
 
-	for (const file of registryItem.files) {
-		const target = resolve(libRoot, file.target);
-		if (!target.startsWith(`${libRoot}/`)) {
-			throw new Error(`Registry item target escapes fixture source: ${file.target}`);
+	for (const registryItem of registryItems) {
+		for (const file of registryItem.files) {
+			const target = resolve(libRoot, file.target);
+			const relativeTarget = relative(libRoot, target);
+			if (
+				relativeTarget === "" ||
+				relativeTarget === ".." ||
+				relativeTarget.startsWith(`..${pathSeparator}`) ||
+				isAbsolute(relativeTarget)
+			) {
+				throw new Error(
+					`${registryItem.name} registry target escapes fixture source: ${file.target}`
+				);
+			}
+			const existing = writtenTargets.get(target);
+			if (existing !== undefined && existing.content !== file.content) {
+				throw new Error(
+					`Registry items ${existing.itemName} and ${registryItem.name} conflict at ${file.target}.`
+				);
+			}
+			if (existing !== undefined) continue;
+			writtenTargets.set(target, {
+				content: file.content,
+				itemName: registryItem.name,
+			});
+			await mkdir(dirname(target), { recursive: true });
+			await writeFile(target, file.content);
 		}
-		await mkdir(dirname(target), { recursive: true });
-		await writeFile(target, file.content);
 	}
 }
 
 async function createFixture(fixtureRoot, input) {
 	await mkdir(join(fixtureRoot, "src/routes"), { recursive: true });
-	await writeRegistryFiles(fixtureRoot, input.registryItem);
+	await writeRegistryFiles(fixtureRoot, input.registryItems);
 
 	await writeFile(
 		join(fixtureRoot, "package.json"),
@@ -135,7 +163,7 @@ async function createFixture(fixtureRoot, input) {
 	);
 	await writeFile(
 		join(fixtureRoot, "src/routes/+page.svelte"),
-		`<script>\n\timport { Card, CardPanel, CardTitle, Field, Input } from "coss-svelte";\n\timport Button from "$lib/components/Button.svelte";\n</script>\n\n<Card>\n\t<CardPanel>\n\t\t<CardTitle>Clean consumer</CardTitle>\n\t\t<Field label="Email" description="Uses the packaged Field contract.">\n\t\t\t<Input type="email" />\n\t\t</Field>\n\t\t<Button>Registry button</Button>\n\t</CardPanel>\n</Card>\n`
+		`<script>\n\timport {\n\t\tCard,\n\t\tCardPanel,\n\t\tCardTitle,\n\t\tContextMenu as PackageContextMenu,\n\t\tContextMenuItem as PackageContextMenuItem,\n\t\tContextMenuPopup as PackageContextMenuPopup,\n\t\tContextMenuTrigger as PackageContextMenuTrigger,\n\t\tField,\n\t\tInput,\n\t\tNumberField as PackageNumberField,\n\t} from "coss-svelte";\n\timport RegistryButton from "$lib/components/Button.svelte";\n\timport RegistryContextMenu from "$lib/components/ContextMenu.svelte";\n\timport RegistryContextMenuItem from "$lib/components/ContextMenuItem.svelte";\n\timport RegistryContextMenuPopup from "$lib/components/ContextMenuPopup.svelte";\n\timport RegistryContextMenuTrigger from "$lib/components/ContextMenuTrigger.svelte";\n\timport RegistryNumberField from "$lib/components/NumberField.svelte";\n</script>\n\n<Card>\n\t<CardPanel>\n\t\t<CardTitle>Clean consumer</CardTitle>\n\t\t<Field label="Email" description="Uses the packaged Field contract.">\n\t\t\t<Input type="email" />\n\t\t</Field>\n\t\t<form>\n\t\t\t<PackageNumberField defaultValue={2} name="packageQuantity" />\n\t\t\t<RegistryNumberField defaultValue={3} name="registryQuantity" />\n\t\t</form>\n\t\t<PackageContextMenu>\n\t\t\t<PackageContextMenuTrigger tabindex={0}>Package target</PackageContextMenuTrigger>\n\t\t\t<PackageContextMenuPopup>\n\t\t\t\t<PackageContextMenuItem>Package action</PackageContextMenuItem>\n\t\t\t</PackageContextMenuPopup>\n\t\t</PackageContextMenu>\n\t\t<RegistryContextMenu>\n\t\t\t<RegistryContextMenuTrigger tabindex={0}>Registry target</RegistryContextMenuTrigger>\n\t\t\t<RegistryContextMenuPopup>\n\t\t\t\t<RegistryContextMenuItem>Registry action</RegistryContextMenuItem>\n\t\t\t</RegistryContextMenuPopup>\n\t\t</RegistryContextMenu>\n\t\t<RegistryButton>Registry button</RegistryButton>\n\t</CardPanel>\n</Card>\n`
 	);
 }
 
@@ -145,10 +173,10 @@ const fixtureRoot = join(tempRoot, "fixture");
 
 try {
 	await mkdir(tarballRoot);
-	const [appPackage, componentPackage, registryItem] = await Promise.all([
+	const [appPackage, componentPackage, ...registryItems] = await Promise.all([
 		readJson(join(root, "apps/www/package.json")),
 		readJson(join(packageRoot, "package.json")),
-		readJson(registryItemPath),
+		...registryItemPaths.map((path) => readJson(path)),
 	]);
 	const componentTarball = pack(packageRoot, tarballRoot);
 	const themeTarball = pack(themeRoot, tarballRoot);
@@ -157,7 +185,7 @@ try {
 		appPackage,
 		componentPackage,
 		componentTarball,
-		registryItem,
+		registryItems,
 		themeTarball,
 	});
 

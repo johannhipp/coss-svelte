@@ -1,121 +1,150 @@
-# Repository Cleanup Plans
+# coss-svelte implementation roadmap
 
-Generated from a repository-wide maintainability audit on 2026-07-15 at commit
-`5d8ebb6`. The implementation pass has completed plans 001 through 005.
-Execute future cleanup work in priority order unless dependency notes say
-otherwise. Each executor must read its plan fully, honor its STOP conditions,
-and update the status row when done.
+This directory is the single execution roadmap for the 2026-07-28 repository
+audit and the remaining-component work. The former “remaining components”
+overview has been superseded by this index; plan IDs below are unique and all
+dependencies name exact files.
 
-## Audit coverage
+Plan IDs are stable references, not a strict numeric execution order. Follow
+the dependency graph and update both the selected plan and this table when its
+status changes.
 
-- Reviewed all 463 tracked text files (42,460 lines). Generated registry JSON,
-  the generated scope catalog, and the lockfile were parsed and checked as
-  generated data sets; handwritten source, tests, configuration, and
-  documentation were read directly.
-- Compared the 256 Svelte source files with the public exports, declarations,
-  component metadata, registry items, docs navigation, preview branches, and
-  scope catalog.
-- Ran `pnpm install --frozen-lockfile` successfully.
-- The current verification pass runs `pnpm biome:ci`, recursive `pnpm check`,
-  `pnpm test` (82 repository tests plus Field runtime tests), package type
-  consumer compilation, registry/theme/scope/index checks, and the docs app
-  production build successfully.
+## Working-tree baseline
 
-## Findings and task list
+- Planned against commit
+  `aced7142d97c241fb8cf62d613b72f819f883476`.
+- The worktree already contains user-owned Alert Dialog and docs motion work;
+  Preview/Code and production-crawl changes; full uncommitted Number Field and
+  Context Menu vertical-slice spikes; and catalog/clean-consumer gate
+  scaffolding.
+- Plans 002, 007, 008, 009, and 010 overlap those files. Their first step is
+  reconciliation: inspect the live diff, compare it with the approved contract,
+  and keep correct work instead of replaying the original proposal. Passing
+  narrow spike/catalog checks does not make those plans complete.
+- Executors must not regenerate scope or registry output until overlapping
+  source and metadata edits have been reconciled.
 
-Priorities are ordered by user impact and by how much later cleanup depends on
-the work. Confidence reflects the evidence available in the current tree.
+## Findings and decisions
 
-| Priority | Task | Evidence | Impact | Effort | Change risk | Confidence | Detailed plan |
-|---|---|---|---|---|---|---|---|
-| P1 | Make one component catalog authoritative and generate its derivative views. | `metadata.js` repeats status, parts, and full metadata; Badge currently advertises Meter parts, while Group, Meter, and Toolbar omit real parts. `index.js`, scope scripts, and tests repeat the same lists again. | Removes proven drift and makes exports, docs, registry, and tests change together. | L | MED | HIGH | [001](./001-consolidate-component-catalog.md) |
-| P1 | Add a real package validation and declaration pipeline. | All 256 exports are declared as `AnyComponent = Component<Record<string, unknown>>`; the package has no check script; a direct package check finds four warnings that the green release gate misses. | Restores consumer prop safety and makes release checks cover the actual library. | L | HIGH | HIGH | [002](./002-make-package-contracts-real.md) |
-| P1 | Split consumer theme CSS from docs CSS and make registry entries self-contained. | The private theme is documented as required, scans repo-relative app paths, applies global reset/body rules, and contains 24 `docs-*` selectors. All 54 registry items have an incomplete direct file/dependency closure; NumberField is emitted with no files. | Makes copy-and-own output buildable and prevents the published theme from depending on repository layout. | L | HIGH | HIGH | [003](./003-make-theme-and-registry-consumer-safe.md) |
-| P1 | Replace the three mirrored demo catalogs with one executable example source per component. | The docs renderer, code strings, and scope demo each contain 54 slug branches (3,076 lines combined). The renderer statically imports 228 package exports and contributes to a 637.83 kB client chunk. | Stops example drift, removes duplicate state/types/markup, and restores route-level code splitting. | L | MED | HIGH | [004](./004-consolidate-examples-and-particles.md) |
-| P1 | Complete the stable Field contract and add runtime component tests. | ADR-003 requires id, description, invalid, required, and disabled wiring; `Field.svelte` only renders visual text/state, and the docs manually add ARIA attributes. Existing tests never render a Svelte component. | Fixes a stable accessibility contract and creates the harness needed for later interactive work. | M | HIGH | HIGH | [005](./005-complete-field-semantics.md) |
-| P2 | Decide and enforce one composition model for root components. | At least 17 roots conditionally switch between custom compound children and a built-in convenience layout. The fallback layout often duplicates exported part markup. | Reduces conditional APIs and prevents the root and compound forms from diverging. Prefer explicit recipe components (for example, `DialogExample` or a documented convenience wrapper) over hidden root modes. | L | HIGH | HIGH | — |
-| P2 | Consolidate behavior shared by component families. | Autocomplete and Combobox repeat option normalization; Calendar and DatePicker repeat the month grid; Meter and Progress repeat unsafe range normalization; Input/InputGroupInput and Textarea/InputGroupTextarea repeat native control forwarding. | Centralizes edge cases without collapsing the public compound-part surface. | L | MED | HIGH | — |
-| P2 | Finish or quarantine experimental abstractions. | SidebarProvider owns `open`, but Sidebar owns an independent `state` and SidebarTrigger/SidebarRail never toggle it. Toast is a static 13-line status surface. The ADR intentionally marks Drawer, Sidebar, and Toast experimental. | Prevents experimental names from implying behavior they do not provide. Complete them behind runtime tests or remove them from installable/default surfaces while retaining explicit experimental metadata. | XL | HIGH | HIGH | — |
-| P2 | Replace source-shape tests with contract and behavior tests. | 17 of 20 test files read source text; 77 tests contain 333 match/includes assertions; no test mounts or renders a component. Several tests maintain their own component/part lists. | Tests behavior and generated invariants instead of freezing implementation text. Keep a small number of intentional source-policy tests only. | L | MED | HIGH | Plans 001, 002, and 005 establish the migration path. |
-| P2 | Consolidate or delete stale generators and parity harness code. | `generate-v0-components.mjs` is an unreferenced 3,532-line whole-library overwriter. The two parity scripts repeat argument parsing, source lookup, report tables, and browser-selection expressions. The interactive Combobox selector says `Select a item`, while the local example says `Select an item...`. | Removes dangerous dead code and makes visual evidence reproducible. | M | LOW | HIGH | Plan 001 removes the obsolete generator; shared visual-parity source lookup now lives in `scripts/visual-parity-source.mjs`. |
-| P2 | Centralize docs domain types and authored page content. | `Particle`, `TocItem`, API element, sidebar, and component-page shapes are redeclared across Svelte and JSDoc files. `navigation.js` and the particles loader use `@ts-nocheck`. Introduction/getting-started facts are duplicated between route markup and `markdown.js`. | Removes duplicate types and keeps rendered pages, Markdown endpoints, search, and LLM output aligned. | M | MED | HIGH | Fold into plan 004 or execute afterward. |
-| P2 | Split and document the internal native-wrapper strategy. | 52 parts use `internal/Block.svelte`, while comparable parts hand-code native elements; 17 large groups share nearly identical wrapper structure after names/classes are normalized. | Keeps one public file per composable part while making wrapper generation and prop forwarding consistent. Use code generation for mechanical wrappers; do not build one runtime mega-component. | M | MED | MED | — |
-| P2 | Refresh stale repository guidance. | `AGENTS.md` says no components or test/docs infrastructure exist; `apps/www/src/README.md` says source will be added later; `packages/registry/src/README.md` says no registry code exists. | Stops agents and contributors from following obsolete phase instructions. | S | LOW | HIGH | — |
-| P3 | Remove dead dependencies, aliases, and lint exemptions. | `tailwind-variants` is unused in both the package and docs app; `$components` is unused and `$registry` points to a missing directory; five renderer imports are unused because Svelte unused checks are disabled. | Shrinks install/configuration surface and lets tooling detect dead code. | S | LOW | HIGH | — |
-| P3 | Clear remaining tooling warnings and deployment placeholders. | Biome reports two CSS specificity warnings; both SvelteKit apps use adapter-auto with no production target; `pnpm-workspace.yaml` contains the literal placeholder `sharp: set this to true or false` (the frozen install still succeeds). | Produces a warning-free baseline and explicit deployment/configuration ownership. | S–M | LOW | HIGH | — |
+| ID | Finding or direction | Evidence and decision | Impact | Confidence |
+|---|---|---|---|---|
+| F01 | Primitive wrapper types erase supported Bits UI contracts | About 68 primitive-backed parts use generic `NativeProps`; representative generated declarations omit primitive refs, bindings, child composition, form props, or precise element attributes. Derive each wrapper from its exact Bits part and preserve only composition capabilities the wrapper intentionally supports. | Published declarations reject valid use and admit invalid combinations. | High |
+| F02 | Mode-dependent roots flatten discriminated unions | Accordion, Calendar, Slider, Select, Combobox, Autocomplete, and ToggleGroup independently union mode, value, and callbacks. Restore single/multiple branches and retain upstream types such as Slider’s scalar/array `step`. | Illegal prop combinations compile and useful primitive behavior disappears. | High |
+| F03 | Concrete declaration defects exist | Switch omits primitive form props and Pagination exposes an `unknown` snippet payload. Native polymorphic roots also need a bounded element-attribute audit. | Forms and custom rendering are incorrectly typed. | High |
+| F04 | One global composition label cannot describe the package | Compound children, convenience-content children, payload snippets, and intentionally additive children are different APIs. Collapsible and Sidebar prove that a blanket “children always replace convenience props” migration would be wrong. Replace the global assumption with an explicit per-root composition classification and test each class. | A naive consistency fix would create breaking changes; today’s docs still over-promise uniformity. | High |
+| F05 | Portal forwarding is promised but absent | Portaled popup wrappers hardcode Bits portals. The installed Bits UI 2.18.1 portal contract is `{ to?: Element \| string, disabled?: boolean }`; React-only `container` and `keepMounted` names must not enter the Svelte API. | Consumers cannot choose a shadow root, test host, or inline rendering. | High |
+| F06 | Alert Dialog outside dismissal has two competing paths | The live dirty work combines `interactOutsideBehavior="close"` with direct overlay `onclick` and a string-keyed close context. Keep one Bits-owned dismissal path, preserve caller cancellation semantics, and test one state transition plus focus restoration. | Duplicate close callbacks and contradictory public behavior are possible. | High |
+| F07 | Form, name, and locale contracts are inconsistent | Radio Group’s convenience label is unassociated, Select’s public ID does not reach its trigger, and Date Picker formats with fixed `en-US` while its primitive can use another locale. | Accessible names, Field wiring, localized output, and serialization can be wrong. | High |
+| F08 | Runtime verification is narrower than the published surface | Current browser smoke primarily proves docs shell behavior; many repository tests are source-shape assertions. Add a metadata-covered family matrix and real browser interaction fixtures without duplicating every styled alias. | Focus, keyboard, portal, form, and dismissal regressions can pass release checks. | High |
+| F09 | API docs hide inherited contracts | The API table substitutes `...rest: Record<string, unknown>` for primitive/native props. Generate listed prop types and bindings from built declarations while keeping inherited long tails as precise source links. | Users cannot discover supported bindings, snippet payloads, refs, form props, or portal props. | High |
+| F10 | Docs development can serve stale package output | The docs app imports `coss-svelte` from generated `dist`, while its `dev` script starts only Vite. Add one root command that performs an initial package build, then watches package and docs together. | Correct source edits can look broken during development. | High |
+| F11 | The locked graph contains a high-severity PostCSS advisory | `pnpm audit --audit-level high` reports GHSA-r28c-9q8g-f849 for PostCSS 8.5.15. Patched versions start at 8.5.18; current PostCSS is 8.5.23 and Vite 8.1.5 accepts `^8.5.17`. Use the smallest durable lock/override change, not a broad toolchain migration. | Known source-map path disclosure remains in the build graph. | High |
+| F12 | Built component routes previously lost example source | Runtime filesystem reads resolve beside adapter-node chunks, not source examples. The live worktree already contains the correct eager `?raw` Vite bundle direction; finish and prove it on built HTML and Markdown routes. | Docs smoke can pass while every component route fails. | High |
+| F13 | Introduction established a subtle entrance that other sidebar pages lacked | The live worktree now applies the same fade/rise keyframes through shared page wrappers, but route-keying and reduced-motion behavior are not browser-proven. Keep motion at top-level content blocks and verify replay only on navigation. | Navigation otherwise feels inconsistent, while over-applying the animation would make long docs distracting. | High |
+| F14 | "On This Page" links jumped instantly | The live DocsToc now intercepts unmodified hash clicks with reduced-motion-aware `scrollIntoView`, but history, offset, progressive fallback, and real motion remain untested. | In-page navigation feels abrupt or can regress native anchor semantics. | High |
+| D01 | Number Field was the only registered deferred root at the audit baseline | Bits UI 2.18.1 has no Number Field. The live full implementation spike may be promoted only behind an explicit numeric, locale-editing, spinbutton, form, SSR, cleanup, and interaction contract. Eleven upstream particles exist. | This is a large custom primitive, not a styling task; current source/tests require reconciliation in plan 008. | High |
+| D02 | Context Menu was acknowledged but absent from baseline catalog metadata | Bits UI 2.18.1 supplies right-click, long press, roving focus, items, submenus, and portal behavior. Reconcile the live complete 15-export spike without reproducing those internals, and add only the missing keyboard/directional wrapper behavior. | Catalog completion otherwise either omits the newer root or overstates an unverified spike. | High |
+| D03 | “All components implemented” needs a durable join across surfaces | Package source, generated index/declarations, example source, registry closure, built HTML/Markdown routes, and clean-consumer installation can drift independently. Add a cross-surface catalog gate after the behavior plans. | A green typecheck alone cannot prove a shippable catalog. | High |
 
-## Execution order and status
+## Execution graph
 
-| Plan | Title | Priority | Effort | Depends on | Status |
-|---|---|---|---|---|---|
-| 001 | Consolidate the component catalog and generated views | P1 | L | — | DONE |
-| 002 | Make package validation and public contracts real | P1 | L | 001 | DONE |
-| 003 | Make the theme and registry consumer-safe | P1 | L | 001, 002 | DONE |
-| 004 | Consolidate examples and particle catalogs | P1 | L | 001, 003 | DONE |
-| 005 | Complete Field semantics with runtime tests | P1 | M | 002 | DONE |
+```mermaid
+flowchart LR
+    P006["006 PostCSS advisory"]
 
-Status values: `TODO`, `IN PROGRESS`, `DONE`, `BLOCKED` (with a one-line
-reason), or `REJECTED` (with a one-line rationale).
+    P007["007 Docs motion + Preview/Code"] --> P005["005 API docs + live dev"]
+    P001["001 Type fidelity"] --> P002["002 Composition + overlays + portals"]
+    P001 --> P003["003 Forms + accessibility + locale"]
+    P001 --> P005
+    P002 --> P005
+    P003 --> P005
 
-## Follow-up cleanup status
+    P003 --> P008["008 Number Field"]
+    P001 --> P008
+    P005 --> P008
+    P007 --> P008
 
-The P2/P3 follow-up findings were implemented alongside plans 001–005:
+    P001 --> P009["009 Context Menu"]
+    P002 --> P009
+    P005 --> P009
+    P007 --> P009
 
-| Finding | Status | Evidence |
-|---|---|---|
-| Root composition model | DONE | `compositionModel` metadata, the composition contract in `docs/scope/component-implementation-outline.md`, and `tests/composition-contract.test.mjs`. |
-| Shared family behavior | DONE | `normalizeOptions` and `clampPercentage` are shared by option/range families and covered by `packages/coss-svelte/tests/internal-props.test.ts`; Calendar/DatePicker retain separate primitive namespaces by design. |
-| Experimental Sidebar/Toast behavior | DONE | Sidebar provider context/toggle semantics and dismissible live Toast behavior are covered by `packages/coss-svelte/tests/experimental-components.test.ts`. |
-| Source-shape test migration | DONE | Runtime Field, Sidebar, Toast, and internal utility tests now cover the highest-risk behavior; source scans remain only for generated/source-policy invariants. |
-| Parity harness duplication | DONE | Shared source lookup/notes helper is used by both parity scripts. |
-| Docs domain types | DONE | Shared `TocItem`, API, component-page, and particle types live in `apps/www/src/lib/docs/types.ts`. |
-| Native wrapper strategy | DONE | `Block.svelte` remains the narrow wrapper for mechanical native parts; Bits-backed parts keep their real primitives, as documented in the rejected mega-wrapper rationale above. |
-| Repository guidance | DONE | AGENTS, app, registry, and CLI READMEs describe the implemented surfaces and release checks. |
-| Dependencies, aliases, deployment target | DONE | `tailwind-variants` and stale aliases are removed; docs uses adapter-node with a `node build` start script and explicit `sharp` build approval. |
-| Tooling warnings/placeholders | DONE | Biome is clean, the workspace placeholder is resolved, and docs bundle checks retain the existing 700 kB safety threshold for the known chunk-size warning. |
+    P002 --> P004["004 Behavior matrix"]
+    P003 --> P004
+    P008 --> P004
+    P009 --> P004
 
-## Dependency notes
+    P004 --> P010["010 Catalog completion gate"]
+    P005 --> P010
+    P007 --> P010
+    P008 --> P010
+    P009 --> P010
+```
 
-- Plan 001 must land first because every later plan needs a trustworthy list of
-  implemented roots, parts, statuses, and slugs.
-- Plan 002 precedes registry and behavior work so new files and props are
-  checked by the package itself and produce real consumer declarations.
-- Plan 003 precedes particle consolidation because local particle install URLs
-  must point at complete local registry entries, not the upstream React
-  registry.
-- Plan 005 can run in parallel with plans 003 and 004 after plan 002.
+Plan 006 is an independent security lane. Plans 007–010 contain substantial
+live implementation, but each remains in progress until its own acceptance
+criteria—not only the current narrow checks—are satisfied.
 
-## Findings considered and rejected
+## Recommended execution waves
 
-- **Delete meaningless comments:** rejected. There are no TODO/FIXME/HACK/XXX
-  comments and no broad comment-noise problem. The two Drawer pointer-capture
-  comments and the docs storage fallback comment explain non-obvious failure
-  handling. JSDoc type blocks should disappear through a TypeScript/shared-type
-  migration, not through blind comment deletion.
-- **Collapse public compound parts into fewer files:** rejected. The separate
-  part files are the composable public API. Consolidate their contracts,
-  generation, and shared behavior instead.
-- **Implement NumberField during cleanup:** rejected. ADR-006 deliberately
-  defers it until an accessibility specification and interaction tests exist.
-  Remove its empty install artifact, but do not smuggle a spinbutton
-  implementation into a deduplication change.
-- **Delete `docs/scope/source`:** rejected. Those files are upstream provenance
-  and planning inputs. Stop treating them as parallel runtime truth, but retain
-  the raw research record.
-- **Replace every thin wrapper with `Block.svelte`:** rejected. Bits UI parts
-  need their real primitives and native elements need precise attribute types.
-  Mechanical source generation is safer than a runtime polymorphic abstraction
-  that erases semantics.
+1. Run 006 independently, and reconcile/finish 007 while the component API
+   lane begins with 001.
+2. After 001, execute 002 and 003; these establish the composition, overlay,
+   portal, Field, form, and locale contracts used downstream.
+3. Execute 005 after 002/003/007 so generated API facts reflect corrected
+   declarations and the docs runtime is live.
+4. Reconcile 008 and 009 against their explicit contracts after their
+   prerequisites pass. They may proceed independently of one another.
+5. Build the family-wide behavior/evidence matrix in 004 only after both new
+   families have final contracts.
+6. Finish with 010 as the sole cross-surface release join.
 
-## Repository rules for every plan
+## Status
 
-- Do not copy React/Base UI source into Svelte. Use Bits UI or native Svelte
-  markup.
-- Keep component source under `packages/coss-svelte` and generated registry
-  output under `apps/registry`.
-- Use Biome only. Do not add ESLint or Prettier.
-- Update `docs/references/version-baseline.md` when core dependency versions
-  change and `docs/scope/component-implementation-outline.md` when a component
-  strategy changes.
-- Before committing, configure `.gitmessage.txt` and use Conventional Commits
-  as documented in `docs/commit-standards.md`.
+| Plan | Title | Priority | Effort | Exact dependencies | Status |
+|---|---|---:|---:|---|---|
+| [001](001-restore-bits-ui-type-fidelity.md) | Restore Bits UI type fidelity | P1 | L | — | DONE |
+| [002](002-coherent-composition-overlays-portals.md) | Define composition, dismissal, and portal contracts | P1 | L | 001 | DONE |
+| [003](003-form-accessibility-locale-contracts.md) | Close form, accessible-name, and locale gaps | P1 | M | 001 | DONE |
+| [004](004-component-family-behavior-verification.md) | Add component-family behavior verification | P1 | L | 002, 003, 008, 009 | DONE |
+| [005](005-truthful-api-docs-and-dev-loop.md) | Generate truthful API docs and a live dev loop | P2 | M/L | 001, 002, 003, 007 | DONE |
+| [006](006-remove-postcss-security-advisory.md) | Remove the PostCSS advisory | P1 | S | — | DONE |
+| [007](007-preview-and-code-infrastructure.md) | Harden docs motion, in-page navigation, and Preview/Code | P0 | M/L | — | DONE |
+| [008](008-implement-number-field.md) | Implement Number Field | P1 | XL | 001, 003, 005, 007 | DONE |
+| [009](009-implement-context-menu.md) | Implement Context Menu | P1 | L | 001, 002, 005, 007 | DONE |
+| [010](010-catalog-completion-gate.md) | Enforce catalog completion | P0 release | M | 004, 005, 007, 008, 009 | DONE |
+
+Allowed status values are `TODO`, `IN PROGRESS`, `DONE`,
+`BLOCKED: <reason>`, and `REJECTED: <reason>`. A qualifier after TODO or IN
+PROGRESS may record reconciliation state, but must not hide a blocker.
+
+## Execution protocol
+
+Every plan has a local drift check, owned file set, ordered implementation
+units, narrow verification commands, acceptance criteria, and STOP conditions.
+In addition:
+
+1. Preserve unrelated dirty files and re-read `git status --short` before any
+   generator.
+2. Execute one verifiable unit at a time. A unit is complete only when its
+   listed focused check passes.
+3. Derive public types from installed Bits UI/Svelte declarations; do not copy
+   React/Base UI implementation source or prop aliases.
+4. Generate package index, scope, and registry output only through repository
+   scripts.
+5. Run `pnpm release:check` only after focused failures are resolved.
+6. Record commands and results in the implementation handoff. A manual visual
+   review is evidence, not a substitute for deterministic gates.
+7. Update this table and the selected plan’s status when work starts, stops, or
+   completes.
+
+## Deliberately excluded
+
+- Drawer, Sidebar, and Toast remain experimental. These plans do not promote
+  them or claim full upstream parity.
+- No plan introduces React `asChild`, Base UI `render`, portal prop aliases, or
+  copied React source.
+- No plan performs a broad visual redesign, package-manager migration, or
+  unrelated dependency refresh.
+- Standalone Checkbox Indicator and full particle parity remain separate
+  product-scope decisions.

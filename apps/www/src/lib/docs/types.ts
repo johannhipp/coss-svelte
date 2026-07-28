@@ -13,16 +13,30 @@ export type TocItem = {
 };
 
 export type ApiProp = {
+	bindable?: boolean;
 	default?: string;
 	description: string;
 	name: string;
 	type: string;
 };
 
+export type ApiFact = {
+	bindable?: boolean;
+	name: string;
+	type: string;
+};
+
 export type ApiElement = {
+	bindings?: string[];
 	description: string;
+	facts?: ApiFact[];
+	inherited?: {
+		label: string;
+		url: string;
+	};
 	name: string;
 	props?: ApiProp[];
+	signatures?: string[];
 };
 
 export type ComponentDoc = {

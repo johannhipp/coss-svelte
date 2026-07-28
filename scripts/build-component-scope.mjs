@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { componentMetadata } from "../packages/coss-svelte/src/metadata.js";
+import { componentComposition, componentMetadata } from "../packages/coss-svelte/src/metadata.js";
 
 const root = path.resolve(import.meta.dirname, "..");
 const scopeDir = path.join(root, "docs", "scope");
@@ -64,6 +64,7 @@ const componentRows = fs
 function entryFor(component) {
 	const metadata = metadataBySlug[component.slug];
 	return {
+		composition: componentComposition[metadata.name],
 		foundation: metadata.foundation,
 		primitive: metadata.primitive,
 		tier: metadata.tier,
@@ -96,6 +97,7 @@ const sections = componentRows
 - Particle examples: ${component.particles}
 - Svelte foundation: ${entry.primitive} (${entry.foundation})
 - Implementation tier: ${entry.tier}
+- Root composition: ${entry.composition}
 
 Implementation outline:
 
@@ -121,16 +123,21 @@ The implementation strategy is to preserve COSS's visual language and copy-and-o
 
 ## Composition contract
 
-Root components use one consistent composition model: custom \`children\` snippets
-always take precedence, and convenience props render an explicit fallback only
-when no children are supplied. This keeps the compound-part API composable while
-making small examples possible without hidden root modes. New roots must follow
-the same rule, and their fallback props must be listed in the docs API reference.
+Root composition is explicit per component in the package's
+\`componentComposition\` map. The closed modes are:
 
-The model is recorded as \`compositionModel\` in the package metadata so registry,
-docs, and validation tooling can refer to the same contract. Components with
-specialized payloads (for example, calendar dates or slider values) still own
-their payload normalization; the shared rule governs only root content selection.
+- \`compound\`: children supply the complete part hierarchy.
+- \`children-first-fallback\`: children replace the whole generated convenience hierarchy.
+- \`content-children\`: the root generates structure and children fill its content region.
+- \`payload-snippet\`: the primitive invokes children with typed state or collection data.
+- \`additive\`: legacy convenience content and children intentionally render together.
+- \`presentational\`: native children are ordinary element content.
+
+\`compositionModel\` remains as a compatibility description of the common
+children-first default; it is not a package-wide override. Collapsible's
+title/content pairing, Sidebar's legacy additive items, and typed Calendar and
+Pagination payloads are deliberate exceptions. New roots must add an explicit
+mode in the same change as their metadata.
 
 ${sections.trimEnd()}
 `;

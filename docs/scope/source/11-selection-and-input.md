@@ -110,7 +110,7 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `ComboboxPopup` -> Base UI `Combobox.Portal` (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `ComboboxPopup` forwards exact Bits UI Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
 
 ### Common Pitfalls
 
@@ -184,7 +184,7 @@ import {
 
 ### Key Patterns And Invariants
 
-- **Portal forwarding**: optional `portalProps` on `AutocompletePopup` -> Base UI combobox/autocomplete portal (`keepMounted`, `container`, ...). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
+- **Portal forwarding**: `AutocompletePopup` forwards exact Bits UI Combobox Portal options (`to`, `disabled`). See [portal forwarding](02-installation-and-usage.md#portal-forwarding).
 
 ### Common Pitfalls
 
@@ -375,7 +375,9 @@ import { Textarea } from "@/components/ui/textarea";
 
 ### Key Patterns And Invariants
 
-- No dedicated bullets found in the local reference.
+- `name` forwards to Bits UI's native input, so a completed OTP value participates in `FormData`.
+- `onComplete` receives exactly one string after `length` cells are filled.
+- The root exposes no fabricated Date Picker-style serialization adapter; use its supported PinInput form contract directly.
 
 ### Common Pitfalls
 
@@ -480,34 +482,45 @@ import { OTPField, OTPFieldInput, OTPFieldSeparator } from "@/components/ui/otp-
 
 - Purpose: A specialized input for numeric values with increment/decrement controls.
 - Registry name: `NumberField`
-- Source coverage: local primitive, live docs, particles when available
+- Source coverage: stable custom Svelte primitive, live docs, focused runtime and form tests
 - Sources: local: `./references/primitives/number-field.md`; [docs](https://coss.com/ui/docs/components/number-field.md); 11 particles
 - Install: `npx shadcn@latest add @coss/number-field`
-- Manual dependencies: `npm install @base-ui/react`
+- Foundation: native Svelte markup and a private typed context; no additional runtime dependency
 - Canonical exports: `NumberField`, `NumberFieldDecrement`, `NumberFieldGroup`, `NumberFieldIncrement`, `NumberFieldInput`, `NumberFieldScrubArea`
 
 ### Covers
 
-- Numeric entry with increment/decrement controls.
-- Bounded stepper-style quantity/amount inputs.
+- Nullable, bindable finite numeric values with locale-aware text editing.
+- Decimal-safe keys, step buttons, press-and-hold, opt-in wheel input, and horizontal scrubbing.
+- Bounds, native form serialization/reset, external form association, and Field integration.
 
 ### Out Of Scope / Use Another Primitive
 
-- No explicit out-of-scope guidance found in the local reference.
+- Use a Slider for direct manipulation across a continuous range.
+- Scientific notation, arithmetic expressions, units in the edit buffer, BigInt, and arbitrary precision are intentionally unsupported.
+- The six public parts implement the package contract; the 11 upstream particles are reference coverage, not a claim of React/Base UI parity.
 
 ### Key Patterns And Invariants
 
-- No dedicated bullets found in the local reference.
+- `value` is `number | null` and bindable. External writes update display without callbacks or silent clamping.
+- Direct text entry is not snapped to `step`; bounds are enforced on blur, Enter, or the next discrete operation.
+- `onValueChange` reports each accepted mutation. `onValueCommit` reports one semantic transaction and includes the reason, prior value, and source event.
+- Focused text uses an ungrouped localized decimal. Blurred text uses `Intl.NumberFormat`; submitted values always use invariant `String(value)`.
+- A named root renders one hidden serialization input. The visible text input owns focus, validity, and spinbutton semantics but never duplicates the form entry.
+- Convenience composition is used only when children are absent. An enclosing Field label suppresses the convenience scrub label.
+- Compound `NumberFieldScrubArea` usage requires a non-empty `label`, even when custom visual children are supplied.
 
 ### Common Pitfalls
 
-- Treating number field value as free-form text without numeric bounds/steps.
-- Missing increment/decrement controls in stepper-style UIs where expected.
-- Not validating min/max constraints and resulting clamped behavior.
+- Expecting a parent-supplied out-of-range value to be rewritten by an effect.
+- Adding `name` to `NumberFieldInput`; form serialization belongs to the root.
+- Preventing Enter and accidentally blocking native form submission.
+- Omitting the ScrubArea `label`, or using touch scrubbing that competes with page scrolling.
 
 ### Canonical Import Shape
 
-```tsx
+```svelte
+<script lang="ts">
 import {
 	NumberField,
 	NumberFieldDecrement,
@@ -515,7 +528,19 @@ import {
 	NumberFieldIncrement,
 	NumberFieldInput,
 	NumberFieldScrubArea,
-} from "@/components/ui/number-field";
+} from "coss-svelte";
+
+let quantity = $state<number | null>(3);
+</script>
+
+<NumberField bind:value={quantity} min={0} max={24} step={0.25} name="quantity">
+	<NumberFieldScrubArea label="Quantity" />
+	<NumberFieldGroup>
+		<NumberFieldDecrement />
+		<NumberFieldInput />
+		<NumberFieldIncrement />
+	</NumberFieldGroup>
+</NumberField>
 ```
 
 ### Particle Coverage
@@ -682,8 +707,11 @@ import { Calendar } from "@/components/ui/calendar";
 
 ### Key Patterns And Invariants
 
-- Composes a Button trigger, Calendar content, and PopoverPopup alignment.
-- Supports date range picker, dropdown navigation, presets, input integration, and closing the popover on selection.
+- coss-svelte wraps Bits UI DatePicker directly and exposes `bind:value`, `bind:placeholder`, and `bind:open`.
+- One explicit `locale` drives both calendar behavior and the trigger's `Intl.DateTimeFormat`; the deterministic default is `"en-US"`.
+- `previousMonthLabel` and `nextMonthLabel` localize the navigation controls independently of numeric/date formatting.
+- Inside Field, the public convenience ID and Field state land on the actual trigger. Compound consumers apply explicit IDs and naming props to their chosen parts.
+- DatePicker does not expose `name` and does not fabricate a hidden form input; serialize the bound DateValue in application form handling when needed.
 
 ### Common Pitfalls
 

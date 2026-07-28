@@ -8,6 +8,7 @@ const shellPath = "apps/www/src/lib/components/docs/docs-shell.svelte";
 const mobileMenuPath = "apps/www/src/lib/components/docs/docs-mobile-menu.svelte";
 const sidebarPath = "apps/www/src/lib/components/docs/docs-sidebar.svelte";
 const alertDialogPath = "packages/coss-svelte/src/components/AlertDialog.svelte";
+const alertDialogPopupPath = "packages/coss-svelte/src/components/AlertDialogPopup.svelte";
 
 test("mobile docs trigger uses a two-line burger icon", async () => {
 	const header = await readFile(headerPath, "utf8");
@@ -106,4 +107,17 @@ test("alert dialog renders a separated muted footer action band", async () => {
 	assert.match(theme, /\.cn-alert-dialog-footer\s*{[^}]*justify-content:\s*flex-end/s);
 	assert.match(alertDialog, /cn-alert-dialog-header/);
 	assert.match(alertDialog, /cn-alert-dialog-footer/);
+});
+
+test("alert dialogs use one Bits-owned outside-dismissal path", async () => {
+	const [alertDialog, alertDialogPopup] = await Promise.all([
+		readFile(alertDialogPath, "utf8"),
+		readFile(alertDialogPopupPath, "utf8"),
+	]);
+
+	assert.match(alertDialog, /interactOutsideBehavior="close"/);
+	assert.match(alertDialogPopup, /interactOutsideBehavior\s*=\s*"close"/);
+	assert.doesNotMatch(alertDialog, /onclick=/);
+	assert.doesNotMatch(alertDialogPopup, /onclick=/);
+	assert.doesNotMatch(`${alertDialog}\n${alertDialogPopup}`, /alertDialogContext/);
 });

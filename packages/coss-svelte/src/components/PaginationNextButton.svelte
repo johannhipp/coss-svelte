@@ -1,12 +1,15 @@
 <script lang="ts">
 import { Pagination as PaginationPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = ComponentProps<typeof PaginationPrimitive.NextButton>;
+
+let { ref = $bindable(null), class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <PaginationPrimitive.NextButton
+	bind:ref
 	data-slot="pagination-next-button"
 	class={cn("cn-pagination-button", className)}
 	{...rest}

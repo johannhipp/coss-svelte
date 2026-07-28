@@ -26,7 +26,9 @@ let {
 </script>
 
 <DialogPrimitive.Root bind:open {...rest}>
-	{#if title || description}
+	{#if rootChildren}
+		{@render rootChildren()}
+	{:else if title || description}
 		<DialogPrimitive.Trigger data-slot="sheet-trigger" class="cn-sheet-trigger">
 			{trigger}
 		</DialogPrimitive.Trigger>
@@ -36,6 +38,7 @@ let {
 				data-slot="sheet-popup"
 				data-side={side}
 				class={cn("cn-sheet", `cn-sheet-${side}`, className)}
+				interactOutsideBehavior="close"
 			>
 				<header data-slot="sheet-header" class="cn-sheet-header">
 					<DialogPrimitive.Title data-slot="sheet-title" class="cn-sheet-title">
@@ -47,9 +50,7 @@ let {
 						</DialogPrimitive.Description>
 					{/if}
 				</header>
-				<div data-slot="sheet-panel" class="cn-sheet-panel">
-					{@render rootChildren?.()}
-				</div>
+				<div data-slot="sheet-panel" class="cn-sheet-panel"></div>
 				<footer data-slot="sheet-footer" class="cn-sheet-footer">
 					<DialogPrimitive.Close data-slot="sheet-close" class="cn-sheet-close">
 						Close
@@ -57,7 +58,5 @@ let {
 				</footer>
 			</DialogPrimitive.Content>
 		</DialogPrimitive.Portal>
-	{:else}
-		{@render rootChildren?.()}
 	{/if}
 </DialogPrimitive.Root>

@@ -24,7 +24,9 @@ let {
 </script>
 
 <AlertDialogPrimitive.Root bind:open {...rest}>
-	{#if title || description}
+	{#if rootChildren}
+		{@render rootChildren()}
+	{:else if title || description}
 		<AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" class="cn-alert-dialog-trigger">
 			{trigger}
 		</AlertDialogPrimitive.Trigger>
@@ -33,6 +35,7 @@ let {
 			<AlertDialogPrimitive.Content
 				data-slot="alert-dialog-popup"
 				class={cn("cn-dialog cn-alert-dialog", className)}
+				interactOutsideBehavior="close"
 			>
 				<div class="cn-alert-dialog-header">
 					{#if title}
@@ -48,7 +51,6 @@ let {
 							{description}
 						</AlertDialogPrimitive.Description>
 					{/if}
-					{@render rootChildren?.()}
 				</div>
 				<div class="cn-alert-dialog-footer cn-alert-dialog-actions">
 					<AlertDialogPrimitive.Cancel data-slot="alert-dialog-cancel" class="cn-alert-dialog-cancel">
@@ -60,7 +62,5 @@ let {
 				</div>
 			</AlertDialogPrimitive.Content>
 		</AlertDialogPrimitive.Portal>
-	{:else}
-		{@render rootChildren?.()}
 	{/if}
 </AlertDialogPrimitive.Root>

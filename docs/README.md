@@ -3,7 +3,8 @@
 This docs tree has two jobs:
 
 1. Preserve the full COSS source inventory.
-2. Track what `coss-svelte` is actually implementing first.
+2. Record what `coss-svelte` currently ships and what remains deliberate
+   roadmap work.
 
 When those disagree, follow [v0.1 Scope Decisions](./implementation/v0.1-scope-decisions.md). The scope inventory is intentionally broad; the implementation docs decide what ships, what is experimental, and what is deferred.
 
@@ -24,7 +25,7 @@ When those disagree, follow [v0.1 Scope Decisions](./implementation/v0.1-scope-d
 | Folder | Role | Source Of Truth For |
 | --- | --- | --- |
 | [scope](./scope/README.md) | Imported COSS docs, particles, hooks, and generated planning surfaces. | What COSS contains. |
-| [implementation](./implementation/README.md) | Current coss-svelte decisions, phase order, status, and parity gaps. | What coss-svelte ships first. |
+| [implementation](./implementation/README.md) | Current coss-svelte decisions, status, limitations, and parity roadmap. | What coss-svelte ships and deliberately defers. |
 | [architecture](./architecture/monorepo-structure.md) | Workspace layout and package ownership. | Where code and generated artifacts belong. |
 | [references](./references/upstream-cache.md) | Upstream cache notes, version baseline, and migration references. | Which external versions informed the work. |
 

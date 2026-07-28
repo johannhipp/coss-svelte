@@ -2,6 +2,42 @@
 import type { TocItem } from "$lib/docs/types.js";
 
 let { items = [] }: { items?: TocItem[] } = $props();
+
+function scrollToSection(event: MouseEvent, href: string) {
+	if (
+		event.button !== 0 ||
+		event.metaKey ||
+		event.ctrlKey ||
+		event.shiftKey ||
+		event.altKey ||
+		!href.startsWith("#")
+	) {
+		return;
+	}
+
+	let sectionId: string;
+	try {
+		sectionId = decodeURIComponent(href.slice(1));
+	} catch {
+		return;
+	}
+
+	const section = document.getElementById(sectionId);
+	if (!section) {
+		return;
+	}
+
+	event.preventDefault();
+	if (window.location.hash === href) {
+		window.history.replaceState(null, "", href);
+	} else {
+		window.history.pushState(null, "", href);
+	}
+	section.scrollIntoView({
+		behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+		block: "start",
+	});
+}
 </script>
 
 <aside
@@ -22,6 +58,7 @@ let { items = [] }: { items?: TocItem[] } = $props();
 						: "text-muted-foreground hover:text-foreground",
 				]}
 				href={item.href}
+				onclick={(event) => scrollToSection(event, item.href)}
 			>
 				{item.title}
 			</a>

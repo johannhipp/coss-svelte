@@ -9,7 +9,13 @@ type Props = Omit<ComponentProps<typeof ComboboxPrimitive.Input>, "children" | "
 	triggerProps?: ComponentProps<typeof ComboboxPrimitive.Trigger>;
 };
 
-let { class: className = "", showTrigger = false, triggerProps = {}, ...rest }: Props = $props();
+let {
+	ref = $bindable(null),
+	class: className = "",
+	showTrigger = false,
+	triggerProps = {},
+	...rest
+}: Props = $props();
 
 let triggerClass = $derived(triggerProps.class ?? "");
 let triggerLabel = $derived(triggerProps["aria-label"] ?? "Toggle autocomplete suggestions");
@@ -22,6 +28,7 @@ let triggerRest = $derived.by(() => {
 {#if showTrigger}
 	<span data-slot="autocomplete-input-group" class="cn-autocomplete-input-group">
 		<ComboboxPrimitive.Input
+			bind:ref
 			data-slot="autocomplete-input"
 			class={cn("cn-autocomplete-input", className)}
 			{...rest}
@@ -37,6 +44,7 @@ let triggerRest = $derived.by(() => {
 	</span>
 {:else}
 	<ComboboxPrimitive.Input
+		bind:ref
 		data-slot="autocomplete-input"
 		class={cn("cn-autocomplete-input", className)}
 		{...rest}

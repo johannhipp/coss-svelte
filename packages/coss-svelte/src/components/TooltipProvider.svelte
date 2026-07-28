@@ -1,9 +1,14 @@
 <script lang="ts">
 import { Tooltip as TooltipPrimitive } from "bits-ui";
-import type { NativeProps } from "../internal/props.js";
+import type { ComponentProps, Snippet } from "svelte";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = Omit<ComponentProps<typeof TooltipPrimitive.Provider>, "children"> & {
+	class?: string;
+	children?: Snippet;
+};
+
+let { class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <TooltipPrimitive.Provider {...rest}>

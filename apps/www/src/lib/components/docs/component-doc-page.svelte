@@ -30,7 +30,8 @@ let markdown = $derived(createComponentMarkdown(page, usageCode));
 	<article class="relative min-w-0 flex-1 py-5 lg:mt-8 lg:mr-4 lg:mb-8 lg:py-0">
 		<div class="rounded-xl border border-border bg-card shadow-[0_8px_30px_rgb(0_0_0_/_0.035)]">
 			<div class="px-4 py-6 sm:px-6 lg:p-8">
-				<div class="mx-auto w-full max-w-5xl">
+				{#key page.slug}
+				<div class="docs-page-flow mx-auto w-full max-w-5xl">
 					<header class="mb-8 flex flex-col gap-2">
 						<div class="flex flex-col gap-2">
 							<div class="flex flex-wrap items-center gap-2">
@@ -140,6 +141,7 @@ let markdown = $derived(createComponentMarkdown(page, usageCode));
 						{/if}
 					</nav>
 				</div>
+				{/key}
 			</div>
 		</div>
 	</article>
