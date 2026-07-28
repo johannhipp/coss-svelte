@@ -1,7 +1,20 @@
 <script lang="ts">
 import { Check, Info, Link2, Search, Tag, X } from "@lucide/svelte";
-import { Button, Card, CardFooter, CardPanel } from "coss-svelte";
-import { onDestroy } from "svelte";
+import {
+	Button,
+	Card,
+	CardFooter,
+	CardPanel,
+	Combobox,
+	ComboboxEmpty,
+	ComboboxGroup,
+	ComboboxGroupLabel,
+	ComboboxInput,
+	ComboboxItem,
+	ComboboxList,
+	ComboboxPopup,
+} from "coss-svelte";
+import { onDestroy, tick } from "svelte";
 import { goto } from "$app/navigation";
 import { page } from "$app/state";
 import ComponentPreviewRenderer from "$lib/components/docs/component-preview-renderer.svelte";
@@ -13,12 +26,29 @@ let {
 	particles: LocalExample[];
 } = $props();
 
+const particleFilterPopupId = "particle-filter-popup";
+
 let query = $state("");
 let selectedParticleSlugs = $state(getSelectedParticleSlugsFromUrl());
+let filterOpen = $state(false);
+let searchInput = $state<HTMLInputElement | null>(null);
 let copiedParticle = $state("");
 let copyResetTimer: ReturnType<typeof setTimeout> | undefined;
 
 let normalizedQuery = $derived(query.trim().toLowerCase());
+let particleOptions = $derived(
+	particles.map((particle) => ({
+		label: particle.title,
+		value: particle.slug,
+	}))
+);
+let matchingParticleOptions = $derived(
+	normalizedQuery.length === 0
+		? particleOptions
+		: particleOptions.filter((option) =>
+				`${option.label} ${option.value}`.toLowerCase().includes(normalizedQuery)
+			)
+);
 let selectedParticles = $derived(
 	selectedParticleSlugs
 		.map((slug) => particles.find((particle) => particle.slug === slug))
@@ -50,9 +80,33 @@ function toggleParticle(slug: string) {
 	updateSelectedParticleSlugs(nextSlugs);
 }
 
-function clearFilters() {
+function handleSelectedParticleSlugsChange(nextSlugs: string[]) {
 	query = "";
-	updateSelectedParticleSlugs([]);
+	updateSelectedParticleSlugs(nextSlugs);
+	filterOpen = true;
+
+	void tick().then(() => {
+		if (!searchInput || searchInput.value.length === 0) return;
+		searchInput.value = "";
+		searchInput.dispatchEvent(new InputEvent("input", { bubbles: true }));
+	});
+}
+
+function handleSearchInput(event: Event) {
+	if (!(event.currentTarget instanceof HTMLInputElement)) return;
+	query = event.currentTarget.value;
+	filterOpen = true;
+}
+
+function handleSearchKeydown(event: KeyboardEvent) {
+	if (
+		(event.key === "Backspace" || event.key === "Delete") &&
+		query.length === 0 &&
+		selectedParticleSlugs.length > 0
+	) {
+		event.preventDefault();
+		updateSelectedParticleSlugs(selectedParticleSlugs.slice(0, -1));
+	}
 }
 
 async function copyRegistryUrl(particle: LocalExample) {
@@ -104,8 +158,16 @@ onDestroy(() => {
 
 <section class="mb-5 md:mb-6" aria-label="Filter particles">
 	<div class="mx-auto max-w-2xl">
-		<div class="rounded-xl border border-border bg-card p-1.5 shadow-sm">
-			<div class="flex min-h-10 items-center gap-1.5 px-1.5">
+		<Combobox
+			type="multiple"
+			items={matchingParticleOptions}
+			inputValue={query}
+			value={selectedParticleSlugs}
+			bind:open={filterOpen}
+			class="!w-full"
+			onValueChange={handleSelectedParticleSlugsChange}
+		>
+			<div class="flex min-h-13 items-center gap-1.5 rounded-xl border border-border bg-card p-1.5 px-3 shadow-sm">
 				<Search class="size-4.5 shrink-0 text-muted-foreground" strokeWidth={2.25} />
 				<div class="flex min-w-0 flex-1 flex-wrap items-center gap-1">
 					{#each selectedParticles as particle}
@@ -121,57 +183,56 @@ onDestroy(() => {
 						</button>
 					{/each}
 					<label class="sr-only" for="particle-search">Search particles</label>
-					<input
+					<ComboboxInput
+						bind:ref={searchInput}
 						id="particle-search"
-						class="min-h-7 min-w-28 flex-1 bg-transparent px-1 text-sm outline-none placeholder:text-muted-foreground"
-						bind:value={query}
-						placeholder={selectedParticleSlugs.length ? "" : "Search particles"}
+						class="!min-h-7 !h-7 !min-w-28 !flex-1 !border-0 !bg-transparent !px-1 !text-sm !shadow-none !outline-none placeholder:text-muted-foreground"
 						type="search"
+						showTrigger={false}
+						aria-label="Search particles"
+						aria-controls={particleFilterPopupId}
+						aria-haspopup="listbox"
+						onfocus={() => {
+							filterOpen = true;
+						}}
+						oninput={handleSearchInput}
+						onkeydown={handleSearchKeydown}
 					/>
-					<details class="relative shrink-0">
-						<summary
-							class="flex size-7 cursor-pointer list-none items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
-							aria-label="Filter particles"
-							title="Filter particles"
-						>
-							<Tag class="size-4" strokeWidth={2.25} />
-						</summary>
-						<div class="absolute top-full -right-[0.8125rem] z-20 mt-2 w-[min(42rem,calc(100vw-2rem))] rounded-xl border border-border bg-card p-3 shadow-lg">
-							<div class="flex items-center justify-between gap-3 px-1 pb-2">
-								<p class="font-medium text-muted-foreground text-sm">Filter particles</p>
-								{#if selectedParticleSlugs.length || query}
-									<button
-										class="font-medium text-muted-foreground text-xs hover:text-foreground"
-										type="button"
-										onclick={clearFilters}
-									>
-										Clear
-									</button>
-								{/if}
-							</div>
-							<div class="grid max-h-[min(32rem,calc(100vh-8rem))] gap-0.5 overflow-y-auto">
-								{#each particles as particle}
-									<button
-										class={[
-											"flex min-h-9 w-full items-center gap-2 rounded-md px-2 text-left font-medium text-sm",
-											selectedParticleSlugs.includes(particle.slug)
-												? "bg-muted text-foreground"
-												: "text-muted-foreground hover:bg-muted hover:text-foreground",
-										]}
-										type="button"
-										aria-pressed={selectedParticleSlugs.includes(particle.slug)}
-										onclick={() => toggleParticle(particle.slug)}
-									>
-										<Tag class="size-4 shrink-0" strokeWidth={2.25} />
-										<span class="truncate">{particle.title}</span>
-									</button>
-								{/each}
-							</div>
-						</div>
-					</details>
 				</div>
 			</div>
-		</div>
+			<ComboboxPopup
+				id={particleFilterPopupId}
+				data-particle-filter-popup
+				aria-label="Particle filters"
+				align="end"
+				sideOffset={8}
+				class="!max-h-[min(32rem,calc(100vh-8rem))] !w-[min(42rem,calc(100vw-2rem))] !min-w-0 !rounded-xl !p-3"
+			>
+				<ComboboxEmpty
+					role="option"
+					aria-disabled="true"
+					class="px-2 py-6 text-center text-muted-foreground text-sm"
+				>
+					No filters found.
+				</ComboboxEmpty>
+				<ComboboxList>
+					<ComboboxGroup>
+						<ComboboxGroupLabel>Filter particles</ComboboxGroupLabel>
+						{#each matchingParticleOptions as option, index}
+							<ComboboxItem
+								value={option.value}
+								label={option.label}
+								tabindex={index === 0 ? 0 : -1}
+								class="min-h-9 font-medium"
+							>
+								<Tag class="size-4 shrink-0" strokeWidth={2.25} />
+								<span class="truncate">{option.label}</span>
+							</ComboboxItem>
+						{/each}
+					</ComboboxGroup>
+				</ComboboxList>
+			</ComboboxPopup>
+		</Combobox>
 	</div>
 </section>
 

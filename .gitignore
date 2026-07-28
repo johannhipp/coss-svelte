@@ -6,6 +6,7 @@ dist/
 coverage/
 .turbo/
 .cache/
+.artifacts/
 docs/implementation/visual-parity/
 
 .env

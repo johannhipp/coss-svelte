@@ -212,14 +212,8 @@ test("particle filter popup aligns with the outer search bar", async () => {
 		"utf8"
 	);
 
-	assert.match(
-		particlesBrowser,
-		/class="absolute top-full -right-\[0\.8125rem\] z-20 mt-2 w-\[min\(42rem,calc\(100vw-2rem\)\)\]/
-	);
-	assert.doesNotMatch(
-		particlesBrowser,
-		/class="absolute top-full right-0 z-20 w-\[min\(42rem,calc\(100vw-2rem\)\)\]/
-	);
+	assert.match(particlesBrowser, /align="end"[\s\S]*!w-\[min\(42rem,calc\(100vw-2rem\)\)\]/);
+	assert.doesNotMatch(particlesBrowser, /<details|<summary|absolute top-full/);
 });
 
 test("docs previews use component-specific snippets and fixed Preview/Code shells", async () => {
