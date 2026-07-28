@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, isAbsolute, join, sep as pathSeparator, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -81,17 +81,28 @@ async function writeRegistryFiles(fixtureRoot, registryItems) {
 	for (const registryItem of registryItems) {
 		for (const file of registryItem.files) {
 			const target = resolve(libRoot, file.target);
-			if (!target.startsWith(`${libRoot}/`)) {
-				throw new Error(`Registry item target escapes fixture source: ${file.target}`);
-			}
-			const existingContent = writtenTargets.get(target);
-			if (existingContent !== undefined && existingContent !== file.content) {
+			const relativeTarget = relative(libRoot, target);
+			if (
+				relativeTarget === "" ||
+				relativeTarget === ".." ||
+				relativeTarget.startsWith(`..${pathSeparator}`) ||
+				isAbsolute(relativeTarget)
+			) {
 				throw new Error(
-					`Registry items conflict at ${file.target}; ${registryItem.name} has different content.`
+					`${registryItem.name} registry target escapes fixture source: ${file.target}`
 				);
 			}
-			if (existingContent !== undefined) continue;
-			writtenTargets.set(target, file.content);
+			const existing = writtenTargets.get(target);
+			if (existing !== undefined && existing.content !== file.content) {
+				throw new Error(
+					`Registry items ${existing.itemName} and ${registryItem.name} conflict at ${file.target}.`
+				);
+			}
+			if (existing !== undefined) continue;
+			writtenTargets.set(target, {
+				content: file.content,
+				itemName: registryItem.name,
+			});
 			await mkdir(dirname(target), { recursive: true });
 			await writeFile(target, file.content);
 		}

@@ -8,7 +8,7 @@
 			"path": "packages/coss-svelte/src/components/Toggle.svelte",
 			"target": "components/Toggle.svelte",
 			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport { Toggle as TogglePrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof TogglePrimitive.Root>, \"children\" | \"child\"> & {\n\tpressed?: boolean;\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet { pressed = $bindable(false), class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<TogglePrimitive.Root\n\tdata-slot=\"toggle\"\n\tclass={cn(\"cn-toggle\", pressed && \"cn-toggle-pressed\", className)}\n\tbind:pressed\n\t{...rest}\n>\n\t{@render children?.()}\n</TogglePrimitive.Root>\n"
+			"content": "<script lang=\"ts\">\nimport { Toggle as TogglePrimitive } from \"bits-ui\";\nimport type { ComponentProps, Snippet } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof TogglePrimitive.Root>, \"children\" | \"child\"> & {\n\tpressed?: boolean;\n\tclass?: string;\n\tchildren?: Snippet;\n};\n\nlet {\n\tref = $bindable(null),\n\tpressed = $bindable(false),\n\tclass: className = \"\",\n\tchildren,\n\t...rest\n}: Props = $props();\n</script>\n\n<TogglePrimitive.Root\n\tbind:ref\n\tdata-slot=\"toggle\"\n\tclass={cn(\"cn-toggle\", pressed && \"cn-toggle-pressed\", className)}\n\tbind:pressed\n\t{...rest}\n>\n\t{@render children?.()}\n</TogglePrimitive.Root>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/utils.ts",

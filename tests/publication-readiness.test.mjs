@@ -151,10 +151,19 @@ test("ci validates the repo without publishing to npm", async () => {
 	);
 	assert.equal(
 		rootPackage.scripts["test:browser"],
-		"pnpm --filter @coss-svelte/www build && node scripts/smoke-docs-browser.mjs"
+		"pnpm --filter @coss-svelte/www build && pnpm test:browser:built"
+	);
+	assert.equal(rootPackage.scripts["test:browser:built"], "node scripts/smoke-docs-browser.mjs");
+	assert.equal(
+		rootPackage.scripts["test:browser:components"],
+		"pnpm --filter @coss-svelte/www build && node scripts/smoke-docs-browser.mjs --suite components"
+	);
+	assert.equal(
+		rootPackage.scripts["docs:release-gate"],
+		"pnpm --filter @coss-svelte/www build && pnpm docs:smoke:built && pnpm test:browser:built"
 	);
 	assert.equal(
 		rootPackage.scripts["release:check"],
-		"pnpm package:prepare && pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test:consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm docs:smoke && pnpm test:browser && pnpm pack:dry-run"
+		"pnpm package:prepare && pnpm api:check && pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test:consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm docs:release-gate && pnpm pack:dry-run"
 	);
 });

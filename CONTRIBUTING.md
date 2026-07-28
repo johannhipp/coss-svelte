@@ -6,10 +6,28 @@ Thanks for helping prepare `coss-svelte` for public use. Keep setup, documentati
 
 ```sh
 pnpm install --frozen-lockfile
+pnpm dev
+```
+
+The root development command performs the initial package build, then watches the package and docs
+app together. For verification, run:
+
+```sh
 pnpm biome:ci
 pnpm check
 pnpm test
 ```
+
+The browser matrix can be narrowed while developing a component family:
+
+```sh
+pnpm test:browser:components
+node scripts/smoke-docs-browser.mjs --family modal
+```
+
+The first command builds the docs app before running every component family.
+The second reuses an existing build and accepts any family listed in
+`tests/component-family-matrix.mjs`.
 
 Before a release-oriented change is considered complete, run:
 

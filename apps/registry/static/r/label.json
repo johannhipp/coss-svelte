@@ -8,7 +8,7 @@
 			"path": "packages/coss-svelte/src/components/Label.svelte",
 			"target": "components/Label.svelte",
 			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport { Label as LabelPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = ComponentProps<typeof LabelPrimitive.Root>;\n\nlet { class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<LabelPrimitive.Root data-slot=\"label\" class={cn(\"cn-label\", className)} {...rest}>\n\t{@render children?.()}\n</LabelPrimitive.Root>\n"
+			"content": "<script lang=\"ts\">\nimport { Label as LabelPrimitive } from \"bits-ui\";\nimport type { ComponentProps } from \"svelte\";\nimport { cn } from \"../utils.js\";\n\ntype Props = Omit<ComponentProps<typeof LabelPrimitive.Root>, \"child\">;\n\nlet { ref = $bindable(null), class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<LabelPrimitive.Root bind:ref data-slot=\"label\" class={cn(\"cn-label\", className)} {...rest}>\n\t{@render children?.()}\n</LabelPrimitive.Root>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/utils.ts",
