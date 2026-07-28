@@ -15,13 +15,24 @@ function scrollToSection(event: MouseEvent, href: string) {
 		return;
 	}
 
-	const section = document.getElementById(decodeURIComponent(href.slice(1)));
+	let sectionId: string;
+	try {
+		sectionId = decodeURIComponent(href.slice(1));
+	} catch {
+		return;
+	}
+
+	const section = document.getElementById(sectionId);
 	if (!section) {
 		return;
 	}
 
 	event.preventDefault();
-	window.history.pushState(null, "", href);
+	if (window.location.hash === href) {
+		window.history.replaceState(null, "", href);
+	} else {
+		window.history.pushState(null, "", href);
+	}
 	section.scrollIntoView({
 		behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
 		block: "start",

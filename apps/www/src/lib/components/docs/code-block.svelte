@@ -105,6 +105,7 @@ onDestroy(() => {
 			</div>
 		</div>
 	{/if}
+	<span class="docs-code-copy-rail" aria-hidden="true"></span>
 	<button class="docs-code-copy" type="button" aria-label="Copy code" onclick={copyCode}>
 		{#if copied}
 			<Check size={18} strokeWidth={2.1} />
