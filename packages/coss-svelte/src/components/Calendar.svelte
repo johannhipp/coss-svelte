@@ -39,6 +39,12 @@ let {
 	...props
 }: Props = $props();
 
+let weekdayFormat = $derived(props.weekdayFormat ?? "short");
+
+function weekdayLabel(weekday: string): string {
+	return weekdayFormat === "long" ? weekday : weekday.slice(0, 2);
+}
+
 function singleValue(value: Props["value"]): CalendarValue | undefined {
 	if (value === undefined || !Array.isArray(value)) return value;
 	throw new TypeError('Calendar type="single" requires one DateValue.');
@@ -99,7 +105,7 @@ function multipleRootProps(props: Omit<MultipleProps, "value">) {
 						<CalendarPrimitive.GridRow data-slot="calendar-grid-row" class="cn-calendar-grid-row">
 							{#each weekdays as weekday}
 								<CalendarPrimitive.HeadCell data-slot="calendar-head-cell" class="cn-calendar-head">
-									{weekday}
+									{weekdayLabel(weekday)}
 								</CalendarPrimitive.HeadCell>
 							{/each}
 						</CalendarPrimitive.GridRow>
@@ -133,6 +139,7 @@ function multipleRootProps(props: Omit<MultipleProps, "value">) {
 		data-slot="calendar"
 		class={cn("cn-calendar", props.class)}
 		type="multiple"
+		weekdayFormat={weekdayFormat}
 		value={multipleValue(value)}
 		onValueChange={(next) => {
 			value = next;
@@ -149,6 +156,7 @@ function multipleRootProps(props: Omit<MultipleProps, "value">) {
 		data-slot="calendar"
 		class={cn("cn-calendar", props.class)}
 		type="single"
+		weekdayFormat={weekdayFormat}
 		value={singleValue(value)}
 		onValueChange={(next) => {
 			value = next;
