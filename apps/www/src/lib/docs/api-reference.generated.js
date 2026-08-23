@@ -6,7 +6,7 @@ export const componentApiReference = {
 	Accordion: [
 		{
 			name: "Accordion",
-			description: "A set of collapsible panels with headings.",
+			description: "A set of collapsible panels with headings and content.",
 			inherited: {
 				label: "Bits UI Accordion.Root",
 				url: "https://bits-ui.com/docs/components/accordion#root",
@@ -235,7 +235,7 @@ export const componentApiReference = {
 	AlertDialog: [
 		{
 			name: "AlertDialog",
-			description: "A modal dialog that interrupts the user workflow for critical confirmations.",
+			description: "A dialog that requires user response to proceed.",
 			inherited: {
 				label: "Bits UI AlertDialog.Root",
 				url: "https://bits-ui.com/docs/components/alert-dialog#root",
@@ -2078,7 +2078,7 @@ export const componentApiReference = {
 				{
 					name: "label",
 					type: "string",
-					default: '"Choose date"',
+					default: '"Pick a date"',
 					description: "Accessible label or fallback visible label for the control.",
 					bindable: false,
 				},

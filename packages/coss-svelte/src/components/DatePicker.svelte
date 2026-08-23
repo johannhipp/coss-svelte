@@ -23,7 +23,7 @@ let {
 	value = $bindable(),
 	placeholder = $bindable(),
 	open = $bindable(false),
-	label = "Choose date",
+	label = "Pick a date",
 	previousMonthLabel = "Previous month",
 	nextMonthLabel = "Next month",
 	locale = "en-US",
