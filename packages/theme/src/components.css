@@ -574,13 +574,38 @@
 	position: fixed;
 	inset: 0;
 	z-index: 40;
-	background: rgb(0 0 0 / 0.28);
+	background: rgb(0 0 0 / 0.32);
+	backdrop-filter: blur(4px);
 	opacity: 1;
 	transition: opacity 180ms var(--ease-out);
 }
 
 .cn-dialog-overlay[data-state="closed"] {
 	opacity: 0;
+}
+
+.cn-dialog-close-x {
+	position: absolute;
+	top: 0.5rem;
+	inset-inline-end: 0.5rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+	border: 0;
+	border-radius: var(--radius-lg);
+	background: transparent;
+	color: var(--muted-foreground);
+	cursor: pointer;
+	transition:
+		background-color 140ms var(--ease-out),
+		color 140ms var(--ease-out);
+}
+
+.cn-dialog-close-x:hover {
+	background: color-mix(in srgb, var(--muted) 80%, transparent);
+	color: var(--foreground);
 }
 
 .cn-dialog-overlay[data-slot="command-dialog-overlay"] {
