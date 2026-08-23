@@ -37,6 +37,16 @@ let { value = $bindable(), open = $bindable(false), ...props }: Props = $props()
 const generatedId = $props.id();
 const field = getFieldContext();
 let items: NormalizedOption[] = $derived(normalizeOptions(props.items ?? props.options ?? []));
+let search = $state("");
+let filteredItems: NormalizedOption[] = $derived.by(() => {
+	const query = search.trim().toLowerCase();
+	if (query === "") return items;
+	return items.filter((item) => item.label.toLowerCase().includes(query));
+});
+
+$effect(() => {
+	if (!open) search = "";
+});
 let resolvedControlId = $derived(props.id ?? field?.controlId ?? generatedId);
 let resolvedDisabled = $derived(props.disabled ?? field?.disabled ?? false);
 let resolvedRequired = $derived(props.required ?? field?.required ?? false);
@@ -116,6 +126,10 @@ function multipleRootProps(props: Omit<MultipleProps, "open" | "value">) {
 						aria-invalid={resolvedInvalid}
 						disabled={resolvedDisabled}
 						required={resolvedRequired}
+						oninput={(event) => {
+							search = event.currentTarget.value;
+							open = true;
+						}}
 					/>
 					<ComboboxPrimitive.Trigger
 						data-slot="combobox-trigger"
@@ -146,7 +160,10 @@ function multipleRootProps(props: Omit<MultipleProps, "open" | "value">) {
 			<ComboboxPrimitive.Portal>
 				<ComboboxPrimitive.Content data-slot="combobox-popup" class="cn-combobox-popup">
 					<ComboboxPrimitive.Viewport data-slot="combobox-list" class="cn-combobox-list">
-						{#each items as item}
+						{#if filteredItems.length === 0}
+							<div data-slot="combobox-empty" class="cn-combobox-empty">No items found.</div>
+						{/if}
+						{#each filteredItems as item}
 							<ComboboxPrimitive.Item
 								data-slot="combobox-item"
 								class="cn-combobox-item"
