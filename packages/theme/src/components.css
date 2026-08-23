@@ -3423,7 +3423,7 @@
 	color: var(--foreground);
 }
 
-.cn-breadcrumb [aria-current="page"] {
+.cn-breadcrumb li > span[aria-current="page"] {
 	color: var(--foreground);
 }
 
