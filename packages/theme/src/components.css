@@ -500,6 +500,34 @@
 	box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
 }
 
+.cn-empty-media[data-variant="icon"] {
+	position: relative;
+	isolation: isolate;
+}
+
+.cn-empty-media[data-variant="icon"]::before,
+.cn-empty-media[data-variant="icon"]::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	bottom: 1px;
+	z-index: -1;
+	border: 1px solid var(--border);
+	border-radius: inherit;
+	background: var(--background);
+	pointer-events: none;
+}
+
+.cn-empty-media[data-variant="icon"]::before {
+	transform-origin: bottom left;
+	transform: translateX(-2px) rotate(-10deg) scale(0.84);
+}
+
+.cn-empty-media[data-variant="icon"]::after {
+	transform-origin: bottom right;
+	transform: translateX(2px) rotate(10deg) scale(0.84);
+}
+
 .cn-group-separator {
 	align-self: stretch;
 	width: 1px;
