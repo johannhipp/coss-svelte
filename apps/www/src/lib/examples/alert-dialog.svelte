@@ -13,7 +13,7 @@ import {
 </script>
 
 <AlertDialog>
-	<AlertDialogTrigger>Delete Account</AlertDialogTrigger>
+	<AlertDialogTrigger class="cn-button-destructive-outline">Delete Account</AlertDialogTrigger>
 	<AlertDialogPopup>
 		<AlertDialogHeader>
 			<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

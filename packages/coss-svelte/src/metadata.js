@@ -110,7 +110,7 @@ export const componentMetadata = Object.freeze({
 	},
 	AlertDialog: {
 		category: "Overlays & Popups",
-		description: "A modal dialog that interrupts the user workflow for critical confirmations.",
+		description: "A dialog that requires user response to proceed.",
 		docsUrl: "https://coss.com/ui/docs/components/alert-dialog.md",
 		hasLocalPrimitiveRef: true,
 		name: "AlertDialog",

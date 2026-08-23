@@ -707,6 +707,7 @@
 	transform: translate(-50%, -50%) scale(1);
 }
 
+
 .cn-command-dialog-shell,
 .cn-menu-sub-shell {
 	display: contents;
@@ -760,7 +761,6 @@
 .cn-alert-dialog-footer {
 	align-items: center;
 	justify-content: flex-end;
-	flex-direction: row;
 	flex-wrap: wrap;
 	border-top: 1px solid var(--cn-border);
 	background: color-mix(in srgb, var(--muted) 64%, var(--background));
@@ -876,6 +876,52 @@
 
 .cn-alert-dialog-footer .cn-alert-dialog-cancel:hover {
 	background: color-mix(in srgb, var(--muted) 80%, transparent);
+}
+
+@media (max-width: 639px) {
+	.cn-dialog:not(.cn-command-dialog-popup),
+	.cn-alert-dialog {
+		top: auto;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		max-width: none;
+		max-height: calc(100vh - 3rem);
+		border-right: 0;
+		border-bottom: 0;
+		border-left: 0;
+		border-radius: 0;
+		transform: none;
+		transform-origin: bottom center;
+	}
+
+	.cn-dialog:not(.cn-command-dialog-popup)[data-state="closed"],
+	.cn-alert-dialog[data-state="closed"] {
+		transform: translateY(1rem);
+	}
+
+	.cn-dialog:not(.cn-command-dialog-popup)[data-state="open"],
+	.cn-alert-dialog[data-state="open"] {
+		transform: translateY(0);
+	}
+
+	.cn-alert-dialog-header {
+		padding-bottom: 1rem;
+		text-align: center;
+	}
+
+	.cn-alert-dialog-footer {
+		flex-direction: column-reverse;
+		align-items: stretch;
+	}
+
+	.cn-dialog-footer > *,
+	.cn-alert-dialog-footer > * {
+		width: 100%;
+		justify-content: center;
+		text-align: center;
+	}
 }
 
 .cn-sheet {
