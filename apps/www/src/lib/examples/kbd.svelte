@@ -17,6 +17,7 @@ import { Kbd, KbdGroup } from "coss-svelte";
 		<div class="flex gap-2">
 			<KbdGroup><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>
 			<KbdGroup><Kbd>⌘</Kbd><Kbd>Shift</Kbd><Kbd>P</Kbd></KbdGroup>
+			<KbdGroup><Kbd>Ctrl</Kbd><Kbd>Alt</Kbd><Kbd>Delete</Kbd></KbdGroup>
 		</div>
 	</div>
 </div>
