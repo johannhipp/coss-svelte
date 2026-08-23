@@ -74,7 +74,7 @@ export const componentComposition = Object.freeze({
 export const componentMetadata = Object.freeze({
 	Accordion: {
 		category: "Layout & Navigation",
-		description: "A set of collapsible panels with headings.",
+		description: "A set of collapsible panels with headings and content.",
 		docsUrl: "https://coss.com/ui/docs/components/accordion.md",
 		hasLocalPrimitiveRef: true,
 		name: "Accordion",

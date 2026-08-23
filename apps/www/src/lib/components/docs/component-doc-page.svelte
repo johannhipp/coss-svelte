@@ -21,9 +21,14 @@ let {
 	toc?: TocItem[];
 } = $props();
 
+const previewAlignments: Record<string, "start" | "center" | "end"> = {
+	accordion: "start",
+};
+
 let usageCode = $derived(exampleSource ?? "");
 let importCode = $derived(`import { ${page.imports.join(", ")} } from "coss-svelte";`);
 let markdown = $derived(createComponentMarkdown(page, usageCode));
+let previewAlign = $derived(previewAlignments[page.slug] ?? "center");
 </script>
 
 <div class="flex min-w-0 items-stretch">
@@ -48,7 +53,7 @@ let markdown = $derived(createComponentMarkdown(page, usageCode));
 						</div>
 					</header>
 
-					<ComponentPreviewTabs slug={page.slug} title={page.title} code={usageCode} />
+					<ComponentPreviewTabs slug={page.slug} title={page.title} code={usageCode} align={previewAlign} />
 
 					<section id="installation" class="scroll-mt-20 border-border border-t py-8">
 						<h2 class="mb-3 font-semibold text-2xl">Installation</h2>

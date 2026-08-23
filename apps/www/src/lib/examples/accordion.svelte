@@ -3,17 +3,19 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "co
 
 const items = [
 	{
-		content: "Base UI provides unstyled primitives for design systems and product interfaces.",
+		content:
+			"Base UI is a library of high-quality unstyled React components for design systems and web apps.",
 		id: "1",
 		title: "What is Base UI?",
 	},
 	{
-		content: "Start with the quick-start guide and compose the parts your interface needs.",
+		content:
+			"Head to the \u201CQuick start\u201D guide in the docs. If you\u2019ve used unstyled libraries before, you\u2019ll feel at home.",
 		id: "2",
 		title: "How do I get started?",
 	},
 	{
-		content: "Yes. Base UI is free and open source.",
+		content: "Of course! Base UI is free and open source.",
 		id: "3",
 		title: "Can I use it for my project?",
 	},
