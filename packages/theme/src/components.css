@@ -329,6 +329,13 @@
 	padding: 0;
 }
 
+.cn-preview-card {
+	width: 16rem;
+	padding: 1rem;
+	font-size: 0.875rem;
+	text-wrap: balance;
+}
+
 .cn-card,
 .cn-empty,
 .cn-frame {
