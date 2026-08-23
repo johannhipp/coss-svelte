@@ -3325,15 +3325,16 @@
 }
 
 .cn-menu-item-indicator {
-	display: inline-block;
-	width: 0.65rem;
-	height: 0.65rem;
-	border: 1px solid var(--input);
-	border-radius: 999px;
+	display: inline-flex;
+	width: 0.75rem;
+	height: 0.75rem;
+	flex-shrink: 0;
 }
 
 .cn-menu-item-indicator[data-state="checked"] {
 	background: currentColor;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")
+		center / contain no-repeat;
 }
 
 .cn-menu-item-indicator[data-state="indeterminate"] {
@@ -3342,15 +3343,41 @@
 	border-radius: 999px;
 }
 
+.cn-menu-checkbox-item[data-variant="switch"] {
+	justify-content: space-between;
+}
+
 .cn-menu-checkbox-item[data-variant="switch"] .cn-menu-item-indicator {
+	order: 2;
+	position: relative;
 	width: 1.625rem;
 	height: 1rem;
 	border-radius: 999px;
 	background: var(--input);
+	transition: background-color 140ms var(--ease-out);
+	mask: none;
 }
 
 .cn-menu-checkbox-item[data-variant="switch"] .cn-menu-item-indicator[data-state="checked"] {
 	background: var(--primary);
+}
+
+.cn-menu-checkbox-item[data-variant="switch"] .cn-menu-item-indicator::before {
+	content: "";
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	width: calc(1rem - 4px);
+	height: calc(1rem - 4px);
+	border-radius: 999px;
+	background: var(--background);
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+	transition: transform 140ms var(--ease-out);
+}
+
+.cn-menu-checkbox-item[data-variant="switch"]
+	.cn-menu-item-indicator[data-state="checked"]::before {
+	transform: translateX(0.625rem);
 }
 
 .cn-context-menu-trigger {
