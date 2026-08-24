@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@coss-svelte/theme/style-coss.css";
+@import "@coss-svelte/theme/style-coss.css" layer(components);
 @source "./**/*.{svelte,ts,js}";
 @source "../../../packages/coss-svelte/src/**/*.{svelte,ts,js}";
 

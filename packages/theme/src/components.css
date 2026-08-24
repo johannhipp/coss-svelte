@@ -989,9 +989,12 @@
 .cn-sheet {
 	position: fixed;
 	z-index: 50;
-	width: min(24rem, calc(100vw - 2rem));
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	width: min(28rem, calc(100vw - 3rem));
 	max-width: none;
-	max-height: calc(100vh - 2rem);
+	padding: 0;
 	overflow: auto;
 	opacity: 1;
 	transition:
@@ -1000,12 +1003,20 @@
 	will-change: transform;
 }
 
-.cn-sheet-header,
-.cn-sheet-panel,
-.cn-sheet-content,
-.cn-sheet-footer {
+.cn-sheet-header {
 	display: grid;
 	gap: 0.5rem;
+	padding: 1.5rem 1.5rem 0.75rem;
+}
+
+.cn-sheet-panel,
+.cn-sheet-content {
+	display: grid;
+	gap: 0.5rem;
+	flex: 1;
+	align-content: start;
+	padding: 0.75rem 1.5rem;
+	overflow: auto;
 }
 
 .cn-sheet-title {
@@ -1023,13 +1034,31 @@
 }
 
 .cn-sheet-footer {
-	align-items: start;
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 0.5rem;
+	margin-top: auto;
+	border-top: 1px solid var(--cn-border);
+	background: color-mix(in srgb, var(--muted) 72%, transparent);
+	padding: 1rem 1.5rem;
+}
+
+@media (min-width: 640px) {
+	.cn-sheet-footer {
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+	}
 }
 
 .cn-sheet-right {
-	top: 1rem;
-	right: 1rem;
-	bottom: 1rem;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	border-top: 0;
+	border-right: 0;
+	border-bottom: 0;
+	border-radius: 0;
 }
 
 .cn-sheet-right[data-state="closed"] {
@@ -1043,9 +1072,13 @@
 }
 
 .cn-sheet-left {
-	top: 1rem;
-	bottom: 1rem;
-	left: 1rem;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	border-top: 0;
+	border-bottom: 0;
+	border-left: 0;
+	border-radius: 0;
 }
 
 .cn-sheet-left[data-state="closed"] {
@@ -1059,11 +1092,15 @@
 }
 
 .cn-sheet-top {
-	top: 1rem;
-	left: 1rem;
-	right: 1rem;
+	top: 0;
+	left: 0;
+	right: 0;
 	width: auto;
-	max-height: min(24rem, calc(100vh - 2rem));
+	max-height: min(24rem, calc(100vh - 3rem));
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-radius: 0;
 }
 
 .cn-sheet-top[data-state="closed"] {
@@ -1077,11 +1114,15 @@
 }
 
 .cn-sheet-bottom {
-	left: 1rem;
-	right: 1rem;
-	bottom: 1rem;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	width: auto;
-	max-height: min(24rem, calc(100vh - 2rem));
+	max-height: min(24rem, calc(100vh - 3rem));
+	border-right: 0;
+	border-bottom: 0;
+	border-left: 0;
+	border-radius: 0;
 }
 
 .cn-sheet-bottom[data-state="closed"] {
