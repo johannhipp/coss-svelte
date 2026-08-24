@@ -2579,6 +2579,7 @@
 	color: var(--muted-foreground);
 }
 
+.cn-toggle[data-state="on"],
 .cn-toggle-group-item[data-state="on"] {
 	background: color-mix(in srgb, var(--input) 64%, transparent);
 	color: var(--accent-foreground);
