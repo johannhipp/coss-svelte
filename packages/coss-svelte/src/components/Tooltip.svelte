@@ -23,7 +23,9 @@ let {
 </script>
 
 {#if children}
-	<TooltipPrimitive.Root bind:open bind:triggerId {children} {...rest} />
+	<TooltipPrimitive.Provider>
+		<TooltipPrimitive.Root bind:open bind:triggerId {children} {...rest} />
+	</TooltipPrimitive.Provider>
 {:else}
 	<TooltipPrimitive.Provider>
 		<TooltipPrimitive.Root bind:open bind:triggerId {...rest}>
