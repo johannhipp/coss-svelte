@@ -2742,6 +2742,7 @@
 }
 
 .cn-table-caption {
+	caption-side: bottom;
 	padding: 0.625rem 0.75rem;
 	color: var(--muted-foreground);
 	font-size: 0.8125rem;
