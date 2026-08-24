@@ -1,7 +1,7 @@
 {
 	"name": "AlertDialog",
 	"title": "Alert Dialog",
-	"description": "A modal dialog that interrupts the user workflow for critical confirmations.",
+	"description": "A dialog that requires user response to proceed.",
 	"type": "registry:ui",
 	"files": [
 		{

@@ -1,14 +1,6 @@
 <script lang="ts">
 import { Archive, Ellipsis, Files, Film, Pencil, Share2, Trash2 } from "@lucide/svelte";
-import {
-	Button,
-	Group,
-	GroupSeparator,
-	Menu,
-	MenuItem,
-	MenuPopup,
-	MenuTrigger,
-} from "coss-svelte";
+import { Button, Group, GroupSeparator, Menu, MenuItem, MenuPopup, MenuTrigger } from "coss-svelte";
 </script>
 
 <Group aria-label="File actions">

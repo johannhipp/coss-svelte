@@ -44,7 +44,7 @@
 			"path": "packages/coss-svelte/src/components/TableCell.svelte",
 			"target": "components/TableCell.svelte",
 			"type": "registry:ui",
-			"content": "<script lang=\"ts\">\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\nlet { class: className = \"\", children, ...rest }: NativeProps = $props();\n</script>\n\n<Block\n\tas=\"td\"\n\tdataSlot=\"table-cell\"\n\tclass={cn(\"cn-table-cell\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
+			"content": "<script lang=\"ts\">\nimport type { HTMLTdAttributes } from \"svelte/elements\";\nimport Block from \"../internal/Block.svelte\";\nimport type { NativeProps } from \"../internal/props.js\";\nimport { cn } from \"../utils.js\";\n\ntype Props = NativeProps & Pick<HTMLTdAttributes, \"colspan\" | \"rowspan\" | \"headers\">;\n\nlet { class: className = \"\", children, ...rest }: Props = $props();\n</script>\n\n<Block\n\tas=\"td\"\n\tdataSlot=\"table-cell\"\n\tclass={cn(\"cn-table-cell\", className)}\n\t{...rest}\n>\n\t{@render children?.()}\n</Block>\n"
 		},
 		{
 			"path": "packages/coss-svelte/src/components/TableFooter.svelte",
