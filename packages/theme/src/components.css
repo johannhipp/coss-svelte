@@ -1440,19 +1440,30 @@
 }
 
 .cn-select-item {
+	display: grid;
+	grid-template-columns: 0.75rem 1fr;
+	align-items: center;
+	gap: 0.5rem;
 	border-radius: var(--radius-md);
 	padding: 0.45rem 0.5rem;
 	font-size: 1rem;
 	cursor: pointer;
 }
 
-.cn-select-item[data-highlighted] {
-	background: var(--accent);
+.cn-select-item::before {
+	content: "";
+	width: 0.75rem;
+	height: 0.75rem;
 }
 
-.cn-select-item[data-state="checked"] {
-	background: var(--cn-primary);
-	color: var(--cn-primary-foreground);
+.cn-select-item[data-selected]::before {
+	background: currentColor;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")
+		center / contain no-repeat;
+}
+
+.cn-select-item[data-highlighted] {
+	background: var(--accent);
 }
 
 .cn-select-scroll-button {

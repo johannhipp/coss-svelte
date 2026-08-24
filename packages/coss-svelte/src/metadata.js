@@ -749,7 +749,7 @@ export const componentMetadata = Object.freeze({
 	},
 	Popover: {
 		category: "Overlays & Popups",
-		description: "A floating container that appears near a trigger element.",
+		description: "An accessible popup anchored to a button.",
 		docsUrl: "https://coss.com/ui/docs/components/popover.md",
 		hasLocalPrimitiveRef: true,
 		name: "Popover",
