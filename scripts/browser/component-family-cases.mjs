@@ -92,7 +92,7 @@ async function catalogSsr({ context, baseUrl }) {
 
 async function catalogHydrate({ browser, baseUrl }) {
 	await runWorkers(catalogEntries, 4, async ({ slug }) => {
-		const context = await browser.newContext();
+		const context = await browser.newContext({ reducedMotion: "reduce" });
 		const page = await context.newPage();
 		try {
 			await page.goto(`${baseUrl}/docs/components/${slug}`, { waitUntil: "domcontentloaded" });
@@ -322,6 +322,7 @@ async function exerciseModal({ browser, page, baseUrl }, name) {
 		await mobileTrigger.click();
 		const mobilePopup = mobilePage.locator(`[data-slot="${configuration.popupSlot}"]`);
 		await mobilePopup.waitFor();
+		await waitForAnimations(mobilePopup);
 		await assertIntersectsViewport(mobilePage, mobilePopup, `${name} mobile popup`);
 		await mobilePage
 			.locator(`[data-slot="${configuration.overlaySlot}"]`)
