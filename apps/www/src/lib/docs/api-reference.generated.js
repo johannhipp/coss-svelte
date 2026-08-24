@@ -4692,7 +4692,7 @@ export const componentApiReference = {
 	Popover: [
 		{
 			name: "Popover",
-			description: "A floating container that appears near a trigger element.",
+			description: "An accessible popup anchored to a button.",
 			inherited: {
 				label: "Bits UI Popover.Root",
 				url: "https://bits-ui.com/docs/components/popover#root",

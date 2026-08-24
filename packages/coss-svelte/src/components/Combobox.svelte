@@ -163,7 +163,7 @@ function multipleRootProps(props: Omit<MultipleProps, "open" | "value">) {
 						{#if filteredItems.length === 0}
 							<div data-slot="combobox-empty" class="cn-combobox-empty">No items found.</div>
 						{/if}
-						{#each filteredItems as item}
+						{#each filteredItems as item (item.value)}
 							<ComboboxPrimitive.Item
 								data-slot="combobox-item"
 								class="cn-combobox-item"
@@ -187,7 +187,7 @@ function multipleRootProps(props: Omit<MultipleProps, "open" | "value">) {
 		type="multiple"
 		value={multipleValue(value)}
 		bind:open
-		{items}
+		items={filteredItems}
 		disabled={resolvedDisabled}
 		required={resolvedRequired}
 		onValueChange={(next) => {
@@ -203,7 +203,7 @@ function multipleRootProps(props: Omit<MultipleProps, "open" | "value">) {
 		type="single"
 		value={singleValue(value)}
 		bind:open
-		{items}
+		items={filteredItems}
 		disabled={resolvedDisabled}
 		required={resolvedRequired}
 		onValueChange={(next) => {

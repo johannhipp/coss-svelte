@@ -449,6 +449,7 @@ async function menuBehavior({ page, baseUrl }) {
 	await trigger.click();
 	const menu = page.getByRole("menu").first();
 	await menu.waitFor();
+	await waitForAnimations(menu);
 	assert(
 		(await page.getByTestId("selector-portal-host").getByRole("menu").count()) === 1,
 		"Menu did not use its selector portal target."
@@ -571,8 +572,7 @@ async function listboxBehavior({ browser, page, baseUrl }) {
 	await waitForFixtureState(page, "listbox-state", "bravo:alpha,bravo::");
 
 	const combobox = page.getByRole("combobox", { name: "Combobox fixture" });
-	await combobox.fill("br");
-	await page.keyboard.press("ArrowDown");
+	await combobox.pressSequentially("br");
 	await page.keyboard.press("ArrowDown");
 	await page.keyboard.press("Enter");
 	await page.waitForFunction(() =>
@@ -580,9 +580,7 @@ async function listboxBehavior({ browser, page, baseUrl }) {
 	);
 
 	const autocomplete = page.getByRole("combobox", { name: "Autocomplete fixture" });
-	await autocomplete.fill("ch");
-	await page.keyboard.press("ArrowDown");
-	await page.keyboard.press("ArrowDown");
+	await autocomplete.pressSequentially("ch");
 	await page.keyboard.press("ArrowDown");
 	await page.keyboard.press("Enter");
 	await page.waitForFunction(() =>
