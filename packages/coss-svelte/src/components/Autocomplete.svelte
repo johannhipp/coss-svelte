@@ -137,7 +137,8 @@ function multipleRootProps(props: Omit<MultipleProps, "open" | "value">) {
 					{#if filteredItems.length === 0}
 						<div data-slot="autocomplete-empty" class="cn-autocomplete-empty">No items found.</div>
 					{/if}
-					{#each filteredItems as item (item.value)}
+					{#key search}
+						{#each filteredItems as item (item.value)}
 						<ComboboxPrimitive.Item
 							data-slot="autocomplete-item"
 							class="cn-autocomplete-item"
@@ -147,7 +148,8 @@ function multipleRootProps(props: Omit<MultipleProps, "open" | "value">) {
 						>
 							{item.label}
 						</ComboboxPrimitive.Item>
-					{/each}
+						{/each}
+					{/key}
 				</AutocompleteList>
 			</AutocompletePopup>
 		</div>
