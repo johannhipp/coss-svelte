@@ -2684,7 +2684,15 @@
 }
 
 .cn-toolbar {
+	position: relative;
+	display: flex;
 	align-items: center;
+	gap: 0.5rem;
+	border: 1px solid var(--cn-border);
+	border-radius: var(--radius-xl);
+	background: var(--cn-surface);
+	padding: 0.25rem;
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
 }
 
 .cn-toolbar-select {
