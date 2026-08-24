@@ -7,6 +7,8 @@ import {
 	MenuGroupLabel,
 	MenuItem,
 	MenuPopup,
+	MenuRadioGroup,
+	MenuRadioItem,
 	MenuSeparator,
 	MenuShortcut,
 	MenuSub,
@@ -35,12 +37,38 @@ import {
 		<MenuSeparator />
 		<MenuCheckboxItem>Shuffle</MenuCheckboxItem>
 		<MenuCheckboxItem>Repeat</MenuCheckboxItem>
+		<MenuCheckboxItem disabled>Enhanced Audio</MenuCheckboxItem>
+		<MenuSeparator />
+		<MenuGroup>
+			<MenuGroupLabel>Sort by</MenuGroupLabel>
+			<MenuRadioGroup>
+				<MenuRadioItem value="artist">Artist</MenuRadioItem>
+				<MenuRadioItem value="album">Album</MenuRadioItem>
+				<MenuRadioItem value="title">Title</MenuRadioItem>
+			</MenuRadioGroup>
+		</MenuGroup>
+		<MenuSeparator />
+		<MenuCheckboxItem variant="switch">Auto save</MenuCheckboxItem>
 		<MenuSeparator />
 		<MenuSub>
 			<MenuSubTrigger>Add to Playlist</MenuSubTrigger>
 			<MenuSubPopup>
 				<MenuItem>Jazz</MenuItem>
-				<MenuItem>Rock</MenuItem>
+				<MenuSub>
+					<MenuSubTrigger>Rock</MenuSubTrigger>
+					<MenuSubPopup>
+						<MenuItem>Hard Rock</MenuItem>
+						<MenuItem>Soft Rock</MenuItem>
+						<MenuItem>Classic Rock</MenuItem>
+						<MenuSeparator />
+						<MenuItem>Metal</MenuItem>
+						<MenuItem>Punk</MenuItem>
+						<MenuItem>Grunge</MenuItem>
+						<MenuItem>Alternative</MenuItem>
+						<MenuItem>Indie</MenuItem>
+						<MenuItem>Electronic</MenuItem>
+					</MenuSubPopup>
+				</MenuSub>
 				<MenuItem>Pop</MenuItem>
 			</MenuSubPopup>
 		</MenuSub>

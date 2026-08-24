@@ -2,4 +2,11 @@
 import { Breadcrumb } from "coss-svelte";
 </script>
 
-<Breadcrumb items={[{ label: "Docs", href: "/docs/introduction" }, "Components", "Breadcrumb"]} />
+<Breadcrumb
+	items={[
+		{ label: "Home", href: "/" },
+		{ ellipsis: true },
+		{ label: "Components", href: "/docs/components/accordion" },
+		"Breadcrumb",
+	]}
+/>

@@ -1,7 +1,7 @@
 {
 	"name": "Accordion",
 	"title": "Accordion",
-	"description": "A set of collapsible panels with headings.",
+	"description": "A set of collapsible panels with headings and content.",
 	"type": "registry:ui",
 	"files": [
 		{

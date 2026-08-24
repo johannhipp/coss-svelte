@@ -1,7 +1,7 @@
 {
 	"name": "Popover",
 	"title": "Popover",
-	"description": "A floating container that appears near a trigger element.",
+	"description": "An accessible popup anchored to a button.",
 	"type": "registry:ui",
 	"files": [
 		{

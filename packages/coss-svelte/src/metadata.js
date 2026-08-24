@@ -74,7 +74,7 @@ export const componentComposition = Object.freeze({
 export const componentMetadata = Object.freeze({
 	Accordion: {
 		category: "Layout & Navigation",
-		description: "A set of collapsible panels with headings.",
+		description: "A set of collapsible panels with headings and content.",
 		docsUrl: "https://coss.com/ui/docs/components/accordion.md",
 		hasLocalPrimitiveRef: true,
 		name: "Accordion",
@@ -110,7 +110,7 @@ export const componentMetadata = Object.freeze({
 	},
 	AlertDialog: {
 		category: "Overlays & Popups",
-		description: "A modal dialog that interrupts the user workflow for critical confirmations.",
+		description: "A dialog that requires user response to proceed.",
 		docsUrl: "https://coss.com/ui/docs/components/alert-dialog.md",
 		hasLocalPrimitiveRef: true,
 		name: "AlertDialog",
@@ -749,7 +749,7 @@ export const componentMetadata = Object.freeze({
 	},
 	Popover: {
 		category: "Overlays & Popups",
-		description: "A floating container that appears near a trigger element.",
+		description: "An accessible popup anchored to a button.",
 		docsUrl: "https://coss.com/ui/docs/components/popover.md",
 		hasLocalPrimitiveRef: true,
 		name: "Popover",

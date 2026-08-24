@@ -23,5 +23,5 @@ let value = $state(new CalendarDate(2026, 7, 28));
 	{locale}
 	{previousMonthLabel}
 	{nextMonthLabel}
-	label="Choose date"
+	label="Pick a date"
 />

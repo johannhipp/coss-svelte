@@ -6,6 +6,7 @@ import { cn } from "../utils.js";
 type Props = Omit<ComponentProps<typeof MenuPrimitive.CheckboxItem>, "children" | "child"> & {
 	class?: string;
 	children?: ComponentProps<typeof MenuPrimitive.CheckboxItem>["children"];
+	variant?: "default" | "switch";
 };
 
 let {
@@ -14,6 +15,7 @@ let {
 	indeterminate = $bindable(false),
 	class: className = "",
 	children: itemChildren = undefined,
+	variant = "default",
 	...rest
 }: Props = $props();
 </script>
@@ -23,6 +25,7 @@ let {
 	bind:checked
 	bind:indeterminate
 	data-slot="menu-checkbox-item"
+	data-variant={variant}
 	class={cn("cn-menu-item cn-menu-checkbox-item", className)}
 	{...rest}
 >

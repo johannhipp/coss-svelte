@@ -5,24 +5,17 @@ import {
 	NumberFieldGroup,
 	NumberFieldIncrement,
 	NumberFieldInput,
-	NumberFieldScrubArea,
 } from "coss-svelte";
 
-let value = $state<number | null>(3);
+let value = $state<number | null>(0);
 </script>
 
-<div class="grid w-full max-w-80 gap-3">
-	<NumberField bind:value min={0} max={24} step={0.25} label="Quantity">
-		{#snippet children()}
-			<NumberFieldScrubArea label="Quantity" />
-			<NumberFieldGroup>
-				<NumberFieldDecrement />
-				<NumberFieldInput />
-				<NumberFieldIncrement />
-			</NumberFieldGroup>
-		{/snippet}
-	</NumberField>
-	<p class="m-0 text-muted-foreground text-sm" aria-live="polite">
-		Current value: {value ?? "empty"}
-	</p>
-</div>
+<NumberField bind:value aria-label="Amount">
+	{#snippet children()}
+		<NumberFieldGroup>
+			<NumberFieldDecrement />
+			<NumberFieldInput />
+			<NumberFieldIncrement />
+		</NumberFieldGroup>
+	{/snippet}
+</NumberField>

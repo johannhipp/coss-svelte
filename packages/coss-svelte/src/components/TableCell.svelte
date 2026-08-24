@@ -1,9 +1,12 @@
 <script lang="ts">
+import type { HTMLTdAttributes } from "svelte/elements";
 import Block from "../internal/Block.svelte";
 import type { NativeProps } from "../internal/props.js";
 import { cn } from "../utils.js";
 
-let { class: className = "", children, ...rest }: NativeProps = $props();
+type Props = NativeProps & Pick<HTMLTdAttributes, "colspan" | "rowspan" | "headers">;
+
+let { class: className = "", children, ...rest }: Props = $props();
 </script>
 
 <Block

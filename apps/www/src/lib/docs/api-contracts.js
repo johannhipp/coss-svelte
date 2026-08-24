@@ -592,7 +592,7 @@ const propOverridesByElement = {
 		},
 		sideOffset: { default: "0" },
 	},
-	DatePicker: { label: { default: '"Choose date"' }, value: { default: undefined } },
+	DatePicker: { label: { default: '"Pick a date"' }, value: { default: undefined } },
 	GroupSeparator: { orientation: { default: '"vertical"' } },
 	Input: { type: { default: '"text"' }, value: { default: undefined } },
 	InputGroupInput: { type: { default: '"text"' } },

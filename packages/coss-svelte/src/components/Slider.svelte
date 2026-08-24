@@ -77,9 +77,6 @@ function multipleRootProps(props: Omit<MultipleProps, "value">) {
 			{@render props.children(sliderProps)}
 		{:else}
 			<SliderPrimitive.Range data-slot="slider-range" class="cn-slider-range" />
-			{#each sliderProps.tickItems as tick}
-				<SliderPrimitive.Tick data-slot="slider-tick" class="cn-slider-tick" index={tick.index} />
-			{/each}
 			{#each sliderProps.thumbItems as thumb}
 				<SliderPrimitive.Thumb
 					data-slot="slider-thumb"
