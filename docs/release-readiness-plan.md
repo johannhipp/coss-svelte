@@ -117,7 +117,7 @@ These are required release activities, but they must not happen while the compon
 - [ ] Select final versions for **both** publishable packages and update the changelog/release notes.
 - [ ] Run `pnpm install --frozen-lockfile` and `pnpm release:check` from a fresh checkout; archive the results with the release record.
 - [ ] Rehearse a release candidate in a fresh external SvelteKit project using the exact packed tarballs, then review SSR, hydration, styles, browser behavior, and registry installation.
-- [ ] Deploy the docs app to a preview environment using its adapter-node contract; test deep links, `/r/*`, `/schema/*`, `llms.txt`, 404s, metadata, and browser smoke against that preview.
+- [x] Deploy the docs app to Vercel using its adapter-vercel contract; verify deep links, `/r/*`, `/schema/*`, `llms.txt`, 404s, metadata, and browser smoke against the production `vercel.app` deployment.
 - [ ] Choose and configure the production host, custom domain, TLS, environment variables, uptime/error monitoring, rollback path, and deployment ownership.
 - [ ] Make the GitHub repository public only after the history/governance review; configure branch protection and repository security settings.
 - [ ] Create the intentional release commit, immutable `v0.1.0` tag, and GitHub Release from the same verified commit.
