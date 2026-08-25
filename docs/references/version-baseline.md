@@ -1,7 +1,8 @@
 # Version Baseline
 
 Core versions captured from npm on 2026-06-10. The PostCSS security floor was
-verified on 2026-07-28.
+verified on 2026-07-28, and the Vercel deployment adapter was verified on
+2026-08-25.
 
 | Package                        |    Version | Role                                                        |
 | ------------------------------ | ---------: | ----------------------------------------------------------- |
@@ -13,8 +14,9 @@ verified on 2026-07-28.
 | `tailwindcss`                  |    `4.3.0` | Styling engine                                              |
 | `@tailwindcss/vite`            |    `4.3.0` | Tailwind/Vite integration                                   |
 | `@sveltejs/vite-plugin-svelte` |    `7.1.2` | Svelte/Vite integration                                     |
-| `@sveltejs/adapter-node`       |    `5.5.7` | Explicit Node deployment target for the docs app            |
-| `@types/node`                  | `22.15.30` | Node types for adapter-node and server-side docs modules    |
+| `@sveltejs/adapter-node`       |    `5.5.7` | Local production server and browser release-gate target     |
+| `@sveltejs/adapter-vercel`     |    `6.3.4` | Vercel production deployment target                         |
+| `@types/node`                  | `22.15.30` | Node types for adapters and server-side docs modules        |
 | `@sveltejs/package`            |    `2.5.8` | Package declaration/build pipeline                          |
 | `vitest`                       |   `4.1.10` | Component runtime tests                                     |
 | `@testing-library/svelte`      |    `5.4.2` | DOM component test harness                                  |
