@@ -7,20 +7,39 @@ import { componentDocs, resourcePages } from "./navigation.js";
  * @typedef {import("./types.js").ComponentDoc} ComponentDoc
  */
 
+const sourceSetupCommand = `pnpm install --frozen-lockfile
+pnpm package:prepare`;
+const availabilityCheckCommand = `npm view coss-svelte version
+npm view @coss-svelte/theme version`;
 const installationCommand = "pnpm add coss-svelte bits-ui @coss-svelte/theme";
 const themeImportCode = `@import "tailwindcss";
 @import "@coss-svelte/theme/style-coss.css";`;
-const skillsInstallCommand = "npx skills@latest add johannhipp/skills";
+const skillsInstallCommand = "npx skills@latest add johannhipp/skills --skill coss-svelte";
 
 const contentPages = {
 	"getting-started": {
-		description: "Install coss-svelte, Bits UI, and the shared theme in a SvelteKit app.",
+		description:
+			"Use coss-svelte from the source workspace today, or verify package publication before installing it in another SvelteKit app.",
 		sections: [
 			{
 				body: `\`\`\`bash
+${sourceSetupCommand}
+\`\`\``,
+				title: "Source Setup",
+			},
+			{
+				body: `The packages are not published yet. Before using an external package install, verify both packages exist:
+
+\`\`\`bash
+${availabilityCheckCommand}
+\`\`\`
+
+After both checks succeed, install the package, its Bits UI peer, and the shared theme:
+
+\`\`\`bash
 ${installationCommand}
 \`\`\``,
-				title: "Install",
+				title: "External Availability",
 			},
 			{
 				body: `Import the COSS theme once from the global stylesheet loaded by your app layout so local components receive the same token system as the docs previews.
@@ -58,14 +77,14 @@ ${themeImportCode}
 	},
 	llms: {
 		description:
-			"A compact local map of the coss-svelte component surface for agents and implementation work.",
+			"A generated map of the current coss-svelte component, API, example, registry, and skill surface for coding agents.",
 		sections: [
 			{
-				body: "Use `/llms.txt` as the entry point. It links to raw Markdown pages for overview docs, resources, and every component route.",
+				body: "Use `/llms.txt` as the entry point. It identifies the Svelte-specific rules and links to raw Markdown pages for overview docs, every component, the maintained skill, and machine-readable registry artifacts.",
 				title: "Agent Entry Points",
 			},
 			{
-				body: "Component Markdown routes use `/docs/components/<slug>.md`. Resource routes use `/docs/<slug>.md`.",
+				body: "Component Markdown routes use `/docs/components/<slug>.md` and include the live example source plus generated API tables. Resource routes use `/docs/<slug>.md`; registry manifests use `/r/<slug>.json`.",
 				title: "Raw Markdown Routes",
 			},
 		],
@@ -82,7 +101,7 @@ ${skillsInstallCommand}
 				title: "Install",
 			},
 			{
-				body: "Choose the coss-svelte skill during install. It covers component discovery, Svelte/Bits UI composition, Tailwind 4 styling, form patterns, migration traps from React COSS or shadcn/Radix, and the current stable/experimental/deferred component statuses.",
+				body: "The coss-svelte skill covers component discovery, Svelte/Bits UI composition, Tailwind 4 styling, forms, migration traps from React COSS or shadcn/Radix, registry usage, and current stable and experimental status boundaries.",
 				title: "What It Covers",
 			},
 			{
@@ -189,13 +208,22 @@ export function createComponentMarkdown(component, usageCode) {
 			? "Stable for the current coss-svelte surface."
 			: (component.firstImplementationPass ?? component.statusLabel);
 
+	const statusAgentNote =
+		component.status === "experimental"
+			? `- Treat ${component.title} as experimental and preserve the limitations described in Status.`
+			: `- ${component.title} is stable in the current source catalog.`;
+
 	return `# ${component.title}
 
 ${component.description}
 
 ## Installation
 
-${codeBlock("bash", installationCommand)}
+The packages are not published yet. In a coss-svelte source checkout, prepare the workspace with:
+
+${codeBlock("bash", sourceSetupCommand)}
+
+Before suggesting an external install, run \`${availabilityCheckCommand.split("\n").join("` and `")}\`. Only after both packages resolve should a consumer run \`${installationCommand}\`.
 
 ## Usage
 
@@ -225,8 +253,10 @@ ${statusNote}
 ## Agent Notes
 
 - Import Svelte exports directly from \`coss-svelte\`.
-- Prefer local coss-svelte docs and examples over React COSS snippets.
-- Preserve Svelte-native and Bits UI composition rules when adapting examples.
+- This is Svelte 5 code: use \`class\`, lowercase event properties, runes, snippets, and documented \`bind:*\` contracts. Do not emit JSX, React hooks, \`className\`, \`asChild\`, or Base UI imports.
+- Prefer this route's example and generated API table over React COSS snippets; COSS React particles are design references only.
+- Inspect the copy-and-own manifest at \`/r/${component.slug}.json\` for the complete local file and dependency closure.
+${statusAgentNote}
 `;
 }
 
@@ -268,6 +298,12 @@ export function getContentMarkdown(slug) {
 }
 
 export function createLlmsTxt({ baseUrl = "" } = {}) {
+	const counts = { deferred: 0, experimental: 0, stable: 0 };
+	for (const component of componentDocs) {
+		if (component.status === "stable") counts.stable += 1;
+		if (component.status === "experimental") counts.experimental += 1;
+		if (component.status === "deferred") counts.deferred += 1;
+	}
 	const overview = [
 		markdownLink(
 			baseUrl,
@@ -295,10 +331,36 @@ export function createLlmsTxt({ baseUrl = "" } = {}) {
 			markdownLink(baseUrl, `${page.href}.md`, page.title, page.description)
 		),
 	];
+	const registry = [
+		markdownLink(baseUrl, "/r/index.json", "Registry index", "All generated component manifests."),
+		markdownLink(
+			baseUrl,
+			"/schema/registry-item.json",
+			"Registry item schema",
+			"JSON Schema for one copy-and-own component manifest."
+		),
+		markdownLink(
+			baseUrl,
+			"/schema/registry-index.json",
+			"Registry index schema",
+			"JSON Schema for the registry index."
+		),
+	];
 
 	return `# coss-svelte
 
 **coss-svelte** is a Svelte 5, copy-and-own component library inspired by COSS UI. It maps the COSS component language onto SvelteKit, Bits UI, and Tailwind CSS 4.
+
+The current catalog contains **${componentDocs.length} components**: **${counts.stable} stable**, **${counts.experimental} experimental**, and **${counts.deferred} deferred**.
+
+## Agent Rules
+
+- Use the maintained [coss-svelte skill](${normalizeBaseUrl(baseUrl)}/docs/skills.md) for implementation workflow and high-risk composition rules.
+- Treat COSS React, Base UI, shadcn, and Radix snippets as design references only. Never copy their implementation source into Svelte.
+- Import only names documented by a component Markdown route or exported by \`coss-svelte\`.
+- Prefer Svelte 5 \`class\`, lowercase event properties, runes, snippets, and documented \`bind:*\` props.
+- Read a component's status, example, API table, and registry manifest before generating code.
+- The packages are not published yet. Work from the source repository or verify both npm packages before suggesting an external install.
 
 ## Overview
 
@@ -307,6 +369,10 @@ ${overview.join("\n")}
 ## Components
 
 ${components.join("\n")}
+
+## Machine-readable Registry
+
+${registry.join("\n")}
 
 ## Resources
 
