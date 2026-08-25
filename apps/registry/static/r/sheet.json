@@ -99,7 +99,6 @@
 		"foundation": "compound",
 		"particlePriority": "mvp",
 		"slug": "sheet",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/sheet.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],

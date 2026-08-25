@@ -54,7 +54,7 @@ Do **not** publish to npm, create a GitHub release or tag, make the repository p
   release-note wording remains part of the release freeze.
 - [ ] Decide whether registry installation is supported at `0.1.0` or explicitly experimental. The generated output is now consumable in a clean fixture, but its support promise still needs a product decision.
 - [ ] Confirm source distribution is intentional and document the bundler expectations for consumers outside SvelteKit.
-- [ ] Update `docs/references/version-baseline.md` and `docs/scope/component-implementation-outline.md` whenever final dependency versions or component strategies change.
+- [ ] Confirm final dependency versions in the package manifests and record component strategy changes in package metadata and decision records.
 
 ### 2. Complete package and theme quality
 

@@ -71,7 +71,6 @@ export const registryItems = Object.values(componentMetadata).map((metadata) => 
 		foundation: metadata.foundation,
 		particlePriority: metadata.particlePriority,
 		slug: metadata.slug,
-		sourceDocsUrl: metadata.docsUrl,
 		styleImport: themeStyleImport,
 	},
 	categories: [metadata.category],

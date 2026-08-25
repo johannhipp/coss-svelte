@@ -51,7 +51,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "radio-group",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/radio-group.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Toggle & Choice"],

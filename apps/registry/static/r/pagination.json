@@ -93,7 +93,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "pagination",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/pagination.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],

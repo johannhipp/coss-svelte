@@ -1,5 +1,5 @@
 {
-	"$schema": "https://coss-svelte.dev/schema/registry-index.json",
+	"$schema": "https://coss-svelte.vercel.app/schema/registry-index.json",
 	"name": "coss-svelte",
 	"items": [
 		{
@@ -14,7 +14,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "accordion",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/accordion.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "accordion.json"
@@ -31,7 +30,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "alert",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/alert.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "alert.json"
@@ -48,7 +46,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "alert-dialog",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/alert-dialog.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "alert-dialog.json"
@@ -65,7 +62,6 @@
 				"foundation": "compound",
 				"particlePriority": "mvp",
 				"slug": "autocomplete",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/autocomplete.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "autocomplete.json"
@@ -82,7 +78,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "avatar",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/avatar.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "avatar.json"
@@ -99,7 +94,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "badge",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/badge.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "badge.json"
@@ -116,7 +110,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "breadcrumb",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/breadcrumb.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "breadcrumb.json"
@@ -133,7 +126,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "button",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/button.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "button.json"
@@ -150,7 +142,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "calendar",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/calendar.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "calendar.json"
@@ -167,7 +158,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "card",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/card.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "card.json"
@@ -184,7 +174,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "checkbox",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/checkbox.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "checkbox.json"
@@ -201,7 +190,6 @@
 				"foundation": "custom",
 				"particlePriority": "mvp",
 				"slug": "checkbox-group",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/checkbox-group.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "checkbox-group.json"
@@ -218,7 +206,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "collapsible",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/collapsible.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "collapsible.json"
@@ -235,7 +222,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "combobox",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/combobox.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "combobox.json"
@@ -252,7 +238,6 @@
 				"foundation": "compound",
 				"particlePriority": "mvp",
 				"slug": "command",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/command.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "command.json"
@@ -269,7 +254,6 @@
 				"foundation": "compound",
 				"particlePriority": "mvp",
 				"slug": "date-picker",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/date-picker.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "date-picker.json"
@@ -286,7 +270,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "dialog",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/dialog.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "dialog.json"
@@ -303,7 +286,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "empty",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/empty.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "empty.json"
@@ -320,7 +302,6 @@
 				"foundation": "compound",
 				"particlePriority": "mvp",
 				"slug": "field",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/field.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "field.json"
@@ -337,7 +318,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "fieldset",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/fieldset.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "fieldset.json"
@@ -354,7 +334,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "form",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/form.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "form.json"
@@ -371,7 +350,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "frame",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/frame.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "frame.json"
@@ -388,7 +366,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "group",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/group.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "group.json"
@@ -405,7 +382,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "input",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/input.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "input.json"
@@ -422,7 +398,6 @@
 				"foundation": "compound",
 				"particlePriority": "mvp",
 				"slug": "input-group",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/input-group.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "input-group.json"
@@ -439,7 +414,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "kbd",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/kbd.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "kbd.json"
@@ -456,7 +430,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "label",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/label.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "label.json"
@@ -473,7 +446,6 @@
 				"foundation": "compound",
 				"particlePriority": "mvp",
 				"slug": "menu",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/menu.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "menu.json"
@@ -490,7 +462,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "context-menu",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/context-menu.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "context-menu.json"
@@ -507,7 +478,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "meter",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/meter.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "meter.json"
@@ -524,7 +494,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "otp-field",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/otp-field.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "otp-field.json"
@@ -541,7 +510,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "pagination",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/pagination.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "pagination.json"
@@ -558,7 +526,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "popover",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/popover.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "popover.json"
@@ -575,7 +542,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "preview-card",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/preview-card.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "preview-card.json"
@@ -592,7 +558,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "progress",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/progress.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "progress.json"
@@ -609,7 +574,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "radio-group",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/radio-group.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "radio-group.json"
@@ -626,7 +590,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "scroll-area",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/scroll-area.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "scroll-area.json"
@@ -643,7 +606,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "select",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/select.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "select.json"
@@ -660,7 +622,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "separator",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/separator.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "separator.json"
@@ -677,7 +638,6 @@
 				"foundation": "compound",
 				"particlePriority": "mvp",
 				"slug": "sheet",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/sheet.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "sheet.json"
@@ -694,7 +654,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "skeleton",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/skeleton.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "skeleton.json"
@@ -711,7 +670,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "slider",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/slider.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "slider.json"
@@ -728,7 +686,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "spinner",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/spinner.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "spinner.json"
@@ -745,7 +702,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "switch",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/switch.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "switch.json"
@@ -762,7 +718,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "table",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/table.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "table.json"
@@ -779,7 +734,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "tabs",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/tabs.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "tabs.json"
@@ -796,7 +750,6 @@
 				"foundation": "native",
 				"particlePriority": "mvp",
 				"slug": "textarea",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/textarea.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "textarea.json"
@@ -813,7 +766,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "toggle",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/toggle.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "toggle.json"
@@ -830,7 +782,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "toggle-group",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/toggle-group.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "toggle-group.json"
@@ -847,7 +798,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "toolbar",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/toolbar.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "toolbar.json"
@@ -864,7 +814,6 @@
 				"foundation": "bits",
 				"particlePriority": "mvp",
 				"slug": "tooltip",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/tooltip.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "tooltip.json"
@@ -881,7 +830,6 @@
 				"foundation": "custom",
 				"particlePriority": "later",
 				"slug": "drawer",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/drawer.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "drawer.json"
@@ -898,7 +846,6 @@
 				"foundation": "compound",
 				"particlePriority": "later",
 				"slug": "sidebar",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/sidebar.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "sidebar.json"
@@ -915,7 +862,6 @@
 				"foundation": "custom",
 				"particlePriority": "later",
 				"slug": "toast",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/toast.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "toast.json"
@@ -932,7 +878,6 @@
 				"foundation": "custom",
 				"particlePriority": "mvp",
 				"slug": "number-field",
-				"sourceDocsUrl": "https://coss.com/ui/docs/components/number-field.md",
 				"styleImport": "@coss-svelte/theme/style-coss.css"
 			},
 			"path": "number-field.json"

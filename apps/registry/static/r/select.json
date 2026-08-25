@@ -99,7 +99,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "select",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/select.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Selection & Input"],

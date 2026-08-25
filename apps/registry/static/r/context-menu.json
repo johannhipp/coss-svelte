@@ -123,7 +123,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "context-menu",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/context-menu.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],

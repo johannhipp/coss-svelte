@@ -63,7 +63,6 @@
 		"foundation": "native",
 		"particlePriority": "mvp",
 		"slug": "alert",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/alert.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Feedback & Status"],

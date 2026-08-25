@@ -69,7 +69,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "toolbar",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/toolbar.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],

@@ -33,7 +33,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "separator",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/separator.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Content & Display"],

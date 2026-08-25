@@ -105,7 +105,6 @@
 		"foundation": "custom",
 		"particlePriority": "later",
 		"slug": "drawer",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/drawer.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],

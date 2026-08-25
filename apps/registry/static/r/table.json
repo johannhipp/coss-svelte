@@ -87,7 +87,6 @@
 		"foundation": "native",
 		"particlePriority": "mvp",
 		"slug": "table",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/table.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Content & Display"],

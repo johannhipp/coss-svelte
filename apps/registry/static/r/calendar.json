@@ -33,7 +33,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "calendar",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/calendar.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Selection & Input"],

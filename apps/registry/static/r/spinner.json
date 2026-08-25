@@ -39,7 +39,6 @@
 		"foundation": "native",
 		"particlePriority": "mvp",
 		"slug": "spinner",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/spinner.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Feedback & Status"],
