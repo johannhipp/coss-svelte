@@ -19,7 +19,7 @@ const toc = [
 
 <ContentPage
 	title="LLMs"
-	description="A compact local map of the coss-svelte component surface for agents and implementation work."
+	description="A generated map of the current coss-svelte component, API, example, registry, and skill surface for coding agents."
 	{markdown}
 	{toc}
 >
@@ -28,14 +28,14 @@ const toc = [
 		<div class="grid gap-3 sm:grid-cols-2">
 			<a class="rounded-lg border border-border p-3 no-underline hover:bg-muted/50" href="/llms.txt">
 				<span class="block font-medium">/llms.txt</span>
-				<span class="block text-muted-foreground text-sm">Agent-facing docs map.</span>
+				<span class="block text-muted-foreground text-sm">Rules and current docs map.</span>
 			</a>
 			<a
 				class="rounded-lg border border-border p-3 no-underline hover:bg-muted/50"
 				href="/docs/skills"
 			>
 				<span class="block font-medium">Skills</span>
-				<span class="block text-muted-foreground text-sm">Install agent behavior rules.</span>
+				<span class="block text-muted-foreground text-sm">Install the maintained coss-svelte skill.</span>
 			</a>
 		</div>
 		<CodeBlock language="md" code={llmsPreview} />
@@ -68,6 +68,17 @@ const toc = [
 					<span class="block text-muted-foreground text-sm">{resource.description}</span>
 				</a>
 			{/each}
+			<a class="rounded-lg border border-border p-3 no-underline hover:bg-muted/50" href="/r/index.json">
+				<span class="block font-medium">Registry index</span>
+				<span class="block text-muted-foreground text-sm">Machine-readable component manifests.</span>
+			</a>
+			<a
+				class="rounded-lg border border-border p-3 no-underline hover:bg-muted/50"
+				href="/schema/registry-item.json"
+			>
+				<span class="block font-medium">Registry schema</span>
+				<span class="block text-muted-foreground text-sm">Validate copy-and-own registry items.</span>
+			</a>
 		</div>
 	</section>
 </ContentPage>

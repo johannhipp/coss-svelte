@@ -18,10 +18,20 @@ test("llms.txt map links every component Markdown route", async () => {
 	const llms = createLlmsTxt({ baseUrl: "https://example.com" });
 
 	assert.match(llms, /^# coss-svelte/m, "llms.txt should start with the product heading");
+	assert.match(llms, /## Agent Rules/, "llms.txt should include Svelte-specific rules");
 	assert.match(llms, /## Overview/, "llms.txt should include overview links");
 	assert.match(llms, /## Components/, "llms.txt should include component links");
+	assert.match(llms, /## Machine-readable Registry/, "llms.txt should include registry links");
 	assert.match(llms, /## Resources/, "llms.txt should include resource links");
+	assert.match(
+		llms,
+		/The current catalog contains \*\*55 components\*\*: \*\*52 stable\*\*, \*\*3 experimental\*\*, and \*\*0 deferred\*\*/,
+		"llms.txt should expose current catalog status counts"
+	);
 	assert.match(llms, /https:\/\/example\.com\/docs\/skills\.md/, "skills route should be listed");
+	assert.match(llms, /https:\/\/example\.com\/r\/index\.json/, "registry index should be listed");
+	assert.match(llms, /\/docs\/components\/context-menu\.md/, "Context Menu should be listed");
+	assert.match(llms, /\/docs\/components\/number-field\.md/, "Number Field should be listed");
 
 	for (const component of componentDocs) {
 		assert.match(
@@ -55,7 +65,8 @@ test("component Markdown includes agent-critical implementation sections", async
 		);
 	}
 
-	assert.match(markdown, /pnpm add coss-svelte bits-ui/, "install command should be present");
+	assert.match(markdown, /pnpm package:prepare/, "source setup should be present");
+	assert.match(markdown, /npm view coss-svelte version/, "availability check should be present");
 	assert.match(
 		markdown,
 		/import \{ Button \} from "coss-svelte"/,
@@ -63,6 +74,8 @@ test("component Markdown includes agent-critical implementation sections", async
 	);
 	assert.match(markdown, /\| Foundation \| native \|/, "foundation should be present");
 	assert.match(markdown, /\| Status \| Stable \|/, "status should be present");
+	assert.match(markdown, /\/r\/button\.json/, "registry manifest should be present");
+	assert.match(markdown, /Do not emit JSX/, "Svelte-specific agent rules should be present");
 });
 
 test("component Markdown includes COSS-style API element reference", async () => {
@@ -108,6 +121,8 @@ test("raw Markdown routes and agent docs pages exist", async () => {
 		"apps/www/src/routes/llms.txt/+server.js",
 		"apps/www/src/routes/docs/[slug].md/+server.js",
 		"apps/www/src/routes/docs/components/[slug].md/+server.js",
+		"apps/registry/static/r/index.json",
+		"apps/registry/static/schema/registry-item.json",
 		skillsPagePath,
 	]) {
 		assert.equal(existsSync(path), true, `${path} should exist`);
@@ -135,7 +150,12 @@ test("human docs advertise the agent workflow", async () => {
 	assert.match(llmsPage, /Component Routes/, "LLMs page should list raw component routes");
 	assert.match(
 		skillsPage,
-		/npx skills@latest add johannhipp\/skills/,
-		"skills page should show install command"
+		/npx skills@latest add johannhipp\/skills --skill coss-svelte/,
+		"skills page should install only the maintained coss-svelte skill"
+	);
+	assert.match(
+		gettingStarted,
+		/npm view coss-svelte version/,
+		"getting started should not imply unpublished packages are available"
 	);
 });

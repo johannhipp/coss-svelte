@@ -5,10 +5,13 @@ import { getContentMarkdown } from "$lib/docs/markdown.js";
 
 const themeImportCode = `@import "tailwindcss";
 @import "@coss-svelte/theme/style-coss.css";`;
+const availabilityCheckCode = `npm view coss-svelte version
+npm view @coss-svelte/theme version`;
 const markdown = getContentMarkdown("getting-started");
 
 const toc = [
-	{ href: "#install", title: "Install" },
+	{ href: "#source-setup", title: "Source Setup" },
+	{ href: "#external-availability", title: "External Availability" },
 	{ href: "#theme", title: "Theme" },
 	{
 		href: "#getting-your-agents-to-use-coss-svelte",
@@ -23,13 +26,25 @@ const toc = [
 
 <ContentPage
 	title="Getting Started"
-	description="Install coss-svelte, Bits UI, and the shared theme in a SvelteKit app."
+	description="Use coss-svelte from the source workspace today, or verify package publication before installing it in another SvelteKit app."
 	{markdown}
 	{toc}
 >
-	<section id="install" class="grid scroll-mt-20 gap-4">
-		<h2 class="font-semibold text-2xl">Install</h2>
-			<CodeBlock language="bash" code="pnpm add coss-svelte bits-ui @coss-svelte/theme" />
+	<section id="source-setup" class="grid scroll-mt-20 gap-4">
+		<h2 class="font-semibold text-2xl">Source Setup</h2>
+		<CodeBlock language="bash" code={`pnpm install --frozen-lockfile
+pnpm package:prepare`} />
+	</section>
+
+	<section id="external-availability" class="grid scroll-mt-20 gap-4">
+		<h2 class="font-semibold text-2xl">External Availability</h2>
+		<p class="text-muted-foreground leading-7">
+			The packages are not published yet. Verify both packages before presenting an external
+			install as available.
+		</p>
+		<CodeBlock language="bash" code={availabilityCheckCode} />
+		<p class="text-muted-foreground leading-7">After both checks succeed:</p>
+		<CodeBlock language="bash" code="pnpm add coss-svelte bits-ui @coss-svelte/theme" />
 	</section>
 
 	<section id="theme" class="grid scroll-mt-20 gap-4">
