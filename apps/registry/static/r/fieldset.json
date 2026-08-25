@@ -51,7 +51,6 @@
 		"foundation": "native",
 		"particlePriority": "mvp",
 		"slug": "fieldset",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/fieldset.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Forms & Validation"],

@@ -75,7 +75,6 @@
 		"foundation": "native",
 		"particlePriority": "mvp",
 		"slug": "empty",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/empty.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Content & Display"],

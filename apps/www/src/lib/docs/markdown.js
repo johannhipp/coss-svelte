@@ -42,7 +42,7 @@ ${installationCommand}
 				title: "External Availability",
 			},
 			{
-				body: `Import the COSS theme once from the global stylesheet loaded by your app layout so local components receive the same token system as the docs previews.
+				body: `Import the coss-svelte theme once from the global stylesheet loaded by your app layout so local components receive the same token system as the docs previews.
 
 					\`\`\`css
 ${themeImportCode}
@@ -58,14 +58,14 @@ ${themeImportCode}
 	},
 	introduction: {
 		description:
-			"coss-svelte is a Svelte 5-native component library that tries to mimic [coss ui](https://coss.com/ui/docs). Built for SvelteKit apps and built on top of Bits UI.",
+			"coss-svelte is a Svelte 5-native component library inspired by coss. Built for SvelteKit apps and built on top of Bits UI.",
 		sections: [
 			{
 				body: "Svelte 5 is highly performant, and I want to see it used more. But polished Svelte component libraries are scarce because React and Next.js patterns do not translate cleanly. coss-svelte aims to fill that gap on Svelte's own terms.",
 				title: "Why?",
 			},
 			{
-				body: "COSS builds its React primitives on Base UI. coss-svelte brings the same component language and compact visual shell to native Svelte, using Bits UI for accessible behavior, keyboard interactions, and focus management.",
+				body: "coss builds its React primitives on Base UI. coss-svelte brings the same component language and compact visual shell to native Svelte, using Bits UI for accessible behavior, keyboard interactions, and focus management.",
 				title: "Built on Bits UI, Designed for Svelte",
 			},
 			{

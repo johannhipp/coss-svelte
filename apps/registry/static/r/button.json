@@ -45,7 +45,6 @@
 		"foundation": "native",
 		"particlePriority": "mvp",
 		"slug": "button",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/button.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Actions"],

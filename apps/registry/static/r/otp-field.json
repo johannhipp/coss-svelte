@@ -45,7 +45,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "otp-field",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/otp-field.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Selection & Input"],

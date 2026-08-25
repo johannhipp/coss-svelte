@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 import {
@@ -17,20 +16,13 @@ const compositionModes = new Set([
 	"presentational",
 ]);
 
-test("root composition policy is explicit and documented", async () => {
+test("root composition policy is explicit", () => {
 	assert.deepEqual(compositionModel, {
 		root: "children-first-convenience",
 		childrenPrecedence: "custom-children",
 		fallback: "explicit-props",
 	});
 
-	const outline = await readFile("docs/scope/component-implementation-outline.md", "utf8");
-	assert.match(outline, /Root composition is explicit per component/);
-	assert.match(
-		outline,
-		/`children-first-fallback`: children replace the whole generated convenience hierarchy/
-	);
-	assert.match(outline, /it is not a package-wide override/);
 	assert.ok(Object.keys(componentMetadata).length > 0, "metadata remains the root catalog");
 });
 

@@ -45,7 +45,6 @@
 		"foundation": "native",
 		"particlePriority": "mvp",
 		"slug": "kbd",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/kbd.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Content & Display"],

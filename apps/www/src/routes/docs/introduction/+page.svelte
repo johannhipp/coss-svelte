@@ -9,10 +9,8 @@ const toc = [
 </script>
 
 {#snippet introDescription()}
-	coss-svelte is a Svelte 5-native component library that tries to mimic
-	<a class="font-medium text-foreground underline underline-offset-4" href="https://coss.com/ui/docs"
-		>coss ui</a
-	>. Built for SvelteKit apps and built on top of Bits UI.
+	coss-svelte is a Svelte 5-native component library inspired by coss. Built for SvelteKit apps
+	and built on top of Bits UI.
 {/snippet}
 
 <svelte:head>
@@ -25,7 +23,7 @@ const toc = [
 
 <ContentPage
 	title="Introduction"
-	description="coss-svelte is a Svelte 5-native component library that tries to mimic coss ui. Built for SvelteKit apps and built on top of Bits UI."
+	description="coss-svelte is a Svelte 5-native component library inspired by coss. Built for SvelteKit apps and built on top of Bits UI."
 	descriptionContent={introDescription}
 	{toc}
 >
@@ -56,7 +54,7 @@ const toc = [
 		<section id="built-on-bits-ui" class="grid scroll-mt-20 gap-4">
 			<h2 class="font-semibold text-2xl">Built on Bits UI, Designed for Svelte</h2>
 			<p class="text-muted-foreground leading-7">
-				COSS builds its React primitives on Base UI. coss-svelte brings the same component language
+				coss builds its React primitives on Base UI. coss-svelte brings the same component language
 				and compact visual shell to native Svelte, using Bits UI for accessible behavior, keyboard
 				interactions, and focus management.
 			</p>

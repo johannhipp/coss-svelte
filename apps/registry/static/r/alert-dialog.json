@@ -87,7 +87,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "alert-dialog",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/alert-dialog.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],

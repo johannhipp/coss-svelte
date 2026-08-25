@@ -51,7 +51,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "tooltip",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/tooltip.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Overlays & Popups"],

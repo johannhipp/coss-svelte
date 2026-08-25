@@ -9,7 +9,8 @@ implementation, generated registry output, and docs-only code cleanly separated.
   `packages/coss-svelte` and checked through generated declarations.
 - The docs app and registry are local, executable consumers of that package.
 - Upstream source material lives in ignored `.cache/upstream`.
-- Component scope and implementation outlines live in `docs/scope`.
+- Component status and composition live in `packages/coss-svelte/src/metadata.js`.
+- Release status and remaining work live in `docs/release-readiness-plan.md`.
 
 ## Rules
 
@@ -21,8 +22,7 @@ implementation, generated registry output, and docs-only code cleanly separated.
   updated together.
 - Add generated registry output only under `apps/registry`.
 - Keep raw upstream clones and downloaded source snapshots out of git.
-- Update `docs/references/version-baseline.md` whenever core dependency versions change.
-- Update `docs/scope/component-implementation-outline.md` when a component strategy changes.
+- Update package metadata when a component strategy changes.
 - Use Biome for formatting and linting. Do not add ESLint or Prettier unless an ADR explains a gap Biome cannot cover.
 
 ## Commit Standards
@@ -30,7 +30,6 @@ implementation, generated registry output, and docs-only code cleanly separated.
 - Follow the [repository commit standards](docs/commit-standards.md), based on Conventional Commits 1.0.0.
 - All contributors, including coding agents, must use Conventional Commit messages when creating commits.
 - Agents must read `docs/commit-standards.md` before committing and keep unrelated changes in separate commits.
-- Use the repository commit template at `.gitmessage.txt` when composing commit messages (`git config commit.template .gitmessage.txt`).
 
 ## Verification Expectations
 
@@ -39,6 +38,6 @@ Before claiming implementation work is complete, run the narrowest relevant chec
 - `pnpm install --frozen-lockfile`
 - `pnpm biome:ci`
 - `pnpm check`
-- component-specific tests once test infrastructure exists
-- docs app visual verification once `apps/www` has routes
+- component-specific tests
+- docs app visual verification for UI changes
 - `pnpm release:check` for publish-facing changes

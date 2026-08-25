@@ -24,8 +24,6 @@ importers:
         specifier: 6.0.3
         version: 6.0.3
 
-  apps/registry: {}
-
   apps/www:
     dependencies:
       '@coss-svelte/theme':
@@ -92,8 +90,6 @@ importers:
       typescript:
         specifier: 6.0.3
         version: 6.0.3
-
-  packages/cli: {}
 
   packages/coss-svelte:
     dependencies:

@@ -57,7 +57,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "scroll-area",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/scroll-area.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],

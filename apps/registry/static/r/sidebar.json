@@ -177,7 +177,6 @@
 		"foundation": "compound",
 		"particlePriority": "later",
 		"slug": "sidebar",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/sidebar.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],

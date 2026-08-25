@@ -34,10 +34,6 @@ test("component metadata covers every scoped component", () => {
 		assert.ok(item.category, `${name} has a category`);
 		assert.ok(item.foundation, `${name} has a foundation`);
 		assert.ok(item.tier, `${name} has a tier`);
-		assert.ok(
-			item.docsUrl.startsWith("https://coss.com/ui/docs/components/"),
-			`${name} has COSS docs URL`
-		);
 		assert.equal(typeof item.particles, "number", `${name} has particle count`);
 	}
 });
@@ -63,7 +59,6 @@ test("registry items follow the ADR-004 shape", () => {
 		assert.ok(Array.isArray(item.categories), `${item.name} has categories array`);
 		assert.equal(item.docs, `/docs/components/${source?.slug}`, `${item.name} has local docs path`);
 		assert.equal(item.meta.styleImport, "@coss-svelte/theme/style-coss.css");
-		assert.equal(item.meta.sourceDocsUrl, source?.docsUrl);
 		assert.equal(
 			item.meta.status,
 			source?.status,

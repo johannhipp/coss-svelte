@@ -39,7 +39,6 @@
 		"foundation": "native",
 		"particlePriority": "mvp",
 		"slug": "skeleton",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/skeleton.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Feedback & Status"],

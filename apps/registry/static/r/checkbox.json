@@ -39,7 +39,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "checkbox",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/checkbox.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Toggle & Choice"],

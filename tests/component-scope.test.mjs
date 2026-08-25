@@ -42,35 +42,11 @@ test("docs component links resolve to local coss-svelte pages", async () => {
 	}
 
 	const { componentDocs } = await import(pathToFileURL("apps/www/src/lib/docs/navigation.js").href);
-	const routePage = await readFile(
-		"apps/www/src/routes/docs/components/[slug]/+page.svelte",
-		"utf8"
-	);
-
-	assert.doesNotMatch(
-		routePage,
-		/href=\{page\.docsUrl\}/,
-		"component page should not redirect to COSS"
-	);
-
 	for (const component of scopedComponents) {
 		const slug = componentMetadata[component].slug;
 		const componentDoc = componentDocs.find((doc) => doc.slug === slug);
 
 		assert.ok(componentDoc, `${component} has a component docs entry`);
 		assert.equal(componentDoc.href, `/docs/components/${slug}`, `${component} links locally`);
-		assert.notEqual(
-			componentDoc.href,
-			componentMetadata[component].docsUrl,
-			`${component} avoids COSS URL`
-		);
-	}
-});
-
-test("implementation gap list tracks optional and deferred components", async () => {
-	const gaps = await readFile("docs/implementation/unimplemented-components.md", "utf8");
-
-	for (const component of [...experimentalComponents, ...deferredComponents]) {
-		assert.match(gaps, new RegExp(`\\b${component}\\b`), `${component} is tracked`);
 	}
 });

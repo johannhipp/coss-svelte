@@ -75,7 +75,6 @@ export const componentMetadata = Object.freeze({
 	Accordion: {
 		category: "Layout & Navigation",
 		description: "A set of collapsible panels with headings and content.",
-		docsUrl: "https://coss.com/ui/docs/components/accordion.md",
 		hasLocalPrimitiveRef: true,
 		name: "Accordion",
 		particles: 4,
@@ -93,7 +92,6 @@ export const componentMetadata = Object.freeze({
 	Alert: {
 		category: "Feedback & Status",
 		description: "A callout for displaying important information.",
-		docsUrl: "https://coss.com/ui/docs/components/alert.md",
 		hasLocalPrimitiveRef: true,
 		name: "Alert",
 		particles: 7,
@@ -111,7 +109,6 @@ export const componentMetadata = Object.freeze({
 	AlertDialog: {
 		category: "Overlays & Popups",
 		description: "A dialog that requires user response to proceed.",
-		docsUrl: "https://coss.com/ui/docs/components/alert-dialog.md",
 		hasLocalPrimitiveRef: true,
 		name: "AlertDialog",
 		particles: 2,
@@ -138,7 +135,6 @@ export const componentMetadata = Object.freeze({
 	Autocomplete: {
 		category: "Selection & Input",
 		description: "An input that suggests options as you type.",
-		docsUrl: "https://coss.com/ui/docs/components/autocomplete.md",
 		hasLocalPrimitiveRef: true,
 		name: "Autocomplete",
 		particles: 15,
@@ -167,7 +163,6 @@ export const componentMetadata = Object.freeze({
 	Avatar: {
 		category: "Content & Display",
 		description: "A visual representation of a user or entity.",
-		docsUrl: "https://coss.com/ui/docs/components/avatar.md",
 		hasLocalPrimitiveRef: true,
 		name: "Avatar",
 		particles: 14,
@@ -185,7 +180,6 @@ export const componentMetadata = Object.freeze({
 	Badge: {
 		category: "Content & Display",
 		description: "A small status indicator or label component.",
-		docsUrl: "https://coss.com/ui/docs/components/badge.md",
 		hasLocalPrimitiveRef: true,
 		name: "Badge",
 		particles: 20,
@@ -203,7 +197,6 @@ export const componentMetadata = Object.freeze({
 	Breadcrumb: {
 		category: "Layout & Navigation",
 		description: "Displays the path to the current resource using a hierarchy of links.",
-		docsUrl: "https://coss.com/ui/docs/components/breadcrumb.md",
 		hasLocalPrimitiveRef: true,
 		name: "Breadcrumb",
 		particles: 7,
@@ -221,7 +214,6 @@ export const componentMetadata = Object.freeze({
 	Button: {
 		category: "Actions",
 		description: "A button or a component that looks like a button.",
-		docsUrl: "https://coss.com/ui/docs/components/button.md",
 		hasLocalPrimitiveRef: true,
 		name: "Button",
 		particles: 40,
@@ -239,7 +231,6 @@ export const componentMetadata = Object.freeze({
 	Calendar: {
 		category: "Selection & Input",
 		description: "A date picker for selecting single dates, ranges, or multiple dates.",
-		docsUrl: "https://coss.com/ui/docs/components/calendar.md",
 		hasLocalPrimitiveRef: true,
 		name: "Calendar",
 		particles: 24,
@@ -257,7 +248,6 @@ export const componentMetadata = Object.freeze({
 	Card: {
 		category: "Content & Display",
 		description: "A content container for grouping related information.",
-		docsUrl: "https://coss.com/ui/docs/components/card.md",
 		hasLocalPrimitiveRef: true,
 		name: "Card",
 		particles: 11,
@@ -275,7 +265,6 @@ export const componentMetadata = Object.freeze({
 	Checkbox: {
 		category: "Toggle & Choice",
 		description: "A binary toggle input for selecting one or multiple options.",
-		docsUrl: "https://coss.com/ui/docs/components/checkbox.md",
 		hasLocalPrimitiveRef: true,
 		name: "Checkbox",
 		particles: 5,
@@ -293,7 +282,6 @@ export const componentMetadata = Object.freeze({
 	CheckboxGroup: {
 		category: "Toggle & Choice",
 		description: "A collection of related checkboxes with group-level control.",
-		docsUrl: "https://coss.com/ui/docs/components/checkbox-group.md",
 		hasLocalPrimitiveRef: true,
 		name: "CheckboxGroup",
 		particles: 5,
@@ -311,7 +299,6 @@ export const componentMetadata = Object.freeze({
 	Collapsible: {
 		category: "Layout & Navigation",
 		description: "A component that toggles visibility of content sections.",
-		docsUrl: "https://coss.com/ui/docs/components/collapsible.md",
 		hasLocalPrimitiveRef: true,
 		name: "Collapsible",
 		particles: 1,
@@ -329,7 +316,6 @@ export const componentMetadata = Object.freeze({
 	Combobox: {
 		category: "Selection & Input",
 		description: "An input combined with a list of predefined items to select.",
-		docsUrl: "https://coss.com/ui/docs/components/combobox.md",
 		hasLocalPrimitiveRef: true,
 		name: "Combobox",
 		particles: 18,
@@ -361,7 +347,6 @@ export const componentMetadata = Object.freeze({
 		category: "Overlays & Popups",
 		description:
 			"A command palette component built with Dialog and Autocomplete for searching and executing commands.",
-		docsUrl: "https://coss.com/ui/docs/components/command.md",
 		hasLocalPrimitiveRef: true,
 		name: "Command",
 		particles: 2,
@@ -395,7 +380,6 @@ export const componentMetadata = Object.freeze({
 		category: "Selection & Input",
 		description:
 			"A date selection component, often combined with a calendar in a popover or input.",
-		docsUrl: "https://coss.com/ui/docs/components/date-picker.md",
 		hasLocalPrimitiveRef: false,
 		name: "DatePicker",
 		particles: 9,
@@ -413,7 +397,6 @@ export const componentMetadata = Object.freeze({
 	Dialog: {
 		category: "Overlays & Popups",
 		description: "A modal overlay for displaying content that requires user interaction.",
-		docsUrl: "https://coss.com/ui/docs/components/dialog.md",
 		hasLocalPrimitiveRef: true,
 		name: "Dialog",
 		particles: 6,
@@ -440,7 +423,6 @@ export const componentMetadata = Object.freeze({
 	Empty: {
 		category: "Content & Display",
 		description: "A container for displaying empty state information.",
-		docsUrl: "https://coss.com/ui/docs/components/empty.md",
 		hasLocalPrimitiveRef: true,
 		name: "Empty",
 		particles: 1,
@@ -458,7 +440,6 @@ export const componentMetadata = Object.freeze({
 	Field: {
 		category: "Forms & Validation",
 		description: "A wrapper component for form inputs with labels and validation.",
-		docsUrl: "https://coss.com/ui/docs/components/field.md",
 		hasLocalPrimitiveRef: true,
 		name: "Field",
 		particles: 18,
@@ -476,7 +457,6 @@ export const componentMetadata = Object.freeze({
 	Fieldset: {
 		category: "Forms & Validation",
 		description: "A group of related form fields with a common label.",
-		docsUrl: "https://coss.com/ui/docs/components/fieldset.md",
 		hasLocalPrimitiveRef: true,
 		name: "Fieldset",
 		particles: 1,
@@ -494,7 +474,6 @@ export const componentMetadata = Object.freeze({
 	Form: {
 		category: "Forms & Validation",
 		description: "A complete form implementation with validation and submission handling.",
-		docsUrl: "https://coss.com/ui/docs/components/form.md",
 		hasLocalPrimitiveRef: true,
 		name: "Form",
 		particles: 2,
@@ -512,7 +491,6 @@ export const componentMetadata = Object.freeze({
 	Frame: {
 		category: "Content & Display",
 		description: "A container component for displaying content in a frame.",
-		docsUrl: "https://coss.com/ui/docs/components/frame.md",
 		hasLocalPrimitiveRef: true,
 		name: "Frame",
 		particles: 4,
@@ -530,7 +508,6 @@ export const componentMetadata = Object.freeze({
 	Group: {
 		category: "Content & Display",
 		description: "A container component for grouping related content with consistent styling.",
-		docsUrl: "https://coss.com/ui/docs/components/group.md",
 		hasLocalPrimitiveRef: true,
 		name: "Group",
 		particles: 22,
@@ -548,7 +525,6 @@ export const componentMetadata = Object.freeze({
 	Input: {
 		category: "Selection & Input",
 		description: "A native input element.",
-		docsUrl: "https://coss.com/ui/docs/components/input.md",
 		hasLocalPrimitiveRef: true,
 		name: "Input",
 		particles: 19,
@@ -567,7 +543,6 @@ export const componentMetadata = Object.freeze({
 		category: "Selection & Input",
 		description:
 			"A flexible component for grouping inputs with addons, buttons, and other elements.",
-		docsUrl: "https://coss.com/ui/docs/components/input-group.md",
 		hasLocalPrimitiveRef: true,
 		name: "InputGroup",
 		particles: 28,
@@ -585,7 +560,6 @@ export const componentMetadata = Object.freeze({
 	Kbd: {
 		category: "Content & Display",
 		description: "A component for displaying keyboard keys and shortcuts.",
-		docsUrl: "https://coss.com/ui/docs/components/kbd.md",
 		hasLocalPrimitiveRef: true,
 		name: "Kbd",
 		particles: 1,
@@ -603,7 +577,6 @@ export const componentMetadata = Object.freeze({
 	Label: {
 		category: "Forms & Validation",
 		description: "Renders an accessible label associated with controls.",
-		docsUrl: "https://coss.com/ui/docs/components/label.md",
 		hasLocalPrimitiveRef: true,
 		name: "Label",
 		particles: 0,
@@ -621,7 +594,6 @@ export const componentMetadata = Object.freeze({
 	Menu: {
 		category: "Overlays & Popups",
 		description: "A list of actions or options revealed on demand.",
-		docsUrl: "https://coss.com/ui/docs/components/menu.md",
 		hasLocalPrimitiveRef: true,
 		name: "Menu",
 		particles: 9,
@@ -653,7 +625,6 @@ export const componentMetadata = Object.freeze({
 	ContextMenu: {
 		category: "Overlays & Popups",
 		description: "A menu of contextual actions opened from a pointer or keyboard target.",
-		docsUrl: "https://coss.com/ui/docs/components/context-menu.md",
 		hasLocalPrimitiveRef: true,
 		name: "ContextMenu",
 		particles: 8,
@@ -686,7 +657,6 @@ export const componentMetadata = Object.freeze({
 	Meter: {
 		category: "Feedback & Status",
 		description: "A visual representation of a value within a known range.",
-		docsUrl: "https://coss.com/ui/docs/components/meter.md",
 		hasLocalPrimitiveRef: true,
 		name: "Meter",
 		particles: 4,
@@ -704,7 +674,6 @@ export const componentMetadata = Object.freeze({
 	OTPField: {
 		category: "Selection & Input",
 		description: "A segmented input for one-time passwords and verification codes.",
-		docsUrl: "https://coss.com/ui/docs/components/otp-field.md",
 		hasLocalPrimitiveRef: true,
 		name: "OTPField",
 		particles: 9,
@@ -722,7 +691,6 @@ export const componentMetadata = Object.freeze({
 	Pagination: {
 		category: "Layout & Navigation",
 		description: "A pagination with page navigation, next and previous links.",
-		docsUrl: "https://coss.com/ui/docs/components/pagination.md",
 		hasLocalPrimitiveRef: true,
 		name: "Pagination",
 		particles: 3,
@@ -750,7 +718,6 @@ export const componentMetadata = Object.freeze({
 	Popover: {
 		category: "Overlays & Popups",
 		description: "An accessible popup anchored to a button.",
-		docsUrl: "https://coss.com/ui/docs/components/popover.md",
 		hasLocalPrimitiveRef: true,
 		name: "Popover",
 		particles: 3,
@@ -768,7 +735,6 @@ export const componentMetadata = Object.freeze({
 	PreviewCard: {
 		category: "Overlays & Popups",
 		description: "A rich preview component for displaying linked content.",
-		docsUrl: "https://coss.com/ui/docs/components/preview-card.md",
 		hasLocalPrimitiveRef: true,
 		name: "PreviewCard",
 		particles: 1,
@@ -786,7 +752,6 @@ export const componentMetadata = Object.freeze({
 	Progress: {
 		category: "Feedback & Status",
 		description: "A visual indicator showing the completion status of a task.",
-		docsUrl: "https://coss.com/ui/docs/components/progress.md",
 		hasLocalPrimitiveRef: true,
 		name: "Progress",
 		particles: 3,
@@ -804,7 +769,6 @@ export const componentMetadata = Object.freeze({
 	RadioGroup: {
 		category: "Toggle & Choice",
 		description: "A set of mutually exclusive options presented as radio buttons.",
-		docsUrl: "https://coss.com/ui/docs/components/radio-group.md",
 		hasLocalPrimitiveRef: true,
 		name: "RadioGroup",
 		particles: 6,
@@ -822,7 +786,6 @@ export const componentMetadata = Object.freeze({
 	ScrollArea: {
 		category: "Layout & Navigation",
 		description: "A container with custom scrollbars for overflow content.",
-		docsUrl: "https://coss.com/ui/docs/components/scroll-area.md",
 		hasLocalPrimitiveRef: true,
 		name: "ScrollArea",
 		particles: 5,
@@ -840,7 +803,6 @@ export const componentMetadata = Object.freeze({
 	Select: {
 		category: "Selection & Input",
 		description: "A common form component for choosing a predefined value in a dropdown menu.",
-		docsUrl: "https://coss.com/ui/docs/components/select.md",
 		hasLocalPrimitiveRef: true,
 		name: "Select",
 		particles: 23,
@@ -868,7 +830,6 @@ export const componentMetadata = Object.freeze({
 	Separator: {
 		category: "Content & Display",
 		description: "A visual divider for separating content sections.",
-		docsUrl: "https://coss.com/ui/docs/components/separator.md",
 		hasLocalPrimitiveRef: true,
 		name: "Separator",
 		particles: 1,
@@ -886,7 +847,6 @@ export const componentMetadata = Object.freeze({
 	Sheet: {
 		category: "Overlays & Popups",
 		description: "A flyout that opens from the side of the screen, based on the dialog component.",
-		docsUrl: "https://coss.com/ui/docs/components/sheet.md",
 		hasLocalPrimitiveRef: true,
 		name: "Sheet",
 		particles: 3,
@@ -914,7 +874,6 @@ export const componentMetadata = Object.freeze({
 	Skeleton: {
 		category: "Feedback & Status",
 		description: "A placeholder for loading content.",
-		docsUrl: "https://coss.com/ui/docs/components/skeleton.md",
 		hasLocalPrimitiveRef: true,
 		name: "Skeleton",
 		particles: 2,
@@ -932,7 +891,6 @@ export const componentMetadata = Object.freeze({
 	Slider: {
 		category: "Selection & Input",
 		description: "A draggable control for selecting values from a continuous range.",
-		docsUrl: "https://coss.com/ui/docs/components/slider.md",
 		hasLocalPrimitiveRef: true,
 		name: "Slider",
 		particles: 23,
@@ -950,7 +908,6 @@ export const componentMetadata = Object.freeze({
 	Spinner: {
 		category: "Feedback & Status",
 		description: "An indicator that can be used to show a loading state.",
-		docsUrl: "https://coss.com/ui/docs/components/spinner.md",
 		hasLocalPrimitiveRef: true,
 		name: "Spinner",
 		particles: 1,
@@ -968,7 +925,6 @@ export const componentMetadata = Object.freeze({
 	Switch: {
 		category: "Toggle & Choice",
 		description: "A toggle control for binary on/off states.",
-		docsUrl: "https://coss.com/ui/docs/components/switch.md",
 		hasLocalPrimitiveRef: true,
 		name: "Switch",
 		particles: 6,
@@ -986,7 +942,6 @@ export const componentMetadata = Object.freeze({
 	Table: {
 		category: "Content & Display",
 		description: "A structured data display component with rows and columns.",
-		docsUrl: "https://coss.com/ui/docs/components/table.md",
 		hasLocalPrimitiveRef: true,
 		name: "Table",
 		particles: 8,
@@ -1012,7 +967,6 @@ export const componentMetadata = Object.freeze({
 	Tabs: {
 		category: "Layout & Navigation",
 		description: "A component for toggling between related panels on the same page.",
-		docsUrl: "https://coss.com/ui/docs/components/tabs.md",
 		hasLocalPrimitiveRef: true,
 		name: "Tabs",
 		particles: 13,
@@ -1030,7 +984,6 @@ export const componentMetadata = Object.freeze({
 	Textarea: {
 		category: "Selection & Input",
 		description: "A multi-line text input for longer content.",
-		docsUrl: "https://coss.com/ui/docs/components/textarea.md",
 		hasLocalPrimitiveRef: true,
 		name: "Textarea",
 		particles: 15,
@@ -1048,7 +1001,6 @@ export const componentMetadata = Object.freeze({
 	Toggle: {
 		category: "Toggle & Choice",
 		description: "A button that switches between two states.",
-		docsUrl: "https://coss.com/ui/docs/components/toggle.md",
 		hasLocalPrimitiveRef: true,
 		name: "Toggle",
 		particles: 8,
@@ -1066,7 +1018,6 @@ export const componentMetadata = Object.freeze({
 	ToggleGroup: {
 		category: "Toggle & Choice",
 		description: "A group of toggle buttons where one or multiple can be selected.",
-		docsUrl: "https://coss.com/ui/docs/components/toggle-group.md",
 		hasLocalPrimitiveRef: true,
 		name: "ToggleGroup",
 		particles: 9,
@@ -1084,7 +1035,6 @@ export const componentMetadata = Object.freeze({
 	Toolbar: {
 		category: "Layout & Navigation",
 		description: "A container for grouping related actions or controls.",
-		docsUrl: "https://coss.com/ui/docs/components/toolbar.md",
 		hasLocalPrimitiveRef: true,
 		name: "Toolbar",
 		particles: 1,
@@ -1102,7 +1052,6 @@ export const componentMetadata = Object.freeze({
 	Tooltip: {
 		category: "Overlays & Popups",
 		description: "A small overlay that provides contextual information on hover or focus.",
-		docsUrl: "https://coss.com/ui/docs/components/tooltip.md",
 		hasLocalPrimitiveRef: true,
 		name: "Tooltip",
 		particles: 4,
@@ -1121,7 +1070,6 @@ export const componentMetadata = Object.freeze({
 		category: "Overlays & Popups",
 		description:
 			"A panel that slides in from the edge of the screen with swipe gestures, snap points, and nested drawer support.",
-		docsUrl: "https://coss.com/ui/docs/components/drawer.md",
 		hasLocalPrimitiveRef: true,
 		name: "Drawer",
 		particles: 14,
@@ -1150,7 +1098,6 @@ export const componentMetadata = Object.freeze({
 	Sidebar: {
 		category: "Layout & Navigation",
 		description: "A collapsible side panel for navigation and secondary content.",
-		docsUrl: "https://coss.com/ui/docs/components/sidebar.md",
 		hasLocalPrimitiveRef: true,
 		name: "Sidebar",
 		particles: 0,
@@ -1191,7 +1138,6 @@ export const componentMetadata = Object.freeze({
 	Toast: {
 		category: "Feedback & Status",
 		description: "A temporary notification message that appears and disappears automatically.",
-		docsUrl: "https://coss.com/ui/docs/components/toast.md",
 		hasLocalPrimitiveRef: true,
 		name: "Toast",
 		particles: 13,
@@ -1209,7 +1155,6 @@ export const componentMetadata = Object.freeze({
 	NumberField: {
 		category: "Selection & Input",
 		description: "A specialized input for numeric values with increment/decrement controls.",
-		docsUrl: "https://coss.com/ui/docs/components/number-field.md",
 		hasLocalPrimitiveRef: true,
 		name: "NumberField",
 		particles: 11,

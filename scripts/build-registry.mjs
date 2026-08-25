@@ -14,7 +14,7 @@ const hostDependencies = new Set(["svelte"]);
 
 function registryIndex(items) {
 	return {
-		$schema: "https://coss-svelte.dev/schema/registry-index.json",
+		$schema: "https://coss-svelte.vercel.app/schema/registry-index.json",
 		name: "coss-svelte",
 		items: items.map((item) => ({
 			name: item.name,

@@ -33,7 +33,6 @@
 		"foundation": "custom",
 		"particlePriority": "mvp",
 		"slug": "checkbox-group",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/checkbox-group.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Toggle & Choice"],

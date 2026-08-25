@@ -51,7 +51,6 @@
 		"foundation": "custom",
 		"particlePriority": "later",
 		"slug": "toast",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/toast.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Feedback & Status"],

@@ -39,7 +39,6 @@
 		"foundation": "native",
 		"particlePriority": "mvp",
 		"slug": "breadcrumb",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/breadcrumb.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Layout & Navigation"],

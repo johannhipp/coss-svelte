@@ -45,7 +45,6 @@
 		"foundation": "bits",
 		"particlePriority": "mvp",
 		"slug": "avatar",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/avatar.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Content & Display"],

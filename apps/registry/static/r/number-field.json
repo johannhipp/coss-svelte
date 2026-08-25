@@ -87,7 +87,6 @@
 		"foundation": "custom",
 		"particlePriority": "mvp",
 		"slug": "number-field",
-		"sourceDocsUrl": "https://coss.com/ui/docs/components/number-field.md",
 		"styleImport": "@coss-svelte/theme/style-coss.css"
 	},
 	"categories": ["Selection & Input"],

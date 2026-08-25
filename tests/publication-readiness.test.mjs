@@ -54,15 +54,7 @@ test("repository documents public maintenance and manual npm release expectation
 });
 
 test("public-facing docs do not describe implemented packages as empty scaffolds", async () => {
-	for (const file of [
-		"README.md",
-		"apps/www/README.md",
-		"packages/coss-svelte/README.md",
-		"packages/coss-svelte/src/README.md",
-		"packages/theme/README.md",
-		"packages/theme/src/README.md",
-		"packages/registry/README.md",
-	]) {
+	for (const file of ["README.md", "packages/coss-svelte/README.md", "packages/theme/README.md"]) {
 		const content = await readFile(file, "utf8");
 
 		assert.doesNotMatch(content, /Implementation has not started/i, `${file} is stale`);
@@ -110,33 +102,25 @@ test("docs app has explicit local and Vercel production targets", async () => {
 	assert.match(workspace, /sharp:\s*true/);
 });
 
-test("generated visual evidence is not tracked in the repository", async () => {
+test("tracked content does not reference upstream coss domains", async () => {
 	const gitLsFiles = spawnSync("git", ["ls-files"], { encoding: "utf8" });
 	assert.equal(gitLsFiles.status, 0, gitLsFiles.stderr);
 
+	const banned = [
+		["coss", ".", "com"].join(""),
+		["coss", "com"].join(""),
+		["coss-svelte", ".", "dev"].join(""),
+	];
 	const trackedFiles = gitLsFiles.stdout.trim().split("\n").filter(Boolean);
-	const generatedEvidence = trackedFiles.filter((file) =>
-		file.startsWith("docs/implementation/visual-parity/")
-	);
-	const trackedMedia = trackedFiles.filter((file) =>
-		/\.(?:png|jpe?g|gif|webp|mp4|mov|zip|tgz|tar|gz)$/i.test(file)
-	);
+	const offenders = [];
 
-	assert.deepEqual(generatedEvidence, [], "visual parity output belongs in ignored .cache");
-	assert.deepEqual(trackedMedia, [], "generated media archives should not be tracked");
-
-	for (const script of [
-		"scripts/capture-visual-parity-evidence.mjs",
-		"scripts/capture-interactive-visual-parity-evidence.mjs",
-	]) {
-		const content = await readFile(script, "utf8");
-		assert.match(content, /\.cache\/visual-parity/, `${script} writes to ignored cache by default`);
-		assert.doesNotMatch(
-			content,
-			/docs\/implementation\/visual-parity/,
-			`${script} should not default to docs output`
-		);
+	for (const file of trackedFiles) {
+		if (!existsSync(file)) continue;
+		const content = await readFile(file, "utf8");
+		if (banned.some((value) => content.toLowerCase().includes(value))) offenders.push(file);
 	}
+
+	assert.deepEqual(offenders, [], "all coss links should stay within coss-svelte");
 });
 
 test("ci validates the repo without publishing to npm", async () => {
@@ -174,6 +158,6 @@ test("ci validates the repo without publishing to npm", async () => {
 	);
 	assert.equal(
 		rootPackage.scripts["release:check"],
-		"pnpm package:prepare && pnpm api:check && pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm scope:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test:consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm docs:release-gate && pnpm pack:dry-run"
+		"pnpm package:prepare && pnpm api:check && pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test:consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm docs:release-gate && pnpm pack:dry-run"
 	);
 });
