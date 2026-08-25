@@ -32,15 +32,15 @@ test("introduction mirrors the COSS docs shape while staying local to coss-svelt
 	const intro = await readFile(introPath, "utf8");
 
 	for (const section of [
-		"How It Works",
+		"Why?",
 		"Built on Bits UI, Designed for Svelte",
 		"Primitives and Particles",
 	]) {
-		assert.match(intro, new RegExp(section), `intro should include ${section}`);
+		assert.ok(intro.includes(section), `intro should include ${section}`);
 	}
 
-	for (const localPhrase of ["copy, paste, and own", "SvelteKit", "Bits UI", "local coss-svelte"]) {
-		assert.match(intro, new RegExp(localPhrase), `intro should include ${localPhrase}`);
+	for (const localPhrase of ["Svelte 5", "SvelteKit", "Bits UI", "React and Next.js"]) {
+		assert.ok(intro.includes(localPhrase), `intro should include ${localPhrase}`);
 	}
 
 	for (const omittedCossOnlySection of [

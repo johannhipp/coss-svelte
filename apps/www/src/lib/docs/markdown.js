@@ -39,18 +39,18 @@ ${themeImportCode}
 	},
 	introduction: {
 		description:
-			"A Svelte-native component library inspired by coss ui. Built for SvelteKit apps, local previews, and components you can understand and own.",
+			"coss-svelte is a Svelte 5-native component library that tries to mimic [coss ui](https://coss.com/ui/docs). Built for SvelteKit apps and built on top of Bits UI.",
 		sections: [
 			{
-				body: "The local coss-svelte docs are scoped to Svelte components in this repo. Sidebar links open local SvelteKit routes, and every component page renders a local preview instead of sending you back to the COSS React docs.",
-				title: "How It Works",
+				body: "Svelte 5 is highly performant, and I want to see it used more. But polished Svelte component libraries are scarce because React and Next.js patterns do not translate cleanly. coss-svelte aims to fill that gap on Svelte's own terms.",
+				title: "Why?",
 			},
 			{
-				body: "COSS uses Base UI for its React primitives. coss-svelte maps that component language onto Bits UI and Svelte-native components.",
+				body: "COSS builds its React primitives on Base UI. coss-svelte brings the same component language and compact visual shell to native Svelte, using Bits UI for accessible behavior, keyboard interactions, and focus management.",
 				title: "Built on Bits UI, Designed for Svelte",
 			},
 			{
-				body: "Primitives are accessible building blocks. Particles are local examples assembled from those primitives.",
+				body: "Primitives are composable Svelte building blocks such as buttons, fields, menus, and overlays. Particles combine them into practical examples. Browse Particles for context; open a component page for its source, metadata, and implementation notes.",
 				title: "Primitives and Particles",
 			},
 		],
