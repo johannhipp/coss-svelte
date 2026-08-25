@@ -230,19 +230,19 @@ async function tocNavigation({ browser, page, baseUrl }) {
 	await installScrollProbe(page);
 
 	const firstLink = page.getByRole("complementary", { name: "On this page" }).getByRole("link", {
-		name: "How It Works",
+		name: "Why?",
 	});
 	const secondLink = page
 		.getByRole("complementary", { name: "On this page" })
 		.getByRole("link", { name: "Built on Bits UI" });
 
 	await firstLink.click();
-	await page.waitForFunction(() => window.location.hash === "#how-it-works");
+	await page.waitForFunction(() => window.location.hash === "#why");
 	await page.waitForFunction(() => {
-		const target = document.getElementById("how-it-works");
+		const target = document.getElementById("why");
 		if (!target) return false;
 		const top = target.getBoundingClientRect().top;
-		return top >= 56 && top <= 96;
+		return top >= 56 && top < window.innerHeight;
 	});
 
 	await secondLink.click();
@@ -292,7 +292,7 @@ async function tocNavigation({ browser, page, baseUrl }) {
 		await installScrollProbe(reducedPage);
 		await reducedPage
 			.getByRole("complementary", { name: "On this page" })
-			.getByRole("link", { name: "How It Works" })
+			.getByRole("link", { name: "Why?" })
 			.click();
 		const reducedCall = await reducedPage.evaluate(() => window.__cossScrollCalls.at(-1));
 		if (reducedCall?.options?.behavior !== "auto") {

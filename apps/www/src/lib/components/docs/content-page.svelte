@@ -6,6 +6,7 @@ import { createContentMarkdown } from "$lib/docs/markdown.js";
 let {
 	children,
 	description,
+	descriptionContent = null,
 	eyebrow = "Docs",
 	markdown: markdownOverride = null,
 	title,
@@ -24,7 +25,13 @@ let markdown = $derived(markdownOverride ?? createContentMarkdown({ description,
 						<header class="flex flex-col gap-2">
 							<p class="font-medium text-muted-foreground text-sm">{eyebrow}</p>
 							<h1 class="font-heading font-semibold text-3xl leading-tight xl:text-4xl">{title}</h1>
-							<p class="text-muted-foreground text-lg leading-7">{description}</p>
+							<p class="text-muted-foreground text-lg leading-7">
+								{#if descriptionContent}
+									{@render descriptionContent()}
+								{:else}
+									{description}
+								{/if}
+							</p>
 							<div class="pt-4">
 								<CopyMarkdownButton {markdown} />
 							</div>

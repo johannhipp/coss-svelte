@@ -2,11 +2,18 @@
 import ContentPage from "$lib/components/docs/content-page.svelte";
 
 const toc = [
-	{ href: "#how-it-works", title: "How It Works" },
+	{ href: "#why", title: "Why?" },
 	{ href: "#built-on-bits-ui", title: "Built on Bits UI" },
 	{ href: "#primitives-and-particles", title: "Primitives and Particles" },
 ];
 </script>
+
+{#snippet introDescription()}
+	coss-svelte is a Svelte 5-native component library that tries to mimic
+	<a class="font-medium text-foreground underline underline-offset-4" href="https://coss.com/ui/docs"
+		>coss ui</a
+	>. Built for SvelteKit apps and built on top of Bits UI.
+{/snippet}
 
 <svelte:head>
 	<title>Introduction - coss-svelte</title>
@@ -18,12 +25,13 @@ const toc = [
 
 <ContentPage
 	title="Introduction"
-	description="A Svelte-native component library inspired by coss ui. Built for SvelteKit apps, local previews, and components you can understand and own."
+	description="coss-svelte is a Svelte 5-native component library that tries to mimic coss ui. Built for SvelteKit apps and built on top of Bits UI."
+	descriptionContent={introDescription}
 	{toc}
 >
 	<div class="docs-intro-flow">
 		<div class="docs-intro-note">
-			<p class="font-medium text-foreground">Early Access</p>
+			<p class="font-medium text-foreground">Preview</p>
 			<p>
 				All coss-svelte components are ready to use, though some may still be rough around the
 				edges. If you encounter an issue, please
@@ -32,49 +40,34 @@ const toc = [
 					href="https://github.com/johannhipp/coss-svelte/issues"
 				>
 					report it on GitHub
-				</a>.
+				</a> :)
 			</p>
 		</div>
 
-		<section id="how-it-works" class="grid scroll-mt-20 gap-4">
-			<h2 class="font-semibold text-2xl">How It Works</h2>
+		<section id="why" class="grid scroll-mt-20 gap-4">
+			<h2 class="font-semibold text-2xl">Why?</h2>
 			<p class="text-muted-foreground leading-7">
-				The local coss-svelte docs are scoped to Svelte components in this repo. Sidebar links
-				open local SvelteKit routes, and every component page renders a local preview instead of
-				sending you back to the COSS React docs.
-			</p>
-			<p class="text-muted-foreground leading-7">
-				The point is still to copy, paste, and own the implementation details: examples stay
-				readable, source files stay close to the docs, and the registry output remains small
-				enough to adapt inside real applications.
+				Svelte 5 is highly performant, and I want to see it used more. But polished Svelte component
+				libraries are scarce because React and Next.js patterns do not translate cleanly.
+				coss-svelte aims to fill that gap on Svelte's own terms.
 			</p>
 		</section>
 
 		<section id="built-on-bits-ui" class="grid scroll-mt-20 gap-4">
 			<h2 class="font-semibold text-2xl">Built on Bits UI, Designed for Svelte</h2>
 			<p class="text-muted-foreground leading-7">
-				COSS uses Base UI for its React primitives. coss-svelte maps that component language onto
-				Bits UI and Svelte-native components, keeping the accessible behavior, keyboard patterns,
-				and focus management close to the underlying Svelte ecosystem.
-			</p>
-			<p class="text-muted-foreground leading-7">
-				The visual shell follows COSS: compact navigation, neutral surfaces, focused previews, and
-				a right-side table of contents on wider screens. The wording here stays local to what this
-				repository actually ships today.
+				COSS builds its React primitives on Base UI. coss-svelte brings the same component language
+				and compact visual shell to native Svelte, using Bits UI for accessible behavior, keyboard
+				interactions, and focus management.
 			</p>
 		</section>
 
 		<section id="primitives-and-particles" class="grid scroll-mt-20 gap-4">
 			<h2 class="font-semibold text-2xl">Primitives and Particles</h2>
 			<p class="text-muted-foreground leading-7">
-				Primitives are the foundation: buttons, fields, overlays, menus, and other accessible
-				building blocks. They expose Svelte component parts that are intended to be composed,
-				styled, and inspected directly.
-			</p>
-			<p class="text-muted-foreground leading-7">
-				Particles are local examples assembled from those primitives. Use the Particles page to
-				review each component in context, then open the component docs when you want source,
-				metadata, and implementation notes.
+				Primitives are composable Svelte building blocks such as buttons, fields, menus, and
+				overlays. Particles combine them into practical examples. Browse Particles for context;
+				open a component page for its source, metadata, and implementation notes.
 			</p>
 		</section>
 	</div>
