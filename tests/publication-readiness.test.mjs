@@ -88,15 +88,25 @@ test("package and getting-started docs use the public theme contract", async () 
 	assert.match(appCss, /@import "@coss-svelte\/theme\/style-coss\.css"/);
 });
 
-test("docs app has an explicit production server target", async () => {
+test("docs app has explicit local and Vercel production targets", async () => {
 	const config = await readFile("apps/www/svelte.config.js", "utf8");
 	const packageJson = await readJson("apps/www/package.json");
+	const rootPackageJson = await readJson("package.json");
+	const vercelConfig = await readJson("vercel.json");
 	const workspace = await readFile("pnpm-workspace.yaml", "utf8");
 
 	assert.match(config, /adapter-node/);
+	assert.match(config, /adapter-vercel/);
 	assert.doesNotMatch(config, /adapter-auto/);
+	assert.match(config, /process\.env\.VERCEL === "1"/);
 	assert.match(config, /assets:\s*"\.\.\/registry\/static"/);
 	assert.equal(packageJson.scripts.start, "node build");
+	assert.equal(vercelConfig.framework, "sveltekit");
+	assert.equal(vercelConfig.buildCommand, "pnpm vercel:build");
+	assert.equal(vercelConfig.installCommand, "pnpm install --frozen-lockfile");
+	assert.match(rootPackageJson.scripts["vercel:build"], /package:prepare/);
+	assert.match(rootPackageJson.scripts["vercel:build"], /prepare-vercel-output/);
+	assert.match(workspace, /esbuild:\s*true/);
 	assert.match(workspace, /sharp:\s*true/);
 });
 

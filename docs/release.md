@@ -14,6 +14,10 @@ For the docs app, build with `pnpm --filter @coss-svelte/www build` and run the
 adapter-node server with `pnpm --filter @coss-svelte/www start` (equivalent to
 `node build`).
 
+The hosted docs use the Vercel project connected to this repository. Vercel builds run
+`pnpm vercel:build`, select `@sveltejs/adapter-vercel`, and deploy pushes to `main` to the
+project's production `vercel.app` URL. Branch pushes receive preview deployments.
+
 ## Before an npm Release
 
 1. Make sure the public GitHub repository and npm package metadata point at the same release commit.

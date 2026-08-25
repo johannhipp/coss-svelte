@@ -13,3 +13,12 @@ pnpm --filter @coss-svelte/www build
 ```
 
 Keep docs examples aligned with `packages/coss-svelte` exports and registry metadata.
+
+## Deployment
+
+The Vercel project builds from the monorepo root with `pnpm vercel:build`. Vercel builds select
+`@sveltejs/adapter-vercel`; ordinary local builds keep `@sveltejs/adapter-node` so the production
+server and browser smoke tests remain runnable with `pnpm --filter @coss-svelte/www start`.
+
+The Vercel Git connection tracks `main`, so merged changes produce the production deployment and
+other branches receive preview deployments.

@@ -43,7 +43,8 @@
 		"test:browser:built": "node scripts/smoke-docs-browser.mjs",
 		"test:browser:components": "pnpm --filter @coss-svelte/www build && node scripts/smoke-docs-browser.mjs --suite components",
 		"test:consumer": "pnpm package:prepare && node scripts/check-clean-consumer.mjs",
-		"test:type-consumer": "pnpm package:prepare && node scripts/check-type-consumer.mjs"
+		"test:type-consumer": "pnpm package:prepare && node scripts/check-type-consumer.mjs",
+		"vercel:build": "pnpm package:prepare && pnpm --filter @coss-svelte/www build && node scripts/prepare-vercel-output.mjs"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "4.11.0",
