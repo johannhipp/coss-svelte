@@ -1,6 +1,6 @@
 {
 	"name": "coss-svelte",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Svelte 5 copy-and-own component primitives inspired by COSS UI.",
 	"private": false,
 	"license": "MIT",
@@ -40,7 +40,7 @@
 	"bugs": {
 		"url": "https://github.com/johannhipp/coss-svelte/issues"
 	},
-	"homepage": "https://github.com/johannhipp/coss-svelte#readme",
+	"homepage": "https://coss-svelte.vercel.app",
 	"keywords": [
 		"svelte",
 		"sveltekit",

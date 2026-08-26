@@ -29,7 +29,7 @@ const toc = [
 >
 	<div class="docs-intro-flow">
 		<div class="docs-intro-note">
-			<p class="font-medium text-foreground">0.1.0</p>
+			<p class="font-medium text-foreground">0.1.1</p>
 			<p>
 				The package includes 52 stable component roots. Drawer, Sidebar, and Toast are marked
 				experimental, and the copy-and-own registry is a preview. If you encounter an issue, please

@@ -34,8 +34,8 @@ Inspect the names, versions, exports, peer dependencies, README, license, and fi
 
 ```sh
 node scripts/check-clean-consumer.mjs \
-  --theme-tarball .artifacts/release/coss-svelte-theme-0.1.0.tgz \
-  --component-tarball .artifacts/release/coss-svelte-0.1.0.tgz
+  --theme-tarball .artifacts/release/coss-svelte-theme-0.1.1.tgz \
+  --component-tarball .artifacts/release/coss-svelte-0.1.1.tgz
 ```
 
 ## Publish boundary
@@ -43,8 +43,8 @@ node scripts/check-clean-consumer.mjs \
 Do not publish from ordinary CI. After the repository is public and the verified commit is tagged, publish the inspected theme artifact first:
 
 ```sh
-npm publish .artifacts/release/coss-svelte-theme-0.1.0.tgz --access public
-npm publish .artifacts/release/coss-svelte-0.1.0.tgz --access public
+npm publish .artifacts/release/coss-svelte-theme-0.1.1.tgz --access public
+npm publish .artifacts/release/coss-svelte-0.1.1.tgz --access public
 ```
 
 Verify both npm package pages, then install the published versions into the same clean SvelteKit consumer:
