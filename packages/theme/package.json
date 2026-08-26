@@ -1,6 +1,6 @@
 {
 	"name": "@coss-svelte/theme",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Consumer-safe CSS tokens and component styles for coss-svelte.",
 	"license": "MIT",
 	"type": "module",
@@ -22,7 +22,7 @@
 	"bugs": {
 		"url": "https://github.com/johannhipp/coss-svelte/issues"
 	},
-	"homepage": "https://github.com/johannhipp/coss-svelte#readme",
+	"homepage": "https://coss-svelte.vercel.app",
 	"keywords": [
 		"svelte",
 		"tailwindcss",
