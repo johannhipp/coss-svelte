@@ -12,6 +12,7 @@ test("publishable package exposes npm metadata and a constrained file list", asy
 	const packageJson = await readJson("packages/coss-svelte/package.json");
 
 	assert.equal(packageJson.name, "coss-svelte");
+	assert.equal(packageJson.version, "0.1.0");
 	assert.equal(packageJson.private, false);
 	assert.equal(packageJson.license, "MIT");
 	assert.match(packageJson.description, /Svelte/i);
@@ -38,14 +39,33 @@ test("publishable package exposes npm metadata and a constrained file list", asy
 	}
 });
 
+test("theme package matches the component release and public metadata", async () => {
+	const componentPackage = await readJson("packages/coss-svelte/package.json");
+	const themePackage = await readJson("packages/theme/package.json");
+
+	assert.equal(themePackage.name, "@coss-svelte/theme");
+	assert.equal(themePackage.version, componentPackage.version);
+	assert.equal(themePackage.version, "0.1.0");
+	assert.equal(themePackage.license, "MIT");
+	assert.deepEqual(themePackage.publishConfig, { access: "public" });
+	assert.deepEqual(themePackage.files, ["src", "README.md", "LICENSE"]);
+	assert.equal(themePackage.bugs.url, "https://github.com/johannhipp/coss-svelte/issues");
+	assert.equal(themePackage.homepage, "https://github.com/johannhipp/coss-svelte#readme");
+});
+
 test("repository documents public maintenance and manual npm release expectations", async () => {
 	for (const file of ["CHANGELOG.md", "CODE_OF_CONDUCT.md", "SECURITY.md", "docs/release.md"]) {
 		assert.equal(existsSync(file), true, `${file} exists`);
 	}
 
 	const releaseDocs = await readFile("docs/release.md", "utf8");
-	assert.match(releaseDocs, /npm pack --dry-run/, "release docs include npm pack dry-run");
+	assert.match(releaseDocs, /pnpm pack:dry-run/, "release docs include the two-package pack gate");
 	assert.match(releaseDocs, /npm publish/, "release docs document manual npm publish");
+	assert.match(
+		releaseDocs,
+		/check-clean-consumer\.mjs --registry/,
+		"release docs verify the published npm packages in a clean consumer"
+	);
 	assert.match(releaseDocs, /Do not publish/i, "release docs keep publish manual");
 
 	const rootReadme = await readFile("README.md", "utf8");
@@ -135,10 +155,7 @@ test("ci validates the repo without publishing to npm", async () => {
 	assert.doesNotMatch(workflow, /\bpnpm publish\b/);
 
 	const rootPackage = await readJson("package.json");
-	assert.equal(
-		rootPackage.scripts["pack:dry-run"],
-		"pnpm --filter coss-svelte exec npm pack --dry-run"
-	);
+	assert.equal(rootPackage.scripts["pack:dry-run"], "node scripts/check-package-tarballs.mjs");
 	assert.equal(
 		rootPackage.scripts["test:consumer"],
 		"pnpm package:prepare && node scripts/check-clean-consumer.mjs"

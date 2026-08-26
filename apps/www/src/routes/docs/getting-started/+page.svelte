@@ -5,14 +5,16 @@ import { getContentMarkdown } from "$lib/docs/markdown.js";
 
 const themeImportCode = `@import "tailwindcss";
 @import "@coss-svelte/theme/style-coss.css";`;
-const availabilityCheckCode = `npm view coss-svelte version
-npm view @coss-svelte/theme version`;
+const installationCode = "pnpm add coss-svelte @coss-svelte/theme bits-ui";
+const registryExampleCode =
+	"curl -fsSL https://coss-svelte.vercel.app/r/button.json -o button.json";
 const markdown = getContentMarkdown("getting-started");
 
 const toc = [
 	{ href: "#source-setup", title: "Source Setup" },
-	{ href: "#external-availability", title: "External Availability" },
+	{ href: "#installation", title: "Installation" },
 	{ href: "#theme", title: "Theme" },
+	{ href: "#registry-preview", title: "Registry Preview" },
 	{
 		href: "#getting-your-agents-to-use-coss-svelte",
 		title: "Getting your agents to use coss-svelte",
@@ -26,7 +28,7 @@ const toc = [
 
 <ContentPage
 	title="Getting Started"
-	description="Use coss-svelte from the source workspace today, or verify package publication before installing it in another SvelteKit app."
+	description="Install coss-svelte, its shared theme, and Bits UI in a Svelte 5 application built with SvelteKit and Vite."
 	{markdown}
 	{toc}
 >
@@ -36,15 +38,12 @@ const toc = [
 pnpm package:prepare`} />
 	</section>
 
-	<section id="external-availability" class="grid scroll-mt-20 gap-4">
-		<h2 class="font-semibold text-2xl">External Availability</h2>
+	<section id="installation" class="grid scroll-mt-20 gap-4">
+		<h2 class="font-semibold text-2xl">Installation</h2>
 		<p class="text-muted-foreground leading-7">
-			The packages are not published yet. Verify both packages before presenting an external
-			install as available.
+			Start from a Svelte 5 application, then install the package, shared theme, and Bits UI peer.
 		</p>
-		<CodeBlock language="bash" code={availabilityCheckCode} />
-		<p class="text-muted-foreground leading-7">After both checks succeed:</p>
-		<CodeBlock language="bash" code="pnpm add coss-svelte bits-ui @coss-svelte/theme" />
+		<CodeBlock language="bash" code={installationCode} />
 	</section>
 
 	<section id="theme" class="grid scroll-mt-20 gap-4">
@@ -54,6 +53,20 @@ pnpm package:prepare`} />
 				components receive the same token system as the docs previews.
 		</p>
 			<CodeBlock language="css" code={themeImportCode} />
+	</section>
+
+	<section id="registry-preview" class="grid scroll-mt-20 gap-4">
+		<h2 class="font-semibold text-2xl">Registry Preview</h2>
+		<p class="text-muted-foreground leading-7">
+			The copy-and-own registry is a preview in 0.1.0. Download a manifest such as Button:
+		</p>
+		<CodeBlock language="bash" code={registryExampleCode} />
+		<p class="text-muted-foreground leading-7">
+			Each manifest lists dependencies and files. Write each file's content to
+			<code>src/lib/&lt;target&gt;</code>, install the listed dependencies, import the shared theme,
+			and maintain the copied source in your application. Registry source and schemas may evolve
+			between minor releases.
+		</p>
 	</section>
 
 	<section id="getting-your-agents-to-use-coss-svelte" class="grid scroll-mt-20 gap-4">

@@ -4,8 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning once the first public npm package is released.
 
-## Unreleased
+## 0.1.0 - 2026-08-26
 
-- Added public repository readiness docs, CI, and npm package metadata.
-- Added a dry-run package check for the publishable `coss-svelte` package.
-
+- Published 52 stable Svelte component roots with generated declarations and metadata.
+- Included experimental Drawer, Sidebar, and Toast exports with documented limitations.
+- Added the `@coss-svelte/theme` Tailwind CSS 4 theme package.
+- Added the preview copy-and-own registry, schemas, Markdown routes, and `llms.txt` agent map.
+- Added clean SvelteKit consumer, SSR, docs, browser, and two-package tarball release checks.

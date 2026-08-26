@@ -3,6 +3,7 @@ import { page } from "$app/state";
 
 type SidebarItem = {
 	href: string;
+	status?: string;
 	title: string;
 };
 
@@ -56,6 +57,11 @@ function isActive(href: string) {
 						onclick={onNavigate}
 					>
 						<span class="truncate">{item.title}</span>
+						{#if item.status === "experimental"}
+							<span class="shrink-0 text-[10px] text-muted-foreground uppercase tracking-wide">
+								Experimental
+							</span>
+						{/if}
 					</a>
 				{/each}
 			</nav>

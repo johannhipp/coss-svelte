@@ -95,7 +95,7 @@ async function catalogHydrate({ browser, baseUrl }) {
 		const context = await browser.newContext({ reducedMotion: "reduce" });
 		const page = await context.newPage();
 		try {
-			await page.goto(`${baseUrl}/docs/components/${slug}`, { waitUntil: "domcontentloaded" });
+			await page.goto(`${baseUrl}/docs/components/${slug}`, { waitUntil: "networkidle" });
 			await page.locator(`[data-preview-slug="${slug}"]`).waitFor();
 			const codeTab = page.getByRole("tab", { name: "Code" });
 			await codeTab.click();

@@ -2,9 +2,7 @@
 
 ## Supported Versions
 
-`coss-svelte` is not published to npm yet. Until the first public release, security fixes land on the default branch only.
-
-After the first npm release, supported versions will be listed here.
+The current `0.1.x` release line receives fixes on the default branch and in the next applicable patch release.
 
 ## Reporting a Vulnerability
 
@@ -18,4 +16,3 @@ Please include:
 - Whether the issue is already public.
 
 Maintainers will acknowledge valid reports and coordinate a fix before publishing details.
-

@@ -1076,7 +1076,7 @@ export const componentMetadata = Object.freeze({
 		slug: "drawer",
 		title: "Drawer",
 		firstImplementationPass:
-			"Start from Dialog semantics for focus/portal/escape handling, then layer edge placement, drag/snap behavior, nested drawers, and responsive dialog-drawer switching.",
+			"Experimental in 0.1.0: dialog-style opening, closing, focus, and edge placement are available; swipe gestures, snap points, nested drawers, and responsive dialog switching are not yet supported.",
 		primitive: "Dialog accessibility shell + custom motion",
 		tier: "custom compound",
 		foundation: "custom",
@@ -1104,7 +1104,7 @@ export const componentMetadata = Object.freeze({
 		slug: "sidebar",
 		title: "Sidebar",
 		firstImplementationPass:
-			"Build app-shell sidebar primitives around nav markup, collapsible groups, controlled collapsed state, responsive drawer mode, and persistent layout tokens.",
+			"Experimental in 0.1.0: the compound sidebar and controlled collapsed state are available; responsive drawer behavior and persisted layout state are not yet complete.",
 		primitive: "Collapsible + native navigation",
 		tier: "compound primitive",
 		foundation: "compound",
@@ -1144,7 +1144,7 @@ export const componentMetadata = Object.freeze({
 		slug: "toast",
 		title: "Toast",
 		firstImplementationPass:
-			"Build a Svelte toast manager with provider, viewport, toast root/title/description/action/close, swipe/dismiss behavior, and promise/update helpers.",
+			"Experimental in 0.1.0: the provider, timed notifications, and manual dismissal are available; swipe dismissal, promise helpers, and advanced update controls are not yet supported.",
 		primitive: "custom store + portal",
 		tier: "custom compound",
 		foundation: "custom",

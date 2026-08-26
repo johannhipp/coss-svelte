@@ -29,10 +29,10 @@ const toc = [
 >
 	<div class="docs-intro-flow">
 		<div class="docs-intro-note">
-			<p class="font-medium text-foreground">Preview</p>
+			<p class="font-medium text-foreground">0.1.0</p>
 			<p>
-				All coss-svelte components are ready to use, though some may still be rough around the
-				edges. If you encounter an issue, please
+				The package includes 52 stable component roots. Drawer, Sidebar, and Toast are marked
+				experimental, and the copy-and-own registry is a preview. If you encounter an issue, please
 				<a
 					class="font-medium text-foreground underline underline-offset-4"
 					href="https://github.com/johannhipp/coss-svelte/issues"
