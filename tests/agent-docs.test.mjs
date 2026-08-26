@@ -65,8 +65,11 @@ test("component Markdown includes agent-critical implementation sections", async
 		);
 	}
 
-	assert.match(markdown, /pnpm package:prepare/, "source setup should be present");
-	assert.match(markdown, /npm view coss-svelte version/, "availability check should be present");
+	assert.match(
+		markdown,
+		/pnpm add coss-svelte @coss-svelte\/theme bits-ui/,
+		"published package installation should be present"
+	);
 	assert.match(
 		markdown,
 		/import \{ Button \} from "coss-svelte"/,
@@ -76,6 +79,18 @@ test("component Markdown includes agent-critical implementation sections", async
 	assert.match(markdown, /\| Status \| Stable \|/, "status should be present");
 	assert.match(markdown, /\/r\/button\.json/, "registry manifest should be present");
 	assert.match(markdown, /Do not emit JSX/, "Svelte-specific agent rules should be present");
+});
+
+test("experimental component Markdown exposes release limitations", async () => {
+	const [{ createComponentMarkdown }, { getComponentDoc }] = await Promise.all([
+		import(pathToFileURL(markdownPath).href),
+		import(pathToFileURL(navigationPath).href),
+	]);
+	const drawer = createComponentMarkdown(getComponentDoc("drawer"));
+
+	assert.match(drawer, /Experimental in 0\.1\.0/);
+	assert.match(drawer, /swipe gestures, snap points, nested drawers/);
+	assert.doesNotMatch(drawer, /Start from Dialog semantics/);
 });
 
 test("component Markdown includes COSS-style API element reference", async () => {
@@ -155,7 +170,12 @@ test("human docs advertise the agent workflow", async () => {
 	);
 	assert.match(
 		gettingStarted,
-		/npm view coss-svelte version/,
-		"getting started should not imply unpublished packages are available"
+		/pnpm add coss-svelte @coss-svelte\/theme bits-ui/,
+		"getting started should show the canonical package install"
+	);
+	assert.match(
+		gettingStarted,
+		/Registry Preview/,
+		"getting started should label the registry preview"
 	);
 });

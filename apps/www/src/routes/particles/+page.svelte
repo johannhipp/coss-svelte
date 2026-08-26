@@ -21,7 +21,7 @@ let description = $derived(
 </script>
 
 <svelte:head>
-	<title>Browse Particles - coss-svelte ui</title>
+	<title>Particles - coss-svelte</title>
 	<meta name="description" content={description} />
 </svelte:head>
 

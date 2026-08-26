@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, isAbsolute, join, sep as pathSeparator, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,6 +10,24 @@ const themeRoot = join(root, "packages/theme");
 const registryItemPaths = ["button", "number-field", "context-menu"].map((slug) =>
 	join(root, `apps/registry/static/r/${slug}.json`)
 );
+
+function argumentValue(name) {
+	const index = process.argv.indexOf(name);
+	if (index === -1) return null;
+	const value = process.argv[index + 1];
+	if (!value || value.startsWith("--")) throw new Error(`${name} requires a path`);
+	return resolve(value);
+}
+
+const providedComponentTarball = argumentValue("--component-tarball");
+const providedThemeTarball = argumentValue("--theme-tarball");
+const useRegistry = process.argv.includes("--registry");
+if (Boolean(providedComponentTarball) !== Boolean(providedThemeTarball)) {
+	throw new Error("Provide both --component-tarball and --theme-tarball, or neither.");
+}
+if (useRegistry && providedComponentTarball) {
+	throw new Error("Use --registry or the two tarball arguments, not both.");
+}
 
 function run(command, args, options = {}) {
 	const result = spawnSync(command, args, {
@@ -45,16 +63,18 @@ function fixtureDependencies({
 	componentPackage,
 	componentTarball,
 	registryItems,
+	themePackage,
 	themeTarball,
+	useRegistry,
 }) {
 	const dependencies = {
-		"@coss-svelte/theme": `file:${themeTarball}`,
+		"@coss-svelte/theme": useRegistry ? themePackage.version : `file:${themeTarball}`,
 		"@sveltejs/adapter-node": appPackage.dependencies["@sveltejs/adapter-node"],
 		"@sveltejs/kit": appPackage.dependencies["@sveltejs/kit"],
 		"@sveltejs/vite-plugin-svelte": appPackage.dependencies["@sveltejs/vite-plugin-svelte"],
 		"@tailwindcss/vite": appPackage.dependencies["@tailwindcss/vite"],
 		"bits-ui": componentPackage.peerDependencies["bits-ui"],
-		"coss-svelte": `file:${componentTarball}`,
+		"coss-svelte": useRegistry ? componentPackage.version : `file:${componentTarball}`,
 		clsx: componentPackage.dependencies.clsx,
 		svelte: componentPackage.peerDependencies.svelte,
 		"tailwind-merge": componentPackage.dependencies["tailwind-merge"],
@@ -172,28 +192,39 @@ const tarballRoot = join(tempRoot, "tarballs");
 const fixtureRoot = join(tempRoot, "fixture");
 
 try {
-	await mkdir(tarballRoot);
-	const [appPackage, componentPackage, ...registryItems] = await Promise.all([
+	const [appPackage, componentPackage, themePackage, ...registryItems] = await Promise.all([
 		readJson(join(root, "apps/www/package.json")),
 		readJson(join(packageRoot, "package.json")),
+		readJson(join(themeRoot, "package.json")),
 		...registryItemPaths.map((path) => readJson(path)),
 	]);
-	const componentTarball = pack(packageRoot, tarballRoot);
-	const themeTarball = pack(themeRoot, tarballRoot);
+	let componentTarball = providedComponentTarball;
+	let themeTarball = providedThemeTarball;
+	if (!useRegistry) {
+		await mkdir(tarballRoot);
+		componentTarball ??= pack(packageRoot, tarballRoot);
+		themeTarball ??= pack(themeRoot, tarballRoot);
+		await Promise.all([access(componentTarball), access(themeTarball)]);
+	}
 
 	await createFixture(fixtureRoot, {
 		appPackage,
 		componentPackage,
 		componentTarball,
 		registryItems,
+		themePackage,
 		themeTarball,
+		useRegistry,
 	});
 
 	run("pnpm", ["install", "--ignore-scripts"], { cwd: fixtureRoot });
 	run("pnpm", ["exec", "svelte-kit", "sync"], { cwd: fixtureRoot });
 	run("pnpm", ["exec", "svelte-check", "--tsconfig", "./tsconfig.json"], { cwd: fixtureRoot });
 	run("pnpm", ["exec", "vite", "build"], { cwd: fixtureRoot });
-	console.log(`Clean consumer passed from ${relative(root, fixtureRoot)}.`);
+	const source = useRegistry
+		? "npm registry packages"
+		: `${providedComponentTarball ? "provided" : "freshly packed"} tarballs`;
+	console.log(`Clean consumer passed from ${relative(root, fixtureRoot)} using ${source}.`);
 } finally {
 	await rm(tempRoot, { force: true, recursive: true });
 }

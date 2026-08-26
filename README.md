@@ -2,7 +2,24 @@
 
 `coss-svelte` is a Svelte 5 component library inspired by the clean product design of COSS UI.
 
-The package is not on npm yet, so this repository is the best place to follow its development.
+It is verified with SvelteKit and Vite, uses Bits UI for primitive behavior, and ships a Tailwind CSS 4 theme.
+
+## Install
+
+Start from a Svelte 5 application, then install the component package, shared theme, and Bits UI peer:
+
+```sh
+pnpm add coss-svelte @coss-svelte/theme bits-ui
+```
+
+Import the theme after Tailwind from your global stylesheet:
+
+```css
+@import "tailwindcss";
+@import "@coss-svelte/theme/style-coss.css";
+```
+
+The package exports 52 stable component roots. Drawer, Sidebar, and Toast are included as experimental components. The generated copy-and-own registry is a preview and may evolve between minor releases.
 
 ## Get started
 
@@ -25,7 +42,9 @@ pnpm test
 ## What's in this repository
 
 - [`packages/coss-svelte`](packages/coss-svelte) contains the component library.
+- [`packages/theme`](packages/theme) contains the shared Tailwind CSS theme.
 - [`apps/www`](apps/www) contains the documentation site.
+- [`apps/registry`](apps/registry) contains the generated preview registry.
 - [`docs`](docs) contains contribution and release guides.
 
 ## Contributing

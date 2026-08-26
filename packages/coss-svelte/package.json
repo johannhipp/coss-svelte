@@ -1,6 +1,6 @@
 {
 	"name": "coss-svelte",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "Svelte 5 copy-and-own component primitives inspired by COSS UI.",
 	"private": false,
 	"license": "MIT",

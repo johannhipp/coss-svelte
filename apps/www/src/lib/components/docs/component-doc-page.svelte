@@ -58,15 +58,15 @@ let previewAlign = $derived(previewAlignments[page.slug] ?? "center");
 					<section id="installation" class="scroll-mt-20 border-border border-t py-8">
 						<h2 class="mb-3 font-semibold text-2xl">Installation</h2>
 						<p class="mb-4 text-muted-foreground leading-7">
-							Install the local package, Bits UI peer primitives, and the shared coss-svelte theme.
+							Install the component package, shared coss-svelte theme, and Bits UI peer.
 						</p>
-						<CodeBlock language="bash" code="pnpm add coss-svelte bits-ui" />
+						<CodeBlock language="bash" code="pnpm add coss-svelte @coss-svelte/theme bits-ui" />
 					</section>
 
 					<section id="usage" class="scroll-mt-20 border-border border-t py-8">
 						<h2 class="mb-3 font-semibold text-2xl">Usage</h2>
 						<p class="mb-4 text-muted-foreground leading-7">
-							Import the Svelte component exports directly from the local package.
+							Import the Svelte component exports directly from the package.
 						</p>
 						<CodeBlock language="ts" code={importCode} />
 					</section>

@@ -9,17 +9,17 @@ import { componentDocs, resourcePages } from "./navigation.js";
 
 const sourceSetupCommand = `pnpm install --frozen-lockfile
 pnpm package:prepare`;
-const availabilityCheckCommand = `npm view coss-svelte version
-npm view @coss-svelte/theme version`;
-const installationCommand = "pnpm add coss-svelte bits-ui @coss-svelte/theme";
+const installationCommand = "pnpm add coss-svelte @coss-svelte/theme bits-ui";
 const themeImportCode = `@import "tailwindcss";
 @import "@coss-svelte/theme/style-coss.css";`;
+const registryExampleCommand =
+	"curl -fsSL https://coss-svelte.vercel.app/r/button.json -o button.json";
 const skillsInstallCommand = "npx skills@latest add johannhipp/skills --skill coss-svelte";
 
 const contentPages = {
 	"getting-started": {
 		description:
-			"Use coss-svelte from the source workspace today, or verify package publication before installing it in another SvelteKit app.",
+			"Install coss-svelte, its shared theme, and Bits UI in a Svelte 5 application built with SvelteKit and Vite.",
 		sections: [
 			{
 				body: `\`\`\`bash
@@ -28,18 +28,12 @@ ${sourceSetupCommand}
 				title: "Source Setup",
 			},
 			{
-				body: `The packages are not published yet. Before using an external package install, verify both packages exist:
-
-\`\`\`bash
-${availabilityCheckCommand}
-\`\`\`
-
-After both checks succeed, install the package, its Bits UI peer, and the shared theme:
+				body: `Start from a Svelte 5 application, then install the package, shared theme, and Bits UI peer:
 
 \`\`\`bash
 ${installationCommand}
 \`\`\``,
-				title: "External Availability",
+				title: "Installation",
 			},
 			{
 				body: `Import the coss-svelte theme once from the global stylesheet loaded by your app layout so local components receive the same token system as the docs previews.
@@ -48,6 +42,16 @@ ${installationCommand}
 ${themeImportCode}
 \`\`\``,
 				title: "Theme",
+			},
+			{
+				body: `The copy-and-own registry is a preview in 0.1.0. Download a manifest such as Button:
+
+\`\`\`bash
+${registryExampleCommand}
+\`\`\`
+
+Each manifest lists dependencies and a \`files\` array. Write every \`files[].content\` value to \`src/lib/<files[].target>\`, install the listed dependencies, import the shared theme, and maintain the copied source in your application. Registry source and schemas may evolve between minor releases.`,
+				title: "Registry Preview",
 			},
 			{
 				body: "Use the [coss-svelte skill](/docs/skills) when an agent needs implementation rules for Svelte, Bits UI, Tailwind CSS 4, and the current component status boundaries.\n\ncoss-svelte exposes a local docs map at [`/llms.txt`](/llms.txt), raw Markdown routes for component pages, and Copy Markdown actions for page-level context.",
@@ -219,11 +223,11 @@ ${component.description}
 
 ## Installation
 
-The packages are not published yet. In a coss-svelte source checkout, prepare the workspace with:
+Start from a Svelte 5 application, then install the component package, shared theme, and Bits UI peer:
 
-${codeBlock("bash", sourceSetupCommand)}
+${codeBlock("bash", installationCommand)}
 
-Before suggesting an external install, run \`${availabilityCheckCommand.split("\n").join("` and `")}\`. Only after both packages resolve should a consumer run \`${installationCommand}\`.
+Import \`@coss-svelte/theme/style-coss.css\` after Tailwind from the application's global stylesheet.
 
 ## Usage
 
@@ -255,7 +259,7 @@ ${statusNote}
 - Import Svelte exports directly from \`coss-svelte\`.
 - This is Svelte 5 code: use \`class\`, lowercase event properties, runes, snippets, and documented \`bind:*\` contracts. Do not emit JSX, React hooks, \`className\`, \`asChild\`, or Base UI imports.
 - Prefer this route's example and generated API table over React COSS snippets; COSS React particles are design references only.
-- Inspect the copy-and-own manifest at \`/r/${component.slug}.json\` for the complete local file and dependency closure.
+- The copy-and-own registry is a preview. Inspect \`/r/${component.slug}.json\` for the complete local file and dependency closure.
 ${statusAgentNote}
 `;
 }
@@ -360,7 +364,8 @@ The current catalog contains **${componentDocs.length} components**: **${counts.
 - Import only names documented by a component Markdown route or exported by \`coss-svelte\`.
 - Prefer Svelte 5 \`class\`, lowercase event properties, runes, snippets, and documented \`bind:*\` props.
 - Read a component's status, example, API table, and registry manifest before generating code.
-- The packages are not published yet. Work from the source repository or verify both npm packages before suggesting an external install.
+- Install with \`${installationCommand}\` in Svelte 5 applications built with SvelteKit and Vite.
+- Treat the machine-readable registry as a preview whose source and schemas may evolve between minor releases.
 
 ## Overview
 

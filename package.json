@@ -19,7 +19,7 @@
 		"biome:ci": "biome ci .",
 		"check": "pnpm -r --if-present check",
 		"test": "node scripts/validate-cn-classes.mjs && node --test tests/*.test.mjs && pnpm -r --if-present test",
-		"pack:dry-run": "pnpm --filter coss-svelte exec npm pack --dry-run",
+		"pack:dry-run": "node scripts/check-package-tarballs.mjs",
 		"release:check": "pnpm package:prepare && pnpm api:check && pnpm biome:ci && pnpm check && pnpm package:index:check && pnpm registry:check && pnpm theme:check && pnpm examples:check && pnpm test:type-consumer && pnpm test:consumer && pnpm test && pnpm --filter coss-svelte test:ssr && pnpm docs:release-gate && pnpm pack:dry-run",
 		"registry:build": "node scripts/build-registry.mjs",
 		"registry:check": "node scripts/build-registry.mjs --check",

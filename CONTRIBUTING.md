@@ -43,6 +43,8 @@ pnpm release:check
 - Documentation UI belongs in `apps/www`.
 - Raw upstream clones and downloaded source snapshots must stay out of git.
 
+SvelteKit and Vite are the verified consumer path for `0.1.x`. Keep public examples on Svelte 5, Tailwind CSS 4, and the declared Bits UI peer range unless a compatibility change is intentional.
+
 ## Component Work
 
 Keep each pull request scoped to a small component family. Update canonical

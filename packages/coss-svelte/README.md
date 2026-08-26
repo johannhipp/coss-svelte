@@ -2,12 +2,12 @@
 
 Svelte 5 component primitives inspired by COSS UI.
 
-This package is the publishable component surface for the `coss-svelte` monorepo. It exports Svelte components, component metadata, and small shared utilities.
+This package is the public component surface for the `coss-svelte` monorepo. It exports Svelte components, component metadata, and small shared utilities. SvelteKit and Vite are the verified application path.
 
-The package is not published to npm yet. Once published, install it with its peer dependencies:
+Start from a Svelte 5 application, then install the package, shared theme, and Bits UI peer:
 
 ```sh
-pnpm add coss-svelte bits-ui svelte @coss-svelte/theme
+pnpm add coss-svelte @coss-svelte/theme bits-ui
 ```
 
 Import the shared theme from your global stylesheet after Tailwind:
@@ -16,6 +16,8 @@ Import the shared theme from your global stylesheet after Tailwind:
 @import "tailwindcss";
 @import "@coss-svelte/theme/style-coss.css";
 ```
+
+The package exports 52 stable component roots. Drawer, Sidebar, and Toast are experimental in `0.1.0`; consult their component pages for current limitations. The generated copy-and-own registry is a preview and may evolve between minor releases.
 
 ## Usage
 
