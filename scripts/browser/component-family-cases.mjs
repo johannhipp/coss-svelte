@@ -80,6 +80,45 @@ async function waitForAnimations(locator) {
 	});
 }
 
+async function assertThumbContained(track, thumbSelector, label) {
+	await waitForAnimations(track);
+	const geometry = await track.evaluate((element, selector) => {
+		const root = element.getBoundingClientRect();
+		const thumb = element.querySelector(selector).getBoundingClientRect();
+		return { left: root.left, right: root.right, thumbLeft: thumb.left, thumbRight: thumb.right };
+	}, thumbSelector);
+	assert(
+		geometry.thumbLeft >= geometry.left - 0.5 && geometry.thumbRight <= geometry.right + 0.5,
+		`${label} thumb escapes its track: ${JSON.stringify(geometry)}`
+	);
+}
+
+async function exerciseContextSwitch(page, name) {
+	const item = page.getByTestId(`context-switch-${name}`);
+	const track = item.locator(".cn-context-menu-switch");
+	assert(
+		(await track.evaluate((element) => getComputedStyle(element, "::before").content)) === "none",
+		"Context switch renders a duplicate pseudo-element thumb."
+	);
+	for (const checked of [true, false]) {
+		assert(
+			(await item.getAttribute("aria-checked")) === String(checked),
+			`${name} context switch state mismatch.`
+		);
+		await assertThumbContained(track, ".cn-context-menu-switch-thumb", `${name} context switch`);
+		const offset = await track.evaluate((element) => {
+			const thumb = element.querySelector(".cn-context-menu-switch-thumb");
+			return new DOMMatrix(getComputedStyle(thumb).transform).m41;
+		});
+		const expectedOffset = checked ? (name === "rtl" ? -10 : 10) : 0;
+		assert(
+			offset === expectedOffset,
+			`${name} context switch thumb position does not reflect checked=${checked}.`
+		);
+		await item.click();
+	}
+}
+
 async function catalogSsr({ context, baseUrl }) {
 	await runWorkers(catalogEntries, 8, async ({ slug }) => {
 		const response = await context.request.get(`${baseUrl}/docs/components/${slug}`);
@@ -489,12 +528,21 @@ async function menuBehavior({ page, baseUrl }) {
 
 async function contextMenuBehavior({ browser, page, baseUrl }) {
 	await gotoFixture(page, baseUrl);
+	await page.getByTestId("context-switch-ltr-trigger").click({ button: "right" });
+	await page.getByTestId("context-switch-ltr").waitFor();
+	await exerciseContextSwitch(page, "ltr");
+	await page.keyboard.press("Escape");
+	await page.getByTestId("context-switch-ltr").waitFor({ state: "hidden" });
+
 	const trigger = page.getByTestId("context-menu-trigger");
 	await trigger.focus();
 	await page.keyboard.press("ContextMenu");
 	const menu = page.getByRole("menu").first();
 	await menu.waitFor();
 	await waitForAnimations(menu);
+	await exerciseContextSwitch(page, "rtl");
+	await exerciseContextSwitch(page, "nested-ltr");
+	await page.getByRole("menuitem", { name: "Alpha context action" }).focus();
 
 	await page.keyboard.press("ArrowDown");
 	const focusedText = await page.evaluate(() => document.activeElement?.textContent?.trim());
@@ -612,6 +660,18 @@ async function listboxBehavior({ browser, page, baseUrl }) {
 
 async function choiceBehavior({ page, baseUrl }) {
 	await gotoFixture(page, baseUrl);
+	for (const name of ["ltr", "rtl", "nested-ltr"]) {
+		const root = page.getByTestId(`switch-${name}`);
+		for (const checked of [true, false]) {
+			assert(
+				(await root.getAttribute("aria-checked")) === String(checked),
+				`${name} Switch state mismatch.`
+			);
+			await assertThumbContained(root, '[data-slot="switch-thumb"]', `${name} Switch`);
+			await root.click();
+		}
+	}
+
 	const checkbox = page.getByRole("checkbox", { name: "Checkbox fixture", exact: true });
 	await checkbox.focus();
 	await page.keyboard.press("Space");

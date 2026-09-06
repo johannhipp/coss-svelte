@@ -509,6 +509,8 @@ function openFixtureToast() {
 				<ContextMenuCheckboxItem bind:checked={contextChecked} closeOnSelect={false}>
 					Context flag
 				</ContextMenuCheckboxItem>
+				<ContextMenuCheckboxItem data-testid="context-switch-rtl" checked variant="switch" closeOnSelect={false}>RTL switch variant</ContextMenuCheckboxItem>
+				<ContextMenuCheckboxItem data-testid="context-switch-nested-ltr" dir="ltr" checked variant="switch" closeOnSelect={false}>Nested LTR switch variant</ContextMenuCheckboxItem>
 				<ContextMenuSub>
 					<ContextMenuSubTrigger>Context choices</ContextMenuSubTrigger>
 					<ContextMenuSubPopup>
@@ -526,6 +528,12 @@ function openFixtureToast() {
 				>
 					Context details link
 				</ContextMenuLinkItem>
+			</ContextMenuPopup>
+		</ContextMenu>
+		<ContextMenu dir="ltr">
+			<ContextMenuTrigger data-testid="context-switch-ltr-trigger" tabindex={0}>LTR context switch target</ContextMenuTrigger>
+			<ContextMenuPopup>
+				<ContextMenuCheckboxItem data-testid="context-switch-ltr" checked variant="switch" closeOnSelect={false}>LTR switch variant</ContextMenuCheckboxItem>
 			</ContextMenuPopup>
 		</ContextMenu>
 		<output id="context-menu-state" data-testid="context-menu-state">
@@ -575,6 +583,16 @@ function openFixtureToast() {
 			<Checkbox value="bravo" aria-label="Checkbox Group Bravo" />
 		</CheckboxGroup>
 		<Switch bind:checked={switchChecked} aria-label="Switch fixture" />
+		<div dir="ltr">
+			<Switch data-testid="switch-ltr" checked label="LTR switch variant" />
+		</div>
+		<div dir="rtl">
+			<Switch data-testid="switch-rtl" checked label="RTL switch variant" />
+			<div dir="ltr">
+				<Switch data-testid="switch-nested-ltr" checked label="Nested LTR switch variant" />
+			</div>
+		</div>
+
 		<RadioGroup
 			bind:value={radioValue}
 			{options}

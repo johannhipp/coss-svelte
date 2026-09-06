@@ -2061,6 +2061,15 @@
 	}
 }
 
+/* Inherit explicit direction without :dir(), which the CSS build lowers to language selectors. */
+:where([dir="rtl"]) {
+	--cn-switch-direction: -1;
+}
+
+:where([dir="ltr"]) {
+	--cn-switch-direction: 1;
+}
+
 .cn-switch {
 	position: relative;
 	display: inline-flex;
@@ -2090,7 +2099,7 @@
 }
 
 .cn-switch[data-state="checked"] .cn-switch-thumb {
-	transform: translateX(1rem);
+	transform: translateX(calc(var(--cn-switch-direction, 1) * 1rem));
 }
 
 .cn-slider {
@@ -3538,6 +3547,10 @@
 	padding: 0.125rem;
 }
 
+.cn-menu-checkbox-item[data-variant="switch"] .cn-context-menu-switch::before {
+	content: none;
+}
+
 .cn-context-menu-switch-thumb {
 	display: block;
 	width: 0.75rem;
@@ -3550,7 +3563,7 @@
 }
 
 .cn-context-menu-switch[data-state="checked"] .cn-context-menu-switch-thumb {
-	transform: translateX(0.625rem);
+	transform: translateX(calc(var(--cn-switch-direction, 1) * 0.625rem));
 }
 
 .cn-context-menu-sub-chevron {
