@@ -521,6 +521,10 @@ async function menuBehavior({ page, baseUrl }) {
 	);
 
 	await trigger.click();
+	await menu.waitFor();
+	await waitForAnimations(menu);
+	// Let the mounted focus scope finish its queued autofocus before selecting an item.
+	await menu.evaluate(() => new Promise(requestAnimationFrame));
 	await page.getByRole("menuitem", { name: "Bravo action" }).focus();
 	await page.keyboard.press("Enter");
 	await waitForFixtureState(page, "menu-state", "closed:bravo");
