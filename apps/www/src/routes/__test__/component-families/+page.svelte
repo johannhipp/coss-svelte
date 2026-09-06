@@ -509,6 +509,8 @@ function openFixtureToast() {
 				<ContextMenuCheckboxItem bind:checked={contextChecked} closeOnSelect={false}>
 					Context flag
 				</ContextMenuCheckboxItem>
+				<ContextMenuCheckboxItem data-testid="context-switch-rtl" checked variant="switch" closeOnSelect={false}>RTL switch variant</ContextMenuCheckboxItem>
+				<ContextMenuCheckboxItem data-testid="context-switch-nested-ltr" dir="ltr" checked variant="switch" closeOnSelect={false}>Nested LTR switch variant</ContextMenuCheckboxItem>
 				<ContextMenuSub>
 					<ContextMenuSubTrigger>Context choices</ContextMenuSubTrigger>
 					<ContextMenuSubPopup>
@@ -526,6 +528,12 @@ function openFixtureToast() {
 				>
 					Context details link
 				</ContextMenuLinkItem>
+			</ContextMenuPopup>
+		</ContextMenu>
+		<ContextMenu dir="ltr">
+			<ContextMenuTrigger data-testid="context-switch-ltr-trigger" tabindex={0}>LTR context switch target</ContextMenuTrigger>
+			<ContextMenuPopup>
+				<ContextMenuCheckboxItem data-testid="context-switch-ltr" checked variant="switch" closeOnSelect={false}>LTR switch variant</ContextMenuCheckboxItem>
 			</ContextMenuPopup>
 		</ContextMenu>
 		<output id="context-menu-state" data-testid="context-menu-state">
@@ -575,6 +583,16 @@ function openFixtureToast() {
 			<Checkbox value="bravo" aria-label="Checkbox Group Bravo" />
 		</CheckboxGroup>
 		<Switch bind:checked={switchChecked} aria-label="Switch fixture" />
+		<div dir="ltr">
+			<Switch data-testid="switch-ltr" checked label="LTR switch variant" />
+		</div>
+		<div dir="rtl">
+			<Switch data-testid="switch-rtl" checked label="RTL switch variant" />
+			<div dir="ltr">
+				<Switch data-testid="switch-nested-ltr" checked label="Nested LTR switch variant" />
+			</div>
+		</div>
+
 		<RadioGroup
 			bind:value={radioValue}
 			{options}
@@ -669,6 +687,7 @@ function openFixtureToast() {
 			<div class="flex flex-wrap gap-2">
 				<Button type="submit">Submit deep Number Field</Button>
 				<Button type="reset">Reset deep Number Field</Button>
+				<label>Native reset fixture<input class="cn-input" name="native-reset" value="initial" /></label>
 			</div>
 			<output data-testid="deep-number-state">
 				{deepNumberValue}:{deepNumberChangeCount}:{deepNumberCommitCount}:{deepNumberLastReason}
@@ -694,6 +713,12 @@ function openFixtureToast() {
 			step={5}
 			aria-label="Slider fixture"
 		/>
+		<div class="flex items-start gap-8" data-testid="vertical-slider-variants">
+			<Slider data-testid="vertical-slider-default" orientation="vertical" value={40} aria-label="Vertical default fixture" />
+			<Slider data-testid="vertical-slider-style" orientation="vertical" value={40} style="width: 24px; height: 200px" aria-label="Vertical styled fixture" />
+			<Slider data-testid="vertical-slider-multiple" orientation="vertical" type="multiple" value={[25, 75]} class="h-48 w-6" aria-label="Vertical multiple fixture" />
+			<Slider data-testid="vertical-slider-disabled" orientation="vertical" value={40} disabled aria-label="Disabled vertical fixture" />
+		</div>
 		<output data-testid="date-range-state">{numberValue}:{sliderValue}</output>
 	</section>
 

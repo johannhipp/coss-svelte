@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/svelte";
+import { fireEvent, render, waitFor } from "@testing-library/svelte";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import NumberField from "../src/components/NumberField.svelte";
 import NumberFieldGroup from "../src/components/NumberFieldGroup.svelte";
@@ -435,6 +435,59 @@ describe("NumberField pointer behavior", () => {
 });
 
 describe("NumberField native form behavior", () => {
+	test.each([
+		"form",
+		"ancestor",
+	])("respects reset cancellation from a later %s listener", async (listenerTarget) => {
+		vi.useFakeTimers();
+		const { getByRole, getByTestId } = render(NumberFieldFixture);
+		const form = getByTestId("number-form");
+		if (!(form instanceof HTMLFormElement)) throw new Error("Expected a form");
+		const input = getByRole("spinbutton", { name: "Quantity" });
+		const native = document.createElement("input");
+		native.name = "native";
+		native.defaultValue = "initial";
+		form.append(native);
+		native.value = "edited";
+		await fireEvent.click(getByRole("button", { name: "Increase value" }));
+		const changes = getByTestId("number-changes").textContent;
+		const commits = getByTestId("number-commits").textContent;
+		const target = listenerTarget === "form" ? form : document.body;
+		const cancel = (event: Event) => event.preventDefault();
+		target.addEventListener("reset", cancel);
+		try {
+			await fireEvent.click(getByRole("button", { name: "Reset" }));
+			await vi.runOnlyPendingTimersAsync();
+			expect(renderedValue(getByTestId)).toBe("2");
+			expect(input).toHaveValue("2");
+			expect(new FormData(form).getAll("quantity")).toEqual(["2"]);
+			expect(native.value).toBe("edited");
+			expect(new FormData(form).get("native")).toBe("edited");
+			expect(getByTestId("number-changes").textContent).toBe(changes);
+			expect(getByTestId("number-commits").textContent).toBe(commits);
+		} finally {
+			target.removeEventListener("reset", cancel);
+		}
+	});
+
+	test("does not run a queued reset after unmount", async () => {
+		vi.useFakeTimers();
+		const onValueChange = vi.fn();
+		const onValueCommit = vi.fn();
+		const form = document.createElement("form");
+		document.body.append(form);
+		const { unmount } = render(NumberField, {
+			target: form,
+			props: { defaultValue: 1, value: 2, onValueChange, onValueCommit },
+		});
+		form.reset();
+		unmount();
+		await vi.runOnlyPendingTimersAsync();
+		expect(onValueChange).not.toHaveBeenCalled();
+		expect(onValueCommit).not.toHaveBeenCalled();
+		form.remove();
+	});
+
 	test("[runtime:number-field-form] serializes one invariant value and resets to the captured initial default", async () => {
 		const { getByRole, getByTestId } = render(NumberFieldFixture, {
 			props: { initialValue: 1.5, defaultValue: 1.5, step: 0.5 },
@@ -448,7 +501,7 @@ describe("NumberField native form behavior", () => {
 
 		expect(new FormData(form).getAll("quantity")).toEqual(["10"]);
 		await fireEvent.click(getByRole("button", { name: "Reset" }));
-		expect(renderedValue(getByTestId)).toBe("1.5");
+		await waitFor(() => expect(renderedValue(getByTestId)).toBe("1.5"));
 		expect(new FormData(form).getAll("quantity")).toEqual(["1.5"]);
 		expect(getByTestId("number-changes")).toHaveTextContent("1.5:reset:10:reset");
 		expect(getByTestId("number-commits")).toHaveTextContent("1.5:reset:10:reset");
@@ -481,7 +534,7 @@ describe("NumberField native form behavior", () => {
 		await fireEvent.click(getByRole("button", { name: "Increase value" }));
 		expect(new FormData(form).getAll("quantity")).toEqual(["2"]);
 		await fireEvent.click(getByRole("button", { name: "Reset external" }));
-		expect(getByTestId("external-number-value")).toHaveTextContent("1.5");
+		await waitFor(() => expect(getByTestId("external-number-value")).toHaveTextContent("1.5"));
 	});
 
 	test("does not render a serialization control without a name", () => {

@@ -17,7 +17,7 @@ Import the shared theme from your global stylesheet after Tailwind:
 @import "@coss-svelte/theme/style-coss.css";
 ```
 
-The package exports 52 stable component roots. Drawer, Sidebar, and Toast are experimental in `0.1.0`; consult their component pages for current limitations. The generated copy-and-own registry is a preview and may evolve between minor releases.
+The package exports 52 stable component roots. Drawer, Sidebar, and Toast are experimental; consult their component pages for current limitations. The generated copy-and-own registry is a preview and may evolve between minor releases.
 
 ## Usage
 

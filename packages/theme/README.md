@@ -23,4 +23,4 @@ Import the public entry after Tailwind from the global stylesheet loaded by your
 @import "@coss-svelte/theme/style-coss.css";
 ```
 
-Use this package at the same version as `coss-svelte` for the `0.1.x` release line.
+Use this package at the same version as `coss-svelte`; both packages are released together.

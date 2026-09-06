@@ -119,11 +119,20 @@ $effect(() => {
 	const formElement = state.inputElement?.form;
 	if (!formElement) return;
 
+	const resetTimers = new Set<ReturnType<typeof setTimeout>>();
 	const handleReset = (event: Event) => {
-		state.reset(resetValue, event);
+		// Later listeners, including ancestors, can still cancel the native reset.
+		const timer = setTimeout(() => {
+			resetTimers.delete(timer);
+			if (!event.defaultPrevented) state.reset(resetValue, event);
+		}, 0);
+		resetTimers.add(timer);
 	};
 	formElement.addEventListener("reset", handleReset);
-	return () => formElement.removeEventListener("reset", handleReset);
+	return () => {
+		for (const timer of resetTimers) clearTimeout(timer);
+		formElement.removeEventListener("reset", handleReset);
+	};
 });
 </script>
 
