@@ -41,9 +41,10 @@ function add(options: ToastOptions) {
 
 	toasts.update((current) => [...current.filter((item) => item.id !== id), toast]);
 
+	const existingTimer = timers.get(id);
+	if (existingTimer) clearTimeout(existingTimer);
+	timers.delete(id);
 	if (toast.duration > 0) {
-		const existingTimer = timers.get(id);
-		if (existingTimer) clearTimeout(existingTimer);
 		timers.set(
 			id,
 			setTimeout(() => close(id), toast.duration)
