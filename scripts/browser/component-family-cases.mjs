@@ -689,6 +689,80 @@ async function disclosureBehavior({ page, baseUrl }) {
 
 async function dateRangeBehavior({ browser, page, baseUrl }) {
 	await gotoFixture(page, baseUrl);
+	for (const name of ["default", "style", "multiple", "disabled"]) {
+		const root = page.getByTestId(`vertical-slider-${name}`);
+		const geometry = await root.evaluate((element) => {
+			const rect = element.getBoundingClientRect();
+			const range = element.querySelector('[data-slot="slider-range"]').getBoundingClientRect();
+			const track = getComputedStyle(element, "::before");
+			return {
+				width: rect.width,
+				height: rect.height,
+				rangeWidth: range.width,
+				rangeHeight: range.height,
+				trackWidth: Number.parseFloat(track.width),
+				trackHeight: Number.parseFloat(track.height),
+				contained: [...element.querySelectorAll('[data-slot="slider-thumb"]')].every((thumb) => {
+					const bounds = thumb.getBoundingClientRect();
+					return (
+						bounds.left >= rect.left - 1 &&
+						bounds.right <= rect.right + 1 &&
+						bounds.top >= rect.top - 1 &&
+						bounds.bottom <= rect.bottom + 1
+					);
+				}),
+			};
+		});
+		assert(
+			geometry.height > geometry.width,
+			`${name} vertical Slider root is horizontal: ${JSON.stringify(geometry)}`
+		);
+		assert(
+			geometry.rangeWidth > 0 && geometry.rangeHeight > geometry.rangeWidth,
+			`${name} vertical Slider fill is collapsed: ${JSON.stringify(geometry)}`
+		);
+		assert(
+			geometry.trackHeight > geometry.trackWidth,
+			`${name} vertical Slider track is horizontal.`
+		);
+		assert(geometry.contained, `${name} vertical Slider thumbs escape the root.`);
+		if (name === "style")
+			assert(
+				geometry.height === 200 && geometry.width === 24,
+				"Slider style dimensions were overridden."
+			);
+		if (name === "multiple")
+			assert(
+				geometry.height === 192 && geometry.width === 24,
+				"Slider utility dimensions were overridden."
+			);
+		const thumb = root.getByRole("slider").first();
+		const value = Number(await thumb.getAttribute("aria-valuenow"));
+		if (name === "disabled") {
+			assert(
+				(await thumb.getAttribute("tabindex")) === "-1",
+				"Disabled vertical Slider is focusable."
+			);
+			await thumb.dispatchEvent("keydown", { key: "ArrowUp" });
+			assert(
+				Number(await thumb.getAttribute("aria-valuenow")) === value,
+				"Disabled vertical Slider changed."
+			);
+		} else {
+			await thumb.focus();
+			await page.keyboard.press("ArrowUp");
+			assert(
+				Number(await thumb.getAttribute("aria-valuenow")) === value + 1,
+				"Vertical Slider ArrowUp did not increase its value."
+			);
+			await page.keyboard.press("ArrowDown");
+			assert(
+				Number(await thumb.getAttribute("aria-valuenow")) === value,
+				"Vertical Slider ArrowDown did not restore its value."
+			);
+		}
+	}
+
 	await page.getByRole("button", { name: "Datum auswählen" }).click();
 	const heading = page.locator('[data-slot="date-picker-popup"] [data-slot="calendar-heading"]');
 	await heading.waitFor();

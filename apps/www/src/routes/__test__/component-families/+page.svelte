@@ -695,6 +695,12 @@ function openFixtureToast() {
 			step={5}
 			aria-label="Slider fixture"
 		/>
+		<div class="flex items-start gap-8" data-testid="vertical-slider-variants">
+			<Slider data-testid="vertical-slider-default" orientation="vertical" value={40} aria-label="Vertical default fixture" />
+			<Slider data-testid="vertical-slider-style" orientation="vertical" value={40} style="width: 24px; height: 200px" aria-label="Vertical styled fixture" />
+			<Slider data-testid="vertical-slider-multiple" orientation="vertical" type="multiple" value={[25, 75]} class="h-48 w-6" aria-label="Vertical multiple fixture" />
+			<Slider data-testid="vertical-slider-disabled" orientation="vertical" value={40} disabled aria-label="Disabled vertical fixture" />
+		</div>
 		<output data-testid="date-range-state">{numberValue}:{sliderValue}</output>
 	</section>
 

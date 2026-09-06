@@ -2120,6 +2120,26 @@
 	background: var(--primary);
 }
 
+.cn-slider:where([data-orientation="vertical"]) {
+	flex-direction: column;
+	width: 1.25rem;
+	height: 10rem;
+}
+
+.cn-slider:where([data-orientation="vertical"])::before {
+	top: 0;
+	bottom: 0;
+	left: auto;
+	right: auto;
+	width: 0.375rem;
+	height: auto;
+}
+
+.cn-slider-range:where([data-orientation="vertical"]) {
+	width: 0.375rem;
+	height: auto;
+}
+
 .cn-slider-thumb {
 	display: block;
 	width: 1rem;
