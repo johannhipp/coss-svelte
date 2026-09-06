@@ -1065,6 +1065,40 @@ async function nativeFormBehavior({ page, baseUrl }) {
 
 async function managedFeedback({ browser, page, baseUrl }) {
 	await gotoFixture(page, baseUrl);
+	const skeleton = page.locator('[data-slot="skeleton"]').first();
+	for (const dark of [false, true]) {
+		await page.evaluate((dark) => document.documentElement.classList.toggle("dark", dark), dark);
+		for (const reducedMotion of ["reduce", "no-preference"]) {
+			await page.emulateMedia({ reducedMotion });
+			const styles = await skeleton.evaluate((element) => {
+				const style = getComputedStyle(element);
+				return {
+					image: style.backgroundImage,
+					color: style.backgroundColor,
+					animation: style.animationName,
+				};
+			});
+			if (reducedMotion === "reduce") {
+				assert(
+					styles.image === "none",
+					`Skeleton freezes its shimmer under reduced motion (dark=${dark}).`
+				);
+				assert(styles.animation === "none", "Skeleton animates under reduced motion.");
+			} else {
+				assert(
+					styles.image.includes("linear-gradient") && styles.animation === "cn-pulse",
+					"Skeleton normal shimmer was removed."
+				);
+			}
+			assert(
+				styles.color !== "rgba(0, 0, 0, 0)" && styles.color !== "transparent",
+				"Skeleton lost its muted surface."
+			);
+		}
+	}
+	await page.evaluate(() => document.documentElement.classList.remove("dark"));
+	await page.emulateMedia({ reducedMotion: "no-preference" });
+
 	const trigger = page.getByTestId("toast-trigger");
 	await trigger.focus();
 	await trigger.click();

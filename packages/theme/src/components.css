@@ -2289,6 +2289,10 @@
 		animation: none;
 	}
 
+	.cn-skeleton {
+		background-image: none;
+	}
+
 	.cn-button,
 	.cn-dialog-trigger,
 	.cn-dialog-close,
