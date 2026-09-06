@@ -1,3 +1,18 @@
+# coss-svelte 0.2.0 Release Preparation
+
+Status: prepared, unpublished — 2026-09-06
+
+- Both publishable package manifests target `0.2.0`; this preparation does not publish packages or create a release tag.
+- The release retains 52 stable component roots and the three experimental roots: Drawer, Sidebar, and Toast. Public APIs and component status are unchanged.
+- The quality update covers Tabs content, Field accessibility associations, Toast replacement timers, canceled NumberField resets, vertical Sliders, RTL Switches, and reduced-motion Skeletons. See [the changelog](../CHANGELOG.md) and [quality review](quality-review-0.2.0.md).
+- Targeted regression checks accompany each behavior fix. On the integrated implementation, `pnpm install --frozen-lockfile` and `pnpm release:check` passed: 91 package tests, five SSR tests, clean consumer verification, API/registry/Biome/type checks with zero errors or warnings, all 55 HTML and Markdown routes, the complete Chromium browser suite including catalog accessibility checks, and both `0.2.0` tarballs. This final documentation amendment records those results without changing implementation.
+- The final optimized production build was recaptured and inspected across all 55 demos at desktop width 1440 in light mode and mobile width 390 in dark mode (110 screenshots). No page overflow or page errors were observed. Focused light/dark and RTL comparisons confirmed vertical Slider ranges, contained Switch thumbs, and muted reduced-motion Skeleton fills.
+- Branch previews and `main` production deployments use the existing Vercel Git integration. npm publication remains manual and follows [the release process](release.md).
+
+The historical `0.1.0` release record below is retained unchanged.
+
+---
+
 # coss-svelte 0.1.0 Release Record
 
 Status: released on 2026-08-26

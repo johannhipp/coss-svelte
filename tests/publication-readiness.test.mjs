@@ -12,7 +12,7 @@ test("publishable package exposes npm metadata and a constrained file list", asy
 	const packageJson = await readJson("packages/coss-svelte/package.json");
 
 	assert.equal(packageJson.name, "coss-svelte");
-	assert.equal(packageJson.version, "0.1.1");
+	assert.equal(packageJson.version, "0.2.0");
 	assert.equal(packageJson.private, false);
 	assert.equal(packageJson.license, "MIT");
 	assert.match(packageJson.description, /Svelte/i);
@@ -45,7 +45,7 @@ test("theme package matches the component release and public metadata", async ()
 
 	assert.equal(themePackage.name, "@coss-svelte/theme");
 	assert.equal(themePackage.version, componentPackage.version);
-	assert.equal(themePackage.version, "0.1.1");
+	assert.equal(themePackage.version, "0.2.0");
 	assert.equal(themePackage.license, "MIT");
 	assert.deepEqual(themePackage.publishConfig, { access: "public" });
 	assert.deepEqual(themePackage.files, ["src", "README.md", "LICENSE"]);

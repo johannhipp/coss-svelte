@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping prepare `coss-svelte` for public use. Keep setup, documentation, and component implementation changes cleanly separated so releases remain easy to review.
+Thanks for contributing to `coss-svelte`. Keep setup, documentation, and component implementation changes cleanly separated so releases remain easy to review.
 
 ## Development
 
@@ -43,7 +43,7 @@ pnpm release:check
 - Documentation UI belongs in `apps/www`.
 - Raw upstream clones and downloaded source snapshots must stay out of git.
 
-SvelteKit and Vite are the verified consumer path for `0.1.x`. Keep public examples on Svelte 5, Tailwind CSS 4, and the declared Bits UI peer range unless a compatibility change is intentional.
+SvelteKit and Vite are the verified consumer path. Keep public examples on Svelte 5, Tailwind CSS 4, and the declared Bits UI peer range unless a compatibility change is intentional.
 
 ## Component Work
 
