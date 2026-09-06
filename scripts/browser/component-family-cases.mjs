@@ -749,6 +749,52 @@ async function dateRangeBehavior({ browser, page, baseUrl }) {
 		"Number Field did not expose its input commit reason."
 	);
 
+	const deepForm = page.getByTestId("deep-number-form");
+	const nativeResetInput = page.getByRole("textbox", { name: "Native reset fixture" });
+	for (const listenerTarget of ["form", "ancestor"]) {
+		await nativeResetInput.fill("edited");
+		const stateBeforeReset = await deepState.textContent();
+		await deepForm.evaluate((form, target) => {
+			const listener = target === "form" ? form : form.parentElement;
+			listener.addEventListener(
+				"reset",
+				(event) => {
+					event.preventDefault();
+					form.dataset.resetTrusted = String(event.isTrusted);
+				},
+				{ once: true }
+			);
+		}, listenerTarget);
+		await resetDeepNumber.click();
+		// Wait beyond the queued reset task, even when its result should remain unchanged.
+		await page.evaluate(() => new Promise((resolve) => setTimeout(resolve, 0)));
+		assert(
+			(await deepForm.getAttribute("data-reset-trusted")) === "true",
+			"Reset regression requires a trusted browser event."
+		);
+		assert(
+			(await deepInput.inputValue()) === "2,00",
+			`A canceled ${listenerTarget} reset changed the visible Number Field value.`
+		);
+		assert(
+			(await deepState.textContent()) === stateBeforeReset,
+			`A canceled ${listenerTarget} reset changed the binding or emitted callbacks.`
+		);
+		assert(
+			(await nativeResetInput.inputValue()) === "edited",
+			"A canceled reset changed its native sibling."
+		);
+		const entries = await deepForm.evaluate((form) => [...new FormData(form).entries()]);
+		assert(
+			JSON.stringify(entries) ===
+				JSON.stringify([
+					["deep-quantity", "2"],
+					["native-reset", "edited"],
+				]),
+			"A canceled reset changed submitted form values."
+		);
+	}
+
 	await resetDeepNumber.click();
 	await page.waitForFunction(
 		() =>

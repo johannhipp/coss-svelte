@@ -669,6 +669,7 @@ function openFixtureToast() {
 			<div class="flex flex-wrap gap-2">
 				<Button type="submit">Submit deep Number Field</Button>
 				<Button type="reset">Reset deep Number Field</Button>
+				<label>Native reset fixture<input class="cn-input" name="native-reset" value="initial" /></label>
 			</div>
 			<output data-testid="deep-number-state">
 				{deepNumberValue}:{deepNumberChangeCount}:{deepNumberCommitCount}:{deepNumberLastReason}
