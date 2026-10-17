@@ -125,6 +125,48 @@ describe("NumberField editing and keyboard behavior", () => {
 		expect(getByTestId("number-commits")).toHaveTextContent("2.26:input:1:blur");
 	});
 
+	test.each([
+		{ initialValue: 1e-13, locale: "en-US", edit: "2.3456789012345", expected: "2.3456789012345" },
+		{
+			initialValue: -1.2345678901234,
+			locale: "de-DE",
+			edit: "-2,3456789012345",
+			expected: "-2.3456789012345",
+		},
+	])("preserves canonical precision across repeated commits in $locale", async (example) => {
+		const { getByRole, getByTestId } = render(NumberFieldFixture, {
+			props: {
+				initialValue: example.initialValue,
+				locale: example.locale,
+				min: -10,
+				format: { maximumFractionDigits: 15 },
+			},
+		});
+		const input = getByRole("spinbutton", { name: "Quantity" });
+		const form = getByTestId("number-form") as HTMLFormElement;
+
+		await fireEvent.focus(input);
+		await fireEvent.keyDown(input, { key: "Enter" });
+		await fireEvent.blur(input);
+		expect(renderedValue(getByTestId)).toBe(String(example.initialValue));
+		expect(new FormData(form).get("quantity")).toBe(String(example.initialValue));
+		expect(getByTestId("number-changes")).toHaveTextContent(/^$/);
+		expect(getByTestId("number-commits")).toHaveTextContent(/^$/);
+
+		await fireEvent.focus(input);
+		await fireEvent.input(input, { target: { value: example.edit } });
+		await fireEvent.keyDown(input, { key: "Enter" });
+		const changes = getByTestId("number-changes").textContent;
+		const commits = getByTestId("number-commits").textContent;
+		expect(commits).toBe(`${example.expected}:input:${example.initialValue}:keydown`);
+		await fireEvent.keyDown(input, { key: "Enter" });
+		await fireEvent.blur(input);
+		expect(renderedValue(getByTestId)).toBe(example.expected);
+		expect(new FormData(form).get("quantity")).toBe(example.expected);
+		expect(getByTestId("number-changes").textContent).toBe(changes);
+		expect(getByTestId("number-commits").textContent).toBe(commits);
+	});
+
 	test("preserves partial edits, reports validity, and lets Escape discard only the buffer", async () => {
 		const { getByRole, getByTestId } = render(NumberFieldFixture);
 		const input = getByRole("spinbutton", { name: "Quantity" });
