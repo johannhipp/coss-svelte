@@ -1,9 +1,12 @@
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
-import { type ToastData, toastManager } from "../src/toast-manager.js";
+import type { ToastData } from "../src/toast-manager.js";
 
+let toastManager: typeof import("../src/toast-manager.js").toastManager;
 let current: ToastData[] = [];
 let unsubscribe: () => void;
-beforeEach(() => {
+beforeEach(async () => {
+	vi.resetModules();
+	({ toastManager } = await import("../src/toast-manager.js"));
 	vi.useFakeTimers();
 	unsubscribe = toastManager.subscribe((toasts) => {
 		current = toasts;
@@ -14,6 +17,20 @@ afterEach(() => {
 	unsubscribe();
 	vi.clearAllTimers();
 	vi.useRealTimers();
+});
+
+test("generated IDs preserve existing custom-ID toasts and their lifetimes", () => {
+	toastManager.add({ id: "toast-1", title: "Persistent", duration: 0 });
+	toastManager.add({ id: "toast-2", title: "Timed", duration: 100 });
+	const generatedId = toastManager.add({ title: "Automatic", duration: 200 });
+
+	expect(generatedId).not.toBe("toast-1");
+	expect(generatedId).not.toBe("toast-2");
+	expect(current.map(({ title }) => title)).toEqual(["Persistent", "Timed", "Automatic"]);
+	vi.advanceTimersByTime(100);
+	expect(current.map(({ title }) => title)).toEqual(["Persistent", "Automatic"]);
+	vi.advanceTimersByTime(100);
+	expect(current.map(({ title }) => title)).toEqual(["Persistent"]);
 });
 
 test("replacing a timed toast with a persistent toast cancels its timer", () => {
