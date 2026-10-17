@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+tools="$HOME/.local/share/coss-svelte-orb"
+export PATH="$tools/node/bin:$tools/node_modules/.bin:$PATH"
+
+# There are no backing services or user credentials to reconnect. Never install on wake.
+if [[ ! -x "$tools/node/bin/node" || ! -f node_modules/.modules.yaml || ! -f packages/coss-svelte/dist/index.js ]]; then
+	echo 'Orb prerequisites are missing. Run .agents/setup to repair this orb.' >&2
+	exit 1
+fi
+node_version="$(node --version)"
+# Read the installed version without invoking pnpm's automatic version download.
+pnpm_version="$(node -p 'require(process.argv[1]).version' "$tools/node_modules/pnpm/package.json")"
+expected_pnpm="$(node -p 'require("./package.json").packageManager')"
+if [[ "pnpm@$pnpm_version" != "$expected_pnpm" ]]; then
+	echo 'The pnpm pin changed. Run .agents/setup to update the cached toolchain.' >&2
+	exit 1
+fi
+printf 'Orb ready: Node %s, pnpm %s\n' "$node_version" "$pnpm_version"
