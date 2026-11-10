@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning once the first public npm package is released.
 
+## Unreleased
+
+- Added a Cloudflare Workers deployment for the documentation and registry.
+
 ## 0.1.1 - 2026-08-26
 
 - Pointed both npm package homepages to the public coss-svelte documentation site.

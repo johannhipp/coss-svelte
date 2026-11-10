@@ -22,7 +22,7 @@
 	"bugs": {
 		"url": "https://github.com/johannhipp/coss-svelte/issues"
 	},
-	"homepage": "https://coss-svelte.vercel.app",
+	"homepage": "https://coss-svelte.narwhal.workers.dev",
 	"keywords": [
 		"svelte",
 		"tailwindcss",

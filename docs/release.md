@@ -10,7 +10,7 @@ Releases are manual and publish two synchronized packages from one verified comm
 4. Run `pnpm release:check`.
 5. Open and merge a release pull request while the repository is still private.
 
-The hosted docs use the Vercel project connected to this repository. Vercel runs `pnpm vercel:build` for pushes to `main`; do not create a separate manual deployment.
+The hosted docs run on Cloudflare Workers. Deploy the verified commit using the Cloudflare commands in the root README.
 
 ## Verify the exact artifacts
 

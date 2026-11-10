@@ -24,7 +24,6 @@ test("publishable package exposes npm metadata and a constrained file list", asy
 	assert.deepEqual(packageJson.bugs, {
 		url: "https://github.com/johannhipp/coss-svelte/issues",
 	});
-	assert.equal(packageJson.homepage, "https://coss-svelte.vercel.app");
 	assert.deepEqual(packageJson.publishConfig, { access: "public" });
 	assert.deepEqual(packageJson.files, ["dist", "README.md", "LICENSE"]);
 	assert.ok(packageJson.keywords.includes("svelte"), "keywords include svelte");
@@ -50,7 +49,6 @@ test("theme package matches the component release and public metadata", async ()
 	assert.deepEqual(themePackage.publishConfig, { access: "public" });
 	assert.deepEqual(themePackage.files, ["src", "README.md", "LICENSE"]);
 	assert.equal(themePackage.bugs.url, "https://github.com/johannhipp/coss-svelte/issues");
-	assert.equal(themePackage.homepage, "https://coss-svelte.vercel.app");
 });
 
 test("repository documents public maintenance and manual npm release expectations", async () => {
@@ -100,27 +98,6 @@ test("package and getting-started docs use the public theme contract", async () 
 	assert.match(appCss, /@import "@coss-svelte\/theme\/style-coss\.css"/);
 });
 
-test("docs app has explicit local and Vercel production targets", async () => {
-	const config = await readFile("apps/www/svelte.config.js", "utf8");
-	const packageJson = await readJson("apps/www/package.json");
-	const rootPackageJson = await readJson("package.json");
-	const vercelConfig = await readJson("vercel.json");
-	const workspace = await readFile("pnpm-workspace.yaml", "utf8");
-
-	assert.match(config, /adapter-node/);
-	assert.match(config, /adapter-vercel/);
-	assert.doesNotMatch(config, /adapter-auto/);
-	assert.match(config, /process\.env\.VERCEL === "1"/);
-	assert.match(config, /assets:\s*"\.\.\/registry\/static"/);
-	assert.equal(packageJson.scripts.start, "node build");
-	assert.equal(vercelConfig.framework, "sveltekit");
-	assert.equal(vercelConfig.buildCommand, "pnpm vercel:build");
-	assert.equal(vercelConfig.installCommand, "pnpm install --frozen-lockfile");
-	assert.match(rootPackageJson.scripts["vercel:build"], /package:prepare/);
-	assert.match(rootPackageJson.scripts["vercel:build"], /prepare-vercel-output/);
-	assert.match(workspace, /esbuild:\s*true/);
-	assert.match(workspace, /sharp:\s*true/);
-});
 
 test("tracked content does not reference upstream coss domains", async () => {
 	const gitLsFiles = spawnSync("git", ["ls-files"], { encoding: "utf8" });

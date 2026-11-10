@@ -7,7 +7,7 @@ const themeImportCode = `@import "tailwindcss";
 @import "@coss-svelte/theme/style-coss.css";`;
 const installationCode = "pnpm add coss-svelte @coss-svelte/theme bits-ui";
 const registryExampleCode =
-	"curl -fsSL https://coss-svelte.vercel.app/r/button.json -o button.json";
+	"curl -fsSL https://coss-svelte.narwhal.workers.dev/r/button.json -o button.json";
 const markdown = getContentMarkdown("getting-started");
 
 const toc = [

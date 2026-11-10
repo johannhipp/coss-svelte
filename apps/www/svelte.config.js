@@ -1,8 +1,8 @@
 import adapter from "@sveltejs/adapter-node";
-import vercelAdapter from "@sveltejs/adapter-vercel";
+import cloudflareAdapter from "@sveltejs/adapter-cloudflare";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
-const deploymentAdapter = process.env.VERCEL === "1" ? vercelAdapter() : adapter();
+const deploymentAdapter = process.env.CF_DEPLOY === "1" ? cloudflareAdapter() : adapter();
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
