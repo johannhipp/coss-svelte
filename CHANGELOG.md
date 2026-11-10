@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning. The component and theme packages use synchronized versions.
 
-## 0.2.0 - Unreleased
+## 0.2.0 - 2026-11-10
 
 - Render the first convenience Tabs panel's supplied content, including after switching away and back.
 - Keep Field description and error associations current as messages appear, disappear, or receive custom IDs; deduplicate caller-provided IDs on Input and Textarea while preserving SSR associations.

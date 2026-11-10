@@ -1,8 +1,10 @@
-# coss-svelte 0.2.0 Release Preparation
+# coss-svelte 0.2.0 Release Record
 
-Status: prepared, unpublished — 2026-09-06
+Status: released — 2026-11-10
 
-- Both publishable package manifests target `0.2.0`; this preparation does not publish packages or create a release tag.
+- Published `coss-svelte@0.2.0` and `@coss-svelte/theme@0.2.0` from verified commit `1cf0a5f6be515dfb45bb8bb81e1d074d8a26f6df`, tagged `v0.2.0`.
+- The frozen install, `pnpm release:check`, `pnpm pack:dry-run`, and clean consumer checks against both the exact tarballs and npm registry packages passed locally; the release gate also passed in CI. npm's published integrity values match those tarballs.
+- SHA-256: component `e3b529a95bcd0e28ba4be5fece35f8ca7dbc387645a54cc67f6c7aa0c5d02bda`; theme `319420a2d7d850c5c79fb9165f91115ff1700d5c39c7f8905d1ce3bc3576f7c0`.
 - At preparation time, the release retained 52 stable component roots and three experimental roots: Drawer, Sidebar, and Toast. DotMatrixText was added later as a fourth experimental root.
 - The quality update covers Tabs content, Field accessibility associations, Toast replacement timers, canceled NumberField resets, vertical Sliders, RTL Switches, and reduced-motion Skeletons. See [the changelog](../CHANGELOG.md) and [quality review](quality-review-0.2.0.md).
 - Targeted regression checks accompany each behavior fix. On the integrated implementation, `pnpm install --frozen-lockfile` and `pnpm release:check` passed: 91 package tests, five SSR tests, clean consumer verification, API/registry/Biome/type checks with zero errors or warnings, all 55 HTML and Markdown routes, the complete Chromium browser suite including catalog accessibility checks, and both `0.2.0` tarballs. This final documentation amendment records those results without changing implementation.
