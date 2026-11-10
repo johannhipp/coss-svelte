@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { singleNpmPack } from "./lib/npm-pack.mjs";
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -43,9 +44,7 @@ function packDryRun(directory) {
 	if (result.error) throw result.error;
 	assert.equal(result.status, 0, result.stderr || result.stdout);
 
-	const output = JSON.parse(result.stdout);
-	assert.equal(output.length, 1, `${directory} should produce one tarball`);
-	return output[0];
+	return singleNpmPack(JSON.parse(result.stdout));
 }
 
 for (const spec of packageSpecs) {
