@@ -43,7 +43,8 @@ function packDryRun(directory) {
 	if (result.error) throw result.error;
 	assert.equal(result.status, 0, result.stderr || result.stdout);
 
-	const output = JSON.parse(result.stdout);
+	const parsed = JSON.parse(result.stdout);
+	const output = Array.isArray(parsed) ? parsed : Object.values(parsed);
 	assert.equal(output.length, 1, `${directory} should produce one tarball`);
 	return output[0];
 }

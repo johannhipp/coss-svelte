@@ -55,7 +55,9 @@ function pack(directory, destination) {
 			cwd: directory,
 		})
 	);
-	return join(destination, result[0].filename);
+	const files = Array.isArray(result) ? result : Object.values(result);
+	if (files.length !== 1) throw new Error(`Expected one tarball for ${directory}`);
+	return join(destination, files[0].filename);
 }
 
 function fixtureDependencies({
