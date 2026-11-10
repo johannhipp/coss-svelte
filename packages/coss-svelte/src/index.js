@@ -98,6 +98,7 @@ export { default as DialogPanel } from "./components/DialogPanel.svelte";
 export { default as DialogPopup } from "./components/DialogPopup.svelte";
 export { default as DialogTitle } from "./components/DialogTitle.svelte";
 export { default as DialogTrigger } from "./components/DialogTrigger.svelte";
+export { default as DotMatrixText } from "./components/DotMatrixText.svelte";
 export { default as Drawer } from "./components/Drawer.svelte";
 export { default as DrawerClose } from "./components/DrawerClose.svelte";
 export { default as DrawerContent } from "./components/DrawerContent.svelte";

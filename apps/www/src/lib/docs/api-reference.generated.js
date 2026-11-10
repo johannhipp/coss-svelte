@@ -2108,6 +2108,83 @@ export const componentApiReference = {
 			signatures: [],
 		},
 	],
+	DotMatrixText: [
+		{
+			name: "DotMatrixText",
+			description: "Text rendered as a configurable animated dot matrix.",
+			inherited: {
+				label: "Svelte <div> attributes",
+				url: "https://svelte.dev/docs/svelte/basic-markup#Attributes",
+			},
+			props: [
+				{
+					name: "text",
+					type: "string",
+					description: "Text to render; unsupported characters appear as a box.",
+					bindable: false,
+				},
+				{
+					name: "dot",
+					type: "string | number",
+					default: "8",
+					description: "Dot diameter as pixels or a CSS length.",
+					bindable: false,
+				},
+				{
+					name: "gap",
+					type: "string | number",
+					default: "2",
+					description: "Gap between dots as pixels or a CSS length.",
+					bindable: false,
+				},
+				{
+					name: "color",
+					type: "string",
+					default: '"currentColor"',
+					description: "CSS color of each dot.",
+					bindable: false,
+				},
+				{
+					name: "motion",
+					type: "DotMotion",
+					default: '"reveal"',
+					description: "Reveal, wave, scan, or still motion.",
+					bindable: false,
+				},
+				{
+					name: "duration",
+					type: "number",
+					default: "2.4",
+					description: "Animation duration in seconds.",
+					bindable: false,
+				},
+				{
+					name: "stagger",
+					type: "number",
+					default: "0.045",
+					description: "Delay between neighbouring dots in seconds.",
+					bindable: false,
+				},
+				{
+					name: "playing",
+					type: "boolean",
+					default: "true",
+					description: "Whether animation is enabled.",
+					bindable: false,
+				},
+				{
+					name: "label",
+					type: "string",
+					default: "text",
+					description: "Accessible label; pass an empty string for decoration.",
+					bindable: false,
+				},
+			],
+			facts: [],
+			bindings: [],
+			signatures: [],
+		},
+	],
 	Dialog: [
 		{
 			name: "Dialog",
