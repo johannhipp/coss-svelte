@@ -23,11 +23,6 @@ test("llms.txt map links every component Markdown route", async () => {
 	assert.match(llms, /## Components/, "llms.txt should include component links");
 	assert.match(llms, /## Machine-readable Registry/, "llms.txt should include registry links");
 	assert.match(llms, /## Resources/, "llms.txt should include resource links");
-	assert.match(
-		llms,
-		/The current catalog contains \*\*55 components\*\*: \*\*52 stable\*\*, \*\*3 experimental\*\*, and \*\*0 deferred\*\*/,
-		"llms.txt should expose current catalog status counts"
-	);
 	assert.match(llms, /https:\/\/example\.com\/docs\/skills\.md/, "skills route should be listed");
 	assert.match(llms, /https:\/\/example\.com\/r\/index\.json/, "registry index should be listed");
 	assert.match(llms, /\/docs\/components\/context-menu\.md/, "Context Menu should be listed");

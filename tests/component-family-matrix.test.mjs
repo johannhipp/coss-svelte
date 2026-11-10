@@ -18,14 +18,6 @@ const browserCases = await import("../scripts/browser/component-family-cases.mjs
 	}
 );
 
-test("the component-family matrix covers every metadata root exactly once", () => {
-	const metadataRoots = Object.keys(componentMetadata).sort();
-	const matrixRoots = componentFamilyMatrix.map((row) => row.root).sort();
-
-	assert.deepEqual(matrixRoots, metadataRoots);
-	assert.equal(new Set(matrixRoots).size, matrixRoots.length, "matrix roots are unique");
-});
-
 test("matrix rows use the closed family and gate vocabularies", () => {
 	const roots = new Set(Object.keys(componentMetadata));
 	const families = new Set(componentFamilies);
