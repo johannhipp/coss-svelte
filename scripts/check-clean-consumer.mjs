@@ -3,6 +3,7 @@ import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promise
 import { tmpdir } from "node:os";
 import { dirname, isAbsolute, join, sep as pathSeparator, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { singleNpmPack } from "./lib/npm-pack.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const packageRoot = join(root, "packages/coss-svelte");
@@ -55,7 +56,7 @@ function pack(directory, destination) {
 			cwd: directory,
 		})
 	);
-	return join(destination, result[0].filename);
+	return join(destination, singleNpmPack(result).filename);
 }
 
 function fixtureDependencies({

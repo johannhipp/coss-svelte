@@ -14,13 +14,14 @@ This project follows semantic versioning. The component and theme packages use s
 - Keep checked Switch thumbs inside their tracks in RTL layouts and remove the duplicate pseudo thumb from ContextMenu switches. Verify RTL styling in the optimized production build.
 - Replace the frozen bright Skeleton shimmer gradient with a static muted fill when reduced motion is requested, while retaining the normal shimmer otherwise.
 - Extend runtime, SSR, hydration, and Chromium browser regressions; record the component visual review and existing branch-preview/main-production deployment checks.
-- Prepare synchronized `coss-svelte@0.2.0` and `@coss-svelte/theme@0.2.0` metadata and update the manual release instructions for the public repository. No packages have been published as part of this preparation.
+- Add the experimental, accessible DotMatrixText component with configurable motion.
+- Deploy documentation and the component registry to Cloudflare Workers.
+- Support npm's current pack output in release verification scripts.
 
-## Unreleased
+## 0.1.2 - 2026-11-10
 
-- Added a Cloudflare Workers deployment for the documentation and registry.
+- Pointed npm package homepages to the Cloudflare-hosted documentation.
 
-- Added an experimental, accessible dot-matrix text component with configurable motion.
 ## 0.1.1 - 2026-08-26
 
 - Pointed both npm package homepages to the public coss-svelte documentation site.
