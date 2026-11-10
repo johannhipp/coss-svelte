@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 
 export type ToastOptions = {
 	id?: string;
@@ -30,7 +30,13 @@ function close(id: string) {
 }
 
 function add(options: ToastOptions) {
-	const id = options.id ?? `toast-${++toastId}`;
+	let id = options.id;
+	if (id === undefined) {
+		const current = get(toasts);
+		do {
+			id = `toast-${++toastId}`;
+		} while (current.some((toast) => toast.id === id));
+	}
 	const toast: ToastData = {
 		id,
 		title: options.title,
@@ -41,9 +47,10 @@ function add(options: ToastOptions) {
 
 	toasts.update((current) => [...current.filter((item) => item.id !== id), toast]);
 
+	const existingTimer = timers.get(id);
+	if (existingTimer) clearTimeout(existingTimer);
+	timers.delete(id);
 	if (toast.duration > 0) {
-		const existingTimer = timers.get(id);
-		if (existingTimer) clearTimeout(existingTimer);
 		timers.set(
 			id,
 			setTimeout(() => close(id), toast.duration)

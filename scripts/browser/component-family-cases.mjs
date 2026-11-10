@@ -80,6 +80,45 @@ async function waitForAnimations(locator) {
 	});
 }
 
+async function assertThumbContained(track, thumbSelector, label) {
+	await waitForAnimations(track);
+	const geometry = await track.evaluate((element, selector) => {
+		const root = element.getBoundingClientRect();
+		const thumb = element.querySelector(selector).getBoundingClientRect();
+		return { left: root.left, right: root.right, thumbLeft: thumb.left, thumbRight: thumb.right };
+	}, thumbSelector);
+	assert(
+		geometry.thumbLeft >= geometry.left - 0.5 && geometry.thumbRight <= geometry.right + 0.5,
+		`${label} thumb escapes its track: ${JSON.stringify(geometry)}`
+	);
+}
+
+async function exerciseContextSwitch(page, name) {
+	const item = page.getByTestId(`context-switch-${name}`);
+	const track = item.locator(".cn-context-menu-switch");
+	assert(
+		(await track.evaluate((element) => getComputedStyle(element, "::before").content)) === "none",
+		"Context switch renders a duplicate pseudo-element thumb."
+	);
+	for (const checked of [true, false]) {
+		assert(
+			(await item.getAttribute("aria-checked")) === String(checked),
+			`${name} context switch state mismatch.`
+		);
+		await assertThumbContained(track, ".cn-context-menu-switch-thumb", `${name} context switch`);
+		const offset = await track.evaluate((element) => {
+			const thumb = element.querySelector(".cn-context-menu-switch-thumb");
+			return new DOMMatrix(getComputedStyle(thumb).transform).m41;
+		});
+		const expectedOffset = checked ? (name === "rtl" ? -10 : 10) : 0;
+		assert(
+			offset === expectedOffset,
+			`${name} context switch thumb position does not reflect checked=${checked}.`
+		);
+		await item.click();
+	}
+}
+
 async function catalogSsr({ context, baseUrl }) {
 	await runWorkers(catalogEntries, 8, async ({ slug }) => {
 		const response = await context.request.get(`${baseUrl}/docs/components/${slug}`);
@@ -482,6 +521,10 @@ async function menuBehavior({ page, baseUrl }) {
 	);
 
 	await trigger.click();
+	await menu.waitFor();
+	await waitForAnimations(menu);
+	// Let the mounted focus scope finish its queued autofocus before selecting an item.
+	await menu.evaluate(() => new Promise(requestAnimationFrame));
 	await page.getByRole("menuitem", { name: "Bravo action" }).focus();
 	await page.keyboard.press("Enter");
 	await waitForFixtureState(page, "menu-state", "closed:bravo");
@@ -489,12 +532,21 @@ async function menuBehavior({ page, baseUrl }) {
 
 async function contextMenuBehavior({ browser, page, baseUrl }) {
 	await gotoFixture(page, baseUrl);
+	await page.getByTestId("context-switch-ltr-trigger").click({ button: "right" });
+	await page.getByTestId("context-switch-ltr").waitFor();
+	await exerciseContextSwitch(page, "ltr");
+	await page.keyboard.press("Escape");
+	await page.getByTestId("context-switch-ltr").waitFor({ state: "hidden" });
+
 	const trigger = page.getByTestId("context-menu-trigger");
 	await trigger.focus();
 	await page.keyboard.press("ContextMenu");
 	const menu = page.getByRole("menu").first();
 	await menu.waitFor();
 	await waitForAnimations(menu);
+	await exerciseContextSwitch(page, "rtl");
+	await exerciseContextSwitch(page, "nested-ltr");
+	await page.getByRole("menuitem", { name: "Alpha context action" }).focus();
 
 	await page.keyboard.press("ArrowDown");
 	const focusedText = await page.evaluate(() => document.activeElement?.textContent?.trim());
@@ -612,6 +664,18 @@ async function listboxBehavior({ browser, page, baseUrl }) {
 
 async function choiceBehavior({ page, baseUrl }) {
 	await gotoFixture(page, baseUrl);
+	for (const name of ["ltr", "rtl", "nested-ltr"]) {
+		const root = page.getByTestId(`switch-${name}`);
+		for (const checked of [true, false]) {
+			assert(
+				(await root.getAttribute("aria-checked")) === String(checked),
+				`${name} Switch state mismatch.`
+			);
+			await assertThumbContained(root, '[data-slot="switch-thumb"]', `${name} Switch`);
+			await root.click();
+		}
+	}
+
 	const checkbox = page.getByRole("checkbox", { name: "Checkbox fixture", exact: true });
 	await checkbox.focus();
 	await page.keyboard.press("Space");
@@ -689,6 +753,80 @@ async function disclosureBehavior({ page, baseUrl }) {
 
 async function dateRangeBehavior({ browser, page, baseUrl }) {
 	await gotoFixture(page, baseUrl);
+	for (const name of ["default", "style", "multiple", "disabled"]) {
+		const root = page.getByTestId(`vertical-slider-${name}`);
+		const geometry = await root.evaluate((element) => {
+			const rect = element.getBoundingClientRect();
+			const range = element.querySelector('[data-slot="slider-range"]').getBoundingClientRect();
+			const track = getComputedStyle(element, "::before");
+			return {
+				width: rect.width,
+				height: rect.height,
+				rangeWidth: range.width,
+				rangeHeight: range.height,
+				trackWidth: Number.parseFloat(track.width),
+				trackHeight: Number.parseFloat(track.height),
+				contained: [...element.querySelectorAll('[data-slot="slider-thumb"]')].every((thumb) => {
+					const bounds = thumb.getBoundingClientRect();
+					return (
+						bounds.left >= rect.left - 1 &&
+						bounds.right <= rect.right + 1 &&
+						bounds.top >= rect.top - 1 &&
+						bounds.bottom <= rect.bottom + 1
+					);
+				}),
+			};
+		});
+		assert(
+			geometry.height > geometry.width,
+			`${name} vertical Slider root is horizontal: ${JSON.stringify(geometry)}`
+		);
+		assert(
+			geometry.rangeWidth > 0 && geometry.rangeHeight > geometry.rangeWidth,
+			`${name} vertical Slider fill is collapsed: ${JSON.stringify(geometry)}`
+		);
+		assert(
+			geometry.trackHeight > geometry.trackWidth,
+			`${name} vertical Slider track is horizontal.`
+		);
+		assert(geometry.contained, `${name} vertical Slider thumbs escape the root.`);
+		if (name === "style")
+			assert(
+				geometry.height === 200 && geometry.width === 24,
+				"Slider style dimensions were overridden."
+			);
+		if (name === "multiple")
+			assert(
+				geometry.height === 192 && geometry.width === 24,
+				"Slider utility dimensions were overridden."
+			);
+		const thumb = root.getByRole("slider").first();
+		const value = Number(await thumb.getAttribute("aria-valuenow"));
+		if (name === "disabled") {
+			assert(
+				(await thumb.getAttribute("tabindex")) === "-1",
+				"Disabled vertical Slider is focusable."
+			);
+			await thumb.dispatchEvent("keydown", { key: "ArrowUp" });
+			assert(
+				Number(await thumb.getAttribute("aria-valuenow")) === value,
+				"Disabled vertical Slider changed."
+			);
+		} else {
+			await thumb.focus();
+			await page.keyboard.press("ArrowUp");
+			assert(
+				Number(await thumb.getAttribute("aria-valuenow")) === value + 1,
+				"Vertical Slider ArrowUp did not increase its value."
+			);
+			await page.keyboard.press("ArrowDown");
+			assert(
+				Number(await thumb.getAttribute("aria-valuenow")) === value,
+				"Vertical Slider ArrowDown did not restore its value."
+			);
+		}
+	}
+
 	await page.getByRole("button", { name: "Datum auswählen" }).click();
 	const heading = page.locator('[data-slot="date-picker-popup"] [data-slot="calendar-heading"]');
 	await heading.waitFor();
@@ -748,6 +886,52 @@ async function dateRangeBehavior({ browser, page, baseUrl }) {
 		(await deepState.textContent())?.trim().endsWith(":input"),
 		"Number Field did not expose its input commit reason."
 	);
+
+	const deepForm = page.getByTestId("deep-number-form");
+	const nativeResetInput = page.getByRole("textbox", { name: "Native reset fixture" });
+	for (const listenerTarget of ["form", "ancestor"]) {
+		await nativeResetInput.fill("edited");
+		const stateBeforeReset = await deepState.textContent();
+		await deepForm.evaluate((form, target) => {
+			const listener = target === "form" ? form : form.parentElement;
+			listener.addEventListener(
+				"reset",
+				(event) => {
+					event.preventDefault();
+					form.dataset.resetTrusted = String(event.isTrusted);
+				},
+				{ once: true }
+			);
+		}, listenerTarget);
+		await resetDeepNumber.click();
+		// Wait beyond the queued reset task, even when its result should remain unchanged.
+		await page.evaluate(() => new Promise((resolve) => setTimeout(resolve, 0)));
+		assert(
+			(await deepForm.getAttribute("data-reset-trusted")) === "true",
+			"Reset regression requires a trusted browser event."
+		);
+		assert(
+			(await deepInput.inputValue()) === "2,00",
+			`A canceled ${listenerTarget} reset changed the visible Number Field value.`
+		);
+		assert(
+			(await deepState.textContent()) === stateBeforeReset,
+			`A canceled ${listenerTarget} reset changed the binding or emitted callbacks.`
+		);
+		assert(
+			(await nativeResetInput.inputValue()) === "edited",
+			"A canceled reset changed its native sibling."
+		);
+		const entries = await deepForm.evaluate((form) => [...new FormData(form).entries()]);
+		assert(
+			JSON.stringify(entries) ===
+				JSON.stringify([
+					["deep-quantity", "2"],
+					["native-reset", "edited"],
+				]),
+			"A canceled reset changed submitted form values."
+		);
+	}
 
 	await resetDeepNumber.click();
 	await page.waitForFunction(
@@ -885,6 +1069,40 @@ async function nativeFormBehavior({ page, baseUrl }) {
 
 async function managedFeedback({ browser, page, baseUrl }) {
 	await gotoFixture(page, baseUrl);
+	const skeleton = page.locator('[data-slot="skeleton"]').first();
+	for (const dark of [false, true]) {
+		await page.evaluate((dark) => document.documentElement.classList.toggle("dark", dark), dark);
+		for (const reducedMotion of ["reduce", "no-preference"]) {
+			await page.emulateMedia({ reducedMotion });
+			const styles = await skeleton.evaluate((element) => {
+				const style = getComputedStyle(element);
+				return {
+					image: style.backgroundImage,
+					color: style.backgroundColor,
+					animation: style.animationName,
+				};
+			});
+			if (reducedMotion === "reduce") {
+				assert(
+					styles.image === "none",
+					`Skeleton freezes its shimmer under reduced motion (dark=${dark}).`
+				);
+				assert(styles.animation === "none", "Skeleton animates under reduced motion.");
+			} else {
+				assert(
+					styles.image.includes("linear-gradient") && styles.animation === "cn-pulse",
+					"Skeleton normal shimmer was removed."
+				);
+			}
+			assert(
+				styles.color !== "rgba(0, 0, 0, 0)" && styles.color !== "transparent",
+				"Skeleton lost its muted surface."
+			);
+		}
+	}
+	await page.evaluate(() => document.documentElement.classList.remove("dark"));
+	await page.emulateMedia({ reducedMotion: "no-preference" });
+
 	const trigger = page.getByTestId("toast-trigger");
 	await trigger.focus();
 	await trigger.click();

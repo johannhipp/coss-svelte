@@ -1,5 +1,5 @@
 {
-	"$schema": "https://coss-svelte.vercel.app/schema/registry-index.json",
+	"$schema": "https://coss-svelte.narwhal.workers.dev/schema/registry-index.json",
 	"name": "coss-svelte",
 	"items": [
 		{

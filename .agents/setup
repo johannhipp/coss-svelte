@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+tools="$HOME/.local/share/coss-svelte-orb"
+node_version=22.23.3
+
+run() {
+	local label="$1" started=$SECONDS
+	shift
+	printf '\n==> %s\n' "$label"
+	"$@"
+	printf '==> %s finished in %ss\n' "$label" "$((SECONDS - started))"
+}
+
+# Match CI's Node 22 line rather than the orb template's moving Node version.
+case "$(uname -m)" in
+	x86_64)
+		arch=x64
+		checksum=df450af89261115ef9f9e3830c3eeb2cc9213b63c720b1af623cb5dcbe2e02de
+		;;
+	aarch64)
+		arch=arm64
+		checksum=a44aeb94849a299b22df10b9e622ec2f605c2183501bc40590705131de7c740f
+		;;
+	*) echo "Unsupported orb architecture: $(uname -m)" >&2; exit 1 ;;
+esac
+node_directory="node-v${node_version}-linux-${arch}"
+if [[ ! -x "$tools/$node_directory/bin/node" ]]; then
+	temporary="$(mktemp -d)"
+	trap 'rm -rf "$temporary"' EXIT
+	run "Download Node $node_version" curl --fail --silent --show-error --location --retry 3 \
+		"https://nodejs.org/dist/v${node_version}/${node_directory}.tar.xz" -o "$temporary/node.tar.xz"
+	printf '%s  %s\n' "$checksum" "$temporary/node.tar.xz" | sha256sum --check --status
+	mkdir -p "$tools"
+	run "Extract Node" tar -xJf "$temporary/node.tar.xz" -C "$tools"
+fi
+ln -sfn "$tools/$node_directory" "$tools/node"
+export PATH="$tools/node/bin:$tools/node_modules/.bin:$PATH"
+
+pnpm_version="$(node -p 'require("./package.json").packageManager.replace(/^pnpm@/, "")')"
+if [[ ! -f "$tools/node_modules/pnpm/package.json" ]] || \
+	[[ "$(node -p 'require(process.argv[1]).version' "$tools/node_modules/pnpm/package.json")" != "$pnpm_version" ]]; then
+	run "Install pnpm $pnpm_version" npm install --prefix "$tools" --no-audit --no-fund --ignore-scripts "pnpm@$pnpm_version"
+fi
+
+# Amp and supervised services start in new login shells, not this setup shell.
+marker='# coss-svelte orb toolchain'
+if ! grep -Fqx "$marker" "$HOME/.bash_profile" 2>/dev/null; then
+	cat >> "$HOME/.bash_profile" <<EOF
+
+$marker
+if [[ "\$PWD/" == "$repo_root/"* && ":\$PATH:" != *":$tools/node/bin:"* ]]; then
+	export PATH="$tools/node/bin:$tools/node_modules/.bin:\$PATH"
+fi
+EOF
+fi
+
+run "Install locked workspace dependencies" pnpm install --frozen-lockfile
+
+# Debian 12 prerequisites from Playwright's install-deps chromium inventory.
+# Query dpkg first: warm setup must not refresh apt indexes or reinstall packages.
+browser_packages=(
+	libasound2 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libcairo2 libcups2
+	libdbus-1-3 libdrm2 libgbm1 libglib2.0-0 libnspr4 libnss3 libpango-1.0-0
+	libx11-6 libxcb1 libxcomposite1 libxdamage1 libxext6 libxfixes3 libxkbcommon0
+	libxrandr2 xvfb fonts-noto-color-emoji fonts-unifont libfontconfig1 libfreetype6
+	xfonts-scalable fonts-liberation fonts-ipafont-gothic fonts-wqy-zenhei
+	fonts-tlwg-loma-otf fonts-freefont-ttf
+)
+missing=()
+for package in "${browser_packages[@]}"; do
+	if [[ "$(dpkg-query -W -f='${Status}' "$package" 2>/dev/null || true)" != 'install ok installed' ]]; then
+		missing+=("$package")
+	fi
+done
+if ((${#missing[@]})); then
+	run "Refresh apt indexes" sudo apt-get update
+	run "Install Chromium system dependencies" sudo env DEBIAN_FRONTEND=noninteractive \
+		apt-get install -y --no-install-recommends "${missing[@]}"
+fi
+run "Cache Playwright Chromium" pnpm exec playwright install chromium
+run "Prepare package declarations and runtime" pnpm package:prepare
+run "Generate SvelteKit configuration" pnpm --filter @coss-svelte/www exec svelte-kit sync
+
+printf '\nReady: Node %s, pnpm %s. Start previews with amp orb services ensure.\n' "$(node --version)" "$(pnpm --version)"

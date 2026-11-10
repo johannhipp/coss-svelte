@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { HTMLInputAttributes } from "svelte/elements";
-import { getFieldContext } from "../internal/field-context.svelte.js";
+import { getFieldContext, mergeFieldIds } from "../internal/field-context.svelte.js";
 import { cn } from "../utils.js";
 
 let {
@@ -16,9 +16,7 @@ let {
 }: HTMLInputAttributes = $props();
 const field = getFieldContext();
 let controlId = $derived(id ?? field?.controlId);
-let describedBy = $derived(
-	[ariaDescribedBy, field?.describedBy].filter(Boolean).join(" ") || undefined
-);
+let describedBy = $derived(mergeFieldIds(ariaDescribedBy, field?.describedBy));
 let isInvalid = $derived(ariaInvalid ?? (field?.invalid ? "true" : undefined));
 </script>
 
