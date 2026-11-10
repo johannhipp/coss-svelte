@@ -16,6 +16,10 @@ This project follows semantic versioning. The component and theme packages use s
 - Extend runtime, SSR, hydration, and Chromium browser regressions; record the component visual review and existing branch-preview/main-production deployment checks.
 - Prepare synchronized `coss-svelte@0.2.0` and `@coss-svelte/theme@0.2.0` metadata and update the manual release instructions for the public repository. No packages have been published as part of this preparation.
 
+## Unreleased
+
+- Added a Cloudflare Workers deployment for the documentation and registry.
+
 ## 0.1.1 - 2026-08-26
 
 - Pointed both npm package homepages to the public coss-svelte documentation site.

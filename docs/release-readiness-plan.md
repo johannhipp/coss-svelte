@@ -31,7 +31,7 @@ Status: released on 2026-08-26
 - Release pull request: <https://github.com/johannhipp/coss-svelte/pull/20>.
 - Tag and GitHub Release: <https://github.com/johannhipp/coss-svelte/releases/tag/v0.1.0>.
 - Public repository: <https://github.com/johannhipp/coss-svelte>.
-- Production docs: <https://coss-svelte.vercel.app>, deployed by Vercel project `t3nseds-projects/coss-svelte`. The `0.1.0` application build was verified from the release commit before this record-only update.
+- Production docs now run at <https://coss-svelte.narwhal.workers.dev>. The `0.1.0` application build was verified on the former Vercel deployment from the release commit before this record-only update.
 - Published packages: <https://www.npmjs.com/package/coss-svelte> and <https://www.npmjs.com/package/@coss-svelte/theme>.
 - Skills update: <https://github.com/johannhipp/skills/pull/5>, merged as `a9eea876f3c1cda30f3377496fed6af1024dba9a`.
 

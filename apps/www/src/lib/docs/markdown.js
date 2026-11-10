@@ -13,7 +13,7 @@ const installationCommand = "pnpm add coss-svelte @coss-svelte/theme bits-ui";
 const themeImportCode = `@import "tailwindcss";
 @import "@coss-svelte/theme/style-coss.css";`;
 const registryExampleCommand =
-	"curl -fsSL https://coss-svelte.vercel.app/r/button.json -o button.json";
+	"curl -fsSL https://coss-svelte.narwhal.workers.dev/r/button.json -o button.json";
 const skillsInstallCommand = "npx skills@latest add johannhipp/skills --skill coss-svelte";
 
 const contentPages = {

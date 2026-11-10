@@ -8,10 +8,10 @@ Releases are manual and publish two synchronized packages from one verified comm
 2. Update `CHANGELOG.md`, public READMEs, package availability wording, component status notes, and generated API metadata together.
 3. Run `pnpm install --frozen-lockfile`.
 4. Run `pnpm release:check`.
-5. Open a release pull request in the public repository. List every change, include the verification results, and review the Vercel branch preview.
+5. Open a release pull request in the public repository. List every change, include the verification results, and review the documentation changes.
 6. Merge the reviewed pull request after its checks pass, then verify the resulting `main` commit before tagging or publishing.
 
-The hosted docs use the Vercel project connected to this repository. Git pushes to branches generate preview deployments; pushes to `main` generate production deployments. Vercel runs `pnpm vercel:build`; do not create a separate manual deployment.
+The hosted docs run on Cloudflare Workers. GitHub Actions deploys pushes to `main`; the root README also documents manual deployment.
 
 ## Verify the exact artifacts
 

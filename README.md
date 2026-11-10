@@ -39,6 +39,18 @@ pnpm check
 pnpm test
 ```
 
+The documentation site is deployed at https://coss-svelte.narwhal.workers.dev.
+To build and deploy its Cloudflare Worker from the repository root:
+
+```sh
+pnpm package:prepare
+CF_DEPLOY=1 pnpm --filter @coss-svelte/www build
+pnpm --filter @coss-svelte/www exec wrangler deploy
+```
+
+Pushes to `main` build and deploy the documentation through GitHub Actions
+using a token scoped to this Worker.
+
 ## What's in this repository
 
 - [`packages/coss-svelte`](packages/coss-svelte) contains the component library.

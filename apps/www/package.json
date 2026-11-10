@@ -17,7 +17,6 @@
 		"@internationalized/date": "3.12.2",
 		"@lucide/svelte": "1.17.0",
 		"@sveltejs/adapter-node": "5.5.7",
-		"@sveltejs/adapter-vercel": "6.3.4",
 		"@sveltejs/kit": "2.64.0",
 		"@sveltejs/vite-plugin-svelte": "7.1.2",
 		"@tailwindcss/vite": "4.3.0",
@@ -31,8 +30,10 @@
 		"vite": "8.0.16"
 	},
 	"devDependencies": {
+		"@sveltejs/adapter-cloudflare": "^7.2.10",
 		"@types/node": "22.15.30",
 		"svelte-check": "4.6.0",
-		"typescript": "6.0.3"
+		"typescript": "6.0.3",
+		"wrangler": "^4.159.0"
 	}
 }
