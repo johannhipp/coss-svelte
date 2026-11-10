@@ -20,6 +20,7 @@ This project follows semantic versioning. The component and theme packages use s
 
 - Added a Cloudflare Workers deployment for the documentation and registry.
 
+- Added an experimental, accessible dot-matrix text component with configurable motion.
 ## 0.1.1 - 2026-08-26
 
 - Pointed both npm package homepages to the public coss-svelte documentation site.

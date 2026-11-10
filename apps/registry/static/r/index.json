@@ -259,6 +259,22 @@
 			"path": "date-picker.json"
 		},
 		{
+			"name": "DotMatrixText",
+			"title": "Dot Matrix Text",
+			"description": "Text rendered as a configurable animated dot matrix.",
+			"type": "registry:ui",
+			"categories": ["Feedback & Status"],
+			"docs": "/docs/components/dot-matrix-text",
+			"meta": {
+				"status": "experimental",
+				"foundation": "native",
+				"particlePriority": "mvp",
+				"slug": "dot-matrix-text",
+				"styleImport": "@coss-svelte/theme/style-coss.css"
+			},
+			"path": "dot-matrix-text.json"
+		},
+		{
 			"name": "Dialog",
 			"title": "Dialog",
 			"description": "A modal overlay for displaying content that requires user interaction.",

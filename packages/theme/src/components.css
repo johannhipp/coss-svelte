@@ -2247,6 +2247,78 @@
 	height: 2rem;
 }
 
+.cn-dot-matrix {
+	display: grid;
+	grid-template-columns: repeat(var(--dm-cols), var(--dm-dot));
+	grid-auto-rows: var(--dm-dot);
+	gap: var(--dm-gap);
+}
+
+.cn-dot-matrix-dot {
+	width: var(--dm-dot);
+	height: var(--dm-dot);
+	border-radius: 50%;
+	background: var(--dm-color);
+}
+
+.cn-dot-matrix[data-motion="reveal"] .cn-dot-matrix-dot {
+	animation: cn-dot-reveal var(--dm-duration) ease-out both;
+	animation-delay: calc(var(--dm-order) * var(--dm-stagger));
+}
+
+.cn-dot-matrix[data-motion="wave"] .cn-dot-matrix-dot {
+	animation: cn-dot-wave var(--dm-duration) ease-in-out infinite;
+	animation-delay: calc(var(--dm-order) * var(--dm-stagger) * -1);
+}
+
+.cn-dot-matrix[data-motion="scan"] .cn-dot-matrix-dot {
+	animation: cn-dot-scan var(--dm-duration) ease-in-out infinite;
+	animation-delay: calc(var(--dm-order) * var(--dm-stagger) * -1);
+}
+
+.cn-dot-matrix[data-paused="true"] .cn-dot-matrix-dot {
+	animation: none;
+}
+
+@keyframes cn-dot-reveal {
+	from {
+		opacity: 0;
+		transform: scale(0.2);
+	}
+	62% {
+		opacity: 1;
+		transform: scale(1.14);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes cn-dot-wave {
+	0%,
+	100% {
+		opacity: 0.7;
+		transform: scale(0.86);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes cn-dot-scan {
+	0%,
+	100% {
+		opacity: 0.5;
+		transform: scale(0.82);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.06);
+	}
+}
+
 .cn-spinner {
 	display: inline-block;
 	width: 1.5rem;
@@ -2284,6 +2356,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.cn-dot-matrix[data-motion] .cn-dot-matrix-dot {
+		animation: none;
+	}
+
 	.cn-spinner,
 	.cn-skeleton {
 		animation: none;
