@@ -1,5 +1,5 @@
 <script lang="ts">
-import { dotMatrixGrid, type DotMotion } from "../internal/dot-matrix.js";
+import { type DotMotion, dotMatrixGrid } from "../internal/dot-matrix.js";
 import type { NativeProps } from "../internal/props.js";
 import { cn } from "../utils.js";
 
@@ -33,11 +33,13 @@ let {
 	...rest
 }: Props = $props();
 
-const cssLength = (value: number | string) => typeof value === "number" ? `${value}px` : value;
+const cssLength = (value: number | string) => (typeof value === "number" ? `${value}px` : value);
 const grid = $derived(dotMatrixGrid(text));
 const dots = $derived(
 	grid.cells.flatMap((row, y) =>
-		row.flatMap((filled, x) => filled ? [{ key: `${x}-${y}`, area: `${y + 1} / ${x + 1}`, order: x + y * 0.35 }] : [])
+		row.flatMap((filled, x) =>
+			filled ? [{ key: `${x}-${y}`, area: `${y + 1} / ${x + 1}`, order: x + y * 0.35 }] : []
+		)
 	)
 );
 const accessibleLabel = $derived(label ?? text);
