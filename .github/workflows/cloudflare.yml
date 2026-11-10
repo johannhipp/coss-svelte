@@ -2,7 +2,7 @@ name: Deploy documentation to Cloudflare Workers
 
 on:
   push:
-    branches: [main, chore/cloudflare-workers]
+    branches: [main]
 
 permissions:
   contents: read
