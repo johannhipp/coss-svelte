@@ -1,0 +1,10 @@
+services:
+  package-watch:
+    command: pnpm --filter coss-svelte dev
+  docs:
+    command: pnpm --filter @coss-svelte/www dev --host 0.0.0.0 --port "$PORT" --strictPort
+    health: /docs/introduction
+    portal:
+      url: /docs/introduction
+      title: coss-svelte docs
+      description: Live docs with component package watching enabled.

@@ -1,6 +1,29 @@
 import { fireEvent, render } from "@testing-library/svelte";
 import { expect, test, vi } from "vitest";
 import Tabs from "../src/components/Tabs.svelte";
+import TabsCompoundFixture from "./TabsCompoundFixture.svelte";
+
+test("Tabs renders object content for every convenience panel", async () => {
+	const { getByRole } = render(Tabs, {
+		value: "first",
+		tabs: [
+			{ value: "first", label: "First", content: "First panel" },
+			{ value: "second", label: "Second", content: "Second panel" },
+		],
+	});
+	expect(getByRole("tabpanel")).toHaveTextContent("First panel");
+	await fireEvent.click(getByRole("tab", { name: "Second" }));
+	expect(getByRole("tabpanel")).toHaveTextContent("Second panel");
+	await fireEvent.click(getByRole("tab", { name: "First" }));
+	expect(getByRole("tabpanel")).toHaveTextContent("First panel");
+});
+
+test("Tabs preserves compound panel content", async () => {
+	const { getByRole } = render(TabsCompoundFixture);
+	expect(getByRole("tabpanel")).toHaveTextContent("Compound first");
+	await fireEvent.click(getByRole("tab", { name: "Second" }));
+	expect(getByRole("tabpanel")).toHaveTextContent("Compound second");
+});
 
 test("Tabs renders one shared indicator that follows the active trigger", async () => {
 	const readyFrames: FrameRequestCallback[] = [];

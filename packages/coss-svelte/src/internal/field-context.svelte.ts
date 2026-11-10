@@ -31,8 +31,8 @@ export function createFieldContext(
 	}
 ): FieldContext {
 	let labels = $state<string[]>([]);
-	let descriptions = $state<string[]>(defaults.description?.() ? [`${baseId}-description`] : []);
-	let errors = $state<string[]>(defaults.error?.() ? [`${baseId}-error`] : []);
+	let descriptions = $state<string[]>([]);
+	let errors = $state<string[]>([]);
 	const register = (items: string[], id: string | undefined) => {
 		if (id && !items.includes(id)) items.push(id);
 		return () => {
@@ -61,7 +61,14 @@ export function createFieldContext(
 			return defaults.invalid();
 		},
 		get describedBy() {
-			return [...descriptions, ...errors].join(" ");
+			return (
+				mergeFieldIds(
+					defaults.description?.() ? `${baseId}-description` : undefined,
+					...descriptions,
+					defaults.error?.() ? `${baseId}-error` : undefined,
+					...errors
+				) ?? ""
+			);
 		},
 		registerLabel: (id = `${baseId}-label`) => register(labels, id),
 		registerDescription: (id = `${baseId}-description`) => register(descriptions, id),

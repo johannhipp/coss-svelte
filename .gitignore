@@ -8,6 +8,8 @@ coverage/
 .cache/
 .artifacts/
 docs/implementation/visual-parity/
+.amp/portals/
+.amp/in/
 
 .env
 .env.*

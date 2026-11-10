@@ -1,6 +1,6 @@
 {
 	"name": "@coss-svelte/theme",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "Consumer-safe CSS tokens and component styles for coss-svelte.",
 	"license": "MIT",
 	"type": "module",

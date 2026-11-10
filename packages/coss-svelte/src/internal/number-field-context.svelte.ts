@@ -185,12 +185,11 @@ export function createNumberFieldState(options: NumberFieldStateOptions): Number
 
 	function commitEdit(reason: NumberFieldReason, sourceEvent: Event | null): boolean {
 		if (!focused) return false;
-		const parsed = parseLocalizedNumberEdit(editValue, createNumberFieldLocale(editLocale));
+		const value = options.getValue();
 
-		if (parsed.kind === "number" || parsed.kind === "trailing-decimal") {
-			emitValue(clampNumberFieldValue(parsed.value, options.getConfig()), reason, sourceEvent);
-		} else if (parsed.kind === "empty") {
-			emitValue(null, reason, sourceEvent);
+		// Input already updates the canonical value; formatted buffers can lose precision.
+		if (!parseInvalid && value !== null) {
+			emitValue(clampNumberFieldValue(value, options.getConfig()), reason, sourceEvent);
 		}
 
 		parseInvalid = false;

@@ -46,9 +46,7 @@ let tabs = $derived(children ? [] : tabItems);
 				class="cn-tabs-content"
 				value={tabObject?.value ?? `tab-${index + 1}`}
 			>
-				{#if index === 0}
-					{@render children?.()}
-				{:else if tabObject?.content}
+				{#if tabObject?.content}
 					{tabObject.content}
 				{/if}
 			</TabsPrimitive.Content>

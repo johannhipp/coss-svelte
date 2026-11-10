@@ -1,5 +1,5 @@
-import adapter from "@sveltejs/adapter-node";
 import cloudflareAdapter from "@sveltejs/adapter-cloudflare";
+import adapter from "@sveltejs/adapter-node";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 const deploymentAdapter = process.env.CF_DEPLOY === "1" ? cloudflareAdapter() : adapter();
