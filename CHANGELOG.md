@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning. The component and theme packages use synchronized versions.
 
+## Unreleased
+
+- Fix alert dialog focus restoration when rapidly closing the dialog.
+- Drain context-menu scroll-lock cleanup before the test environment is torn down.
+
 ## 0.2.0 - 2026-11-10
 
 - Render the first convenience Tabs panel's supplied content, including after switching away and back.

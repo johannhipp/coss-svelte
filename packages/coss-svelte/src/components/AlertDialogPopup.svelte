@@ -18,8 +18,17 @@ let {
 	portalProps = {},
 	class: className = "",
 	children,
+	onOpenAutoFocus,
 	...rest
 }: Props = $props();
+
+function handleOpenAutoFocus(event: Parameters<NonNullable<Props["onOpenAutoFocus"]>>[0]) {
+	onOpenAutoFocus?.(event);
+	if (!event.defaultPrevented) {
+		event.preventDefault();
+		ref?.focus();
+	}
+}
 </script>
 
 <AlertDialogPrimitive.Portal {...portalProps}>
@@ -27,6 +36,7 @@ let {
 	<AlertDialogPrimitive.Content
 	bind:ref
 		{...rest}
+		onOpenAutoFocus={handleOpenAutoFocus}
 		data-slot="alert-dialog-popup"
 		class={cn("cn-dialog cn-alert-dialog", className)}
 		interactOutsideBehavior="close"

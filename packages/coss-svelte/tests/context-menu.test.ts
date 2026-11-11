@@ -1,11 +1,18 @@
-import { fireEvent, render, waitFor } from "@testing-library/svelte";
+import { cleanup, fireEvent, render, waitFor } from "@testing-library/svelte";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import ContextMenuChildFixture from "./ContextMenuChildFixture.svelte";
 import ContextMenuFixture from "./ContextMenuFixture.svelte";
 import ContextMenuPortalFixture from "./ContextMenuPortalFixture.svelte";
 
-afterEach(() => {
-	vi.useRealTimers();
+afterEach(async () => {
+	try {
+		cleanup();
+		if (vi.isFakeTimers()) {
+			await vi.runAllTimersAsync();
+		}
+	} finally {
+		vi.useRealTimers();
+	}
 });
 
 async function openWithPointer(trigger: HTMLElement, clientX = 40, clientY = 30) {
@@ -183,6 +190,7 @@ describe("ContextMenu items and composition", () => {
 	});
 
 	test("lands merged Bits props, data, handlers, and refs on child targets", async () => {
+		vi.useFakeTimers();
 		const { getByRole, getByTestId } = render(ContextMenuChildFixture);
 		const trigger = getByRole("button", { name: "Child trigger" });
 		expect(getByTestId("child-trigger-ref")).toHaveTextContent("BUTTON");
@@ -256,6 +264,7 @@ describe("ContextMenu submenu direction and portals", () => {
 	});
 
 	test.each(["selector", "element", "inline"] as const)("supports %s portal mode", async (mode) => {
+		vi.useFakeTimers();
 		const { getByRole, getByTestId } = render(ContextMenuPortalFixture, {
 			props: { mode },
 		});
