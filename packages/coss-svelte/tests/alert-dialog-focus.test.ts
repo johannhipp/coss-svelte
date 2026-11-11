@@ -34,3 +34,15 @@ test("opening autofocus respects consumer cancellation", async () => {
 	await vi.runAllTimersAsync();
 	expect(trigger).toHaveFocus();
 });
+
+test("the convenience alert dialog focuses on open and restores focus on close", async () => {
+	vi.useFakeTimers();
+	const { getByRole } = render(AlertDialogFocusFixture, { props: { convenience: true } });
+	const trigger = getByRole("button", { name: "Open alert" });
+	trigger.focus();
+	await fireEvent.click(trigger);
+	expect(getByRole("alertdialog", { name: "Alert" })).toHaveFocus();
+	await fireEvent.keyDown(document, { key: "Escape" });
+	await vi.runAllTimersAsync();
+	expect(trigger).toHaveFocus();
+});
